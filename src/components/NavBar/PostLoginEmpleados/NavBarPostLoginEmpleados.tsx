@@ -1,19 +1,20 @@
 import "./NavBarPostLoginEmpleados.css";
+import { Link } from "react-router-dom";
 
 export const NavBarPostLoginEmpleados = () => {
   return (
     <nav className="navbar">
       <div className="container-fluid">
         <div className="container-fluid text-end" id="containerImg">
-          <a className="aImg" href="">
+          <Link className="aImg" to="/login">
             <img
               className="img"
               src="/images/usuario.png"
               width="40"
               height="40"
             />
-          </a>
-          <a className="aImg" href="/landing">
+          </Link>
+          <Link className="aImg" to="/home">
             <img
               className="img"
               src="/images/logo.png"
@@ -21,7 +22,7 @@ export const NavBarPostLoginEmpleados = () => {
               width="40"
               height="40"
             />
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

@@ -1,4 +1,5 @@
 import "./NavBarPostLoginUsuarios.css";
+import { Link } from "react-router-dom";
 
 export const NavBarPostLoginUsuarios = () => {
   return (
@@ -17,23 +18,23 @@ export const NavBarPostLoginUsuarios = () => {
         </div>
 
         <div className="container-flex text-end" id="containerImg">
-          <a className="aImg" href="/landing">
+          <Link className="aImg" to="/shopcart">
             <img
               className="img"
               src="/images/carrito.png"
               width="40"
               height="40"
             />
-          </a>
-          <a className="aImg" href="/landing">
+          </Link>
+          <Link className="aImg" to="/home">
             <img
               className="img"
               src="/images/usuario.png"
               width="40"
               height="40"
             />
-          </a>
-          <a className="aImg" href="/landing">
+          </Link>
+          <Link className="aImg" to="/home">
             <img
               className="img"
               src="/images/logo.png"
@@ -41,7 +42,7 @@ export const NavBarPostLoginUsuarios = () => {
               width="40"
               height="40"
             />
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
