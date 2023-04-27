@@ -12,8 +12,8 @@ function App() {
 
   return (
     <div className="App">
-      {isAuthenticated ? <NavBarPostLoginUsuarios /> : <NavBarPreLogin />}
       <BrowserRouter>
+        {isAuthenticated ? <NavBarPostLoginUsuarios /> : <NavBarPreLogin />}
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
