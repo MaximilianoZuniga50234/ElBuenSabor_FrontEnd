@@ -1,7 +1,10 @@
 import "./NavBarPostLoginUsuarios.css";
 import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const NavBarPostLoginUsuarios = () => {
+  const { logout } = useAuth0();
+
   return (
     <nav className="navbar">
       <div className="container-fluid">
@@ -26,7 +29,13 @@ export const NavBarPostLoginUsuarios = () => {
               height="40"
             />
           </Link>
-          <Link className="aImg" to="/home">
+          <Link
+            to=""
+            className="aImg"
+            onClick={function () {
+              logout();
+            }}
+          >
             <img
               className="img"
               src="/images/usuario.png"
