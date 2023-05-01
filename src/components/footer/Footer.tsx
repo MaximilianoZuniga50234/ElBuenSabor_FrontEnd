@@ -1,4 +1,4 @@
-import "./Footer.css";
+import "./footer.css";
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
@@ -65,22 +65,20 @@ export const Footer = () => {
 
             <div className="col-lg-12 p-0">
               <div className="textoFooter p-1 m-1">
-              <div className="d-flex">
-                    <img
-                      src="../../../public/images/Footer/Whatsapp.png"
-                      className="mx-2"
-                      style={{ width: "25px", height: "25px"}}
-                    />
-                    <p className="pb-0 mb-1">
-                      2617863234
-                    </p>
-                  </div>
+                <div className="d-flex">
+                  <img
+                    src="../../../public/images/Footer/Whatsapp.png"
+                    className="mx-2"
+                    style={{ width: "25px", height: "25px" }}
+                  />
+                  <p className="pb-0 mb-1">2617863234</p>
+                </div>
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="d-flex">
                     <img
                       src="../../../public/images/Footer/Ubicacion.png"
                       className="mx-2"
-                      style={{ width: "25px", height: "25px"}}
+                      style={{ width: "25px", height: "25px" }}
                     />
                     <p className="pb-0 mb-1">
                       Calle 123, Ciudad, Mendoza, Argentina
