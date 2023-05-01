@@ -1,0 +1,137 @@
+{
+  "users": [],
+  "categorias": [
+    {
+      "idCategoria": 1,
+      "denominacion_Categoria": "Carnes",
+      "deAlta_Categoria": true
+    },
+    {
+      "idCategoria": 2,
+      "denominacion_Categoria": "Verdura",
+      "deAlta_Categoria": false
+    },
+    {
+      "idCategoria": 3,
+      "denominacion_Categoria": "Aderesos",
+      "deAlta_Categoria": true
+    },
+    {
+      "idCategoria": 4,
+      "denominacion_Categoria": "Lacteos",
+      "deAlta_Categoria": false
+    }
+  ],
+  "categoriasManufacturados": [
+    {
+      "idManufacturados": 1,
+      "denominacion_Manufacturado": "Bebidas",
+      "deAlta_Manufacturado": true
+    },
+    {
+      "idManufacturados": 2,
+      "denominacion_Manufacturado": "Hamburguesas",
+      "deAlta_Manufacturado": false
+    },
+    {
+      "idManufacturados": 3,
+      "denominacion_Manufacturado": "Pizzas",
+      "deAlta_Manufacturado": false
+    },
+    {
+      "idManufacturados": 4,
+      "denominacion_Manufacturado": "Lomos",
+      "deAlta_Manufacturado": true
+    },
+    {
+      "idManufacturados": 5,
+      "denominacion_Manufacturado": "Panchos",
+      "deAlta_Manufacturado": true
+    }
+  ],
+  "unidadMedida": [
+    {
+      "idMedida": 1,
+      "denominacion": "kilogramo"
+    },
+    {
+      "idMedida": 2,
+      "denominacion": "gramo"
+    },
+    {
+      "idMedida": 3,
+      "denominacion": "cucharada"
+    },
+    {
+      "idMedida": 4,
+      "denominacion": "Litro"
+    },
+    {
+      "idMedida": 5,
+      "denominacion": "mililitro"
+    },
+    {
+      "idMedida": 6,
+      "denominacion": "hora"
+    },
+    {
+      "idMedida": 7,
+      "denominacion": "minuto"
+    }
+  ],
+  "articuloManufacturados": [
+    {
+      "idArticuloManufacturados": 1,
+      "denominacion_Manufacturado": "Lomo xl",
+      "precioVentaManufacturado": 2200,
+      "imagenManufacturado": "",
+      "deAlta_ArticuloManufacturado": true
+    },
+    {
+      "idArticuloManufacturados": 2,
+      "denominacion_Manufacturado": "Pizza napolitana",
+      "precioVentaManufacturado": 1700,
+      "imagenManufacturado": "",
+      "deAlta_ArticuloManufacturado": false
+    },
+    {
+      "idArticuloManufacturados": 3,
+      "denominacion_Manufacturado": "Pancho cuatro quesos",
+      "precioVentaManufacturado": 500,
+      "imagenManufacturado": "",
+      "deAlta_ArticuloManufacturado": true
+    }
+  ],
+  "articuloInsumos": [
+    {
+      "idArticuloInsumo": 1,
+      "denominacion_Insumo": "Salsa de tomate",
+      "precioCompra_Insumo": 300,
+      "precioVenta_Insumo": 20,
+      "stockActual_Insumo": 20,
+      "stockMinimo_Insumo": 5,
+      "esInsumo": true,
+      "deAlta_Insumo": false
+    },
+    {
+      "idArticuloInsumo": 2,
+      "denominacion_Insumo": "Queso muzzarella",
+      "precioCompra_Insumo": 5.000,
+      "precioVenta_Insumo": 500,
+      "stockActual_Insumo": 6,
+      "stockMinimo_Insumo": 1,
+      "esInsumo": true,
+      "deAlta_Insumo": true
+    },
+    {
+      "idArticuloInsumo": 3,
+      "denominacion_Insumo": "Jamon cocido",
+      "precioCompra_Insumo": 2.000,
+      "precioVenta_Insumo": 400,
+      "stockActual_Insumo": 5,
+      "stockMinimo_Insumo": 1,
+      "esInsumo": true,
+      "deAlta_Insumo": false
+    }
+  ]
+}
