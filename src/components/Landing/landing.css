@@ -1,0 +1,42 @@
+.landingMainContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.landingLogoContainer{
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+.landingLogoContainer img{
+    min-width: 500px;
+    min-height: 500px;
+}
+
+.landingImagesContainer{
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.landingImagesContainer img{
+    height: 300px;
+}
+
+.landingButton {
+  font-weight: bold;
+  color: #ddd;
+  background-color: #11111f;
+  text-decoration: none;
+  padding: 10px;
+  border: 0px;
+  border-radius: 30px;
+  width: 40%;
+  text-align: center;
+}

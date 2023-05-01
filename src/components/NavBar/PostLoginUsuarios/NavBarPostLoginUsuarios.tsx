@@ -46,9 +46,9 @@ export const NavBarPostLoginUsuarios = () => {
           <Link className="aImg" to="/home">
             <img
               className="img"
-              src="/images/logo.png"
+              src="/images/navbar/logoNav.png"
               alt="Logo"
-              width="40"
+              width="180"
               height="40"
             />
           </Link>
