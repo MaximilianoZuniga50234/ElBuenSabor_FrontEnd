@@ -1,7 +1,7 @@
 import "./footer.css";
 import { Link } from "react-router-dom";
 
-export const Footer = () => {
+const Footer = () => {
   return (
     <>
       <footer className="container-fluid bh-light text-center col-lg-12 fixed-bottom">
@@ -96,3 +96,5 @@ export const Footer = () => {
     </>
   );
 };
+
+export default Footer;

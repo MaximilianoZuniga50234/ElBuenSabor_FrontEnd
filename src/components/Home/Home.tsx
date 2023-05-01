@@ -1,4 +1,4 @@
-import { Footer } from "../Footer/Footer";
+import Footer from "../footer/Footer";
 
 const Home = () => {
   return (
@@ -7,6 +7,6 @@ const Home = () => {
       <Footer></Footer>
     </>
   );
-}
+};
 
 export default Home;

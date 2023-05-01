@@ -5,7 +5,6 @@ import { NavBarPreLogin } from "./components/navbar/PreLogin/NavBarPreLogin";
 import { NavBarPostLoginUsuarios } from "./components/navbar/PostLoginUsuarios/NavBarPostLoginUsuarios";
 import { NavBarPostLoginEmpleados } from "./components/navbar/PostLoginEmpleados/NavBarPostLoginEmpleados";
 import { useAuth0 } from "@auth0/auth0-react";
-import Footer from "./components/footer/Footer";
 
 function App() {
   const { isAuthenticated } = useAuth0();
@@ -17,7 +16,6 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
       </Routes>
-      <Footer/>
     </div>
   );
 }
