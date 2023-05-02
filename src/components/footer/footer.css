@@ -32,6 +32,7 @@ footer {
   border: none;
   background-color: #11111f;
   color: #ffffff;
+  padding-left: 7px;
 }
 .correo::placeholder {
   color: rgb(194, 195, 196);

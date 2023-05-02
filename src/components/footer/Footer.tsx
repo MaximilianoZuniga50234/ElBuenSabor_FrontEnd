@@ -14,7 +14,7 @@ const Footer = () => {
                   type="submit"
                   style={{
                     backgroundImage:
-                      "url('../../../public/images/Footer/Instagram.png')",
+                      "url('./images/footer/Instagram.png')",
                   }}
                 ></button>
                 <button
@@ -22,7 +22,7 @@ const Footer = () => {
                   type="submit"
                   style={{
                     backgroundImage:
-                      "url('../../../public/images/Footer/Facebook.png')",
+                      "url('./images/footer/Facebook.png')",
                   }}
                 ></button>
                 <button
@@ -30,7 +30,7 @@ const Footer = () => {
                   type="submit"
                   style={{
                     backgroundImage:
-                      "url('../../../public/images/Footer/Twitter.png')",
+                      "url('./images/footer/Twitter.png')",
                   }}
                 ></button>
                 <button
@@ -38,7 +38,7 @@ const Footer = () => {
                   type="submit"
                   style={{
                     backgroundImage:
-                      "url('../../../public/images/Footer/Gmail.png')",
+                      "url('./images/footer/Gmail.png')",
                   }}
                 ></button>
               </div>
@@ -67,7 +67,7 @@ const Footer = () => {
               <div className="textoFooter p-1 m-1">
                 <div className="d-flex">
                   <img
-                    src="../../../public/images/Footer/Whatsapp.png"
+                    src="./images/footer/Whatsapp.png"
                     className="mx-2"
                     style={{ width: "25px", height: "25px" }}
                   />
@@ -76,7 +76,7 @@ const Footer = () => {
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="d-flex">
                     <img
-                      src="../../../public/images/Footer/Ubicacion.png"
+                      src="./images/footer/Ubicacion.png"
                       className="mx-2"
                       style={{ width: "25px", height: "25px" }}
                     />
