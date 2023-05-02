@@ -3,7 +3,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter } from "react-router-dom";
-import './index.css'
+import "./index.css";
+import { Provider } from "react-redux";
+import { store } from "./context/store";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -14,9 +16,11 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         redirect_uri: window.location.origin,
       }}
     >
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     </Auth0Provider>
   </React.StrictMode>
 );
