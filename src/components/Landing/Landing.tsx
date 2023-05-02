@@ -6,7 +6,7 @@ const Landing = () => {
   return (
     <div className="landingMainContainer">
       <div className="landingLogoContainer">
-        <img src="./images/landing/landingLogo.png" alt="Logo" />
+        <img src="./images/landing/logo2azul.png" alt="Logo" />
         <Link className="landingButton" to="/home">
           VER CATÁLOGO
         </Link>

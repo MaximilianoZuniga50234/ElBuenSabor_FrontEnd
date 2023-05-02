@@ -13,32 +13,28 @@ const Footer = () => {
                   className="botonRed mb-2 mx-3"
                   type="submit"
                   style={{
-                    backgroundImage:
-                      "url('./images/footer/Instagram.png')",
+                    backgroundImage: "url('./images/footer/Instagram.png')",
                   }}
                 ></button>
                 <button
                   className="botonRed mb-2 mx-3"
                   type="submit"
                   style={{
-                    backgroundImage:
-                      "url('./images/footer/Facebook.png')",
+                    backgroundImage: "url('./images/footer/Facebook.png')",
                   }}
                 ></button>
                 <button
                   className="botonRed mb-2 mx-3"
                   type="submit"
                   style={{
-                    backgroundImage:
-                      "url('./images/footer/Twitter.png')",
+                    backgroundImage: "url('./images/footer/Twitter.png')",
                   }}
                 ></button>
                 <button
                   className="botonRed mb-2 mx-3"
                   type="submit"
                   style={{
-                    backgroundImage:
-                      "url('./images/footer/Gmail.png')",
+                    backgroundImage: "url('./images/footer/Gmail.png')",
                   }}
                 ></button>
               </div>

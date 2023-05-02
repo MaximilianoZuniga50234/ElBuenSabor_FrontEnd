@@ -11,10 +11,10 @@ export const NavBarPreLogin = () => {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/home" id="logo">
           <img
-            src="/images/navbar/logoNav.png"
+            src="./images/navbar/logoLargo.png"
             alt="Logo"
             width="180"
-            height="40"
+            height="50"
           />
         </Link>
         <div className="container text-end" id="containerButtons">
