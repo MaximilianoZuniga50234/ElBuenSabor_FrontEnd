@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import { AllProducts } from "./components/AllProducts/AllProducts";
-import Landing from "./components/Landing/Landing";
-import { NavBarPreLogin } from "./components/navbar/PreLogin/NavBarPreLogin";
-import { NavBarPostLoginUsuarios } from "./components/navbar/PostLoginUsuarios/NavBarPostLoginUsuarios";
-import { NavBarPostLoginEmpleados } from "./components/navbar/PostLoginEmpleados/NavBarPostLoginEmpleados";
+import AllProducts from "./components/allProducts/AllProducts";
+import Landing from "./components/landing/Landing";
+import NavBarPreLogin from "./components/navbar/prelogin/NavBarPreLogin";
+import NavBarPostLoginUsuarios from "./components/navbar/postloginusuarios/NavBarPostLoginUsuarios";
+import NavBarPostLoginEmpleados from "./components/navbar/postloginempleados/NavBarPostLoginEmpleados";
 import { useAuth0 } from "@auth0/auth0-react";
 import CustomerList from "./components/abm/CustomerList";
 import ItemProductList from "./components/abm/ItemProductList";
@@ -17,6 +17,7 @@ import { setStock } from "./context/stockSlice";
 import { setArticuloManufacturado } from "./context/articuloManufacturadoSlice";
 
 import Test from "./components/test/Test";
+import Home from "./components/home/Home";
 
 function App() {
   const { isAuthenticated } = useAuth0();
@@ -38,6 +39,7 @@ function App() {
         <Route path="/test" element={<Test />} />
 
         <Route path="/" element={<Landing />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/allProducts" element={<AllProducts />} />
         <Route path="*" element={<h1>Ups...</h1>} />
         <Route path="/customerList" element={<CustomerList />} />

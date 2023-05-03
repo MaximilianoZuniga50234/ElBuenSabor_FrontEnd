@@ -4,7 +4,7 @@ import { ArticuloManufacturado } from "../../interface/ArticuloManufacturado";
 
 import "./AllProducts.css";
 
-export const AllProducts = () => {
+const AllProducts = () => {
   const articuloManufacturadoArray = useSelector(
     (state: RootState) => state.articuloManufacturado
   );
@@ -81,3 +81,4 @@ export const AllProducts = () => {
     </div>
   );
 };
+export default AllProducts;

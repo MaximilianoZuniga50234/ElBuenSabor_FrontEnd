@@ -1,7 +1,7 @@
 import "./NavBarPostLoginEmpleados.css";
 import { Link } from "react-router-dom";
 
-export const NavBarPostLoginEmpleados = () => {
+const NavBarPostLoginEmpleados = () => {
   return (
     <nav className="navbar">
       <div className="container-fluid">
@@ -28,3 +28,5 @@ export const NavBarPostLoginEmpleados = () => {
     </nav>
   );
 };
+
+export default NavBarPostLoginEmpleados;
