@@ -17,7 +17,10 @@ export const stockSlice = createSlice({
     changeDeAlta: (state, action) => {
       const stockFound = state.find((stock) => stock.id === action.payload.id);
       if (stockFound) {
-        stockFound.deAlta = !stockFound.deAlta;
+        stockFound.deAlta
+          ? (stockFound.deAlta = false)
+          : (stockFound.deAlta = true);
+        state[state.indexOf(stockFound)] = stockFound;
       }
     },
   },

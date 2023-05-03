@@ -16,6 +16,8 @@ import { useDispatch } from "react-redux";
 import { setStock } from "./context/stockSlice";
 import { setArticuloManufacturado } from "./context/articuloManufacturadoSlice";
 
+import Test from "./components/test/Test";
+
 function App() {
   const { isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
@@ -33,6 +35,8 @@ function App() {
     <div className="App">
       {isAuthenticated ? <NavBarPostLoginUsuarios /> : <NavBarPreLogin />}
       <Routes>
+        <Route path="/test" element={<Test />} />
+
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
         <Route path="*" element={<h1>Ups...</h1>} />

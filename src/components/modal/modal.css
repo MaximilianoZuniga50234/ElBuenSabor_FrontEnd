@@ -1,0 +1,34 @@
+.modalMain {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  place-items: center;
+}
+
+.modalContainer {
+  background-color: white;
+  width: 50%;
+  min-width: 400px;
+  border-radius: 1rem;
+  position: relative;
+  padding: 2rem;
+}
+
+.modalCloseButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+  background-color: transparent;
+  border: 0px;
+  border-radius: 100%;
+  padding: 4px 10px 4px 10px;
+  font-weight: bolder;
+}
+
+.modalCloseButton:hover {
+  background-color: #d9d9d9;
+}
