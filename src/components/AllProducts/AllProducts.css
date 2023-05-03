@@ -1,0 +1,35 @@
+#barraLateral {
+  background-color: #22222f;
+  color: #d9d9d9;
+}
+
+.card {
+  margin: 30px 50px 30px 50px;
+  border: 2px solid #d9d9d9;
+}
+
+#divBarra {
+  margin-top: 15px;
+}
+
+.card-img-top {
+  width: 100%;
+  display: block;
+}
+
+.container-fluid {
+  max-width: 1920px;
+}
+
+#filaContenedora {
+  background-color: #dfe4ed;
+}
+
+h1 {
+  padding: 15px;
+  margin: 0%;
+}
+
+.card-body {
+  background-color: #d9d9d9;
+}
