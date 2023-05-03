@@ -79,9 +79,9 @@
       "denominacion": "minuto"
     }
   ],
-  "articuloManufacturados": [
+  "articulosManufacturados": [
     {
-      "idArticuloManufacturados": 1,
+      "idArticuloManufacturado": 1,
       "denominacion_Manufacturado": "Lomo xl",
       "precioVentaManufacturado": 2200,
       "imagenManufacturado": "",
@@ -116,7 +116,7 @@
     {
       "idArticuloInsumo": 2,
       "denominacion_Insumo": "Queso muzzarella",
-      "precioCompra_Insumo": 5.000,
+      "precioCompra_Insumo": 5.0,
       "precioVenta_Insumo": 500,
       "stockActual_Insumo": 6,
       "stockMinimo_Insumo": 1,
@@ -126,7 +126,7 @@
     {
       "idArticuloInsumo": 3,
       "denominacion_Insumo": "Jamon cocido",
-      "precioCompra_Insumo": 2.000,
+      "precioCompra_Insumo": 2.0,
       "precioVenta_Insumo": 400,
       "stockActual_Insumo": 5,
       "stockMinimo_Insumo": 1,
