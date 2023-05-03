@@ -84,21 +84,42 @@
       "idArticuloManufacturado": 1,
       "denominacion_Manufacturado": "Lomo xl",
       "precioVentaManufacturado": 2200,
-      "imagenManufacturado": "",
+      "imagenManufacturado": "./images/AllProducts/lomo.jpg",
       "deAlta_ArticuloManufacturado": true
     },
     {
       "idArticuloManufacturados": 2,
       "denominacion_Manufacturado": "Pizza napolitana",
       "precioVentaManufacturado": 1700,
-      "imagenManufacturado": "",
+      "imagenManufacturado": "./images/AllProducts/pizza.jpg",
       "deAlta_ArticuloManufacturado": false
     },
     {
       "idArticuloManufacturados": 3,
-      "denominacion_Manufacturado": "Pancho cuatro quesos",
+      "denominacion_Manufacturado": "Pancho con papas",
       "precioVentaManufacturado": 500,
-      "imagenManufacturado": "",
+      "imagenManufacturado": "./images/AllProducts/pancho.jpg",
+      "deAlta_ArticuloManufacturado": true
+    },
+    {
+      "idArticuloManufacturado": 4,
+      "denominacion_Manufacturado": "Lomo xl",
+      "precioVentaManufacturado": 2200,
+      "imagenManufacturado": "./images/AllProducts/lomo.jpg",
+      "deAlta_ArticuloManufacturado": true
+    },
+    {
+      "idArticuloManufacturados": 5,
+      "denominacion_Manufacturado": "Pizza napolitana",
+      "precioVentaManufacturado": 1700,
+      "imagenManufacturado": "./images/AllProducts/pizza.jpg",
+      "deAlta_ArticuloManufacturado": false
+    },
+    {
+      "idArticuloManufacturados": 6,
+      "denominacion_Manufacturado": "Pancho con papas",
+      "precioVentaManufacturado": 500,
+      "imagenManufacturado": "./images/AllProducts/pancho.jpg",
       "deAlta_ArticuloManufacturado": true
     }
   ],
