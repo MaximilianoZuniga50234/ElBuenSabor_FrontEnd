@@ -1,10 +1,17 @@
 import "./modal.css";
 
-const Modal = () => {
+interface Props {
+  isOpen: boolean;
+  closeModal: () => void;
+}
+
+const Modal = ({ isOpen, closeModal }: Props) => {
   return (
-    <div className="modal">
+    <div className="modalMain" style={{ display: isOpen ? "grid" : "none" }}>
       <div className="modalContainer">
-        <button className="modalCloseButton">X</button>
+        <button className="modalCloseButton" onClick={closeModal}>
+          X
+        </button>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
           harum reiciendis eius repudiandae. Rem distinctio iure, dicta dolore
