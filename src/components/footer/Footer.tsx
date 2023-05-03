@@ -13,28 +13,28 @@ const Footer = () => {
                   className="botonRed mb-2 mx-3"
                   type="submit"
                   style={{
-                    backgroundImage: "url('./images/footer/Instagram.png')",
+                    backgroundImage: "url('./images/Footer/Instagram.png')",
                   }}
                 ></button>
                 <button
                   className="botonRed mb-2 mx-3"
                   type="submit"
                   style={{
-                    backgroundImage: "url('./images/footer/Facebook.png')",
+                    backgroundImage: "url('./images/Footer/Facebook.png')",
                   }}
                 ></button>
                 <button
                   className="botonRed mb-2 mx-3"
                   type="submit"
                   style={{
-                    backgroundImage: "url('./images/footer/Twitter.png')",
+                    backgroundImage: "url('./images/Footer/Twitter.png')",
                   }}
                 ></button>
                 <button
                   className="botonRed mb-2 mx-3"
                   type="submit"
                   style={{
-                    backgroundImage: "url('./images/footer/Gmail.png')",
+                    backgroundImage: "url('./images/Footer/Gmail.png')",
                   }}
                 ></button>
               </div>
@@ -63,7 +63,7 @@ const Footer = () => {
               <div className="textoFooter p-1 m-1">
                 <div className="d-flex">
                   <img
-                    src="./images/footer/Whatsapp.png"
+                    src="./images/Footer/Whatsapp.png"
                     className="mx-2"
                     style={{ width: "25px", height: "25px" }}
                   />
@@ -72,7 +72,7 @@ const Footer = () => {
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="d-flex">
                     <img
-                      src="./images/footer/Ubicacion.png"
+                      src="./images/Footer/Ubicacion.png"
                       className="mx-2"
                       style={{ width: "25px", height: "25px" }}
                     />
