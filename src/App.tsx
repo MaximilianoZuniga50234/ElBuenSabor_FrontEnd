@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./components/home/Home";
-import Landing from "./components/landing/Landing";
-import { NavBarPreLogin } from "./components/navbar/PreLogin/NavBarPreLogin";
-import { NavBarPostLoginUsuarios } from "./components/navbar/PostLoginUsuarios/NavBarPostLoginUsuarios";
-import { NavBarPostLoginEmpleados } from "./components/navbar/PostLoginEmpleados/NavBarPostLoginEmpleados";
+import { Home } from "./components/Home/Home";
+import Landing from "./components/Landing/Landing";
+import { NavBarPreLogin } from "./components/NavBar/PreLogin/NavBarPreLogin";
+import { NavBarPostLoginUsuarios } from "./components/NavBar/PostLoginUsuarios/NavBarPostLoginUsuarios";
+import { NavBarPostLoginEmpleados } from "./components/NavBar/PostLoginEmpleados/NavBarPostLoginEmpleados";
 import { useAuth0 } from "@auth0/auth0-react";
 import CustomerList from "./components/abm/CustomerList";
 import ItemProductList from "./components/abm/ItemProductList";
@@ -14,6 +14,7 @@ import WorkerList from "./components/abm/WorkerList";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setStock } from "./context/stockSlice";
+import { setArticuloManufacturado } from "./context/articuloManufacturadoSlice";
 
 function App() {
   const { isAuthenticated } = useAuth0();
@@ -24,6 +25,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         dispatch(setStock(data.categorias));
+        dispatch(setArticuloManufacturado(data.articulosManufacturados));
       });
   }, []);
 
