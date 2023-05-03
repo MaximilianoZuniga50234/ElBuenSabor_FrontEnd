@@ -3,21 +3,17 @@ import "./modal.css";
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
+  children: any;
 }
 
-const Modal = ({ isOpen, closeModal }: Props) => {
+const Modal = ({ isOpen, closeModal, children }: Props) => {
   return (
     <div className="modalMain" style={{ display: isOpen ? "grid" : "none" }}>
       <div className="modalContainer">
         <button className="modalCloseButton" onClick={closeModal}>
           X
         </button>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-          harum reiciendis eius repudiandae. Rem distinctio iure, dicta dolore
-          nesciunt molestiae perferendis corrupti laboriosam similique laborum
-          asperiores? Veniam, dolor expedita! Fuga.
-        </p>
+        {children}
       </div>
     </div>
   );
