@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import { AllProducts } from "./components/AllProducts/AllProducts";
 import Landing from "./components/Landing/Landing";
-import { NavBarPreLogin } from "./components/NavBar/PreLogin/NavBarPreLogin";
-import { NavBarPostLoginUsuarios } from "./components/NavBar/PostLoginUsuarios/NavBarPostLoginUsuarios";
-import { NavBarPostLoginEmpleados } from "./components/NavBar/PostLoginEmpleados/NavBarPostLoginEmpleados";
+import { NavBarPreLogin } from "./components/navbar/PreLogin/NavBarPreLogin";
+import { NavBarPostLoginUsuarios } from "./components/navbar/PostLoginUsuarios/NavBarPostLoginUsuarios";
+import { NavBarPostLoginEmpleados } from "./components/navbar/PostLoginEmpleados/NavBarPostLoginEmpleados";
 import { useAuth0 } from "@auth0/auth0-react";
 import CustomerList from "./components/abm/CustomerList";
 import ItemProductList from "./components/abm/ItemProductList";
