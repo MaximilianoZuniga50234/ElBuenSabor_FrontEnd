@@ -1,4 +1,3 @@
-import Footer from "../footer/Footer";
 import "./landing.css";
 import { Link } from "react-router-dom";
 
@@ -15,7 +14,6 @@ const Landing = () => {
         <img src="./images/landing/landingBurger.jpg" alt="comida1" />
         <img src="./images/landing/landingPizza.jpg" alt="comida2" />
       </div>
-      <Footer />
     </div>
   );
 };
