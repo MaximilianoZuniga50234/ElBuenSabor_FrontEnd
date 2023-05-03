@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Home } from "./components/AllProducts/AllProducts";
+import { AllProducts } from "./components/AllProducts/AllProducts";
 import Landing from "./components/Landing/Landing";
 import { NavBarPreLogin } from "./components/NavBar/PreLogin/NavBarPreLogin";
 import { NavBarPostLoginUsuarios } from "./components/NavBar/PostLoginUsuarios/NavBarPostLoginUsuarios";
@@ -38,7 +38,7 @@ function App() {
         <Route path="/test" element={<Test />} />
 
         <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/allProducts" element={<AllProducts />} />
         <Route path="*" element={<h1>Ups...</h1>} />
         <Route path="/customerList" element={<CustomerList />} />
         <Route path="/itemProductList" element={<ItemProductList />} />

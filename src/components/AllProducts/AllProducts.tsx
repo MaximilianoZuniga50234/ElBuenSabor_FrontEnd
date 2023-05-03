@@ -4,7 +4,7 @@ import { ArticuloManufacturado } from "../../interface/ArticuloManufacturado";
 
 import "./AllProducts.css";
 
-export const Home = () => {
+export const AllProducts = () => {
   const articuloManufacturadoArray = useSelector(
     (state: RootState) => state.articuloManufacturado
   );
