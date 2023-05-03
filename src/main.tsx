@@ -8,19 +8,17 @@ import { Provider } from "react-redux";
 import { store } from "./context/store";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <Auth0Provider
-      domain={import.meta.env.VITE_AUTH0_DOMAIN}
-      clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
-      authorizationParams={{
-        redirect_uri: window.location.origin,
-      }}
-    >
+  <Auth0Provider
+    domain={import.meta.env.VITE_AUTH0_DOMAIN}
+    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+    authorizationParams={{
+      redirect_uri: window.location.origin,
+    }}
+  >
+    <BrowserRouter>
       <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <App />
       </Provider>
-    </Auth0Provider>
-  </React.StrictMode>
+    </BrowserRouter>
+  </Auth0Provider>
 );

@@ -1,4 +1,4 @@
-import "./customerList.css";
+import "./abmList.css";
 
 const CustomerList = () => {
   return <div>CustomerList</div>;

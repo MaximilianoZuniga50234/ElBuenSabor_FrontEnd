@@ -1,19 +1,31 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./components/home/Home";
 import Landing from "./components/landing/Landing";
 import { NavBarPreLogin } from "./components/navbar/PreLogin/NavBarPreLogin";
 import { NavBarPostLoginUsuarios } from "./components/navbar/PostLoginUsuarios/NavBarPostLoginUsuarios";
 import { NavBarPostLoginEmpleados } from "./components/navbar/PostLoginEmpleados/NavBarPostLoginEmpleados";
 import { useAuth0 } from "@auth0/auth0-react";
-import CustomerList from "./components/abm/customerlist/CustomerList";
-import ItemProductList from "./components/abm/itemproductlist/ItemProductList";
-import ItemStockList from "./components/abm/itemstocklist/ItemStockList";
-import ProductList from "./components/abm/productlist/ProductList";
-import StockList from "./components/abm/stocklist/StockList";
-import WorkerList from "./components/abm/workerlist/WorkerList";
+import CustomerList from "./components/abm/CustomerList";
+import ItemProductList from "./components/abm/ItemProductList";
+import ItemStockList from "./components/abm/ItemStockList";
+import ProductList from "./components/abm/ProductList";
+import StockList from "./components/abm/StockList";
+import WorkerList from "./components/abm/WorkerList";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setStock } from "./context/stockSlice";
 
 function App() {
   const { isAuthenticated } = useAuth0();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch("./data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(setStock(data.categorias));
+      });
+  }, []);
 
   return (
     <div className="App">
@@ -21,6 +33,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
+        <Route path="*" element={<h1>Ups...</h1>} />
         <Route path="/customerList" element={<CustomerList />} />
         <Route path="/itemProductList" element={<ItemProductList />} />
         <Route path="/itemStockList" element={<ItemStockList />} />

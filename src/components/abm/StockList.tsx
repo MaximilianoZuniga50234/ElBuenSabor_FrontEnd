@@ -1,4 +1,4 @@
-import "./stockList.css";
+import "./abmList.css";
 
 const StockList = () => {
   return <div>StockList</div>;

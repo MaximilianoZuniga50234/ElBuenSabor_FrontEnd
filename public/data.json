@@ -2,24 +2,24 @@
   "users": [],
   "categorias": [
     {
-      "idCategoria": 1,
-      "denominacion_Categoria": "Carnes",
-      "deAlta_Categoria": true
+      "id": 1,
+      "denominacion": "Carnes",
+      "deAlta": true
     },
     {
-      "idCategoria": 2,
-      "denominacion_Categoria": "Verdura",
-      "deAlta_Categoria": false
+      "id": 2,
+      "denominacion": "Verdura",
+      "deAlta": false
     },
     {
-      "idCategoria": 3,
-      "denominacion_Categoria": "Aderesos",
-      "deAlta_Categoria": true
+      "id": 3,
+      "denominacion": "Aderesos",
+      "deAlta": true
     },
     {
-      "idCategoria": 4,
-      "denominacion_Categoria": "Lacteos",
-      "deAlta_Categoria": false
+      "id": 4,
+      "denominacion": "Lacteos",
+      "deAlta": false
     }
   ],
   "categoriasManufacturados": [
