@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import "./abmList.css";
 import { RootState } from "../../context/store";
 import { UnidadMedida } from "../../interface/UnidadMedida";
-import { FiEye, FiEdit } from "react-icons/Fi";
+import { FiEye, FiEdit, FiPlus } from "react-icons/Fi";
 import { useState } from "react";
 import Modal from "../modal/Modal";
 import ItemUnidadMedidaElement from "./ItemUnidadMedidaElement";
@@ -13,12 +13,20 @@ const UnidadMedidaList = () => {
   );
   const [mostrarVerModal, setMostrarVerModal] = useState<boolean>(false);
   const [mostrarEditarModal, setMostrarEditarModal] = useState<boolean>(false);
+  const [mostrarAñadirModal, setMostrarAñadirModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number>(0);
 
   return (
     <div className="listMainContainer">
       <div className="listContainer">
-        <button className="listAddButton">+</button>
+        <button
+          className="listAddButton"
+          onClick={() => {
+            setMostrarAñadirModal(true);
+          }}
+        >
+          <FiPlus />
+        </button>
         <div className="listRowTitle">
           <p>Denominacion</p>
           <p>Acciones</p>
@@ -53,13 +61,34 @@ const UnidadMedidaList = () => {
         isOpen={mostrarVerModal}
         closeModal={() => setMostrarVerModal(false)}
       >
-        <ItemUnidadMedidaElement idMedida={rowId} isEditing={false} />
+        <ItemUnidadMedidaElement
+          idMedida={rowId}
+          isEditing={false}
+          isAdding={false}
+          closeModal={() => setMostrarVerModal(false)}
+        />
       </Modal>
       <Modal
         isOpen={mostrarEditarModal}
         closeModal={() => setMostrarEditarModal(false)}
       >
-        <ItemUnidadMedidaElement idMedida={rowId} isEditing={true} />
+        <ItemUnidadMedidaElement
+          idMedida={rowId}
+          isEditing={true}
+          isAdding={false}
+          closeModal={() => setMostrarEditarModal(false)}
+        />
+      </Modal>
+      <Modal
+        isOpen={mostrarAñadirModal}
+        closeModal={() => setMostrarAñadirModal(false)}
+      >
+        <ItemUnidadMedidaElement
+          idMedida={rowId}
+          isEditing={false}
+          isAdding={true}
+          closeModal={() => setMostrarAñadirModal(false)}
+        />
       </Modal>
     </div>
   );

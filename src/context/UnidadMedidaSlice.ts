@@ -13,7 +13,7 @@ export const UnidadMedidaSlice = createSlice({
         newUnidadMedida.map((n: UnidadMedida) => state.push(n));
     },
     addUnidadMedida: (state, action) => {
-      [...state, action.payload];
+      state.push(action.payload);
     },
   },
 });
