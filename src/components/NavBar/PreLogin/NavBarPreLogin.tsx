@@ -9,7 +9,7 @@ const NavBarPreLogin = () => {
   return (
     <nav className="navbar">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/home" id="logo">
+        <Link className="navbar-brand" to="/allProducts" id="logo">
           <img
             src="./images/navbar/logoLargoGris.png"
             alt="Logo"
