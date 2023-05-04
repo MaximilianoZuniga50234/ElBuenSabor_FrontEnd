@@ -10,10 +10,6 @@ const Landing = () => {
           VER CATÁLOGO
         </Link>
       </div>
-      <div className="landingImagesContainer">
-        <img src="./images/landing/landingBurger.jpg" alt="comida1" />
-        <img src="./images/landing/landingPizza.jpg" alt="comida2" />
-      </div>
     </div>
   );
 };

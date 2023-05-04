@@ -12,14 +12,18 @@ const ItemStockList = () => {
   const stockArray = useSelector((state: RootState) => state.stock);
   const [mostrarVerModal, setMostrarVerModal] = useState<boolean>(false);
   const [mostrarEditarModal, setMostrarEditarModal] = useState<boolean>(false);
+  const [mostrarAñadirModal, setMostrarAñadirModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number>(0);
   const dispatch = useDispatch();
 
   return (
     <div className="listMainContainer">
       <div className="listContainer">
-        <button className="listAddButton">
-          <FiPlus />
+        <button
+          className="listAddButton"
+          onClick={() => setMostrarAñadirModal(true)}
+        >
+        <FiPlus />
         </button>
         <div className="listRowTitle">
           <p>Denominacion</p>
@@ -74,13 +78,29 @@ const ItemStockList = () => {
         isOpen={mostrarVerModal}
         closeModal={() => setMostrarVerModal(false)}
       >
-        <ItemStockListElement stockId={rowId} isEditing={false} />
+        <ItemStockListElement
+          stockId={rowId}
+          closeModal={() => setMostrarVerModal(false)}
+        />
       </Modal>
       <Modal
         isOpen={mostrarEditarModal}
         closeModal={() => setMostrarEditarModal(false)}
       >
-        <ItemStockListElement stockId={rowId} isEditing={true} />
+        <ItemStockListElement
+          stockId={rowId}
+          isEditing={true}
+          closeModal={() => setMostrarEditarModal(false)}
+        />
+      </Modal>
+      <Modal
+        isOpen={mostrarAñadirModal}
+        closeModal={() => setMostrarAñadirModal(false)}
+      >
+        <ItemStockListElement
+          isAdding={true}
+          closeModal={() => setMostrarAñadirModal(false)}
+        />
       </Modal>
     </div>
   );
