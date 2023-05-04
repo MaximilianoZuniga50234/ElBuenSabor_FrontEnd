@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import "./abmList.css";
 import { RootState } from "../../context/store";
 import { UnidadMedida } from "../../interface/UnidadMedida";
-import { FiEye, FiEdit } from "react-icons/fi";
+import { FiEye, FiEdit } from "react-icons/Fi";
 import { useState } from "react";
 import Modal from "../modal/Modal";
 import ItemUnidadMedidaElement from "./ItemUnidadMedidaElement";

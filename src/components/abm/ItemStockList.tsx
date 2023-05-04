@@ -6,7 +6,7 @@ import Modal from "../modal/Modal";
 import { useState } from "react";
 import { changeDeAlta } from "../../context/stockSlice";
 import ItemStockListElement from "./ItemStockListElement";
-import { FiEye, FiPlus, FiEdit } from "react-icons/fi";
+import { FiEye, FiPlus, FiEdit } from "react-icons/Fi";
 
 const ItemStockList = () => {
   const stockArray = useSelector((state: RootState) => state.stock);
@@ -23,7 +23,7 @@ const ItemStockList = () => {
           className="listAddButton"
           onClick={() => setMostrarAñadirModal(true)}
         >
-        <FiPlus />
+          <FiPlus />
         </button>
         <div className="listRowTitle">
           <p>Denominacion</p>

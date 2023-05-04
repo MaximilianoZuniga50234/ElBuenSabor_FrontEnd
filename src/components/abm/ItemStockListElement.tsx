@@ -1,7 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../context/store";
 import { Stock } from "../../interface/Stock";
 import "./itemStockListElement.css";
+import { useState } from "react";
+import { addStock } from "../../context/stockSlice";
 
 interface Props {
   stockId?: number;
@@ -18,6 +20,29 @@ const ItemStockListElement = ({
 }: Props) => {
   const stockArray = useSelector((state: RootState) => state.stock);
   const stockElement = stockArray.find((s: Stock) => s.id === stockId);
+  const [newStock, setNewStock] = useState<Stock>({
+    id: 0,
+    denominacion: "",
+    deAlta: true,
+    idPadre: 0,
+  });
+
+  const dispatch = useDispatch();
+
+  const handleConfirm = (e: any) => {
+    e.preventDefault();
+    setNewStock({ ...newStock, id: stockArray.length + 1, deAlta: true });
+    console.log(newStock);
+    dispatch(addStock(newStock));
+  };
+
+  const handleChange = (e: any) => {
+    setNewStock({
+      ...newStock,
+      [e.target.name]: e.target.value,
+    });
+    console.log(e.target.name);
+  };
 
   const exitModal = () => {
     closeModal;
@@ -36,21 +61,23 @@ const ItemStockListElement = ({
           <div className="itemStockElementBodyDetails">
             <p>{stockArray.length + 1}</p>
             <input
-              id="inputDeno"
               type="text"
+              name="denominacion"
               placeholder="denominacion"
               className="itemStockElementDenInput"
+              onChange={handleChange}
             />
             <p>Alta</p>
             <input
-              id="inputPadre"
               type="number"
+              name="idPadre"
               placeholder="idPadre"
               className="itemStockElementPadreInput"
+              onChange={handleChange}
             />
           </div>
           <div className="itemStockElementBodyButtons">
-            <button>Confirmar</button>
+            <button onClick={handleConfirm}>Confirmar</button>
             <button onClick={closeModal}>Cancelar</button>
           </div>
         </div>

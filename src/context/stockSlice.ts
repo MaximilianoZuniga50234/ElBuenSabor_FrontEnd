@@ -12,7 +12,8 @@ export const stockSlice = createSlice({
       if (state.length === 0) newStock.map((n: Stock) => state.push(n));
     },
     addStock: (state, action) => {
-      [...state, action.payload];
+      state.push(action.payload);
+      console.log(state);
     },
     changeDeAlta: (state, action) => {
       const stockFound = state.find((stock) => stock.id === action.payload.id);
