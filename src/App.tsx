@@ -18,6 +18,8 @@ import { setArticuloManufacturado } from "./context/articuloManufacturadoSlice";
 
 import Test from "./components/test/Test";
 import Home from "./components/home/Home";
+import { setUnidadMedida } from "./context/UnidadMedidaSlice";
+import UnidadMedidaList from "./components/abm/UnidadMedidaList";
 
 function App() {
   const { isAuthenticated } = useAuth0();
@@ -29,6 +31,7 @@ function App() {
       .then((data) => {
         dispatch(setStock(data.categorias));
         dispatch(setArticuloManufacturado(data.articulosManufacturados));
+        dispatch(setUnidadMedida(data.unidadMedida));
       });
   }, []);
 
@@ -48,6 +51,7 @@ function App() {
         <Route path="/productList" element={<ProductList />} />
         <Route path="/stockList" element={<StockList />} />
         <Route path="/workerList" element={<WorkerList />} />
+        <Route path="/unidadMedidaList" element={<UnidadMedidaList />} />
       </Routes>
     </div>
   );
