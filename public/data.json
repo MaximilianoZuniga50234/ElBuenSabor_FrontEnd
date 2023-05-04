@@ -52,15 +52,15 @@
   "unidadMedida": [
     {
       "idMedida": 1,
-      "denominacion": "kilogramo"
+      "denominacion": "Kilogramo"
     },
     {
       "idMedida": 2,
-      "denominacion": "gramo"
+      "denominacion": "Gramo"
     },
     {
       "idMedida": 3,
-      "denominacion": "cucharada"
+      "denominacion": "Cucharada"
     },
     {
       "idMedida": 4,
@@ -68,15 +68,15 @@
     },
     {
       "idMedida": 5,
-      "denominacion": "mililitro"
+      "denominacion": "Mililitro"
     },
     {
       "idMedida": 6,
-      "denominacion": "hora"
+      "denominacion": "Hora"
     },
     {
       "idMedida": 7,
-      "denominacion": "minuto"
+      "denominacion": "Minuto"
     }
   ],
   "articulosManufacturados": [
