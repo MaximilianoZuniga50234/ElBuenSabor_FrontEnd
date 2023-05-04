@@ -20,6 +20,7 @@ import Home from "./components/home/Home";
 import { setUnidadMedida } from "./context/UnidadMedidaSlice";
 import UnidadMedidaList from "./components/abm/UnidadMedidaList";
 import { Rutas } from "./Rutas";
+import Footer from "./components/footer/Footer";
 
 function App() {
   const { isAuthenticated } = useAuth0();
@@ -39,6 +40,7 @@ function App() {
     <div className="App">
       {isAuthenticated ? <NavBarPostLoginUsuarios /> : <NavBarPreLogin />}
       <Rutas />
+      <Footer />
     </div>
   );
 }
