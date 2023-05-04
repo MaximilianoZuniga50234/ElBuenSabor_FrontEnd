@@ -19,9 +19,8 @@ const ItemStockListElement = ({
   closeModal,
 }: Props) => {
   const stockArray = useSelector((state: RootState) => state.stock);
-  const [stockElement, setStockElement] = useState(
-    stockArray.find((s: Stock) => s.id === stockId)
-  );
+  const stockElement = stockArray.find((s: Stock) => s.id === stockId);
+  const [modifyStockElement, setModifyStockElement] = useState(stockElement);
   const [newStock, setNewStock] = useState<Stock>({
     id: 0,
     denominacion: "",
@@ -33,12 +32,18 @@ const ItemStockListElement = ({
 
   const handleConfirmEdit = (e: any) => {
     e.preventDefault();
-    dispatch(modifyStock({ stockElement }));
+    console.log(modifyStockElement);
+    dispatch(modifyStock({ modifyStockElement }));
   };
 
   const handleChangeEdit = (e: any) => {
-    if (stockElement)
-      setStockElement({ ...stockElement, [e.target.name]: e.target.value });
+    if (modifyStockElement) {
+      setModifyStockElement({
+        ...modifyStockElement,
+        [e.target.name]: e.target.value,
+      });
+      console.log(modifyStockElement);
+    }
   };
 
   const handleConfirmAdd = (e: any) => {
@@ -54,6 +59,12 @@ const ItemStockListElement = ({
   };
 
   const exitModal = () => {
+    setNewStock({
+      id: 0,
+      denominacion: "",
+      deAlta: true,
+      idPadre: 0,
+    });
     closeModal;
   };
 
@@ -92,28 +103,32 @@ const ItemStockListElement = ({
         </div>
       ) : isEditing ? (
         <div className="itemStockElementBody">
-          <p>{stockElement?.id}</p>
-          <input
-            type="text"
-            name="denominacion"
-            placeholder="denominacion"
-            onChange={handleChangeEdit}
-            value={stockElement ? stockElement.denominacion : ""}
-          />
-          {stockElement?.deAlta === true ? <p>Alta</p> : <p>Baja</p>}
-          <input
-            type="number"
-            name="idPadre"
-            placeholder="idPadre"
-            onChange={handleChangeEdit}
-            value={
-              stockElement
-                ? stockElement.idPadre
-                  ? stockElement.idPadre
+          <div className="itemStockElementBodyDetails">
+            <p>{modifyStockElement?.id}</p>
+            <input
+              type="text"
+              name="denominacion"
+              placeholder="denominacion"
+              className="itemStockElementDenInput"
+              onChange={handleChangeEdit}
+              value={modifyStockElement ? modifyStockElement.denominacion : ""}
+            />
+            {modifyStockElement?.deAlta === true ? <p>Alta</p> : <p>Baja</p>}
+            <input
+              type="number"
+              name="idPadre"
+              placeholder="idPadre"
+              className="itemStockElementPadreInput"
+              onChange={handleChangeEdit}
+              value={
+                modifyStockElement
+                  ? modifyStockElement.idPadre
+                    ? modifyStockElement.idPadre
+                    : 0
                   : 0
-                : 0
-            }
-          />
+              }
+            />
+          </div>
           <div className="itemStockElementBodyButtons">
             <button onClick={handleConfirmEdit}>Confirmar</button>
             <button onClick={closeModal}>Cancelar</button>
@@ -121,10 +136,12 @@ const ItemStockListElement = ({
         </div>
       ) : (
         <div className="itemStockElementBody">
-          <p>{stockElement?.id}</p>
-          <p>{stockElement?.denominacion}</p>
-          {stockElement?.deAlta === true ? <p>Alta</p> : <p>Baja</p>}
-          {stockElement?.idPadre ? <p>{stockElement?.idPadre}</p> : <p>0</p>}
+          <div className="itemStockElementBodyDetails">
+            <p>{stockElement?.id}</p>
+            <p>{stockElement?.denominacion}</p>
+            {stockElement?.deAlta === true ? <p>Alta</p> : <p>Baja</p>}
+            {stockElement?.idPadre ? <p>{stockElement?.idPadre}</p> : <p>0</p>}
+          </div>
         </div>
       )}
     </div>

@@ -1,9 +1,8 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Test from "./components/test/Test";
 import Landing from "./components/landing/Landing";
 import Home from "./components/home/Home";
-import AllProducts from "./components/allProducts/AllProducts";
+import AllProducts from "./components/allproducts/AllProducts";
 import CustomerList from "./components/abm/CustomerList";
 import ItemProductList from "./components/abm/ItemProductList";
 import ItemStockList from "./components/abm/ItemStockList";

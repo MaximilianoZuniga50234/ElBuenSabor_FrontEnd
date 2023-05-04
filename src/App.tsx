@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import AllProducts from "./components/allProducts/AllProducts";
+import AllProducts from "./components/allproducts/AllProducts";
 import Landing from "./components/landing/Landing";
 import NavBarPreLogin from "./components/navbar/prelogin/NavBarPreLogin";
 import NavBarPostLoginUsuarios from "./components/navbar/postloginusuarios/NavBarPostLoginUsuarios";
@@ -15,7 +15,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setStock } from "./context/stockSlice";
 import { setArticuloManufacturado } from "./context/articuloManufacturadoSlice";
-
 import Test from "./components/test/Test";
 import Home from "./components/home/Home";
 import { setUnidadMedida } from "./context/UnidadMedidaSlice";
