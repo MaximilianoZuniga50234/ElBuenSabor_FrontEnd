@@ -20,6 +20,7 @@ import Test from "./components/test/Test";
 import Home from "./components/home/Home";
 import { setUnidadMedida } from "./context/UnidadMedidaSlice";
 import UnidadMedidaList from "./components/abm/UnidadMedidaList";
+import { Rutas } from "./Rutas";
 
 function App() {
   const { isAuthenticated } = useAuth0();
@@ -38,21 +39,7 @@ function App() {
   return (
     <div className="App">
       {isAuthenticated ? <NavBarPostLoginUsuarios /> : <NavBarPreLogin />}
-      <Routes>
-        <Route path="/test" element={<Test />} />
-
-        <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/allProducts" element={<AllProducts />} />
-        <Route path="*" element={<h1>Ups...</h1>} />
-        <Route path="/customerList" element={<CustomerList />} />
-        <Route path="/itemProductList" element={<ItemProductList />} />
-        <Route path="/itemStockList" element={<ItemStockList />} />
-        <Route path="/productList" element={<ProductList />} />
-        <Route path="/stockList" element={<StockList />} />
-        <Route path="/workerList" element={<WorkerList />} />
-        <Route path="/unidadMedidaList" element={<UnidadMedidaList />} />
-      </Routes>
+      <Rutas />
     </div>
   );
 }
