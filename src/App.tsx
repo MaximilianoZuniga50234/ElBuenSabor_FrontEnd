@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import AllProducts from "./components/allProducts/AllProducts";
+import AllProducts from "./components/allproducts/AllProducts";
 import Landing from "./components/landing/Landing";
 import NavBarPreLogin from "./components/navbar/prelogin/NavBarPreLogin";
 import NavBarPostLoginUsuarios from "./components/navbar/postloginusuarios/NavBarPostLoginUsuarios";
@@ -39,12 +39,11 @@ function App() {
     <div className="App">
       {isAuthenticated ? <NavBarPostLoginUsuarios /> : <NavBarPreLogin />}
       <Routes>
-        <Route path="/test" element={<Test />} />
-
         <Route path="/" element={<Landing />} />
+        <Route path="*" element={<h1>Ups...</h1>} />
         <Route path="/home" element={<Home />} />
         <Route path="/allProducts" element={<AllProducts />} />
-        <Route path="*" element={<h1>Ups...</h1>} />
+        <Route path="/test" element={<Test />} />
         <Route path="/customerList" element={<CustomerList />} />
         <Route path="/itemProductList" element={<ItemProductList />} />
         <Route path="/itemStockList" element={<ItemStockList />} />
