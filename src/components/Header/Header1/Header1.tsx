@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Header1 = () => {
   return (
     <>
-      <div>
+      <header>
         <div className="imagen">
           <div className="separa">
             <div className="textoDiv">
@@ -16,7 +16,7 @@ const Header1 = () => {
             </div>
           </div>
         </div>
-      </div>
+      </header>
     </>
   );
 };
