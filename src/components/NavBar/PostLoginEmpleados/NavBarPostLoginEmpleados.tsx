@@ -17,10 +17,10 @@ const NavBarPostLoginEmpleados = () => {
           <Link className="aImg" to="/home">
             <img
               className="img"
-              src="/images/navbar/logoNav.png"
+              src="/images/navbar/logoLargoGris.png"
               alt="Logo"
               width="180"
-              height="40"
+              height="50"
             />
           </Link>
         </div>

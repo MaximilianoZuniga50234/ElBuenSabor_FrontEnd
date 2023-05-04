@@ -11,7 +11,7 @@ const NavBarPreLogin = () => {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/home" id="logo">
           <img
-            src="./images/navbar/logoLargo.png"
+            src="./images/navbar/logoLargoGris.png"
             alt="Logo"
             width="180"
             height="50"
