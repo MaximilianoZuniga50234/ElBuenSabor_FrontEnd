@@ -6,6 +6,7 @@ import Modal from "../modal/Modal";
 import { useState } from "react";
 import { changeDeAlta } from "../../context/stockSlice";
 import ItemStockListElement from "./ItemStockListElement";
+import { FiEye, FiPlus, FiEdit } from "react-icons/fi";
 
 const ItemStockList = () => {
   const stockArray = useSelector((state: RootState) => state.stock);
@@ -17,7 +18,9 @@ const ItemStockList = () => {
   return (
     <div className="listMainContainer">
       <div className="listContainer">
-        <button className="listAddButton">+</button>
+        <button className="listAddButton">
+          <FiPlus />
+        </button>
         <div className="listRowTitle">
           <p>Denominacion</p>
           <p>Acciones</p>
@@ -33,7 +36,7 @@ const ItemStockList = () => {
                   setRowId(stock.id);
                 }}
               >
-                Ver
+                <FiEye />
               </button>
               <button
                 className="listRowEditButton"
@@ -42,7 +45,7 @@ const ItemStockList = () => {
                   setRowId(stock.id);
                 }}
               >
-                Editar
+                <FiEdit />
               </button>
               {stock.deAlta ? (
                 <button

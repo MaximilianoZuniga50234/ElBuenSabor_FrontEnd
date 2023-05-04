@@ -1,4 +1,4 @@
-import HeaderUsuario from "../Header/HeaderUsuario/HeaderUsuario";
+import HeaderUsuario from "../header/HeaderUsuario/HeaderUsuario";
 import Footer from "../footer/Footer";
 
 const Test = () => {

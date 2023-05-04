@@ -1,4 +1,5 @@
 import "./modal.css";
+import { FiXSquare } from "react-icons/Fi";
 
 interface Props {
   isOpen: boolean;
@@ -11,7 +12,7 @@ const Modal = ({ isOpen, closeModal, children }: Props) => {
     <div className="modalMain" style={{ display: isOpen ? "grid" : "none" }}>
       <div className="modalContainer">
         <button className="modalCloseButton" onClick={closeModal}>
-          X
+          <FiXSquare />
         </button>
         {children}
       </div>
