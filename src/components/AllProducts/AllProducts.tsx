@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../context/store";
 import { ArticuloManufacturado } from "../../interface/ArticuloManufacturado";
-
 import "./AllProducts.css";
 
 const AllProducts = () => {
