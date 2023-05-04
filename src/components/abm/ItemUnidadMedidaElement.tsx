@@ -2,7 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../context/store";
 import { UnidadMedida } from "../../interface/UnidadMedida";
 import { FiPlus } from "react-icons/Fi";
-import { addUnidadMedida } from "../../context/UnidadMedidaSlice";
+import {
+  addUnidadMedida,
+  modifyUnidadMedida,
+} from "../../context/UnidadMedidaSlice";
 import { useState } from "react";
 
 interface Props {
@@ -22,8 +25,8 @@ const ItemUnidadMedidaElement = ({
     (state: RootState) => state.unidadMedida
   );
 
-  const unidadMedidaElement = useSelector((state: RootState) =>
-    state.unidadMedida.find((u: UnidadMedida) => u.idMedida === idMedida)
+  const [unidadMedidaElement, setunidadMedidaElement] = useState(
+    unidadMedidaArray.find((u: UnidadMedida) => u.idMedida === idMedida)
   );
 
   const [newUnidadMedida, setnewUnidadMedida] = useState<UnidadMedida>({
@@ -33,14 +36,28 @@ const ItemUnidadMedidaElement = ({
 
   const dispatch = useDispatch();
 
-  const handleConfirm = (e: any) => {
+  const handleConfirmEdit = (e: any) => {
     e.preventDefault();
-    setnewUnidadMedida({
-      ...newUnidadMedida,
-      idMedida: unidadMedidaArray.length + 1,
-    });
-    console.log(newUnidadMedida);
-    dispatch(addUnidadMedida(newUnidadMedida));
+    dispatch(modifyUnidadMedida({ unidadMedidaElement }));
+  };
+
+  const handleChangeEdit = (e: any) => {
+    if (unidadMedidaElement) {
+      setunidadMedidaElement({
+        ...unidadMedidaElement,
+        denominacion: e.target.value,
+      });
+    }
+  };
+
+  const handleConfirmAdd = (e: any) => {
+    e.preventDefault();
+    dispatch(
+      addUnidadMedida({
+        ...newUnidadMedida,
+        idMedida: unidadMedidaArray.length + 1,
+      })
+    );
   };
 
   const handleChange = (e: any) => {
@@ -48,7 +65,6 @@ const ItemUnidadMedidaElement = ({
       ...newUnidadMedida,
       denominacion: e.target.value,
     });
-    console.log(e.target.name);
   };
 
   const exitModal = () => {
@@ -69,7 +85,7 @@ const ItemUnidadMedidaElement = ({
               id="inputDenominacion"
               onChange={handleChange}
             />
-            <button className="listAddButton" onClick={handleConfirm}>
+            <button className="listAddButton" onClick={handleConfirmAdd}>
               <FiPlus />
             </button>
           </div>
@@ -88,7 +104,12 @@ const ItemUnidadMedidaElement = ({
                   type="text"
                   value={unidadMedidaElement?.denominacion}
                   placeholder="denominacion"
+                  onChange={handleChangeEdit}
                 />
+                <div className="itemStockElementBodyButtons">
+                  <button onClick={handleConfirmEdit}>Confirmar</button>
+                  <button onClick={closeModal}>Cancelar</button>
+                </div>
               </div>
             ) : (
               <div>

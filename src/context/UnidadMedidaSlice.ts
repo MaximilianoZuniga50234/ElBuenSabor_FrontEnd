@@ -15,8 +15,16 @@ export const UnidadMedidaSlice = createSlice({
     addUnidadMedida: (state, action) => {
       state.push(action.payload);
     },
+    modifyUnidadMedida: (state, action) => {
+      const UnidadMedidaFound = state.find(
+        (unidadMedida) => unidadMedida.idMedida === action.payload.id
+      );
+      if (UnidadMedidaFound)
+        state[state.indexOf(UnidadMedidaFound)] = action.payload;
+    },
   },
 });
 
-export const { addUnidadMedida, setUnidadMedida } = UnidadMedidaSlice.actions;
+export const { addUnidadMedida, setUnidadMedida, modifyUnidadMedida } =
+  UnidadMedidaSlice.actions;
 export default UnidadMedidaSlice.reducer;
