@@ -1,0 +1,26 @@
+.imagen {
+
+    background-image: url('./images/landing/landingBurger.jpg');
+    background-size: 50%;
+    /*background-repeat: no repeat;*/
+    background-position: right;
+    height: 200px;
+    position: relative;
+    z-index: 1;
+    
+  }
+  .separa {
+
+    background: linear-gradient(145deg, #11111f 40%, 
+                rgba(0, 0, 0, 0) 40%);
+    height: 200px;
+    width: 100%;
+    position: absolute;
+    top: 1;
+    left: 0;
+    z-index: 2;
+  }
+
+
+
+  
