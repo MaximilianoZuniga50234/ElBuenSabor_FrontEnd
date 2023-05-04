@@ -25,15 +25,17 @@ const ItemUnidadMedidaElement = ({
     (state: RootState) => state.unidadMedida
   );
 
-  const [unidadMedidaElement, setunidadMedidaElement] = useState(
-    unidadMedidaArray.find((u: UnidadMedida) => u.idMedida === idMedida)
+  const objetoUnidadMedida = unidadMedidaArray.find(
+    (u: UnidadMedida) => u.idMedida === idMedida
   );
+
+  const [unidadMedidaElement, setunidadMedidaElement] =
+    useState(objetoUnidadMedida);
 
   const [newUnidadMedida, setnewUnidadMedida] = useState<UnidadMedida>({
     idMedida: 0,
     denominacion: "",
   });
-
   const dispatch = useDispatch();
 
   const handleConfirmEdit = (e: any) => {
@@ -96,7 +98,7 @@ const ItemUnidadMedidaElement = ({
                 <h4>Editar elemento</h4>
                 <h6>ID</h6>
 
-                <p>{unidadMedidaElement?.idMedida}</p>
+                <p>{objetoUnidadMedida?.idMedida}</p>
 
                 <h6>Denominacion</h6>
 
@@ -116,10 +118,10 @@ const ItemUnidadMedidaElement = ({
                 <h4>Ver elemento</h4>
                 <h6>ID</h6>
 
-                <p>{unidadMedidaElement?.idMedida}</p>
+                <p>{objetoUnidadMedida?.idMedida}</p>
                 <h6>Denominacion</h6>
 
-                <p>{unidadMedidaElement?.denominacion}</p>
+                <p>{objetoUnidadMedida?.denominacion}</p>
               </div>
             )}
           </div>
