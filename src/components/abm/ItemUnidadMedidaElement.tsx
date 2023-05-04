@@ -96,18 +96,22 @@ const ItemUnidadMedidaElement = ({
             {isEditing ? (
               <div>
                 <h4>Editar elemento</h4>
-                <h6>ID</h6>
+                <div className="row text-center">
+                  <div className="col-6">
+                    <h6>ID</h6>
+                    <p>{objetoUnidadMedida?.idMedida}</p>
+                  </div>
+                  <div className="col-6">
+                    <h6>Denominacion</h6>
 
-                <p>{objetoUnidadMedida?.idMedida}</p>
-
-                <h6>Denominacion</h6>
-
-                <input
-                  type="text"
-                  value={unidadMedidaElement?.denominacion}
-                  placeholder="denominacion"
-                  onChange={handleChangeEdit}
-                />
+                    <input
+                      type="text"
+                      value={unidadMedidaElement?.denominacion}
+                      placeholder="denominacion"
+                      onChange={handleChangeEdit}
+                    />
+                  </div>
+                </div>
                 <div className="itemStockElementBodyButtons">
                   <button onClick={handleConfirmEdit}>Confirmar</button>
                   <button onClick={closeModal}>Cancelar</button>
@@ -116,12 +120,16 @@ const ItemUnidadMedidaElement = ({
             ) : (
               <div>
                 <h4>Ver elemento</h4>
-                <h6>ID</h6>
-
-                <p>{objetoUnidadMedida?.idMedida}</p>
-                <h6>Denominacion</h6>
-
-                <p>{objetoUnidadMedida?.denominacion}</p>
+                <div className="row text-center">
+                  <div className="col-6">
+                    <h6>ID</h6>
+                    <p>{objetoUnidadMedida?.idMedida}</p>
+                  </div>
+                  <div className="col-6">
+                    <h6>Denominacion</h6>
+                    <p>{objetoUnidadMedida?.denominacion}</p>
+                  </div>
+                </div>
               </div>
             )}
           </div>
