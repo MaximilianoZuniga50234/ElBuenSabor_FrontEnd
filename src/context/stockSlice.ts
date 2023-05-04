@@ -13,7 +13,6 @@ export const stockSlice = createSlice({
     },
     addStock: (state, action) => {
       state.push(action.payload);
-      console.log(state);
     },
     changeDeAlta: (state, action) => {
       const stockFound = state.find((stock) => stock.id === action.payload.id);
@@ -24,8 +23,13 @@ export const stockSlice = createSlice({
         state[state.indexOf(stockFound)] = stockFound;
       }
     },
+    modifyStock: (state, action) => {
+      const stockFound = state.find((stock) => stock.id === action.payload.id);
+      if (stockFound) state[state.indexOf(stockFound)] = action.payload;
+    },
   },
 });
 
-export const { addStock, changeDeAlta, setStock } = stockSlice.actions;
+export const { addStock, changeDeAlta, setStock, modifyStock } =
+  stockSlice.actions;
 export default stockSlice.reducer;

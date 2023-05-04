@@ -3,7 +3,7 @@ import { RootState } from "../../context/store";
 import { Stock } from "../../interface/Stock";
 import "./itemStockListElement.css";
 import { useState } from "react";
-import { addStock } from "../../context/stockSlice";
+import { addStock, modifyStock } from "../../context/stockSlice";
 
 interface Props {
   stockId?: number;
@@ -19,7 +19,9 @@ const ItemStockListElement = ({
   closeModal,
 }: Props) => {
   const stockArray = useSelector((state: RootState) => state.stock);
-  const stockElement = stockArray.find((s: Stock) => s.id === stockId);
+  const [stockElement, setStockElement] = useState(
+    stockArray.find((s: Stock) => s.id === stockId)
+  );
   const [newStock, setNewStock] = useState<Stock>({
     id: 0,
     denominacion: "",
@@ -29,11 +31,19 @@ const ItemStockListElement = ({
 
   const dispatch = useDispatch();
 
-  const handleConfirm = (e: any) => {
+  const handleConfirmEdit = (e: any) => {
     e.preventDefault();
-    setNewStock({ ...newStock, id: stockArray.length + 1, deAlta: true });
-    console.log(newStock);
-    dispatch(addStock(newStock));
+    dispatch(modifyStock({ stockElement }));
+  };
+
+  const handleChangeEdit = (e: any) => {
+    if (stockElement)
+      setStockElement({ ...stockElement, [e.target.name]: e.target.value });
+  };
+
+  const handleConfirmAdd = (e: any) => {
+    e.preventDefault();
+    dispatch(addStock({ ...newStock, id: stockArray.length + 1 }));
   };
 
   const handleChange = (e: any) => {
@@ -41,7 +51,6 @@ const ItemStockListElement = ({
       ...newStock,
       [e.target.name]: e.target.value,
     });
-    console.log(e.target.name);
   };
 
   const exitModal = () => {
@@ -77,7 +86,7 @@ const ItemStockListElement = ({
             />
           </div>
           <div className="itemStockElementBodyButtons">
-            <button onClick={handleConfirm}>Confirmar</button>
+            <button onClick={handleConfirmAdd}>Confirmar</button>
             <button onClick={closeModal}>Cancelar</button>
           </div>
         </div>
@@ -86,15 +95,29 @@ const ItemStockListElement = ({
           <p>{stockElement?.id}</p>
           <input
             type="text"
-            value={stockElement?.denominacion}
+            name="denominacion"
             placeholder="denominacion"
+            onChange={handleChangeEdit}
+            value={stockElement ? stockElement.denominacion : ""}
           />
           {stockElement?.deAlta === true ? <p>Alta</p> : <p>Baja</p>}
           <input
             type="number"
-            value={stockElement?.idPadre ? stockElement.idPadre : undefined}
+            name="idPadre"
             placeholder="idPadre"
+            onChange={handleChangeEdit}
+            value={
+              stockElement
+                ? stockElement.idPadre
+                  ? stockElement.idPadre
+                  : 0
+                : 0
+            }
           />
+          <div className="itemStockElementBodyButtons">
+            <button onClick={handleConfirmEdit}>Confirmar</button>
+            <button onClick={closeModal}>Cancelar</button>
+          </div>
         </div>
       ) : (
         <div className="itemStockElementBody">
