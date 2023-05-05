@@ -1,15 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import Test from "./components/test/Test";
-import Landing from "./components/landing/Landing";
-import Home from "./components/home/Home";
-import AllProducts from "./components/allproducts/AllProducts";
-import CustomerList from "./components/abm/CustomerList";
-import ItemProductList from "./components/abm/ItemProductList";
-import ItemStockList from "./components/abm/ItemStockList";
-import ProductList from "./components/abm/ProductList";
-import StockList from "./components/abm/StockList";
-import WorkerList from "./components/abm/WorkerList";
-import UnidadMedidaList from "./components/abm/UnidadMedidaList";
+import Test from "../components/test/Test";
+import Landing from "../components/landing/Landing";
+import Home from "../components/home/Home";
+import AllProducts from "../components/allproducts/AllProducts";
+import CustomerList from "../components/abm/CustomerList";
+import ItemProductList from "../components/abm/ItemProductList";
+import ItemStockList from "../components/abm/ItemStockList";
+import ProductList from "../components/abm/ProductList";
+import StockList from "../components/abm/StockList";
+import WorkerList from "../components/abm/WorkerList";
+import UnidadMedidaList from "../components/abm/UnidadMedidaList";
 
 export const Rutas = () => {
   return (

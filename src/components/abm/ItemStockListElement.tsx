@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../context/store";
-import { Stock } from "../../interface/Stock";
 import "./itemStockListElement.css";
-import { useState } from "react";
-import { addStock, modifyStock } from "../../context/stockSlice";
+import ItemStockListElementEdit from "./ItemStockListElementEdit";
+import ItemStockListElementAdd from "./ItemStockListElementAdd";
+import ItemStockListElementView from "./ItemStockListElementView";
+import { useSelector } from "react-redux";
+import { RootState } from "../../context/store";
 
 interface Props {
   stockId?: number;
@@ -19,54 +19,6 @@ const ItemStockListElement = ({
   closeModal,
 }: Props) => {
   const stockArray = useSelector((state: RootState) => state.stock);
-  const stockElement = stockArray.find((s: Stock) => s.id === stockId);
-  const [modifyStockElement, setModifyStockElement] = useState(stockElement);
-  const [newStock, setNewStock] = useState<Stock>({
-    id: 0,
-    denominacion: "",
-    deAlta: true,
-    idPadre: 0,
-  });
-
-  const dispatch = useDispatch();
-
-  const handleConfirmEdit = (e: any) => {
-    e.preventDefault();
-    console.log(modifyStockElement);
-    dispatch(modifyStock({ modifyStockElement }));
-  };
-
-  const handleChangeEdit = (e: any) => {
-    if (modifyStockElement) {
-      setModifyStockElement({
-        ...modifyStockElement,
-        [e.target.name]: e.target.value,
-      });
-      console.log(modifyStockElement);
-    }
-  };
-
-  const handleConfirmAdd = (e: any) => {
-    e.preventDefault();
-    dispatch(addStock({ ...newStock, id: stockArray.length + 1 }));
-  };
-
-  const handleChange = (e: any) => {
-    setNewStock({
-      ...newStock,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const exitModal = () => {
-    setNewStock({
-      id: 0,
-      denominacion: "",
-      deAlta: true,
-      idPadre: 0,
-    });
-    closeModal;
-  };
 
   return (
     <div className="itemStockElementMain">
@@ -77,72 +29,18 @@ const ItemStockListElement = ({
         <h6>IDPadre</h6>
       </div>
       {isAdding ? (
-        <div className="itemStockElementBody">
-          <div className="itemStockElementBodyDetails">
-            <p>{stockArray.length + 1}</p>
-            <input
-              type="text"
-              name="denominacion"
-              placeholder="denominacion"
-              className="itemStockElementDenInput"
-              onChange={handleChange}
-            />
-            <p>Alta</p>
-            <input
-              type="number"
-              name="idPadre"
-              placeholder="idPadre"
-              className="itemStockElementPadreInput"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="itemStockElementBodyButtons">
-            <button onClick={handleConfirmAdd}>Confirmar</button>
-            <button onClick={closeModal}>Cancelar</button>
-          </div>
-        </div>
+        <ItemStockListElementAdd
+          closeModal={closeModal}
+          stockArray={stockArray}
+        />
       ) : isEditing ? (
-        <div className="itemStockElementBody">
-          <div className="itemStockElementBodyDetails">
-            <p>{modifyStockElement?.id}</p>
-            <input
-              type="text"
-              name="denominacion"
-              placeholder="denominacion"
-              className="itemStockElementDenInput"
-              onChange={handleChangeEdit}
-              value={modifyStockElement ? modifyStockElement.denominacion : ""}
-            />
-            {modifyStockElement?.deAlta === true ? <p>Alta</p> : <p>Baja</p>}
-            <input
-              type="number"
-              name="idPadre"
-              placeholder="idPadre"
-              className="itemStockElementPadreInput"
-              onChange={handleChangeEdit}
-              value={
-                modifyStockElement
-                  ? modifyStockElement.idPadre
-                    ? modifyStockElement.idPadre
-                    : 0
-                  : 0
-              }
-            />
-          </div>
-          <div className="itemStockElementBodyButtons">
-            <button onClick={handleConfirmEdit}>Confirmar</button>
-            <button onClick={closeModal}>Cancelar</button>
-          </div>
-        </div>
+        <ItemStockListElementEdit
+          stockId={stockId}
+          closeModal={closeModal}
+          stockArray={stockArray}
+        />
       ) : (
-        <div className="itemStockElementBody">
-          <div className="itemStockElementBodyDetails">
-            <p>{stockElement?.id}</p>
-            <p>{stockElement?.denominacion}</p>
-            {stockElement?.deAlta === true ? <p>Alta</p> : <p>Baja</p>}
-            {stockElement?.idPadre ? <p>{stockElement?.idPadre}</p> : <p>0</p>}
-          </div>
-        </div>
+        <ItemStockListElementView stockId={stockId} stockArray={stockArray} />
       )}
     </div>
   );

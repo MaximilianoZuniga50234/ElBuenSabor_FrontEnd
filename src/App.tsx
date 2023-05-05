@@ -19,7 +19,7 @@ import Test from "./components/test/Test";
 import Home from "./components/home/Home";
 import { setUnidadMedida } from "./context/UnidadMedidaSlice";
 import UnidadMedidaList from "./components/abm/UnidadMedidaList";
-import { Rutas } from "./Rutas";
+import { Rutas } from "./routes/Rutas";
 import Footer from "./components/footer/Footer";
 
 function App() {

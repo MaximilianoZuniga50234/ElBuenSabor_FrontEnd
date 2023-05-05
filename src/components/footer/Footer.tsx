@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./Footer.css";
+import "./footer.css";
 
 const Footer = () => {
   return (
@@ -7,16 +7,16 @@ const Footer = () => {
       <div className="row justify-content-center" id="filaIconos">
         <div className="col-4 text-center">
           <Link to="https://instagram.com">
-            <img className="icon" src="/images/Footer/instagram.png" />
+            <img className="icon" src="/images/footer/Instagram.png" />
           </Link>
           <Link to="https://facebook.com">
-            <img className="icon" src="/images/Footer/facebook.png" />
+            <img className="icon" src="/images/footer/Facebook.png" />
           </Link>
           <Link to="https://twitter.com">
-            <img className="icon" src="/images/Footer/twitter.png" />
+            <img className="icon" src="/images/footer/Twitter.png" />
           </Link>
           <Link to="https://gmail.com">
-            <img className="icon" src="/images/Footer/email.png" />
+            <img className="icon" src="/images/footer/email.png" />
           </Link>
         </div>
       </div>
@@ -49,12 +49,12 @@ const Footer = () => {
       <div className="row align-items-end">
         <div className="col-6 text-start">
           <div className="d-flex align-items-center">
-            <img className="icon" src="/images/Footer/whatsapp.png" />
+            <img className="icon" src="/images/footer/Whatsapp.png" />
             <h6>123456789</h6>
           </div>
           <div className="d-flex align-items-center">
             <Link to="/ubicacion" className="link">
-              <img className="icon" src="/images/Footer/ubicacion.png" />
+              <img className="icon" src="/images/footer/Ubicacion.png" />
             </Link>
             <Link to="/ubicacion" className="link">
               <h6 id="ubicacion">Calle 123, Ciudad, Mendoza, Argentina</h6>
