@@ -1,20 +1,21 @@
-import { useSelector } from "react-redux";
-import "./abmList.css";
-import { RootState } from "../../context/store";
-import { UnidadMedida } from "../../interface/UnidadMedida";
+import { useDispatch, useSelector } from "react-redux";
+import "../abmList.css";
+import { RootState } from "../../../context/store";
+import { UnidadMedida } from "../../../interface/UnidadMedida";
 import { FiEye, FiEdit, FiPlus } from "react-icons/Fi";
 import { useState } from "react";
-import Modal from "../modal/Modal";
+import Modal from "../../modal/Modal";
 import ItemUnidadMedidaElement from "./ItemUnidadMedidaElement";
+import { useNavigate } from "react-router-dom";
 
-const UnidadMedidaList = () => {
+const ItemUnidadMedidaList = () => {
   const unidadMedidaArray = useSelector(
     (state: RootState) => state.unidadMedida
   );
   const [mostrarVerModal, setMostrarVerModal] = useState<boolean>(false);
-  const [mostrarEditarModal, setMostrarEditarModal] = useState<boolean>(false);
-  const [mostrarAñadirModal, setMostrarAñadirModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number>(0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <div className="listMainContainer">
@@ -22,7 +23,7 @@ const UnidadMedidaList = () => {
         <button
           className="listAddButton"
           onClick={() => {
-            setMostrarAñadirModal(true);
+            navigate("/itemUnidadMedida-add");
           }}
         >
           <FiPlus />
@@ -47,8 +48,9 @@ const UnidadMedidaList = () => {
               <button
                 className="listRowEditButton"
                 onClick={() => {
-                  setMostrarEditarModal(true);
-                  setRowId(unidadMedida.idMedida);
+                  navigate(
+                    `/itemUnidadMedidaList-edit/${unidadMedida.idMedida}`
+                  );
                 }}
               >
                 <FiEdit />
@@ -63,35 +65,11 @@ const UnidadMedidaList = () => {
       >
         <ItemUnidadMedidaElement
           idMedida={rowId}
-          isEditing={false}
-          isAdding={false}
           closeModal={() => setMostrarVerModal(false)}
-        />
-      </Modal>
-      <Modal
-        isOpen={mostrarEditarModal}
-        closeModal={() => setMostrarEditarModal(false)}
-      >
-        <ItemUnidadMedidaElement
-          idMedida={rowId}
-          isEditing={true}
-          isAdding={false}
-          closeModal={() => setMostrarEditarModal(false)}
-        />
-      </Modal>
-      <Modal
-        isOpen={mostrarAñadirModal}
-        closeModal={() => setMostrarAñadirModal(false)}
-      >
-        <ItemUnidadMedidaElement
-          idMedida={rowId}
-          isEditing={false}
-          isAdding={true}
-          closeModal={() => setMostrarAñadirModal(false)}
         />
       </Modal>
     </div>
   );
 };
 
-export default UnidadMedidaList;
+export default ItemUnidadMedidaList;

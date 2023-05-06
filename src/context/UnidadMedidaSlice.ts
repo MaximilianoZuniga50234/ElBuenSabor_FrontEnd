@@ -4,7 +4,7 @@ import { UnidadMedida } from "../interface/UnidadMedida";
 const initialState = [] as UnidadMedida[];
 
 export const UnidadMedidaSlice = createSlice({
-  name: "unidadDeMedida",
+  name: "unidadMedida",
   initialState,
   reducers: {
     setUnidadMedida: (state, action) => {
@@ -17,7 +17,7 @@ export const UnidadMedidaSlice = createSlice({
     },
     modifyUnidadMedida: (state, action) => {
       const UnidadMedidaFound = state.find(
-        (unidadMedida) => unidadMedida.idMedida === action.payload.id
+        (unidadMedida) => unidadMedida.idMedida === action.payload.idMedida
       );
       if (UnidadMedidaFound)
         state[state.indexOf(UnidadMedidaFound)] = action.payload;
