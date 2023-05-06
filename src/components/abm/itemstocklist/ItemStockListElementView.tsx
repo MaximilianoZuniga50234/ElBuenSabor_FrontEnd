@@ -1,4 +1,4 @@
-import { Stock } from "../../interface/Stock";
+import { Stock } from "../../../interface/Stock";
 import "./itemStockListElement.css";
 
 interface Props {

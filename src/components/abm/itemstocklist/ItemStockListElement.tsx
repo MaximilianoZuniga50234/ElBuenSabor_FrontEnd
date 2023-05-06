@@ -1,7 +1,7 @@
 import "./itemStockListElement.css";
 import ItemStockListElementView from "./ItemStockListElementView";
 import { useSelector } from "react-redux";
-import { RootState } from "../../context/store";
+import { RootState } from "../../../context/store";
 
 interface Props {
   stockId: number;

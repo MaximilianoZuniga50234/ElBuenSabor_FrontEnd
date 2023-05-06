@@ -30,7 +30,7 @@ const AllProducts = () => {
           </div>
         </div>
         <div className="col-10" id="colProductos">
-          <div className="row text-center">
+          <div className="row text-center" key="div_titulo">
             <h1>Todos los productos</h1>
           </div>
           <div className="row">
