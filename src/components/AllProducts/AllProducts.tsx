@@ -9,7 +9,7 @@ const AllProducts = () => {
   );
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" id="contenedorProductos">
       <div className="row" id="filaContenedora">
         <div className="col-2" id="barraLateral">
           <div id="divBarra">

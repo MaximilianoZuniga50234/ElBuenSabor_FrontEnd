@@ -3,7 +3,7 @@ import "./footer.css";
 
 const Footer = () => {
   return (
-    <div className="container-fluid" id="contenedor">
+    <div className="container-fluid" id="footer">
       <div className="row justify-content-center" id="filaIconos">
         <div className="col-4 text-center">
           <Link to="https://instagram.com">
