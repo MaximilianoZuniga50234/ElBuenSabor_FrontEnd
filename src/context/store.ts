@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import stockReducer from "./stockSlice";
-import articuloManufacturadoReducer from "./articuloManufacturadoSlice";
+import stockReducer from "./StockSlice";
+import articuloManufacturadoReducer from "./ArticuloManufacturadoSlice";
 import unidadMedidaReducer from "./UnidadMedidaSlice";
 
 export const store = configureStore({

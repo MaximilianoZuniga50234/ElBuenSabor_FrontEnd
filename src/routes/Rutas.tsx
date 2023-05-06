@@ -5,11 +5,12 @@ import Home from "../components/home/Home";
 import AllProducts from "../components/allproducts/AllProducts";
 import CustomerList from "../components/abm/CustomerList";
 import ItemProductList from "../components/abm/ItemProductList";
-import ItemStockList from "../components/abm/ItemStockList";
+import ItemStockList from "../components/abm/itemstocklist/ItemStockList";
 import ProductList from "../components/abm/ProductList";
 import StockList from "../components/abm/StockList";
 import WorkerList from "../components/abm/WorkerList";
 import UnidadMedidaList from "../components/abm/UnidadMedidaList";
+import ItemStockListElementAdd from "../components/abm/itemstocklist/ItemStockListElementForm";
 
 export const Rutas = () => {
   return (
@@ -23,6 +24,14 @@ export const Rutas = () => {
         <Route path="/customerList" element={<CustomerList />} />
         <Route path="/itemProductList" element={<ItemProductList />} />
         <Route path="/itemStockList" element={<ItemStockList />} />
+        <Route
+          path="/itemStockList-add"
+          element={<ItemStockListElementAdd />}
+        />
+        <Route
+          path="/itemStockList-edit/:id"
+          element={<ItemStockListElementAdd />}
+        />
         <Route path="/productList" element={<ProductList />} />
         <Route path="/stockList" element={<StockList />} />
         <Route path="/workerList" element={<WorkerList />} />

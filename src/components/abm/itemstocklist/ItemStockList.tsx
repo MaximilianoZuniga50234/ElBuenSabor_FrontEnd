@@ -1,27 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
-import "./abmList.css";
-import { RootState } from "../../context/store";
-import { Stock } from "../../interface/Stock";
-import Modal from "../modal/Modal";
+import "../abmList.css";
+import { RootState } from "../../../context/store";
+import { Stock } from "../../../interface/Stock";
+import Modal from "../../modal/Modal";
 import { useState } from "react";
-import { changeDeAlta } from "../../context/stockSlice";
+import { changeDeAlta } from "../../../context/StockSlice";
 import ItemStockListElement from "./ItemStockListElement";
 import { FiEye, FiPlus, FiEdit } from "react-icons/Fi";
+import { useNavigate } from "react-router-dom";
 
 const ItemStockList = () => {
   const stockArray = useSelector((state: RootState) => state.stock);
   const [mostrarVerModal, setMostrarVerModal] = useState<boolean>(false);
-  const [mostrarEditarModal, setMostrarEditarModal] = useState<boolean>(false);
-  const [mostrarAñadirModal, setMostrarAñadirModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number>(0);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <div className="listMainContainer">
       <div className="listContainer">
         <button
           className="listAddButton"
-          onClick={() => setMostrarAñadirModal(true)}
+          onClick={() => navigate("/itemStockList-add")}
         >
           <FiPlus />
         </button>
@@ -45,8 +45,7 @@ const ItemStockList = () => {
               <button
                 className="listRowEditButton"
                 onClick={() => {
-                  setMostrarEditarModal(true);
-                  setRowId(stock.id);
+                  navigate(`/itemStockList-edit/${stock.id}`);
                 }}
               >
                 <FiEdit />
@@ -81,25 +80,6 @@ const ItemStockList = () => {
         <ItemStockListElement
           stockId={rowId}
           closeModal={() => setMostrarVerModal(false)}
-        />
-      </Modal>
-      <Modal
-        isOpen={mostrarEditarModal}
-        closeModal={() => setMostrarEditarModal(false)}
-      >
-        <ItemStockListElement
-          stockId={rowId}
-          isEditing={true}
-          closeModal={() => setMostrarEditarModal(false)}
-        />
-      </Modal>
-      <Modal
-        isOpen={mostrarAñadirModal}
-        closeModal={() => setMostrarAñadirModal(false)}
-      >
-        <ItemStockListElement
-          isAdding={true}
-          closeModal={() => setMostrarAñadirModal(false)}
         />
       </Modal>
     </div>
