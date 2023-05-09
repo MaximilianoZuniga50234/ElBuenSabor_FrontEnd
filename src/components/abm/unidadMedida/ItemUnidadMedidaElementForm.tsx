@@ -7,6 +7,7 @@ import {
 } from "../../../context/UnidadMedidaSlice";
 import { RootState } from "../../../context/store";
 import { useNavigate, useParams } from "react-router-dom";
+import "./ItemUnidadMedidaForm.css";
 
 const INITIAL_STATE = {
   idMedida: 0,
@@ -63,13 +64,13 @@ const ItemUnidadMedidaListElementAdd = () => {
   }, []);
 
   return (
-    <div>
-      <div>
+    <div className="itemUnidadMedidaFormBody">
+      <div className="itemUnidadMedidaFormBodyModal">
         <div>
           <h6>ID</h6>
           <h6>Denominacion</h6>
         </div>
-        <div>
+        <div className="itemUnidadMedidaFormBodyDetails">
           <p>
             {params.id
               ? newUnidadMedida.idMedida
@@ -79,11 +80,12 @@ const ItemUnidadMedidaListElementAdd = () => {
             type="text"
             name="denominacion"
             placeholder="denominacion"
+            className="itemUnidadMedidaFormDenIn"
             value={newUnidadMedida.denominacion}
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div className="itemUnidadMedidaFormBodyButtons">
           <button onClick={handleConfirm}>Confirmar</button>
           <button onClick={handleExit}>Cancelar</button>
         </div>
