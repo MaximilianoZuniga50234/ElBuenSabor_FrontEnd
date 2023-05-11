@@ -66,15 +66,9 @@ const MeasurementUnitListElementAdd = () => {
     <div className="MeasurementUnitFormBody">
       <div className="MeasurementUnitFormBodyModal">
         <div>
-          <h6>ID</h6>
-          <h6>Denominacion</h6>
+          <h6 className="text-center">Denominacion</h6>
         </div>
         <div className="MeasurementUnitFormBodyDetails">
-          <p>
-            {params.id
-              ? newMeasurementUnit.id
-              : measurementUnitArray.length + 1}
-          </p>
           <input
             type="text"
             name="denominacion"

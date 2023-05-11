@@ -15,7 +15,6 @@ const MeasurementUnitElement = ({ measurementUnitId, closeModal }: Props) => {
   return (
     <div>
       <div>
-        <h5>ID</h5>
         <h6>Denominacion</h6>
       </div>
       <MeasurementUnitElementView

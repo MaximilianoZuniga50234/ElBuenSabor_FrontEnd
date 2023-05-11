@@ -24,11 +24,11 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .MeasurementUnitFormDenIn {
-  width: 52%;
+  width: 55%;
 }
 
 .MeasurementUnitFormBodyButtons {

@@ -17,7 +17,6 @@ const MeasurementUnitElementView = ({
   return (
     <div className="itemStockElementBody">
       <div className="itemStockElementBodyDetails">
-        <p>{measurementUnitElement?.id}</p>
         <p>{measurementUnitElement?.denominacion}</p>
       </div>
     </div>
