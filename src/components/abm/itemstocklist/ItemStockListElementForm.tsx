@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Stock } from "../../../interface/Stock";
 import { useState, useEffect } from "react";
-import { addStock, modifyStock } from "../../../context/StockSlice";
+import { addStock, modifyStock } from "../../../context/stockSlice";
 import { RootState } from "../../../context/store";
 import { useNavigate, useParams } from "react-router-dom";
 import "./itemStockListform.css";

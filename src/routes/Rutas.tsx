@@ -10,8 +10,8 @@ import ProductList from "../components/abm/ProductList";
 import StockList from "../components/abm/StockList";
 import WorkerList from "../components/abm/WorkerList";
 import ItemStockListElementAdd from "../components/abm/itemstocklist/ItemStockListElementForm";
-import ItemUnidadMedidaListElementAdd from "../components/abm/unidadmedida/ItemUnidadMedidaElementForm";
-import ItemUnidadMedidaList from "../components/abm/unidadmedida/ItemUnidadMedidaList";
+import MeasurementUnitElementAdd from "../components/abm/measurementUnit/MeasurementUnitElementForm";
+import MeasurementUnit from "../components/abm/measurementUnit/MeasurementUnitList";
 
 export const Rutas = () => {
   return (
@@ -36,17 +36,14 @@ export const Rutas = () => {
         <Route path="/productList" element={<ProductList />} />
         <Route path="/stockList" element={<StockList />} />
         <Route path="/workerList" element={<WorkerList />} />
+        <Route path="/measurementUnitList" element={<MeasurementUnit />} />
         <Route
-          path="/itemUnidadMedidaList"
-          element={<ItemUnidadMedidaList />}
+          path="/measurementUnit-add"
+          element={<MeasurementUnitElementAdd />}
         />
         <Route
-          path="/itemUnidadMedida-add"
-          element={<ItemUnidadMedidaListElementAdd />}
-        />
-        <Route
-          path="/itemUnidadMedidaList-edit/:id"
-          element={<ItemUnidadMedidaListElementAdd />}
+          path="/measurementUnit-edit/:id"
+          element={<MeasurementUnitElementAdd />}
         />
       </Routes>
     </>

@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import stockReducer from "./StockSlice";
-import articuloManufacturadoReducer from "./ArticuloManufacturadoSlice";
-import unidadMedidaReducer from "./UnidadMedidaSlice";
+import measurementUnitReducer from "./measurementUnitSlice";
+import stockReducer from "./stockSlice";
+import articuloManufacturadoReducer from "./articuloManufacturadoSlice";
 
 export const store = configureStore({
   reducer: {
     stock: stockReducer,
     articuloManufacturado: articuloManufacturadoReducer,
-    unidadMedida: unidadMedidaReducer,
+    measurementUnit: measurementUnitReducer,
   },
 });
 

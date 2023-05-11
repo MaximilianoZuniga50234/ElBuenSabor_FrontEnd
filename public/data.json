@@ -51,31 +51,31 @@
   ],
   "unidadMedida": [
     {
-      "idMedida": 1,
+      "id": 1,
       "denominacion": "Kilogramo"
     },
     {
-      "idMedida": 2,
+      "id": 2,
       "denominacion": "Gramo"
     },
     {
-      "idMedida": 3,
+      "id": 3,
       "denominacion": "Cucharada"
     },
     {
-      "idMedida": 4,
+      "id": 4,
       "denominacion": "Litro"
     },
     {
-      "idMedida": 5,
+      "id": 5,
       "denominacion": "Mililitro"
     },
     {
-      "idMedida": 6,
+      "id": 6,
       "denominacion": "Hora"
     },
     {
-      "idMedida": 7,
+      "id": 7,
       "denominacion": "Minuto"
     }
   ],

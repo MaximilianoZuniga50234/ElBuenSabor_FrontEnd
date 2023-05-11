@@ -1,29 +1,29 @@
 import { useDispatch, useSelector } from "react-redux";
 import "../abmList.css";
 import { RootState } from "../../../context/store";
-import { UnidadMedida } from "../../../interface/UnidadMedida";
-import { FiEye, FiEdit, FiPlus } from "react-icons/Fi";
-import { useState } from "react";
+import { MeasurementUnit } from "../../../interface/MeasurementUnit";
 import Modal from "../../modal/Modal";
-import ItemUnidadMedidaElement from "./ItemUnidadMedidaElement";
+import { useState } from "react";
+import MeasurementUnitElement from "./MeasurementUnitElement";
+import { FiEye, FiEdit, FiPlus } from "react-icons/Fi";
 import { useNavigate } from "react-router-dom";
 
-const ItemUnidadMedidaList = () => {
-  const unidadMedidaArray = useSelector(
-    (state: RootState) => state.unidadMedida
+const MeasurementUnitList = () => {
+  const measurementUnitArray = useSelector(
+    (state: RootState) => state.measurementUnit
   );
   const [mostrarVerModal, setMostrarVerModal] = useState<boolean>(false);
   const [rowId, setRowId] = useState<number>(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  console.log(measurementUnitArray);
   return (
     <div className="listMainContainer">
       <div className="listContainer">
         <button
           className="listAddButton"
           onClick={() => {
-            navigate("/itemUnidadMedida-add");
+            navigate("/measurementUnit-add");
           }}
         >
           <FiPlus />
@@ -32,15 +32,15 @@ const ItemUnidadMedidaList = () => {
           <p>Denominacion</p>
           <p>Acciones</p>
         </div>
-        {unidadMedidaArray.map((unidadMedida: UnidadMedida) => (
-          <div className="listRow" key={unidadMedida.idMedida}>
-            <p>{unidadMedida.denominacion}</p>
+        {measurementUnitArray.map((measurementUnit: MeasurementUnit) => (
+          <div className="listRow" key={measurementUnit.id}>
+            <p>{measurementUnit.denominacion}</p>
             <div className="listRowButtons">
               <button
                 className="listRowViewButton"
                 onClick={() => {
                   setMostrarVerModal(true);
-                  setRowId(unidadMedida.idMedida);
+                  setRowId(measurementUnit.id);
                 }}
               >
                 <FiEye />
@@ -48,9 +48,7 @@ const ItemUnidadMedidaList = () => {
               <button
                 className="listRowEditButton"
                 onClick={() => {
-                  navigate(
-                    `/itemUnidadMedidaList-edit/${unidadMedida.idMedida}`
-                  );
+                  navigate(`/measurementUnit-edit/${measurementUnit.id}`);
                 }}
               >
                 <FiEdit />
@@ -63,8 +61,8 @@ const ItemUnidadMedidaList = () => {
         isOpen={mostrarVerModal}
         closeModal={() => setMostrarVerModal(false)}
       >
-        <ItemUnidadMedidaElement
-          idMedida={rowId}
+        <MeasurementUnitElement
+          measurementUnitId={rowId}
           closeModal={() => setMostrarVerModal(false)}
         />
       </Modal>
@@ -72,4 +70,4 @@ const ItemUnidadMedidaList = () => {
   );
 };
 
-export default ItemUnidadMedidaList;
+export default MeasurementUnitList;
