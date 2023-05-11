@@ -4,8 +4,8 @@ import NavBarPostLoginEmpleados from "./components/navbar/postloginempleados/Nav
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setStock } from "./context/StockSlice";
-import { setArticuloManufacturado } from "./context/ArticuloManufacturadoSlice";
+import { setStock } from "./context/stockSlice";
+import { setArticuloManufacturado } from "./context/articuloManufacturadoSlice";
 import { setUnidadMedida } from "./context/UnidadMedidaSlice";
 import { Rutas } from "./routes/Rutas";
 import Footer from "./components/footer/Footer";

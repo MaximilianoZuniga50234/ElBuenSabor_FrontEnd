@@ -62,7 +62,7 @@ const AllProducts = () => {
                         </div>
                         <div className="col-6">
                           <img
-                            src="./images/AllProducts/carritoAzul.png"
+                            src="./images/allproducts/carritoAzul.png"
                             alt="..."
                             height="32px"
                             width="32px"

@@ -9,10 +9,9 @@ import ItemStockList from "../components/abm/itemstocklist/ItemStockList";
 import ProductList from "../components/abm/ProductList";
 import StockList from "../components/abm/StockList";
 import WorkerList from "../components/abm/WorkerList";
-import UnidadMedidaList from "../components/abm/unidadMedida/ItemUnidadMedidaList";
 import ItemStockListElementAdd from "../components/abm/itemstocklist/ItemStockListElementForm";
-import ItemUnidadMedidaListElementAdd from "../components/abm/unidadMedida/ItemUnidadMedidaElementForm";
-import ItemUnidadMedidaList from "../components/abm/unidadMedida/ItemUnidadMedidaList";
+import ItemUnidadMedidaListElementAdd from "../components/abm/unidadmedida/ItemUnidadMedidaElementForm";
+import ItemUnidadMedidaList from "../components/abm/unidadmedida/ItemUnidadMedidaList";
 
 export const Rutas = () => {
   return (

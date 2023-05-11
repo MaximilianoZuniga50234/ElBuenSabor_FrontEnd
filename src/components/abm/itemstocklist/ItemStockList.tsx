@@ -4,7 +4,7 @@ import { RootState } from "../../../context/store";
 import { Stock } from "../../../interface/Stock";
 import Modal from "../../modal/Modal";
 import { useState } from "react";
-import { changeDeAlta } from "../../../context/StockSlice";
+import { changeDeAlta } from "../../../context/stockSlice";
 import ItemStockListElement from "./ItemStockListElement";
 import { FiEye, FiPlus, FiEdit } from "react-icons/Fi";
 import { useNavigate } from "react-router-dom";
