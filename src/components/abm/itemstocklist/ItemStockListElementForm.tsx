@@ -56,13 +56,11 @@ const ItemStockListElementAdd = () => {
     <div className="itemStockListFormBody">
       <div className="itemStockListFormBodyModal">
         <div className="itemStockElementTitle">
-          <h6>ID</h6>
           <h6>Denominacion</h6>
-          <h6>Estado</h6>
-          <h6>IDPadre</h6>
+          {/* <h6>Estado</h6> */}
+          <h6>Padre</h6>
         </div>
         <div className="itemStockListFormBodyDetails">
-          <p>{params.id ? newStock.id : stockArray.length + 1}</p>
           <input
             type="text"
             name="denominacion"
@@ -71,15 +69,15 @@ const ItemStockListElementAdd = () => {
             value={newStock.denominacion}
             onChange={handleChange}
           />
-          {newStock.deAlta ? <p>Alta</p> : <p>Baja</p>}
-          <input
+          {/* {newStock.deAlta ? <p>Alta</p> : <p>Baja</p>} */}
+          {/*           <input
             type="number"
             name="idPadre"
             placeholder="idPadre"
             className="itemStockListFormPadreIn"
             value={newStock.idPadre}
             onChange={handleChange}
-          />
+          /> */}
         </div>
         <div className="itemStockListFormBodyButtons">
           <button onClick={handleConfirm}>Confirmar</button>

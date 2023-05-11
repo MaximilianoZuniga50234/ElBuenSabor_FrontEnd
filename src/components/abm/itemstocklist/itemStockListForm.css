@@ -28,31 +28,31 @@
 }
 
 .itemStockListFormDenIn {
-  width: 30%;
+  width: 55%;
 }
 
 .itemStockListFormPadreIn {
   width: 15%;
 }
 
-.itemStockListFormBodyButtons{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 10%;
+.itemStockListFormBodyButtons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10%;
 }
 
-.itemStockListFormBodyButtons button{
-    padding: 5px 10px 5px 10px;
-    color: #d9d9d9;
-    background-color: #11111f;
-    border-radius: 20px;
-    border: 0px;
-    font-size: small;
-    font-weight: bold;
+.itemStockListFormBodyButtons button {
+  padding: 5px 10px 5px 10px;
+  color: #d9d9d9;
+  background-color: #11111f;
+  border-radius: 20px;
+  border: 0px;
+  font-size: small;
+  font-weight: bold;
 }
 
-.itemStockListFormBodyButtons button:hover{
-    background-color: #44449f;
+.itemStockListFormBodyButtons button:hover {
+  background-color: #44449f;
 }

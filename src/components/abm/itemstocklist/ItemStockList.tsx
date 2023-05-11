@@ -50,7 +50,7 @@ const ItemStockList = () => {
               >
                 <FiEdit />
               </button>
-              {stock.deAlta ? (
+              {/* {stock.deAlta ? (
                 <button
                   className="listRowButtonAlta"
                   onClick={() => {
@@ -68,7 +68,7 @@ const ItemStockList = () => {
                 >
                   Dar de alta
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         ))}
