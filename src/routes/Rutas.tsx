@@ -12,6 +12,7 @@ import WorkerList from "../components/abm/WorkerList";
 import ItemStockListElementAdd from "../components/abm/itemstocklist/ItemStockListElementForm";
 import MeasurementUnitElementAdd from "../components/abm/measurementUnit/MeasurementUnitElementForm";
 import MeasurementUnit from "../components/abm/measurementUnit/MeasurementUnitList";
+import RegistroEmpleado from "../components/abm/registroEmpleado/RegistroEmpleado";
 
 export const Rutas = () => {
   return (
@@ -25,6 +26,7 @@ export const Rutas = () => {
         <Route path="/customerList" element={<CustomerList />} />
         <Route path="/itemProductList" element={<ItemProductList />} />
         <Route path="/itemStockList" element={<ItemStockList />} />
+        <Route path="/empleado" element={<RegistroEmpleado />} />
         <Route
           path="/itemStockList-add"
           element={<ItemStockListElementAdd />}

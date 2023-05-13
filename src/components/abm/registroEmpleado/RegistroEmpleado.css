@@ -1,0 +1,19 @@
+.hola{
+    width: 100%;
+    height: 100%;
+}
+
+.listRowTitle{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+    background-color: #22222f;
+    color: white;
+    padding: 10px 105px 10px 20px;
+    border-radius: 0px;
+    margin: 0px;
+    height: 100px;
+}
