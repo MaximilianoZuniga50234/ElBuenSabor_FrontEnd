@@ -33,8 +33,6 @@ const RegistroEmpleado = () => {
           >
             <FiPlus />
           </button>
-
-
         </div>
 
 

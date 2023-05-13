@@ -17,3 +17,24 @@
     margin: 0px;
     height: 100px;
 }
+
+.listAddButton{
+
+    width: 20%;
+    height: 100%;
+
+}
+
+.listRow {
+    background-color: #eee;
+    color: #11111f;
+    border: 1px solid #11111f;
+    width: 100%;
+    max-height: 50px;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 20px 10px 20px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0px;
+  }
