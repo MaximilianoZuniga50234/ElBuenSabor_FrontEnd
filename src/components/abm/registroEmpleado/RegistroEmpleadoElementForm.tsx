@@ -4,6 +4,7 @@ import { addEmpleado, modifyEmpleado } from "../../../context/empleadosSlice";
 import { RootState } from "../../../context/store";
 import { useNavigate, useParams } from "react-router-dom";
 import { Empleado } from "../../../interface/Empleado";
+import "./RegistroEmpleadoElementForm.css"
 
 const INITIAL_STATE = {
   id : 0,
@@ -31,7 +32,7 @@ const RegistroEmpleadoElementAdd = () => {
     } else {
       dispatch(addEmpleado({ ...newEmpleado, id: empleadoArray.length + 1 }));
     }
-    navigate("/itemEmpleadoList");
+    navigate("/empleado");
   };
 
 
@@ -81,20 +82,68 @@ const RegistroEmpleadoElementAdd = () => {
     <div className="itemEmpleadoListFormBody">
       <div className="itemEmpleadoListFormBodyModal">
         <div className="itemEmpleadoElementTitle">
-          <h6>Denominacion</h6>
+          <h6 className="nombresText">Usuario</h6>
           {/* <h6>Estado</h6> */}
-          <h6>Padre</h6>
         </div>
         <div className="itemEmpleadoListFormBodyDetails">
           <input
             type="text"
-            name="denominacion"
-            placeholder="denominacion"
+            name="usuario"
+            placeholder="usuario"
             className="itemEmpleadoListFormDenIn"
             value={newEmpleado.usuario}
             onChange={handleChange}
-          />
+        />
         </div>
+
+
+        <div className="itemEmpleadoElementTitle">
+          <h6 className="nombresText">Clave</h6>
+          {/* <h6>Estado</h6> */}
+        </div>
+        <div className="itemEmpleadoListFormBodyDetails">
+          <input
+            type="text"
+            name="clave"
+            placeholder="clave"
+            className="itemEmpleadoListFormDenIn"
+            value={newEmpleado.clave}
+            onChange={handleChange}
+        />
+        </div>
+
+
+        <div className="itemEmpleadoElementTitle">
+          <h6 className="nombresText">Email</h6>
+          {/* <h6>Estado</h6> */}
+        </div>
+        <div className="itemEmpleadoListFormBodyDetails">
+          <input
+            type="text"
+            name="Email"
+            placeholder="Email"
+            className="itemEmpleadoListFormDenIn"
+            value={newEmpleado.email}
+            onChange={handleChange}
+        />
+        </div>
+
+
+        <div className="itemEmpleadoElementTitle">
+          <h6 className="nombresText">Telefono</h6>
+          {/* <h6>Estado</h6> */}
+        </div>
+        <div className="itemEmpleadoListFormBodyDetails">
+          <input
+            type="text"
+            name="telefono"
+            placeholder="telefono"
+            className="itemEmpleadoListFormDenIn"
+            value={newEmpleado.telefono}
+            onChange={handleChange}
+        />
+        </div>
+
         <div className="itemEmpleadoListFormBodyButtons">
           <button onClick={handleConfirm}>Confirmar</button>
           <button onClick={handleExit}>Cancelar</button>
