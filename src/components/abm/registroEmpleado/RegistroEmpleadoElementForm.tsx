@@ -80,7 +80,13 @@ const RegistroEmpleadoElementAdd = () => {
 
   return (
     <div className="itemEmpleadoListFormBody">
+
       <div className="itemEmpleadoListFormBodyModal">
+
+      <div className="DivTituloPrincipalEmpleado">
+      <p className="TituloPrincipalEmpleado">Empleado</p>
+      </div>
+
         <div className="itemEmpleadoElementTitle">
           <h6 className="nombresText">Usuario</h6>
           {/* <h6>Estado</h6> */}
@@ -145,8 +151,8 @@ const RegistroEmpleadoElementAdd = () => {
         </div>
 
         <div className="itemEmpleadoListFormBodyButtons">
-          <button onClick={handleConfirm}>Confirmar</button>
-          <button onClick={handleExit}>Cancelar</button>
+          <button className="BotonConfirmarCanselarEmpleado" onClick={handleConfirm}>Confirmar</button>
+          <button className="BotonConfirmarCanselarEmpleado" onClick={handleExit}>Cancelar</button>
         </div>
       </div>
     </div>
