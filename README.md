@@ -17,3 +17,10 @@ Instrucciones:
   	6.Dirigirse a la dirección "http://localhost:5173" para ver el proyecto en funcionamiento.
 
 Siguiendo estas instrucciones y cumpliendo los requisitos debería poder ejecutar el proyecto sin problemas.
+
+Integrantes:
+
+	-Francisco Fiore
+	-Lautaro Jofré Molina
+	-Candela Zuñiga
+	-Maximiliano Zuñiga
