@@ -1,4 +1,4 @@
-import { Stock } from "../../../interface/Stock";
+import { Stock } from "../../interface/Stock";
 import "./itemStockListElement.css";
 
 interface Props {
@@ -12,9 +12,10 @@ const ItemStockListElementView = ({ stockId, stockArray }: Props) => {
   return (
     <div className="itemStockElementBody">
       <div className="itemStockElementBodyDetails">
+        <p>{stockElement?.id}</p>
         <p>{stockElement?.denominacion}</p>
-        {/* {stockElement?.deAlta === true ? <p>Alta</p> : <p>Baja</p>} */}
-        {/* {stockElement?.idPadre ? <p>{stockElement?.idPadre}</p> : <p>0</p>} */}
+        {stockElement?.deAlta === true ? <p>Alta</p> : <p>Baja</p>}
+        {stockElement?.idPadre ? <p>{stockElement?.idPadre}</p> : <p>0</p>}
       </div>
     </div>
   );

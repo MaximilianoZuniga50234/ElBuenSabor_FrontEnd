@@ -1,7 +1,7 @@
 import "./itemStockListElement.css";
 import ItemStockListElementView from "./ItemStockListElementView";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
+import { RootState } from "../../context/store";
 
 interface Props {
   stockId: number;
@@ -14,9 +14,10 @@ const ItemStockListElement = ({ stockId, closeModal }: Props) => {
   return (
     <div className="itemStockElementMain">
       <div className="itemStockElementTitle">
+        <h6>ID</h6>
         <h6>Denominacion</h6>
-        {/* <h6>Estado</h6> */}
-        {/* <h6>IDPadre</h6> */}
+        <h6>Estado</h6>
+        <h6>IDPadre</h6>
       </div>
       <ItemStockListElementView stockId={stockId} stockArray={stockArray} />
     </div>

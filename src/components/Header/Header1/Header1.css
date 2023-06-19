@@ -1,8 +1,8 @@
 .imagen {
 
-    background-image: url('./images/header/header1.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-image: url('./images/landing/landingBurger.jpg');
+    background-size: 50%;
+    /*background-repeat: no repeat;*/
     background-position: right;
     height: 250px;
     position: relative;
@@ -27,8 +27,7 @@
     width: 30%;
     margin-top: 2px;
     margin-left: 5%;
-    font-size: 150%;
-    /*font-size: 40px;*/
+    font-size: 40px;
     color: aliceblue;
     text-align: center;
 }

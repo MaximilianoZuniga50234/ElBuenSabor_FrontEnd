@@ -3,10 +3,6 @@
   color: #d9d9d9;
 }
 
-#contenedorProductos {
-  max-width: 1920px;
-}
-
 .card {
   margin: 30px 50px 30px 50px;
   border: 2px solid #d9d9d9;
@@ -19,6 +15,10 @@
 .card-img-top {
   width: 100%;
   display: block;
+}
+
+.container-fluid {
+  max-width: 1920px;
 }
 
 h1 {

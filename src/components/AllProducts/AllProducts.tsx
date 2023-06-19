@@ -9,7 +9,7 @@ const AllProducts = () => {
   );
 
   return (
-    <div className="container-fluid" id="contenedorProductos">
+    <div className="container-fluid">
       <div className="row" id="filaContenedora">
         <div className="col-2" id="barraLateral">
           <div id="divBarra">
@@ -30,7 +30,7 @@ const AllProducts = () => {
           </div>
         </div>
         <div className="col-10" id="colProductos">
-          <div className="row text-center" key="div_titulo">
+          <div className="row text-center">
             <h1>Todos los productos</h1>
           </div>
           <div className="row">
@@ -62,7 +62,7 @@ const AllProducts = () => {
                         </div>
                         <div className="col-6">
                           <img
-                            src="./images/allproducts/carritoAzul.png"
+                            src="./images/AllProducts/carritoAzul.png"
                             alt="..."
                             height="32px"
                             width="32px"
