@@ -1,0 +1,106 @@
+.listMainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  font-weight: bold;
+  background-color: #d9d9e9;
+}
+
+.listAddButton {
+  width: 5%;
+  border: 0px;
+  border-radius: 5px;
+  background-color: #2288ff;
+  color: white;
+  font-size: x-large;
+  align-self: flex-start;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+.listRowTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #22222f;
+  color: white;
+  padding: 10px 105px 10px 20px;
+  border-radius: 30px;
+  margin: 0px;
+}
+
+.listRowTitle p {
+  margin: 0px;
+}
+
+.listRow {
+  background-color: #eee;
+  color: #11111f;
+  border: 1px solid #11111f;
+  width: 100%;
+  max-height: 50px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px 20px 10px 20px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 30px;
+}
+
+.listRow p {
+  margin: 0;
+}
+
+.listRowButtons {
+  display: flex;
+  flex-direction: row;
+  width: 30%;
+  gap: 10px;
+  justify-content: center;
+  font-size: small;
+}
+
+.listRowViewButton,
+.listRowEditButton {
+  background-color: #11111f;
+  border: 1px solid #11111f;
+  border-radius: 10px;
+  color: #d9d9d9;
+  padding: 5px;
+}
+
+.listRowButtonAlta {
+  background-color: #22cc55;
+  border: 1px solid black;
+  border-radius: 10px;
+  color: black;
+  padding: 5px;
+}
+
+.listRowButtonBaja {
+  background-color: #dd2211;
+  border: 1px solid black;
+  border-radius: 10px;
+  color: black;
+  padding: 5px;
+}
+
+.listRowButtonAlta:hover {
+  background-color: #33dd66;
+}
+
+.listRowButtonBaja:hover {
+  background-color: #ff5533;
+}
