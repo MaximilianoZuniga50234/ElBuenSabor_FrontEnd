@@ -9,6 +9,7 @@ import { setStock } from "./context/stockSlice";
 import { setArticuloManufacturado } from "./context/articuloManufacturadoSlice";
 import { Rutas } from "./routes/Rutas";
 import Footer from "./components/footer/Footer";
+import { setEmpleado } from "./context/empleadosSlice";
 
 function App() {
   const { isAuthenticated } = useAuth0();
@@ -21,6 +22,7 @@ function App() {
         dispatch(setStock(data.categorias));
         dispatch(setArticuloManufacturado(data.articulosManufacturados));
         dispatch(setMeasurementUnit(data.unidadMedida));
+        dispatch(setEmpleado(data.empleado));
       });
   }, []);
 

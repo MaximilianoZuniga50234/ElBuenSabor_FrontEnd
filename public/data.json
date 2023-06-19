@@ -1,5 +1,28 @@
 {
   "users": [],
+  "empleado": [
+    {
+      "id": 1,
+      "usuario": "Juan",
+      "clave": "12345",
+      "email": "juan@gmail.com",
+      "telefono": "45632465"
+    },
+    {
+      "id": 2,
+      "usuario": "Juan",
+      "clave": "12345",
+      "email": "juan@gmail.com",
+      "telefono": "45632465"
+    },
+    {
+      "id": 3,
+      "usuario": "Juan",
+      "clave": "12345",
+      "email": "juan@gmail.com",
+      "telefono": "45632465"
+    }
+  ],
   "categorias": [
     {
       "id": 1,

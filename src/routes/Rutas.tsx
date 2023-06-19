@@ -12,6 +12,8 @@ import WorkerList from "../components/abm/WorkerList";
 import ItemStockListElementAdd from "../components/abm/itemstocklist/ItemStockListElementForm";
 import MeasurementUnitElementAdd from "../components/abm/measurementUnit/MeasurementUnitElementForm";
 import MeasurementUnit from "../components/abm/measurementUnit/MeasurementUnitList";
+import RegistroEmpleado from "../components/abm/registroEmpleado/RegistroEmpleado";
+import RegistroEmpleadoElementAdd from "../components/abm/registroEmpleado/RegistroEmpleadoElementForm";
 
 export const Rutas = () => {
   return (
@@ -45,6 +47,18 @@ export const Rutas = () => {
           path="/measurementUnit-edit/:id"
           element={<MeasurementUnitElementAdd />}
         />
+
+
+        <Route path="/empleado" element={<RegistroEmpleado />} />
+        <Route
+          path="/RegistroEmpleado-add"
+          element={<RegistroEmpleadoElementAdd/>}
+        />
+        <Route
+          path="/RegistroEmpleado-edit/:id"
+          element={<RegistroEmpleadoElementAdd/>}
+        />
+
       </Routes>
     </>
   );
