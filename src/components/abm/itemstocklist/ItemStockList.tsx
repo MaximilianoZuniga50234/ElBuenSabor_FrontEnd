@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import "../abmList.css";
 import { RootState } from "../../../context/store";
 import { Stock } from "../../../interface/Stock";
 import Modal from "../../modal/Modal";
 import { useState } from "react";
 import { changeDeAlta } from "../../../context/stockSlice";
 import ItemStockListElement from "./ItemStockListElement";
-import { FiEye, FiPlus, FiEdit } from "react-icons/Fi";
+import { FiEdit, FiEye, FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import "../abmList.css";
 
 const ItemStockList = () => {
   const stockArray = useSelector((state: RootState) => state.stock);

@@ -5,7 +5,7 @@ import { MeasurementUnit } from "../../../interface/MeasurementUnit";
 import Modal from "../../modal/Modal";
 import { useState } from "react";
 import MeasurementUnitElement from "./MeasurementUnitElement";
-import { FiEye, FiEdit, FiPlus } from "react-icons/Fi";
+import { FiEdit, FiEye, FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const MeasurementUnitList = () => {
