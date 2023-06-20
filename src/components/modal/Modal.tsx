@@ -1,5 +1,5 @@
 import "./modal.css";
-import { FiXSquare } from "react-icons/Fi";
+import { FiXSquare } from "react-icons/fi";
 
 interface Props {
   isOpen: boolean;

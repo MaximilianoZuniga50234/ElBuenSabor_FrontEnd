@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Test from "../components/test/Test";
 import Landing from "../components/landing/Landing";
 import Home from "../components/home/Home";
-import AllProducts from "../components/allproducts/AllProducts";
 import CustomerList from "../components/abm/CustomerList";
 import ItemProductList from "../components/abm/ItemProductList";
 import ItemStockList from "../components/abm/itemstocklist/ItemStockList";
@@ -14,6 +13,7 @@ import MeasurementUnitElementAdd from "../components/abm/measurementUnit/Measure
 import MeasurementUnit from "../components/abm/measurementUnit/MeasurementUnitList";
 import RegistroEmpleado from "../components/abm/registroEmpleado/RegistroEmpleado";
 import RegistroEmpleadoElementAdd from "../components/abm/registroEmpleado/RegistroEmpleadoElementForm";
+import AllProducts from "../components/allProducts/AllProducts";
 
 export const Rutas = () => {
   return (
@@ -48,17 +48,15 @@ export const Rutas = () => {
           element={<MeasurementUnitElementAdd />}
         />
 
-
         <Route path="/empleado" element={<RegistroEmpleado />} />
         <Route
           path="/RegistroEmpleado-add"
-          element={<RegistroEmpleadoElementAdd/>}
+          element={<RegistroEmpleadoElementAdd />}
         />
         <Route
           path="/RegistroEmpleado-edit/:id"
-          element={<RegistroEmpleadoElementAdd/>}
+          element={<RegistroEmpleadoElementAdd />}
         />
-
       </Routes>
     </>
   );

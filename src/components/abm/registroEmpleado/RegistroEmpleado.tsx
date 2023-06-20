@@ -5,7 +5,7 @@ import { RootState } from "../../../context/store";
 import { Empleado } from "../../../interface/Empleado";
 import Modal from "../../modal/Modal";
 import { useState } from "react";
-import { FiEye, FiPlus, FiEdit } from "react-icons/Fi";
+import { FiEdit, FiEye, FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const RegistroEmpleado = () => {
