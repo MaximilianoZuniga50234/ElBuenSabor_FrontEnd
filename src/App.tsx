@@ -1,6 +1,3 @@
-import NavBarPreLogin from "./components/navbar/prelogin/NavBarPreLogin";
-import NavBarPostLoginUsuarios from "./components/navbar/postloginusuarios/NavBarPostLoginUsuarios";
-import NavBarPostLoginEmpleados from "./components/navbar/postloginempleados/NavBarPostLoginEmpleados";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -10,6 +7,8 @@ import { setArticuloManufacturado } from "./context/articuloManufacturadoSlice";
 import { Rutas } from "./routes/Rutas";
 import Footer from "./components/footer/Footer";
 import { setEmpleado } from "./context/empleadosSlice";
+import NavBarPreLogin from './components/navBar/preLogin/NavBarPreLogin'
+import NavBarPostLoginUsuarios from "./components/navBar/postLoginUsuarios/NavBarPostLoginUsuarios";
 
 function App() {
   const { isAuthenticated } = useAuth0();
