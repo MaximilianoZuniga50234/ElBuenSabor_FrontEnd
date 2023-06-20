@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { addStock, modifyStock } from "../../../context/stockSlice";
 import { RootState } from "../../../context/store";
 import { useNavigate, useParams } from "react-router-dom";
-import "./itemStockListform.css";
+import "./itemStockListForm.css";
 
 const INITIAL_STATE = {
   id: 0,
