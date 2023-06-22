@@ -12,7 +12,9 @@ const Home = () => {
   return (
     <main className="homeMainContainer">
       <header>{/*Para los headers*/}</header>
+      <h2>DESTACADOS</h2>
       <HomePopular />
+      <h2>OFERTAS</h2>
       <HomeOffers />
     </main>
   );

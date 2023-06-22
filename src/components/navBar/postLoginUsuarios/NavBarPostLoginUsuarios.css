@@ -1,17 +1,134 @@
-#containerImg {
-  margin: 0%;
-  padding: 5px 0px 5px 0px;
-}
-#containerSearch {
-  margin: 0%;
-  padding: 0px 10px 0px 10px;
-  width: 400px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .navbar {
+  width: 100%;
   background-color: #11111f;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  max-height: 50px;
 }
 
-.img {
-  margin: 0px 10px 0px 10px;
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo,
+.logo img {
+  max-width: 180px;
+  max-height: 48px;
+}
+
+.searchBar {
+  width: auto;
+  height: 50px;
+}
+
+.searchBar form {
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.searchBarInput {
+  padding: 4px 8px 4px 8px;
+  border: 0;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.searchBarInputButton {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  right: 20px;
+  z-index: 1;
+  cursor: pointer;
+  background-color: #fff;
+  color: #888;
+}
+
+.navbarIconsContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+}
+
+.navbarShoppingLink {
+  border: 0;
+  background-color: #11111f;
+  cursor: pointer;
+}
+
+.navbarShoppingCart,
+.navbarUser {
+  width: 24px;
+  height: 24px;
+  color: #d9d9d9;
+  border-radius: 50%;
+  padding: 2px 4px 2px 4px;
+}
+
+.navbarUser:hover,
+.navbarShoppingCart:hover {
+  background-color: #33333f;
+}
+
+@media (min-width: 600px) {
+  .navbar {
+    padding: 12px;
+    max-height: 64px;
+  }
+
+  .containerButtons {
+    gap: 12px;
+  }
+
+  .logo,
+  .logo img {
+    max-width: 240px;
+    max-height: 56px;
+  }
+
+  .searchBar {
+    height: 64px;
+  }
+
+  .searchBar form {
+    height: 64px;
+  }
+
+  .searchBarInput {
+    padding: 8px 12px 8px 12px;
+    font-size: 16px;
+    width: 280px;
+  }
+
+  .searchBarInputButton {
+    width: 24px;
+    height: 24px;
+    right: 32px;
+  }
+
+  .navbarIconsContainer {
+    width: 72px;
+  }
+
+  .navbarShoppingCart,
+  .navbarUser {
+    width: 36px;
+    height: 36px;
+    padding: 4px 8px 4px 8px;
+  }
 }

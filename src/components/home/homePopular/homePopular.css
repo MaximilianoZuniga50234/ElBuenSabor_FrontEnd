@@ -1,8 +1,48 @@
 .homeProductPopularContainer {
   width: 100%;
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 8px;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(3, auto);
-  margin-top: 24px;
+}
+
+.homeProductPopularArrowLeft,
+.homeProductPopularArrowRigth {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .homeProductPopularContainer {
+    grid-template-columns: 24px 1fr 1fr 1fr 24px;
+    grid-template-rows: repeat(1, auto);
+  }
+
+  .homeProductPopularArrowLeft,
+  .homeProductPopularArrowRigth {
+    display: flex;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 0;
+  }
+
+  .homeProductPopularArrowLeft:hover,
+  .homeProductPopularArrowRigth:hover {
+    background-color: #ccc;
+  }
+
+  .homeProductPopularArrowRigth {
+    align-self: center;
+    justify-self: start;
+  }
+
+  .homeProductPopularArrowLeft {
+    align-self: center;
+    justify-self: end;
+  }
+}
+
+@media (min-width: 800px) {
+  .homeProductPopularContainer {
+    width: 80%;
+  }
 }
