@@ -29,7 +29,6 @@ function App() {
     <div className="App">
       {isAuthenticated ? <NavBarPostLoginUsuarios /> : <NavBarPreLogin />}
       <Rutas />
-      <Footer />
     </div>
   );
 }
