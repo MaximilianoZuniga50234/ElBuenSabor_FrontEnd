@@ -1,34 +1,52 @@
 .landingMainContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  width: 100%;
 }
 
 .landingLogoContainer {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  justify-content: flex-start;
   align-items: center;
-  margin-bottom: 100px;
-  gap: 40px;
+  padding: 32px;
 }
 
 .landingLogoContainer img {
-  margin-top: 30px;
-  min-width: 400px;
-  min-height: 400px;
+  max-width: 320px;
+  max-height: 320px;
 }
 
 .landingButton {
-  font-weight: bold;
-  color: #ddd;
+  border: 0;
   background-color: #11111f;
+  color: #ddd;
+  font-weight: bolder;
+  border-radius: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 24px;
+  padding-left: 24px;
   text-decoration: none;
-  padding: 10px;
-  border: 0px;
-  border-radius: 30px;
-  width: 40%;
-  max-width: 300px;
-  text-align: center;
+  margin: 16px;
+}
+
+.landingButton:hover{
+  background-color: #222249;
+}
+
+@media (min-width: 600px){
+
+  .landingLogoContainer img {
+    max-width: 480px;
+    max-height: 480px;
+  }
+
+  .landingButton {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-right: 32px;
+    padding-left: 32px;
+    margin: 24px;
+  }
+
 }

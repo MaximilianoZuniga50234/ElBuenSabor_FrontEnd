@@ -19,11 +19,11 @@ export const Rutas = () => {
   return (
     <>
       <Routes>
-        <Route path="/test" element={<Test />} />
         <Route path="/" element={<Landing />} />
+        <Route path="*" element={<h1>Ups...</h1>} />
         <Route path="/home" element={<Home />} />
         <Route path="/allProducts" element={<AllProducts />} />
-        <Route path="*" element={<h1>Ups...</h1>} />
+        <Route path="/test" element={<Test />} />
         <Route path="/customerList" element={<CustomerList />} />
         <Route path="/itemProductList" element={<ItemProductList />} />
         <Route path="/itemStockList" element={<ItemStockList />} />
@@ -47,7 +47,6 @@ export const Rutas = () => {
           path="/measurementUnit-edit/:id"
           element={<MeasurementUnitElementAdd />}
         />
-
         <Route path="/empleado" element={<RegistroEmpleado />} />
         <Route
           path="/RegistroEmpleado-add"
