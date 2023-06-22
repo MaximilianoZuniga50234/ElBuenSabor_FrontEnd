@@ -12,7 +12,7 @@ const HomeProductCardOffers = () => {
         <h4 className="homeProductOffersCardDiscount">%10</h4>
       </div>
       <div className="homeProductOffersCardDetail">
-        <h3>Nombre producto</h3>
+        <h3>Pizza muzzarella</h3>
         <div className="homeProductOffersPriceButton">
           <div>
             <h5>$123</h5>

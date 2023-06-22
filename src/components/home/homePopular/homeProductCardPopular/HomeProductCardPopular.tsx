@@ -9,7 +9,7 @@ const HomeProductCardPopular = () => {
         alt="Foto producto"
       />
       <div className="homeProductPopularCardDetail">
-        <h3>Nombre producto</h3>
+        <h3>Pizza doble queso</h3>
         <div className="homeProductPopularPriceButton">
           <h5>$123</h5>
           <button>+</button>

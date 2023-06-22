@@ -5,9 +5,15 @@
   padding: 8px;
   display: flex;
   flex-direction: row;
+  justify-self: center;
 }
 
-.homeProductPopularCardDetail{
+.homeProductPopularCardContainer:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.homeProductPopularCardDetail {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -17,6 +23,10 @@
   width: 100%;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+
+.homeProductPopularCardDetail h3 {
+  font-size: 16px;
 }
 
 .homeProductPopularCardImage {
@@ -34,7 +44,7 @@
   width: 100%;
 }
 
-.homeProductPopularPriceButton button{
+.homeProductPopularPriceButton button {
   font: bold;
   background-color: inherit;
   border: 0;
@@ -43,6 +53,33 @@
   font-size: 24px;
 }
 
-.homeProductPopularPriceButton button:hover{
+.homeProductPopularPriceButton button:hover {
   background-color: #a3a3c4;
+}
+
+@media (min-width: 600px) {
+  .homeProductPopularCardContainer {
+    height: 240px;
+    max-height: 240px;
+    max-width: 240px;
+    flex-direction: column;
+  }
+
+  .homeProductPopularCardDetail {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 8px;
+    max-height: 80px;
+  }
+
+  .homeProductPopularCardImage {
+    width: 100%;
+    max-height: 160px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 8px;
+  }
+
+  .homeProductPopularCardContainer:hover {
+    transform: scale(1.06);
+    transition: transform 0.3s ease;
+  }
 }

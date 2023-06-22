@@ -1,8 +1,49 @@
 .homeProductOffersContainer {
-    width: 100%;
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(3, auto);
-    margin-top: 12px;
+  width: 100%;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(3, auto);
+  margin-bottom: 12px;
+}
+
+.homeProductOffersArrowLeft,
+.homeProductOffersArrowRigth {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .homeProductOffersContainer {
+    grid-template-columns: 24px 1fr 1fr 1fr 24px;
+    grid-template-rows: repeat(1, auto);
   }
+
+  .homeProductOffersArrowLeft,
+  .homeProductOffersArrowRigth {
+    display: flex;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 0;
+  }
+
+  .homeProductOffersArrowLeft:hover,
+  .homeProductOffersArrowRigth:hover {
+    background-color: #ccc;
+  }
+
+  .homeProductOffersArrowRigth {
+    align-self: center;
+    justify-self: start;
+  }
+
+  .homeProductOffersArrowLeft {
+    align-self: center;
+    justify-self: end;
+  }
+}
+
+@media (min-width: 800px) {
+  .homeProductOffersContainer {
+    width: 80%;
+  }
+}

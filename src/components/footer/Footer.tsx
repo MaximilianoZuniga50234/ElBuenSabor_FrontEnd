@@ -1,22 +1,23 @@
 import { Link } from "react-router-dom";
 import "./footer.css";
+import { FiFacebook, FiInstagram, FiMail, FiTwitter } from "react-icons/fi";
 
 const Footer = () => {
   return (
-    <div className="container-fluid" id="contenedor">
+    <footer className="footerApp">
       <div className="row justify-content-center" id="filaIconos">
         <div className="col-4 text-center">
           <Link to="https://instagram.com">
-            <img className="icon" src="/images/footer/Instagram.png" />
+            <FiInstagram />
           </Link>
           <Link to="https://facebook.com">
-            <img className="icon" src="/images/footer/Facebook.png" />
+            <FiFacebook />
           </Link>
           <Link to="https://twitter.com">
-            <img className="icon" src="/images/footer/Twitter.png" />
+            <FiTwitter />
           </Link>
           <Link to="https://gmail.com">
-            <img className="icon" src="/images/footer/email.png" />
+            <FiMail />
           </Link>
         </div>
       </div>
@@ -67,7 +68,7 @@ const Footer = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

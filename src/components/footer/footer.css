@@ -1,7 +1,7 @@
-#contenedor {
+.footerApp {
   background-color: #11111f;
   color: #d9d9d9;
-  background-image: url("./images/footer/logoFooter.png");
+  background-image: url("images/Footer/logoFooter.png");
   background-repeat: no-repeat;
   background-position: center;
   width: 100%;
