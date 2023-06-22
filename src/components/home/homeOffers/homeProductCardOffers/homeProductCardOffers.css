@@ -1,0 +1,109 @@
+.homeProductOffersCardContainer {
+  border: 0;
+  width: 100%;
+  height: 160px;
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-self: center;
+}
+
+.homeProductOffersCardContainer:hover {
+  transform: scale(1.03);
+  transition: transform 0.3s ease;
+}
+
+.homeProductOffersCardDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px;
+  background-color: #c9c9e9;
+  width: 100%;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.homeProductOffersCardDetail h3 {
+  font-size: 16px;
+}
+
+.homeProductOffersCardImage {
+  width: 160px;
+  height: 100%;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.homeProductOffersCardDiscount {
+  position: relative;
+  bottom: 25px;
+  left: 120px;
+  background-color: crimson;
+  width: 40px;
+  border: 0;
+  border-top-left-radius: 8px;
+}
+
+.homeProductOffersPriceButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.homeProductOffersPriceButton button {
+  font: bold;
+  background-color: inherit;
+  border: 0;
+  border-radius: 50%;
+  padding: 2px 6px 2px 6px;
+  font-size: 24px;
+}
+
+.homeProductOffersPriceButton button:hover {
+  background-color: #a3a3c4;
+}
+
+.homeProductOffersCardOldPrice {
+  text-decoration: line-through;
+}
+
+@media (min-width: 600px) {
+  .homeProductOffersCardContainer {
+    height: 240px;
+    max-height: 240px;
+    max-width: 240px;
+    flex-direction: column;
+  }
+
+  .homeProductOffersCardDetail {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 8px;
+    max-height: 80px;
+  }
+
+  .homeProductOffersCardImageDetail {
+    max-height: 160px;
+  }
+
+  .homeProductOffersCardImage {
+    width: 100%;
+    max-height: 160px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 8px;
+  }
+
+  .homeProductOffersCardDiscount {
+    left: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 8px;
+  }
+
+  .homeProductOffersCardContainer:hover {
+    transform: scale(1.06);
+    transition: transform 0.3s ease;
+  }
+}

@@ -1,0 +1,10 @@
+.homeMainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homeMainContainer h2 {
+  width: auto;
+  margin-top: 12px;
+}

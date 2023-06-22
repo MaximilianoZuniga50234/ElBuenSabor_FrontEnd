@@ -8,30 +8,25 @@ const NavBarPreLogin = () => {
 
   return (
     <nav className="navbar">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/allProducts" id="logo">
-          <img
-            src="./images/navbar/logoLargoGris.png"
-            alt="Logo"
-            width="180"
-            height="50"
-          />
-        </Link>
-        <div className="container text-end" id="containerButtons">
-          <button
-            type="button"
-            className="btn"
-            id="botonIngresar"
-            onClick={function () {
-              loginWithRedirect();
-            }}
-          >
-            Ingresar
-          </button>
-          <button type="button" className="btn" id="botonRegistrarse">
-            Registrarse
-          </button>
-        </div>
+      <Link className="logo" to="/home">
+        <img
+          src="./images/navbar/logoLargoGris.png"
+          alt="Logo"
+        />
+      </Link>
+      <div className="containerButtons">
+        <button
+          type="button"
+          className="botonIngresar"
+          onClick={function () {
+            loginWithRedirect();
+          }}
+        >
+          Ingresar
+        </button>
+        <button type="button" className="botonRegistrarse">
+          Registrarse
+        </button>
       </div>
     </nav>
   );

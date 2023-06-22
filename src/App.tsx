@@ -7,7 +7,7 @@ import { setArticuloManufacturado } from "./context/articuloManufacturadoSlice";
 import { Rutas } from "./routes/Rutas";
 import Footer from "./components/footer/Footer";
 import { setEmpleado } from "./context/empleadosSlice";
-import NavBarPreLogin from './components/navBar/preLogin/NavBarPreLogin'
+import NavBarPreLogin from "./components/navBar/preLogin/NavBarPreLogin";
 import NavBarPostLoginUsuarios from "./components/navBar/postLoginUsuarios/NavBarPostLoginUsuarios";
 
 function App() {
@@ -29,7 +29,6 @@ function App() {
     <div className="App">
       {isAuthenticated ? <NavBarPostLoginUsuarios /> : <NavBarPreLogin />}
       <Rutas />
-      <Footer />
     </div>
   );
 }
