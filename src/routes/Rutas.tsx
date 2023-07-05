@@ -14,6 +14,7 @@ import MeasurementUnit from "../components/abm/measurementUnit/MeasurementUnitLi
 import RegistroEmpleado from "../components/abm/registroEmpleado/RegistroEmpleado";
 import RegistroEmpleadoElementAdd from "../components/abm/registroEmpleado/RegistroEmpleadoElementForm";
 import AllProducts from "../components/allProducts/AllProducts";
+import { Cart } from "../components/cart/Cart";
 
 export const Rutas = () => {
   return (
@@ -55,6 +56,11 @@ export const Rutas = () => {
         <Route
           path="/RegistroEmpleado-edit/:id"
           element={<RegistroEmpleadoElementAdd />}
+        />
+
+        <Route
+          path="/cart"
+          element={<Cart />}
         />
       </Routes>
     </>

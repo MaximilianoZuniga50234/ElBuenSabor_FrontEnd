@@ -1,0 +1,100 @@
+
+
+.contenedor-producto {
+    width: 90%;
+    height: 100px;
+    background-color: #D9D9D9;
+    position: relative;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+  }
+
+.imagen-prodcuto{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nombre-producto {
+    position: absolute;
+    top: 0;
+    left: 25%;
+    width: 40%; 
+    height: 50%;
+    padding: 10px;
+  }
+
+.precio-producto {
+    width: 40%; 
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    left: 25%; 
+    padding: 10px;
+  }
+
+
+  .container-botones-producto{
+    position: absolute;
+    bottom: 10px;
+    right: 50px; 
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+  }
+  
+  .left-button-producto{
+    width: 30px; 
+    height: 30px;
+    padding: 0px 0px 0px 0px;
+    text-align: center;
+    background-color: #22222F;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    color: white;
+    cursor: pointer;
+  }
+  .right-button-producto{
+    width: 30px; 
+    height: 30px;
+    padding: 0px 0px 0px 0px;
+    text-align: center;
+    background-color: #22222F;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .text-botones-producto{
+    width: 30px; 
+    height: 30px;
+    text-align: center;
+    padding-top: 3px;
+    background-color: #22222F;
+    color: white;
+  }
+
+  .boton-basura-producto{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    bottom: 10px;
+    right: 10px; 
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    background-image: url('C:\Users\franc\Desktop\GitFacultad\ElBuenSabor_FrontEnd\ElBuenSabor_FrontEnd\public\images\basura.png'); /* Reemplaza 'ruta_de_la_imagen.jpg' con la ruta de tu imagen */
+    background-color: transparent;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
