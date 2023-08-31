@@ -4,28 +4,70 @@ import Home from "../pages/Home";
 import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
 import Error from "../pages/Error";
+import Layout from "../Layout";
+import About from "../pages/About";
 
 const router = createBrowserRouter([
   {
     path: "*",
-    element: <Error/>,
-  },{
+    element: (
+      <Layout>
+        <Error />
+      </Layout>
+    ),
+  },
+  {
     path: "/",
-    element: <Landing/>,
-  },{
+    element: (
+      <Layout>
+        <Landing />
+      </Layout>
+    ),
+  },
+  {
     path: "/home",
-    element: <Home/>,
-  },{
+    element: (
+      <Layout>
+        <Home />
+      </Layout>
+    ),
+  },
+  {
     path: "/login",
-    element: <Login/>,
-  },{
+    element: (
+      <Layout>
+        <Login />
+      </Layout>
+    ),
+  },
+  {
     path: "/register",
-    element: <Register/>,
+    element: (
+      <Layout>
+        <Register />
+      </Layout>
+    ),
+  },
+  {
+    path: "/about",
+    element: (
+      <Layout>
+        <About />
+      </Layout>
+    ),
+  },
+  {
+    path: "/error",
+    element: (
+      <Layout>
+        <Error />
+      </Layout>
+    ),
   },
 ]);
 
 const Routes = () => {
-  return <RouterProvider router={router}/>;
+  return <RouterProvider router={router} />;
 };
 
 export default Routes;
