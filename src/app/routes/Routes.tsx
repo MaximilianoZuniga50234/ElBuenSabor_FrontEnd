@@ -6,6 +6,7 @@ import Register from "../pages/register/Register";
 import Error from "../pages/Error";
 import Layout from "../Layout";
 import About from "../pages/About";
+import {Header1} from "../components/header/Header1";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <Error />
+      </Layout>
+    ),
+  },
+  {
+    path: "/header1",
+    element: (
+      <Layout>
+        <Header1 />
       </Layout>
     ),
   },
