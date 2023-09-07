@@ -4,6 +4,7 @@ export function Header1 () {
     return (
         <>
         <header>
+            <a href="" className="nav-link"></a><a href="" className="nav-link"></a><a href="" className="nav-link"></a>
             <div className="fondo">
                 <h1 className="texto">
                     Tentate con nuestros mejores platos
