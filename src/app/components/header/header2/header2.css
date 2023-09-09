@@ -1,0 +1,38 @@
+.header2_header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    background-image: url('./public/images/fondo_login.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+
+.header2_div_central {
+    width: 50%;
+    height: 70%;
+    background-color: #11111F;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.header2_text {
+    padding: 3px;
+    text-align: center;
+    color: #CCCCCC;
+    font-size: 90%;
+
+}
+
+.header2_button{
+    width: 50%;
+    height: 30%;
+    border: 0;
+    border-radius: 5px;
+    margin: auto;
+    background-color: #D9D9D9;
+    padding: 5px 5px;
+    font-size: 8px;
+    font-weight: bold; 
+}

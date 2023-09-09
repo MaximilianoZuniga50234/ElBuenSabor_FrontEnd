@@ -3,8 +3,7 @@ export function Header1 () {
 
     return (
         <>
-        <header>
-            <a href="" className="nav-link"></a><a href="" className="nav-link"></a><a href="" className="nav-link"></a>
+        <header className="header1_header">
             <div className="fondo">
                 <h1 className="texto">
                     Tentate con nuestros mejores platos
@@ -14,8 +13,10 @@ export function Header1 () {
                 </div>
             </div>
             <div>
-                <h1></h1>
-                <img src="/public/images/fondo_login.jpg" alt="Imagen_fondo" />
+                <img
+                    className="header1_imga"
+                    src="/public/images/fondo_login.jpg" alt="Imagen_fondo" 
+                />
             </div>
         </header>
         </>
