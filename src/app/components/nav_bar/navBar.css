@@ -1,5 +1,6 @@
 .nav_bar_pre_login_container {
   position: absolute;
+  top: 0;
   z-index: 2;
   text-decoration: none;
   list-style: none;

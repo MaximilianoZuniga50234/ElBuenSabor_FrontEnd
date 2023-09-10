@@ -7,7 +7,7 @@ const useFetch = (url: string) => {
 
   useEffect(() => {
     fetch(url)
-      .then((res) => res.json)
+      .then((res) => res.json())
       .then((responseData) => setData(responseData))
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
