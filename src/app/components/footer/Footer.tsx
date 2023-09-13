@@ -1,4 +1,7 @@
 import "./footer.css"
+import { Link } from "react-router-dom";
+import { FaGithub } from "react-icons/fa";
+
 export default function Footer() {
     return (
         <footer className="footer">
@@ -16,38 +19,38 @@ export default function Footer() {
                         <h2 className="footer__title">Creadores</h2>
 
                         <div className="footer__user">
-                            <img src="footer/github.png" className="footer__img" />
+                            <FaGithub className="footer__icon" />
                             <h3 className="footer__name">
-                                <a href="https://github.com/MaximilianoZuniga50234" className="footer__link" target="_blank">
+                                <Link to="https://github.com/MaximilianoZuniga50234" className="footer__link" target="_blank">
                                     MaximilianoZuniga50234
-                                </a>
+                                </Link>
                             </h3>
                         </div>
 
                         <div className="footer__user">
-                            <img src="footer/github.png" className="footer__img" />
+                            <FaGithub className="footer__icon" />
                             <h3 className="footer__name">
-                                <a href="https://github.com/CandeZuniga" className="footer__link" target="_blank">
+                                <Link to="https://github.com/CandeZuniga" className="footer__link" target="_blank">
                                     CandeZuniga
-                                </a>
+                                </Link>
                             </h3>
                         </div>
 
                         <div className="footer__user">
-                            <img src="footer/github.png" className="footer__img" />
+                            <FaGithub className="footer__icon" />
                             <h3 className="footer__name">
-                                <a href="https://github.com/FJFFH" className="footer__link" target="_blank">
+                                <Link to="https://github.com/FJFFH" className="footer__link" target="_blank">
                                     FJFFH
-                                </a>
+                                </Link>
                             </h3>
                         </div>
 
                         <div className="footer__user">
-                            <img src="footer/github.png" className="footer__img" />
+                            <FaGithub className="footer__icon" />
                             <h3 className="footer__name">
-                                <a href="https://github.com/Laujo11" className="footer__link" target="_blank">
+                                <Link to="https://github.com/Laujo11" className="footer__link" target="_blank">
                                     Laujo11
-                                </a>
+                                </Link>
                             </h3>
                         </div>
 
@@ -59,14 +62,14 @@ export default function Footer() {
 
                     <ul className="footer__ul">
                         <li className="footer__li">
-                            <a href="#" className="footer__link" target="_blank">
+                            <Link to="#" className="footer__link" target="_blank">
                                 Contacto
-                            </a>
+                            </Link>
                         </li>
                         <li className="footer__li">
-                            <a href="#" className="footer__link" target="_blank">
+                            <Link to="#" className="footer__link" target="_blank">
                                 Sobre Nosotros
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>

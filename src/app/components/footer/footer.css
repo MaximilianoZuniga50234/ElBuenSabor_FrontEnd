@@ -34,6 +34,7 @@
     background-position: center;
     display: flex;
     justify-content: center;
+    padding: 20px 0;
 }
 
 .footer__users__container {
@@ -51,12 +52,13 @@
 
 .footer__title {
     font-weight: 500;
-    font-size: 20px;
+    font-size: 22px;
 }
 
-.footer__name {
+.footer__name,
+.footer__icon {
     font-weight: 300;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .footer__link {
@@ -138,7 +140,7 @@
         text-align: end;
         align-items: center;
         gap: 20px;
-        padding: 0 5px;
+        padding: 0 10px 0 5px;
     }
 
     .footer__li {
