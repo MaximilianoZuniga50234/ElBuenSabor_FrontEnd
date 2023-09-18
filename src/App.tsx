@@ -3,7 +3,11 @@ import { fetchAll } from "./app/functions/util/FetchAll";
 
 function App() {
   fetchAll();
-  return <Routes />;
+  return (
+    <div>
+      <Routes />
+    </div>
+  );
 }
 
 export default App;

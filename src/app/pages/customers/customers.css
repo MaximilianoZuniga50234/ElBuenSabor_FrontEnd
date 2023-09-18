@@ -1,0 +1,174 @@
+.main_employees_list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  margin: 80px 0 0 0;
+}
+
+.main_employees_list .title_container {
+  width: 90%;
+  align-self: flex-start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px 0 32px;
+  margin: 24px 0 16px 5%;
+}
+
+.main_employees_list .title_container h2 {
+  font-size: 36px;
+}
+
+.main_employees_list .title_container button {
+  background: #2f2c79;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  padding: 12px 16px 12px 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.main_employees_list .title_container form {
+  width: 40%;
+  display: flex;
+  height: 40px;
+  flex-direction: row;
+  gap: 0;
+}
+
+.main_employees_list .title_container form input {
+  width: 90%;
+  border: 0;
+  background-color: #eee;
+  border-radius: 12px 0 0 12px;
+  padding: 0 8px 0 8px;
+}
+
+.main_employees_list .title_container form button {
+  background: #11111f;
+  color: #fff;
+  border: 0;
+  border-radius: 0 12px 12px 0;
+}
+
+.main_employees_list .title_container form button svg{
+  width: 16px;
+  height: 16px;
+}
+
+.main_employees_list .title_container button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.main_employees_list .title_container button svg {
+  width: 16px;
+  height: 16px;
+  font-weight: bolder;
+}
+
+.employees_list_table {
+  border: 1px solid #000000;
+  border-radius: 12px;
+  background: #eeeef6;
+  width: 90%;
+  margin: 8px 0 0 0;
+  border-spacing: 0;
+  border: 0;
+}
+
+.employees_list_table thead tr {
+  display: grid;
+  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid #000;
+  background: #222246;
+  border-radius: 12px 12px 0 0;
+  color: #fff;
+}
+
+.employees_list_table thead tr td {
+  display: flex;
+  font-weight: bold;
+  padding: 16px 0 16px 0;
+}
+
+.employees_list_table tbody tr {
+  display: grid;
+  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid #222246;
+  border-left: 1px solid #222246;
+  border-right: 1px solid #222246;
+}
+
+.employees_list_table tbody tr td {
+  display: flex;
+  padding: 16px 0 16px 0;
+}
+
+.employees_list_table .celda_acciones {
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+}
+
+.employees_list_table .celda_acciones svg {
+  cursor: pointer;
+}
+
+.employees_list_table tfoot tr {
+  display: grid;
+  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
+  padding: 0 32px 0 32px;
+  background: #fff;
+  border: 0;
+}
+
+.employees_list_table tfoot tr td {
+  display: flex;
+  flex-direction: row;
+  padding: 16px 0 16px 0;
+  gap: 8px;
+}
+
+.employees_list_table tfoot tr td span {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 16px 8px 16px;
+  gap: 4px;
+  border: 0;
+  border-radius: 12px;
+  background-color: #ddddf6;
+}
+
+.employees_list_table tfoot tr td span {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 16px 8px 16px;
+  gap: 4px;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  background-color: #222250;
+}
+
+.employees_list_table tfoot tr td span:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.employees_list_table .paginacion_flechas {
+  height: 16px;
+  width: 16px;
+}
+
+.employees_list_table .paginacion_flechas:hover {
+  opacity: 0.7;
+}
