@@ -6,7 +6,7 @@ import Table from "../../components/employees/EmployeesTable";
 
 const Employees = () => {
   const employees = useUser().users.filter(
-    (user) => user.role.role !== "Cliente" && user.role.role !== "Administrador"
+    (user) => user.role !== "Cliente" && user.role !== "Administrador"
   );
 
   return (
