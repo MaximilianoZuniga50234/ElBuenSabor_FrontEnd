@@ -44,10 +44,10 @@ const Table = ({ datos }: Props) => {
       <tbody>
         {elementosPaginaActual.map((e) => (
           <tr key={e.id}>
-            <td>{`${e.person.name} ${e.person.lastName}`}</td>
-            <td>{`${e.person.email}`}</td>
-            <td>{`${e.person.phoneNumber}`}</td>
-            <td>{``}</td>
+            <td>{`${e.fullName}`}</td>
+            <td>{`${e.email}`}</td>
+            <td>{`${e.telephone}`}</td>
+            <td>{`${e.orders.length}`}</td>
             <td className="celda_acciones">
               <FaGear />
             </td>

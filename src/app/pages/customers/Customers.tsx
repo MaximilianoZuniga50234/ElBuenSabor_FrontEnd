@@ -1,12 +1,13 @@
 import { FaSearch } from "react-icons/fa";
-import { useStore as useUser } from "../../store/UserStore";
 import Table from "../../components/customers/CustomersTable";
 import "./customers.css";
+import { useStore as useUsers } from "../../store/UserStore";
+import { User } from "../../interfaces/User";
 
 const Customers = () => {
-  const customers = useUser().users.filter(
-    (user) => user.role.role == "Cliente"
-  );
+  const customers: User[] = useUsers()
+    .users.filter((user) => user.role === "Cliente")
+    .sort((a: User, b: User) => b.orders.length - a.orders.length);
 
   return (
     <main className="main_employees_list">

@@ -1,10 +1,14 @@
+import { Address } from "./Address";
 import { Base } from "./Base";
-import { Person } from "./Person";
-import { Role } from "./Role";
+import { Invoice } from "./Invoice";
+import { PurchaseOrder } from "./PurchaseOrder";
 
 export interface User extends Base {
-  user: string;
-  password: string;
-  person: Person;
-  role: Role;
+  email: string;
+  fullName: string;
+  telephone: string;
+  role: string;
+  orders: PurchaseOrder[];
+  addresses: Address[];
+  invoices: Invoice[];
 }
