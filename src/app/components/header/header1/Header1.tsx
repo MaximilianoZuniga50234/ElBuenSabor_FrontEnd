@@ -13,10 +13,13 @@ export function Header1 () {
                 </div>
             </div>
             <div>
+                
+                    
                 <img
-                    className="header1_imga"
+                    className="header1_img"
                     src="/public/images/fondo_login.jpg" alt="Imagen_fondo" 
                 />
+                
             </div>
         </header>
         </>
