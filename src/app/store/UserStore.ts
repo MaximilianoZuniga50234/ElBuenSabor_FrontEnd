@@ -11,7 +11,7 @@ type Store = {
 export const useStore = create<Store>()((set) => ({
   users: [],
   add_all_user: async () => {
-    const users = await fetch("http://localhost:9000/api/v1/user").then((res) =>
+    const users = await fetch("http://localhost:9000/api/v1/user/order").then((res) =>
       res.json()
     );
     set({ users });
