@@ -55,6 +55,8 @@
 
 .nav_bar_list {
   display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .nav_bar_list li {
@@ -81,6 +83,15 @@
   width: 20px;
   height: 25px;
   overflow: hidden;
+}
+
+.nav_bar_button {
+  display: flex;
+  width: 110px;
+  align-items: center;
+  font-size: 15px;
+  cursor: pointer;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 768px) {
@@ -149,6 +160,11 @@
     font-size: 16px;
     margin: 0;
     padding: 0;
+  }
+
+  .nav_bar_button {
+    background-color: #11111f;
+    color: white;
   }
 }
 

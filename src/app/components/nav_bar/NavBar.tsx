@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { FaBars, FaSearch, FaHome, FaInfo } from "react-icons/fa";
 import "./navBar.css";
 import { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
 
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
@@ -32,32 +34,50 @@ const NavBar = () => {
         <FaBars />
       </label>
 
-      <ul className={`nav_bar_list ${isMenuOpen ? "active" : ""}`}>
-        <li>
-          <Link to="/login" onClick={handleCloseMenu}>
-            Iniciar sesión
-          </Link>
-        </li>
-        <li>
-          <Link to="/register" onClick={handleCloseMenu}>
-            Registrarse
-          </Link>
-        </li>
-        <li className="nav_bar_home">
-          <Link to="/home" onClick={handleCloseMenu}>
-            <span>
-              <FaHome /> Inicio
-            </span>
-          </Link>
-        </li>
-        <li className="nav_bar_about">
-          <Link to="/about" onClick={handleCloseMenu}>
-            <span>
-              <FaInfo /> Sobre nosotros
-            </span>
-          </Link>
-        </li>
-      </ul>
+
+      {isAuthenticated ?
+        <ul>
+          <li>
+            <button className="nav_bar_button" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+              Cerrar sesión
+            </button>
+          </li>
+        </ul>
+
+        :
+
+        <ul className={`nav_bar_list ${isMenuOpen ? "active" : ""}`}>
+          <li>
+            <button className="nav_bar_button" onClick={() => loginWithRedirect({
+              authorizationParams: {
+                screen_hint: "signup",
+              },
+            })}>
+              Registrarse
+            </button>
+          </li>
+          <li>
+            <button className="nav_bar_button" onClick={() => loginWithRedirect()}>
+              Iniciar sesión
+            </button>
+          </li>
+          <li className="nav_bar_home">
+            <Link to="/home" onClick={handleCloseMenu}>
+              <span>
+                <FaHome /> Inicio
+              </span>
+            </Link>
+          </li>
+          <li className="nav_bar_about">
+            <Link to="/about" onClick={handleCloseMenu}>
+              <span>
+                <FaInfo /> Sobre nosotros
+              </span>
+            </Link>
+          </li>
+
+        </ul>
+      }
     </nav>
   );
 };
