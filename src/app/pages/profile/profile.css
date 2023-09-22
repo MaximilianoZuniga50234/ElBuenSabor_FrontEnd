@@ -1,0 +1,28 @@
+.profile_main_container {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #DDDDF6;
+  margin: 48px 0 0 0;
+}
+
+.profile_container {
+    width: 80%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background: #EEEEF6;
+    padding: 16px 16px 16px 16px;
+    border: 0;
+    border-radius: 12px;
+    align-items: center;
+}
+
+.profile_container img{
+    border-radius: 50%;
+    border: 0;
+    width: 80px;
+    height: 80px;
+}
