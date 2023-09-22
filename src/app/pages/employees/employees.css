@@ -138,17 +138,7 @@
   gap: 8px;
 }
 
-.employees_list_table tfoot tr td span {
-  display: flex;
-  flex-direction: row;
-  padding: 8px 16px 8px 16px;
-  gap: 4px;
-  border: 0;
-  border-radius: 12px;
-  background-color: #ddddf6;
-}
-
-.employees_list_table tfoot tr td span {
+.employees_list_table tfoot tr td a {
   display: flex;
   flex-direction: row;
   padding: 8px 16px 8px 16px;
@@ -159,7 +149,7 @@
   background-color: #222250;
 }
 
-.employees_list_table tfoot tr td span:hover {
+.employees_list_table tfoot tr td a:hover {
   cursor: pointer;
   opacity: 0.7;
 }

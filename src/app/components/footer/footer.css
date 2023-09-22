@@ -2,18 +2,9 @@
     --midnight-blue: #11111F;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 .footer {
     background-color: var(--midnight-blue);
     width: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
 }
 
 .footer__container {
@@ -29,7 +20,7 @@
 }
 
 .footer__users {
-    background-image: url("footer/logo-con-opacidad.png");
+    background-image: url("images/footer/logo-con-opacidad.png");
     background-repeat: no-repeat;
     background-position: center;
     display: flex;

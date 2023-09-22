@@ -74,10 +74,6 @@
   font-size: 20px;
 }
 
-.nav_bar_list li a:hover {
-  opacity: 0.7;
-}
-
 .nav_bar_pre_login_container .nav_bar_list .nav_bar_home,
 .nav_bar_pre_login_container .nav_bar_list .nav_bar_about {
   width: 20px;
@@ -85,13 +81,9 @@
   overflow: hidden;
 }
 
-.nav_bar_button {
-  display: flex;
-  width: 110px;
-  align-items: center;
-  font-size: 15px;
-  cursor: pointer;
-  justify-content: center;
+.nav_bar_list li a:hover,
+.nav_bar_button:hover {
+  opacity: 0.7;
 }
 
 @media only screen and (max-width: 768px) {
@@ -163,8 +155,10 @@
   }
 
   .nav_bar_button {
-    background-color: #11111f;
+    background: transparent;
     color: white;
+    border: 0;
+    font-size: 16px;
   }
 }
 
@@ -178,5 +172,27 @@
     width: 250px;
     font-size: 16px;
     padding: 4px 0 4px 8px;
+  }
+
+  .nav_bar_button {
+    cursor: pointer;
+    background: #eee;
+    font-size: 12px;
+    padding: 4px 8px 4px 8px;
+    border: 0;
+    border-radius: 12px;
+    color: #11111f;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .nav_bar_button {
+    cursor: pointer;
+    background: #eee;
+    font-size: 16px;
+    padding: 4px 8px 4px 8px;
+    border: 0;
+    border-radius: 12px;
+    color: #11111f;
   }
 }

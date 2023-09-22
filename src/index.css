@@ -1,11 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
 
 * {
-    margin: 0;
-    padding: 0;
-    outline: none;
-    box-sizing: border-box;
-    font-family: 'Rubik', sans-serif;
-    text-decoration: none;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  font-family: "Rubik", sans-serif;
+  text-decoration: none;
+  list-style: none;
+}
+
+.whole_app_container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.whole_app_container .main_content {
+  flex: 1;
+}
+
+.whole_app_header {
+  margin-bottom: 48px;
+}
+
+@media only screen and (min-width: 768px) {
+  .whole_app_header {
+    margin-bottom: 56px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .whole_app_header {
+    margin-bottom: 80px;
+  }
 }

@@ -57,10 +57,10 @@ const Table = ({ datos }: Props) => {
       <tfoot>
         <tr>
           <td>
-            <span>
+            <a href="?">
               <IoArrowRedoSharp />
               EXPORTAR A EXCEL
-            </span>
+            </a>
           </td>
           <td></td>
           <td></td>
