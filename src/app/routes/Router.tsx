@@ -7,6 +7,8 @@ import Employees from "../pages/employees/Employees";
 import Customers from "../pages/customers/Customers";
 import Profile from "../pages/profile/Profile";
 import Categories from "../pages/categories/Categories";
+import CallbackPage from "../components/auth0/CallbackPage";
+import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 
 const Router = () => {
   return (
@@ -14,11 +16,12 @@ const Router = () => {
       <Route path="/" element={<Landing />} />
       <Route path="*" element={<Error />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/about" element={<AuthenticationGuard component={About} />} />
       <Route path="/employees" element={<Employees />} />
       <Route path="/customers" element={<Customers />} />
       <Route path="/profile/:id" element={<Profile />} />
       <Route path="/categories" element={<Categories />} />
+      <Route path="/callback" element={<CallbackPage />} />
     </Routes>
   );
 };
