@@ -48,16 +48,28 @@ const NavBar = () => {
 
         <ul className={`nav_bar_list ${isMenuOpen ? "active" : ""}`}>
           <li>
-            <button className="nav_bar_button" onClick={() => loginWithRedirect({
-              authorizationParams: {
-                screen_hint: "signup",
-              },
-            })}>
+            <button className="nav_bar_button" onClick={() =>
+              loginWithRedirect({
+                appState: {
+                  returnTo: window.location.pathname
+                },
+                authorizationParams: {
+                  screen_hint: "signup",
+                },
+              })
+            }
+            >
               Registrarse
             </button>
           </li>
           <li>
-            <button className="nav_bar_button" onClick={() => loginWithRedirect()}>
+            <button className="nav_bar_button" onClick={() => loginWithRedirect(
+              {
+                appState: {
+                  returnTo: window.location.pathname
+                }
+              }
+            )}>
               Iniciar sesión
             </button>
           </li>
