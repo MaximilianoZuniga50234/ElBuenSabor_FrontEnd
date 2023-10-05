@@ -1,0 +1,39 @@
+[
+    {
+      "id": 1,
+      "image": "https://i.pinimg.com/originals/ef/a9/58/efa9582095a0646386ea943793405c95.jpg",
+      "denomination": "Hamburguesa con papas",
+      "salePrice": 2000
+    },
+    {
+      "id": 2,
+      "image": "https://recetinas.com/wp-content/uploads/2018/04/pizza-cuatro-quesos.jpg.webp",
+      "denomination": "Pizza 4 quesos",
+      "salePrice": 2700
+    },
+    {
+      "id": 3,
+      "image": "https://cdn.tasteatlas.com/images/dishes/9a3391698eec41c2890cd9575d00405e.jpg?mw=1300",
+      "denomination": "Lomo",
+      "salePrice": 2900
+    },
+    {
+      "id": 4,
+      "image": "https://scontent.faep8-3.fna.fbcdn.net/v/t1.6435-9/61286516_1661099674034849_5308265946459144192_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=dnXh8klnJ24AX8ojFm9&_nc_ht=scontent.faep8-3.fna&oh=00_AfAQ3psP_bgViypk4suRWwnlyIlPZcaTHvosqAjt2aumfw&oe=651ECAD1",
+      "denomination": "Pancho de jamon y queso",
+      "salePrice": 1000
+    },
+    {
+      "id": 5,
+      "image": "https://espanol.kingsford.com/wp-content/uploads/2017/02/KFD_SpicyBBQBaconRanchBurger35382_WEB.jpg",
+      "denomination": "Hambuerguesa picante",
+      "salePrice": 3200
+    },
+    {
+      "id": 6,
+      "image": "https://scontent.faep8-3.fna.fbcdn.net/v/t1.6435-9/82395087_889556728126679_552065737494102016_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=mt1t4Yw3iEAAX-FZvt1&_nc_ht=scontent.faep8-3.fna&oh=00_AfBPS8HbCDvTU9ef2t2sWP_JuNDRpN7rrCyUFtztpQBhuA&oe=651F8417",
+      "denomination": "Lomo con cheddar",
+      "salePrice": 3500
+    }
+  ]
+  
