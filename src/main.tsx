@@ -5,9 +5,10 @@ import { BrowserRouter } from "react-router-dom";
 // import { Auth0ProviderWithNavigate } from "./app/components/auth0/Auth0ProviderWithNavigate.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
+    <BrowserRouter>
     {/* <Auth0ProviderWithNavigate> */}
-    <App />
-    {/*         </Auth0ProviderWithNavigate > */}
-  </BrowserRouter>
+        <App />
+    {/* </Auth0ProviderWithNavigate > */}
+</BrowserRouter>
+
 );
