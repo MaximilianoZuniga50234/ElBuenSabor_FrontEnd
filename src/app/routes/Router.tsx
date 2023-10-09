@@ -9,6 +9,7 @@ import Profile from "../pages/profile/Profile";
 import Categories from "../pages/categories/Categories";
 import CallbackPage from "../components/auth0/CallbackPage";
 import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
+import AllProducts from "../pages/all products/AllProducts";
 
 const Router = () => {
   return (
@@ -21,6 +22,7 @@ const Router = () => {
       <Route path="/customers" element={<Customers />} />
       <Route path="/profile/:id" element={<Profile />} />
       <Route path="/categories" element={<Categories />} />
+      <Route path="/products" element={<AllProducts />} />
       <Route path="/callback" element={<CallbackPage />} />
     </Routes>
   );
