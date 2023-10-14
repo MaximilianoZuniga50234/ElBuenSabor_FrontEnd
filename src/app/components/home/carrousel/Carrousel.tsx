@@ -1,29 +1,25 @@
-import { useState, useEffect } from "react";
-import Modal from "../components/modal/Modal"; 
-import { Product } from "../interfaces/Product";
-import "./Home.css";
-import { getAllProduct } from "../functions/ProductAPI";
+import { useState } from "react";
 import { BiCartAdd } from "react-icons/bi";
-import { GrNext, GrPrevious } from 'react-icons/gr';
+import { GrNext, GrPrevious } from "react-icons/gr";
+import { Product } from "../../../interfaces/Product";
 
-const Home = () => {
+const Carrousel = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getProductsJSONFetch = async () => {
-    try {
-      const response = await getAllProduct();
-      setProducts(response);
-    } catch (error) {
-      console.error("Error", error);
-    }
+  const openModal = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
   };
 
-  useEffect(() => {
-    getProductsJSONFetch();
-  }, []);
+  const closeModal = () => {
+    setSelectedProduct(null);
+    setIsModalOpen(false);
+  };
+
+  const ButtonClick = (product: Product) => {};
 
   const moveCarousel = (direction: "prev" | "next") => {
     const numProducts = products.length;
@@ -38,24 +34,8 @@ const Home = () => {
       );
     }
   };
-
-  const openModal = (product: Product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setSelectedProduct(null);
-    setIsModalOpen(false);
-  };
-
-  const ButtonClick = (product: Product) => {
-
-  };
-
   return (
-    <div>
-      <div style={{ height: "50px"}}></div>
+    <section>
       <h1 style={{ textAlign: "center", margin: "0 0 20px 0" }}>Destacados</h1>
       <div className="carousel-container">
         <span onClick={() => moveCarousel("prev")} className="carousel-arrow">
@@ -82,7 +62,10 @@ const Home = () => {
                   <h3 className="product-title">{product.denomination}</h3>
                   <div className="product-price">
                     <h4>${product.salePrice}</h4>
-                    <button className="button"onClick={() => ButtonClick(product)}>
+                    <button
+                      className="button"
+                      onClick={() => ButtonClick(product)}
+                    >
                       <BiCartAdd className="cart-icon" />
                     </button>
                   </div>
@@ -95,16 +78,8 @@ const Home = () => {
           <GrNext />
         </span>
       </div>
-
-      <Modal
-        isOpen={isModalOpen}
-        product={selectedProduct}
-        onClose={closeModal}
-        onAddToCart={ButtonClick}
-      />
-    </div>
+    </section>
   );
 };
 
-export default Home;
-
+export default Carrousel;

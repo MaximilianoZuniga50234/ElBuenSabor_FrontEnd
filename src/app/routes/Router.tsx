@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
+import Home from "../pages/home/Home";
 import Error from "../pages/Error";
 import About from "../pages/About";
 import Employees from "../pages/employees/Employees";
 import Customers from "../pages/customers/Customers";
 import Profile from "../pages/profile/Profile";
-import Categories from "../pages/categories/Categories";
+import Categories from "../components/home/categories/Categories";
 import CallbackPage from "../components/auth0/CallbackPage";
 import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 import NotFound from "../pages/NotFound";
