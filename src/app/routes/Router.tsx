@@ -10,6 +10,8 @@ import Categories from "../pages/categories/Categories";
 import CallbackPage from "../components/auth0/CallbackPage";
 import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 import AllProducts from "../pages/all products/AllProducts";
+import ItemStockABM from "../pages/abm/itemStock/ItemStockABM";
+import ItemProductABM from "../pages/abm/itemProduct/ItemProductABM";
 
 const Router = () => {
   return (
@@ -24,6 +26,7 @@ const Router = () => {
       <Route path="/categories" element={<Categories />} />
       <Route path="/products" element={<AllProducts />} />
       <Route path="/callback" element={<CallbackPage />} />
+      <Route path="/itemProductABM" element={<AuthenticationGuard component={ItemProductABM} />} />
     </Routes>
   );
 };
