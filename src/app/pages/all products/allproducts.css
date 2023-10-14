@@ -231,8 +231,8 @@
     }
 
     .allProducts__bar__link--cart:hover {
-        opacity: .8;
-
+        cursor: pointer;
+        color: royalblue;
     }
 }
 
