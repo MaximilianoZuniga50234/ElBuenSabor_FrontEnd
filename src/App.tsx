@@ -6,19 +6,17 @@ import Footer from "./app/components/footer/Footer";
 function App() {
   fetchAll();
   return (
-    <>
-      <main className="whole_app_container">
-        <header className="whole_app_header">
-          <NavBar />
-        </header>
-        <section className="main_content">
-          <Router />
-        </section>
-        <footer>
-          <Footer />
-        </footer>
-      </main>
-    </>
+    <main className="whole_app_container">
+      <header className="whole_app_header">
+        <NavBar />
+      </header>
+      <section className="main_content">
+        <Router />
+      </section>
+      <footer>
+        <Footer />
+      </footer>
+    </main>
   );
 }
 
