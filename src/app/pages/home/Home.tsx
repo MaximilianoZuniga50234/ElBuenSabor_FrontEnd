@@ -12,8 +12,8 @@ import DesktopCard from "../../components/home/card/DesktopCard";
 const Home = () => {
   const products = useProduct().products;
 
-  const isMobile = useMediaQuery({ maxWidth: 425 });
-  const isDesktop = useMediaQuery({ minWidth: 426 });
+  const isMobile = useMediaQuery({ maxWidth: 585 });
+  const isDesktop = useMediaQuery({ minWidth: 586 });
 
   /* const [products, setProducts] = useState<Product[]>([]);
 

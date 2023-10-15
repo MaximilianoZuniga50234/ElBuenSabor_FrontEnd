@@ -5,10 +5,12 @@ import About from "../pages/About";
 import Employees from "../pages/employees/Employees";
 import Customers from "../pages/customers/Customers";
 import Profile from "../pages/profile/Profile";
-import Categories from "../components/home/categories/Categories";
 import CallbackPage from "../components/auth0/CallbackPage";
 import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 import NotFound from "../pages/NotFound";
+import AllProducts from "../pages/all products/AllProducts";
+// import ItemStockABM from "../pages/abm/itemStock/ItemStockABM";
+import ItemProductABM from "../pages/abm/itemProduct/ItemProductABM";
 
 const Router = () => {
   return (
@@ -23,9 +25,10 @@ const Router = () => {
       <Route path="/employees" element={<Employees />} />
       <Route path="/customers" element={<Customers />} />
       <Route path="/profile/:id" element={<Profile />} />
-      <Route path="/categories" element={<Categories />} />
+      <Route path="/products" element={<AllProducts />} />
       <Route path="/callback" element={<CallbackPage />} />
       <Route path="/error" element={<Error />} />
+      <Route path="/itemProductABM" element={<AuthenticationGuard component={ItemProductABM} />} />
     </Routes>
   );
 };
