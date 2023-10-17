@@ -2,6 +2,17 @@
 
 :root {
   --light-grayish-blue: #DFE4ED;
+  --ebony-50: #f1f5fc;
+  --ebony-100: #e6ebf9;
+  --ebony-200: #d1daf4;
+  --ebony-300: #b6c2eb;
+  --ebony-400: #98a3e1;
+  --ebony-500: #7e85d6;
+  --ebony-600: #6464c7;
+  --ebony-700: #5554ae;
+  --ebony-800: #46468d;
+  --ebony-900: #3e3f71;
+  --ebony-950: #11111f;
 }
 
 body {
