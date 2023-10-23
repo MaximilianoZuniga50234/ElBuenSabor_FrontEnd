@@ -11,6 +11,7 @@ import NotFound from "../pages/NotFound";
 import AllProducts from "../pages/all products/AllProducts";
 import ItemProductABM from "../pages/abm/itemProduct/ItemProductABM";
 import ItemStockABM from "../pages/abm/itemStock/ItemStockABM";
+import MeasurementUnitABM from "../pages/abm/measurementUnit/MeasurementUnitABM";
 
 const Router = () => {
   return (
@@ -30,6 +31,7 @@ const Router = () => {
       <Route path="/error" element={<Error />} />
       <Route path="/itemProductABM" element={<AuthenticationGuard component={ItemProductABM} />} />
       <Route path="/itemStockABM" element={<AuthenticationGuard component={ItemStockABM} />} />
+      <Route path="/measurementUnitABM" element={<AuthenticationGuard component={MeasurementUnitABM} />} />
     </Routes>
   );
 };
