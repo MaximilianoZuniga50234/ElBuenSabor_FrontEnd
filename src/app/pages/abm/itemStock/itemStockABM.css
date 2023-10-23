@@ -1,0 +1,149 @@
+:root {
+    --midnight-blue: #11111F;
+    --light-lavender-gray: #EEEEF6;
+}
+
+.itemStockABM__container {
+    padding: 30px;
+    max-width: 1440px;
+    margin: 0 auto;
+
+}
+
+.itemStockABM__table {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--light-lavender-gray);
+    border-radius: 10px;
+    border: 2px solid var(--midnight-blue);
+}
+
+.itemStockABM__header {
+    display: flex;
+    padding: 20px 40px;
+}
+
+.itemStockABM__title {
+    flex: 1;
+}
+
+.itemStockABM__button__container {
+    flex: 1;
+    display: flex;
+    justify-content: end;
+}
+
+.itemStockABM__button {
+    color: var(--light-lavender-gray);
+    background-color: var(--midnight-blue);
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    transition: .1s;
+}
+
+.itemStockABM__labels {
+    display: grid;
+    grid-template-columns: 1fr 4fr 2fr 2fr 2fr;
+    padding: 10px 0;
+    text-align: center;
+    border-top: 1px solid var(--midnight-blue);
+}
+
+.itemStockABM__row {
+    display: grid;
+    grid-template-columns: 1fr 4fr 2fr 2fr 2fr;
+    padding: 10px 0;
+    text-align: center;
+    border-top: 1px solid var(--midnight-blue);
+    align-items: center;
+}
+
+.itemStockABM__icon {
+    display: flex;
+    justify-content: center;
+}
+
+.itemStockABM__button--icon {
+    background-color: var(--midnight-blue);
+    color: var(--light-lavender-gray);
+    padding: 8px;
+    border-radius: 10px;
+    align-items: center;
+    display: flex;
+    transition: .1s;
+}
+
+.itemStockABM__h4 {
+    font-weight: 500;
+}
+
+.itemStockABM__button--icon:hover {
+    cursor: pointer;
+    background-color: royalblue;
+
+}
+
+.itemStockABM__button:hover {
+    cursor: pointer;
+    background-color: royalblue;
+}
+
+
+.itemStockABM__modal__box {
+    position: absolute;
+    /* top: 45%; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    background-color: var(--light-lavender-gray);
+    border: 1px solid var(--midnight-blue);
+    padding: 20px 40px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.itemStockABM__modal__h3 {
+    align-self: center;
+}
+
+.itemStockABM__modal__name,
+.itemStockABM__modal__state,
+.itemStockABM__modal__father {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.itemStockABM__modal__input,
+.itemStockABM__modal__select {
+    padding: 10px 5px;
+    background-color: var(--light-lavender-gray);
+    border: 1px solid var(--midnight-blue);
+    border-radius: 10px;
+}
+
+
+.itemStockABM__modal__buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.itemStockABM__modal__button {
+    display: flex;
+    padding: 10px 20px;
+    background-color: var(--midnight-blue);
+    color: var(--light-lavender-gray);
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+    justify-content: center;
+}
+
+.itemStockABM__modal__button:hover {
+    cursor: pointer;
+    background-color: royalblue;
+}
