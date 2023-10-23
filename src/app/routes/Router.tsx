@@ -9,8 +9,8 @@ import CallbackPage from "../components/auth0/CallbackPage";
 import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 import NotFound from "../pages/NotFound";
 import AllProducts from "../pages/all products/AllProducts";
-// import ItemStockABM from "../pages/abm/itemStock/ItemStockABM";
 import ItemProductABM from "../pages/abm/itemProduct/ItemProductABM";
+import ItemStockABM from "../pages/abm/itemStock/ItemStockABM";
 
 const Router = () => {
   return (
@@ -29,6 +29,7 @@ const Router = () => {
       <Route path="/callback" element={<CallbackPage />} />
       <Route path="/error" element={<Error />} />
       <Route path="/itemProductABM" element={<AuthenticationGuard component={ItemProductABM} />} />
+      <Route path="/itemStockABM" element={<AuthenticationGuard component={ItemStockABM} />} />
     </Routes>
   );
 };
