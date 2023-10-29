@@ -8,6 +8,7 @@ import { useMediaQuery } from "react-responsive";
 import "./Home.css";
 import MobileCard from "../../components/home/card/MobileCard";
 import DesktopCard from "../../components/home/card/DesktopCard";
+import { Header1 } from "../../components/header/header1/Header1";
 
 const Home = () => {
   const products = useProduct().products;
@@ -31,22 +32,26 @@ const Home = () => {
   }, []); */
 
   return (
-    <div className="home_main_container">
-      <h1>PRODUCTOS</h1>
-      <div className="products_group">
-        {products.map((p) => (
-           isMobile && <MobileCard key={p.id} product={p} /> ||
-           isDesktop && <DesktopCard key={p.id} product={p} />
-        ))}
-      </div>
-      <Categories />
-      {/* <Modal
+    <>
+      <Header1 />
+
+      <div className="home_main_container">
+        <h1>PRODUCTOS</h1>
+        <div className="products_group">
+          {products.map((p) => (
+            isMobile && <MobileCard key={p.id} product={p} /> ||
+            isDesktop && <DesktopCard key={p.id} product={p} />
+          ))}
+        </div>
+        <Categories />
+        {/* <Modal
         isOpen={isModalOpen}
         product={selectedProduct}
         onClose={closeModal}
         onAddToCart={ButtonClick}
       /> */}
-    </div>
+      </div>
+    </>
   );
 };
 

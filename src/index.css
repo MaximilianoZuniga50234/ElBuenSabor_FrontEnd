@@ -44,10 +44,6 @@ body {
   margin-bottom: 48px;
 }
 
-/* .main_content {
-  background-color: var(--light-grayish-blue);
-} */
-
 @media only screen and (min-width: 768px) {
   .whole_app_header {
     margin-bottom: 56px;
