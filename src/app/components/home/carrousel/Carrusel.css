@@ -1,0 +1,39 @@
+.Carrousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  text-align: center;
+  color: rgb(31, 27, 27);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 20px;
+  font-size: 30px;
+  padding: 20px;
+}
+
+.alice-carousel {
+  position: center;
+  max-width: 80%;
+  margin: 20px;
+  direction: ltr;
+}
+
+.alice-carousel__prev-btn,
+.alice-carousel__next-btn {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  font-size: 30px;
+}
+
+.alice-carousel__prev-btn {
+  left: -55%;
+}
+
+.alice-carousel__next-btn {
+  right: -55%;
+}
+
