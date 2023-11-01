@@ -1,20 +1,18 @@
+import { Link } from "react-router-dom";
 import "./header1.css";
 export function Header1() {
   return (
-    <div className="header1_header">
-      <div className="fondo">
-        <h1 className="texto">Tentate con nuestros mejores platos</h1>
-        <div className="div_boton">
-          <button>Ver productos</button>
+    <header className="header1__header">
+      <div className="header1__container">
+        <div className="header1__content__container">
+          <div className="header1__content">
+            <h1 className="header1__title">Tentate con nuestros mejores platos</h1>
+            <Link to="/products" className="header1__button">
+              Ver productos
+            </Link>
+          </div>
         </div>
       </div>
-      <div>
-        <img
-          className="header1_img"
-          src="/images/fondo_login.jpg"
-          alt="Imagen_fondo"
-        />
-      </div>
-    </div>
+    </header>
   );
 }

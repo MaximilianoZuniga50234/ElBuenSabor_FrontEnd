@@ -1,6 +1,4 @@
-
 import "./allproducts.css"
-import { Header1 } from "../../components/header/header1/Header1"
 import { Link } from "react-router-dom"
 import AllProductsCards from "./AllProductsCards"
 
@@ -8,7 +6,6 @@ export default function AllProducts() {
 
     return (
         <>
-            <Header1 />
             <div className="allProducts__container">
                 <div className="allProducts__bar">
                     <h4 className="allProducts__bar__title">

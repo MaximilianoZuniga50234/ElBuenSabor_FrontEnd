@@ -33,6 +33,7 @@ export default function ItemProductABM() {
     }
 
     const handleAdd = () => {
+        setItemProduct({ id: 0, denomination: "", active: true })
         handleOpen()
         setIsNew(true)
     }

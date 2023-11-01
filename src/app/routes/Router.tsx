@@ -9,9 +9,7 @@ import CallbackPage from "../components/auth0/CallbackPage";
 import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 import NotFound from "../pages/NotFound";
 import AllProducts from "../pages/all products/AllProducts";
-// import ItemStockABM from "../pages/abm/itemStock/ItemStockABM";
 import ItemProductABM from "../pages/abm/itemProduct/ItemProductABM";
-import Carrusel from "../components/home/carrousel/Carrousel";
 
 const Router = () => {
   return (
@@ -31,6 +29,8 @@ const Router = () => {
       <Route path="/carrousel" element={<Carrusel />} />
       <Route path="/error" element={<Error />} />
       <Route path="/itemProductABM" element={<AuthenticationGuard component={ItemProductABM} />} />
+      <Route path="/itemStockABM" element={<AuthenticationGuard component={ItemStockABM} />} />
+      <Route path="/measurementUnitABM" element={<AuthenticationGuard component={MeasurementUnitABM} />} />
     </Routes>
   );
 };
