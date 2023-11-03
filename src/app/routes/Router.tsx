@@ -10,8 +10,10 @@ import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 import NotFound from "../pages/NotFound";
 import AllProducts from "../pages/all products/AllProducts";
 import ItemProductABM from "../pages/abm/itemProduct/ItemProductABM";
+import Carrousel from "../components/home/carrousel/Carrousel";
 import ItemStockABM from "../pages/abm/itemStock/ItemStockABM";
-import MeasurementUnitABM from "../pages/abm/measurementUnit/MeasurementUnitABM";
+import MeasurementUnitABM  from "../pages/abm/measurementUnit/MeasurementUnitABM";
+import ShoppingCart from "../components/home/shoppingCart/ShoppingCart";
 
 const Router = () => {
   return (
@@ -28,10 +30,12 @@ const Router = () => {
       <Route path="/profile/:id" element={<Profile />} />
       <Route path="/products" element={<AllProducts />} />
       <Route path="/callback" element={<CallbackPage />} />
+      <Route path="/carrousel" element={<Carrousel />} />
       <Route path="/error" element={<Error />} />
       <Route path="/itemProductABM" element={<AuthenticationGuard component={ItemProductABM} />} />
       <Route path="/itemStockABM" element={<AuthenticationGuard component={ItemStockABM} />} />
       <Route path="/measurementUnitABM" element={<AuthenticationGuard component={MeasurementUnitABM} />} />
+      <Route path="/cart" element={<ShoppingCart />} />
     </Routes>
   );
 };

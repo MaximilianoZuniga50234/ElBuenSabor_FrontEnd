@@ -1,13 +1,64 @@
-import { useState } from "react";
-import { BiCartAdd } from "react-icons/bi";
-import { GrNext, GrPrevious } from "react-icons/gr";
+import { useState, useEffect } from "react";
+import Modal from "../../../components/modal/Modal";
 import { Product } from "../../../interfaces/Product";
+import "./carrusel.css";
+import { getAllProduct } from "../../../functions/ProductAPI";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
+import { BiCartAdd } from "react-icons/bi";
+import ShoppingCart from  "../shoppingCart/ShoppingCart";
 
 const Carrousel = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [shoppingCart, setShoppingCart] = useState<Product[]>([]);
+
+  const getProductsJSONFetch = async () => {
+    try {
+      const response = await getAllProduct();
+      setProducts(response);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
+  useEffect(() => {
+    getProductsJSONFetch();
+  }, []);
+
+  const ButtonClick = (product: Product) => {
+    setShoppingCart([...shoppingCart, product]);
+ };
+
+  const items = products.map((product) => (
+    <div className="productCard" key={product.id}>
+      <figure className="productFigure">
+        <img
+          src={product.imgUrl}
+          alt=""
+          className="productImage"
+          onClick={() => openModal(product)}
+        />
+      </figure>
+      <div className="productInfo">
+        <div className="productName">
+          <p className="products__card__p">{product.denomination}</p>
+        </div>
+        <div className="productPriceIcon">
+          <div className="productPrice">
+            <p className="products__card__p">${product.salePrice}</p>
+          </div>
+
+          <div className="productCart">
+            <button className="button" onClick={() => ButtonClick(product)}>
+              <BiCartAdd className="cart-icon" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  ));
 
   const openModal = (product: Product) => {
     setSelectedProduct(product);
@@ -15,70 +66,33 @@ const Carrousel = () => {
   };
 
   const closeModal = () => {
-    setSelectedProduct(null);
     setIsModalOpen(false);
   };
 
-  const ButtonClick = (product: Product) => {};
-
-  const moveCarousel = (direction: "prev" | "next") => {
-    const numProducts = products.length;
-
-    if (direction === "prev") {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === 0 ? numProducts - 1 : prevIndex - 1
-      );
-    } else if (direction === "next") {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === numProducts - 1 ? 0 : prevIndex + 1
-      );
-    }
-  };
   return (
-    <section>
-      <h1 style={{ textAlign: "center", margin: "0 0 20px 0" }}>Destacados</h1>
-      <div className="carousel-container">
-        <span onClick={() => moveCarousel("prev")} className="carousel-arrow">
-          <GrPrevious />
-        </span>
-        <div className="carousel-content">
-          <div
-            style={{
-              display: "flex",
-              maxHeight: "250px",
-              transform: `translateX(-${currentIndex * 125}px)`,
-              transition: "transform 0.3s ease-in-out",
-            }}
-          >
-            {products.map((product) => (
-              <div key={product.id} className="product-card">
-                <img
-                  src={product.imgUrl}
-                  alt={product.denomination}
-                  className="product-image"
-                  onClick={() => openModal(product)}
-                />
-                <div className="product-info">
-                  <h3 className="product-title">{product.denomination}</h3>
-                  <div className="product-price">
-                    <h4>${product.salePrice}</h4>
-                    <button
-                      className="button"
-                      onClick={() => ButtonClick(product)}
-                    >
-                      <BiCartAdd className="cart-icon" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <span onClick={() => moveCarousel("next")} className="carousel-arrow">
-          <GrNext />
-        </span>
-      </div>
-    </section>
+    <div className="Carrousel">
+      <h1 className="title">Destacados</h1>
+      <AliceCarousel
+        items={items}
+        responsive={{
+          0: { items: 1 },
+          800: { items: 2 },
+          1024: { items: 2 },
+          1304: { items: 3 },
+          2560: { items: 5 },
+          5570: { items: 7 }
+        }}
+        infinite
+        mouseTracking
+      />
+      <ShoppingCart shoppingCart={shoppingCart} />
+      <Modal
+        isOpen={isModalOpen}
+        product={selectedProduct}
+        onClose={closeModal}
+        onAddToCart={ButtonClick}
+      />
+    </div>
   );
 };
 
