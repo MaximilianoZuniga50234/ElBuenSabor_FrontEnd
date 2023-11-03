@@ -6,12 +6,13 @@ import { getAllProduct } from "../../../functions/ProductAPI";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { BiCartAdd } from "react-icons/bi";
-import "../../../pages/all products/allproducts.css";
+import ShoppingCart from  "../shoppingCart/ShoppingCart";
 
 const Carrousel = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [shoppingCart, setShoppingCart] = useState<Product[]>([]);
 
   const getProductsJSONFetch = async () => {
     try {
@@ -26,28 +27,30 @@ const Carrousel = () => {
     getProductsJSONFetch();
   }, []);
 
-  const ButtonClick = (product: Product) => {};
+  const ButtonClick = (product: Product) => {
+    setShoppingCart([...shoppingCart, product]);
+ };
 
   const items = products.map((product) => (
-    <div className="allProducts__card" key={product.id}>
-      <figure className="allProducts__card__figure">
+    <div className="productCard" key={product.id}>
+      <figure className="productFigure">
         <img
           src={product.imgUrl}
           alt=""
-          className="allProducts__card__img"
+          className="productImage"
           onClick={() => openModal(product)}
         />
       </figure>
-      <div className="allProducts__card__text">
-        <div className="allProducts__card__productName">
-          <p className="allProducts__card__p">{product.denomination}</p>
+      <div className="productInfo">
+        <div className="productName">
+          <p className="products__card__p">{product.denomination}</p>
         </div>
-        <div className="allProducts__card__priceAndCart">
-          <div className="allProducts__card__price">
-            <p className="allProducts__card__p">${product.salePrice}</p>
+        <div className="productPriceIcon">
+          <div className="productPrice">
+            <p className="products__card__p">${product.salePrice}</p>
           </div>
 
-          <div className="allProducts__card__cart">
+          <div className="productCart">
             <button className="button" onClick={() => ButtonClick(product)}>
               <BiCartAdd className="cart-icon" />
             </button>
@@ -73,12 +76,16 @@ const Carrousel = () => {
         items={items}
         responsive={{
           0: { items: 1 },
-          568: { items: 2 },
-          1024: { items: 5 },
+          800: { items: 2 },
+          1024: { items: 2 },
+          1304: { items: 3 },
+          2560: { items: 5 },
+          5570: { items: 7 }
         }}
         infinite
         mouseTracking
       />
+      <ShoppingCart shoppingCart={shoppingCart} />
       <Modal
         isOpen={isModalOpen}
         product={selectedProduct}
