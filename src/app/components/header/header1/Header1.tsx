@@ -6,8 +6,10 @@ export function Header1() {
       <div className="header1__container">
         <div className="header1__content__container">
           <div className="header1__content">
-            <h1 className="header1__title">Tentate con nuestros mejores platos</h1>
-            <Link to="/products" className="header1__button">
+            <h1 className="header1__title">
+              Tentate con nuestros mejores platos
+            </h1>
+            <Link to="/u/products" className="header1__button">
               Ver productos
             </Link>
           </div>
