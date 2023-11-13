@@ -1,9 +1,9 @@
+import { Status } from "./Status";
 import { Address } from "./Address";
 import { Base } from "./Base";
-import { Person } from "./Person";
 import { Product } from "./Product";
-import { State } from "./State";
 import { Stock } from "./Stock";
+import { User } from "../interfaces/User";
 
 interface PurchaseOrderDetail {
   amount: number;
@@ -21,7 +21,7 @@ export interface PurchaseOrder extends Base {
   paymentMethod: string;
   total: number;
   address: Address;
-  person: Person;
-  state: State;
+  user: User;
+  status: Status;
   details: PurchaseOrderDetail[];
 }

@@ -6,7 +6,7 @@ export async function getAllItemProduct() {
   );
 }
 
-export async function getOneItemProduct(id: String) {
+export async function getOneItemProduct(id: string) {
   return await fetch(`http://localhost:9000/api/v1/itemProduct/${id}`).then(
     (r) => r.json
   );

@@ -74,7 +74,7 @@ const NavBar = () => {
             </button>
           </li>
           <li className="nav_bar_home">
-            <Link to="/home" onClick={handleCloseMenu}>
+            <Link to="/" onClick={handleCloseMenu}>
               <span>
                 <FaHome /> Inicio
               </span>
