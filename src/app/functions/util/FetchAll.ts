@@ -10,11 +10,11 @@ import { useStore as useStoreP } from "../../store/PersonStore";
 import { useStore as useStorePr } from "../../store/ProductStore";
 import { useStore as useStorePO } from "../../store/PurchaseOrderStore";
 import { useStore as useStoreR } from "../../store/RoleStore";
-import { useStore as useStoreS } from "../../store/StateStore";
+import { useStore as useStoreS } from "../../store/StatusStore";
 import { useStore as useStoreSt } from "../../store/StockStore";
 import { useStore as useStoreU } from "../../store/UserStore";
 
-export const fetchAll = async () => {
+export const useFetchAll = async () => {
   const { add_all_address } = useStoreA();
   const { add_all_department } = useStoreD();
   const { add_all_invoice } = useStoreI();
@@ -26,7 +26,7 @@ export const fetchAll = async () => {
   const { add_all_product } = useStorePr();
   const { add_all_purchase_order } = useStorePO();
   const { add_all_role } = useStoreR();
-  const { add_all_state } = useStoreS();
+  const { add_all_status } = useStoreS();
   const { add_all_stock } = useStoreSt();
   const { add_all_user } = useStoreU();
 
@@ -42,7 +42,7 @@ export const fetchAll = async () => {
     add_all_product();
     add_all_purchase_order();
     add_all_role();
-    add_all_state();
+    add_all_status();
     add_all_stock();
     add_all_user();
   }, []);

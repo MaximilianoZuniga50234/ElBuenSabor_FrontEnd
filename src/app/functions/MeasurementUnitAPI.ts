@@ -6,7 +6,7 @@ export async function getAllMeasurementUnit() {
   );
 }
 
-export async function getOneMeasurementUnit(id: String) {
+export async function getOneMeasurementUnit(id: string) {
   return await fetch(`http://localhost:9000/api/v1/measurementUnit/${id}`).then(
     (r) => r.json
   );

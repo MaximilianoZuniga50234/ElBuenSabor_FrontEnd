@@ -1,7 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
 
 :root {
-  --light-grayish-blue: #DFE4ED;
+  --black: #000000;
+  --white: #ffffff;
+  --light-grayish-blue: #dfe4ed;
   --ebony-50: #f1f5fc;
   --ebony-100: #e6ebf9;
   --ebony-200: #d1daf4;
@@ -19,10 +21,10 @@ body {
   background-color: var(--light-grayish-blue);
 }
 
-
 * {
   margin: 0;
   padding: 0;
+  gap: 0;
   outline: none;
   box-sizing: border-box;
   font-family: "Rubik", sans-serif;
