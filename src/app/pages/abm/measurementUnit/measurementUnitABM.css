@@ -105,8 +105,8 @@
     gap: 30px;
 }
 
-.measurementUnitABM__modal__h3 {
-    align-self: center;
+.measurementUnitABM__modal__box>.measurementUnitABM__modal__h3 {
+    text-align: center;
 }
 
 .measurementUnitABM__modal__name,

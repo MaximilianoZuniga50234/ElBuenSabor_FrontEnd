@@ -87,19 +87,19 @@ export default function MeasurementUnitABM() {
             <div className="measurementUnitABM__table">
                 <div className="measurementUnitABM__header">
                     <div className="measurementUnitABM__title">
-                        <h1 className="measurementUnitABM__h1">Rubros de productos</h1>
+                        <h1 className="measurementUnitABM__h1">Unidades de medida</h1>
                     </div>
 
                     <div className="measurementUnitABM__button__container">
                         <button className="measurementUnitABM__button" onClick={() => handleAdd()}>
-                            Añadir nuevo rubro
+                            Añadir nueva medida
                         </button>
                     </div>
                 </div>
 
                 <div className="measurementUnitABM__labels">
                     <h3 className="measurementUnitABM__h3">Id</h3>
-                    <h3 className="measurementUnitABM__h3">Nombre del rubro</h3>
+                    <h3 className="measurementUnitABM__h3">Nombre de la unidad de medida</h3>
                     <h3 className="measurementUnitABM__h3">Estado</h3>
                     <h3 className="measurementUnitABM__h3">Modificar</h3>
                 </div>
@@ -136,11 +136,11 @@ export default function MeasurementUnitABM() {
                 <Fade in={open}>
                     <Box className='measurementUnitABM__modal__box'>
                         <h3 className="measurementUnitABM__modal__h3">
-                            {isNew ? 'Añadir nuevo' : 'Modificar'} rubro
+                            {isNew ? 'Añadir nueva' : 'Modificar'} unidad de medida
                         </h3>
 
                         <div className="measurementUnitABM__modal__name">
-                            <label htmlFor="measurementUnitABM__modal__input">Nombre del rubro</label>
+                            <label htmlFor="measurementUnitABM__modal__input">Nombre de la unidad de medida</label>
                             <input type="text"
                                 placeholder='Ingrese el nombre'
                                 className="measurementUnitABM__modal__input"
@@ -150,7 +150,7 @@ export default function MeasurementUnitABM() {
 
                         <div className="measurementUnitABM__modal__state">
 
-                            <label htmlFor="measurementUnitABM__modal__select">Estado del rubro</label>
+                            <label htmlFor="measurementUnitABM__modal__select">Estado de la unidad de medida</label>
                             <select className="measurementUnitABM__modal__select" defaultValue={measurementUnit?.active === true ? 'De alta' : 'De baja'} onChange={handleChangeOption}>
                                 <option className="measurementUnitABM__modal__option">De alta</option>
                                 <option className="measurementUnitABM__modal__option">De baja</option>
