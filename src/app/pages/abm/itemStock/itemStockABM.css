@@ -20,7 +20,7 @@
 
 .itemStockABM__header {
     display: flex;
-    padding: 20px 40px;
+    padding: 20px 70px 20px 60px;
 }
 
 .itemStockABM__title {
@@ -45,7 +45,7 @@
 .itemStockABM__labels {
     display: grid;
     grid-template-columns: 1fr 4fr 2fr 2fr 2fr;
-    padding: 10px 0;
+    padding: 16px 0;
     text-align: center;
     border-top: 1px solid var(--midnight-blue);
 }
