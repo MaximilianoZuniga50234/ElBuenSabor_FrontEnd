@@ -2,12 +2,15 @@ import { FaChevronDown, FaChevronUp, FaSearch } from "react-icons/fa";
 import { useStore } from "../../store/PurchaseOrderStore";
 import "./orders.css";
 import Table from "../../components/orders/OrdersTable";
-import { MouseEvent, useState } from "react";
+import { FormEvent, MouseEvent, useState } from "react";
 
 const Orders = () => {
-  const orders = useStore().purchaseOrders;
   const [active, setActive] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("");
+  // const [search, setSearch] = useState<string>("");
+  const orders = useStore().purchaseOrders;
+  const filterOrders =
+    filter === "" ? orders : orders.filter((o) => o.status.status === filter);
 
   const handleDrop = () => {
     setActive(!active);
@@ -16,6 +19,10 @@ const Orders = () => {
   const handleFilter = (e: MouseEvent<HTMLLIElement>) => {
     setFilter(e.currentTarget.innerText);
     setActive(false);
+  };
+
+  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
   };
 
   return (
@@ -66,14 +73,14 @@ const Orders = () => {
             </ul>
           </div>
         </div>
-        <form>
-          <input type="text" placeholder="Buscar por nombre y/o apellido" />
+        <form onSubmit={handleSearch}>
+          <input type="text" placeholder="Buscar por cliente" />
           <button type="submit">
             <FaSearch />
           </button>
         </form>
       </div>
-      <Table datos={orders} />
+      <Table datos={filterOrders} />
     </main>
   );
 };
