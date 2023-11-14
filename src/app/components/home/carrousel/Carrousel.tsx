@@ -6,13 +6,13 @@ import { getAllProduct } from "../../../functions/ProductAPI";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { BiCartAdd } from "react-icons/bi";
-import ShoppingCart from  "../shoppingCart/ShoppingCart";
+import { useStore } from "../../../store/CartStore";
 
 const Carrousel = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [shoppingCart, setShoppingCart] = useState<Product[]>([]);
+  const addToCart = useStore().add;
 
   const getProductsJSONFetch = async () => {
     try {
@@ -27,9 +27,9 @@ const Carrousel = () => {
     getProductsJSONFetch();
   }, []);
 
-  const ButtonClick = (product: Product) => {
-    setShoppingCart([...shoppingCart, product]);
- };
+  const buttonClick = (product: Product) => {
+    addToCart(product);
+  };
 
   const items = products.map((product) => (
     <div className="productCard" key={product.id}>
@@ -51,7 +51,7 @@ const Carrousel = () => {
           </div>
 
           <div className="productCart">
-            <button className="button" onClick={() => ButtonClick(product)}>
+            <button className="button" onClick={() => buttonClick(product)}>
               <BiCartAdd className="cart-icon" />
             </button>
           </div>
@@ -79,18 +79,18 @@ const Carrousel = () => {
           800: { items: 2 },
           1024: { items: 2 },
           1304: { items: 3 },
+          1440: { items: 4 },
           2560: { items: 5 },
           5570: { items: 7 }
         }}
         infinite
         mouseTracking
       />
-      <ShoppingCart shoppingCart={shoppingCart} />
       <Modal
         isOpen={isModalOpen}
         product={selectedProduct}
         onClose={closeModal}
-        onAddToCart={ButtonClick}
+        onAddToCart={buttonClick}
       />
     </div>
   );
