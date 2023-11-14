@@ -8,16 +8,17 @@ type Store = {
   clear: () => void;
 };
 
-export const useStore = create<Store>()((set) => ({
+export const useStore = create<Store>((set) => ({
   cartProducts: [],
-  add: (newProduct: Product) => {
-    set((state) => ({ cartProducts: [...state.cartProducts, newProduct] }));
-  },
+  add: (newProduct: Product) =>
+    set((state) => ({ cartProducts: [...state.cartProducts, newProduct] })),
+
   remove: (productId: number) =>
     set((state) => ({
       cartProducts: state.cartProducts.filter(
         (cartProduct) => cartProduct.id !== productId
       ),
     })),
+    
   clear: () => set({ cartProducts: [] }),
 }));
