@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { MercadoPagoData } from "../interfaces/MercadoPagoData";
+import { MercadoPagoData } from "../../interfaces/MercadoPagoData";
 
 type Store = {
   mercadoPagoDataArray: MercadoPagoData[];

@@ -1,14 +1,14 @@
 import { ItemProduct } from "../interfaces/ItemProduct";
 
 export async function getAllItemProduct() {
-  return await fetch("http://localhost:9000/api/v1/itemProduct").then(
-    (r) => r.json
+  return await fetch("http://localhost:9000/api/v1/itemProduct").then((r) =>
+    r.json()
   );
 }
 
 export async function getOneItemProduct(id: string) {
   return await fetch(`http://localhost:9000/api/v1/itemProduct/${id}`).then(
-    (r) => r.json
+    (r) => r.json()
   );
 }
 

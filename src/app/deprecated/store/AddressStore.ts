@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Address } from "../interfaces/Address";
+import { Address } from "../../interfaces/Address";
 
 type Store = {
   addresses: Address[];

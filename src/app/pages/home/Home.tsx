@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal";
 import { Product } from "../../interfaces/Product";
-import { useStore as useProduct } from "../../store/ProductStore";
 import { getAllProduct } from "../../functions/ProductAPI";
 import Categories from "../../components/home/categories/Categories";
 import { useMediaQuery } from "react-responsive";
@@ -11,12 +10,10 @@ import DesktopCard from "../../components/home/card/DesktopCard";
 import { Header1 } from "../../components/header/header1/Header1";
 
 const Home = () => {
-  const products = useProduct().products;
-
   const isMobile = useMediaQuery({ maxWidth: 585 });
   const isDesktop = useMediaQuery({ minWidth: 586 });
 
-  /* const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   const getProductsJSONFetch = async () => {
     try {
@@ -29,19 +26,19 @@ const Home = () => {
 
   useEffect(() => {
     getProductsJSONFetch();
-  }, []); */
+  }, []);
 
   return (
     <>
       <Header1 />
-
       <div className="home_main_container">
         <h1>PRODUCTOS</h1>
         <div className="products_group">
-          {products.map((p) => (
-            isMobile && <MobileCard key={p.id} product={p} /> ||
-            isDesktop && <DesktopCard key={p.id} product={p} />
-          ))}
+          {products.map(
+            (p) =>
+              (isMobile && <MobileCard key={p.id} product={p} />) ||
+              (isDesktop && <DesktopCard key={p.id} product={p} />)
+          )}
         </div>
         <Categories />
         {/* <Modal

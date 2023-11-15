@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Status } from "../interfaces/Status";
+import { Status } from "../../interfaces/Status";
 
 type Store = {
   statuses: Status[];

@@ -1,8 +1,8 @@
 import { ItemStock } from "../interfaces/ItemStock";
 
 export async function getAllItemStock() {
-  return await fetch("http://localhost:9000/api/v1/itemStock").then(
-    (r) => r.json
+  return await fetch("http://localhost:9000/api/v1/itemStock").then((r) =>
+    r.json()
   );
 }
 
