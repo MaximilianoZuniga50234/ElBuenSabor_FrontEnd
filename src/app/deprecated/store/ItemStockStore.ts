@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ItemStock } from "../interfaces/ItemStock";
+import { ItemStock } from "../../interfaces/ItemStock";
 
 type Store = {
   itemStocks: ItemStock[];

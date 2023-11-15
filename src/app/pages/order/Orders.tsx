@@ -1,14 +1,15 @@
 import { FaChevronDown, FaChevronUp, FaSearch } from "react-icons/fa";
-import { useStore } from "../../store/PurchaseOrderStore";
-import "./orders.css";
 import Table from "../../components/orders/OrdersTable";
-import { FormEvent, MouseEvent, useState } from "react";
+import { FormEvent, MouseEvent, useState, useEffect } from "react";
+import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
+import { getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
+import "./orders.css";
 
 const Orders = () => {
   const [active, setActive] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("");
   // const [search, setSearch] = useState<string>("");
-  const orders = useStore().purchaseOrders;
+  const [orders, setOrders] = useState<PurchaseOrder[]>([]);
   const filterOrders =
     filter === "" ? orders : orders.filter((o) => o.status.status === filter);
 
@@ -24,6 +25,19 @@ const Orders = () => {
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    const getAllItems = async () => {
+      try {
+        const response = await getAllPurchaseOrder();
+        setOrders(response);
+      } catch (error) {
+        console.error("Error", error);
+      }
+    };
+
+    getAllItems();
+  }, []);
 
   return (
     <main className="main_employees_list">

@@ -1,13 +1,29 @@
 import { FaSearch } from "react-icons/fa";
 import Table from "../../components/customers/CustomersTable";
-import "./customers.css";
-import { useStore as useUsers } from "../../store/UserStore";
 import { User } from "../../interfaces/User";
+import { useState, useEffect } from "react";
+import { getAllUser } from "../../functions/UserAPI";
+import "./customers.css";
 
 const Customers = () => {
-  const customers: User[] = useUsers()
-    .users.filter((user) => user.role === "Cliente")
-    .sort((a: User, b: User) => b.orders.length - a.orders.length);
+  const [customers, setCustomers] = useState<User[]>([]);
+
+  useEffect(() => {
+    const getAllItems = async () => {
+      try {
+        const response = await getAllUser();
+        setCustomers(
+          response
+            .filter((user: User) => user.role === "Cliente")
+            .sort((a: User, b: User) => b.orders - a.orders)
+        );
+      } catch (error) {
+        console.error("Error", error);
+      }
+    };
+
+    getAllItems();
+  }, []);
 
   return (
     <main className="main_employees_list">

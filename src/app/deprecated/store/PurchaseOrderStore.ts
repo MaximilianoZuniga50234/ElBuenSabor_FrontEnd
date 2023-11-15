@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { PurchaseOrder } from "../interfaces/PurchaseOrder";
+import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 
 type Store = {
   purchaseOrders: PurchaseOrder[];

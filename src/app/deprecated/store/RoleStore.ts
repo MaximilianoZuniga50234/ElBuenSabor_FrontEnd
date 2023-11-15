@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Role } from "../interfaces/Role";
+import { Role } from "../../interfaces/Role";
 
 type Store = {
   roles: Role[];

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { MeasurementUnit } from "../interfaces/MeasurementUnit";
+import { MeasurementUnit } from "../../interfaces/MeasurementUnit";
 
 type Store = {
   measurementUnits: MeasurementUnit[];

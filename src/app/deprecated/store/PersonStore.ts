@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Person } from "../interfaces/Person";
+import { Person } from "../../interfaces/Person";
 
 type Store = {
   people: Person[];

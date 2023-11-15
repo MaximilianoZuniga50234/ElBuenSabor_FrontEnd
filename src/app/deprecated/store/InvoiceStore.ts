@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Invoice } from "../interfaces/Invoice";
+import { Invoice } from "../../interfaces/Invoice";
 
 type Store = {
   invoices: Invoice[];

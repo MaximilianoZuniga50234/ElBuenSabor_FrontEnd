@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { User } from "../interfaces/User";
+import { User } from "../../interfaces/User";
 
 type Store = {
   users: User[];
@@ -11,8 +11,8 @@ type Store = {
 export const useStore = create<Store>()((set) => ({
   users: [],
   add_all_user: async () => {
-    const users = await fetch("http://localhost:9000/api/v1/user/order").then((res) =>
-      res.json()
+    const users = await fetch("http://localhost:9000/api/v1/user/order").then(
+      (res) => res.json()
     );
     set({ users });
   },
