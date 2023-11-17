@@ -1,0 +1,58 @@
+.modalStock__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    background-color: var(--light-lavender-gray);
+    border: 1px solid var(--midnight-blue);
+    padding: 20px 40px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modalStock__box>.modalStock__h3 {
+    text-align: center;
+}
+
+.modalStock__name,
+.modalStock__minimumStock,
+.modalStock__currentStock,
+.modalStock__itemStock,
+.modalStock__state,
+.modalStock__measurementUnit {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modalStock__input,
+.modalStock__select {
+    padding: 10px 5px;
+    background-color: var(--light-lavender-gray);
+    border: 1px solid var(--midnight-blue);
+    border-radius: 10px;
+}
+
+.modalStock__buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalStock__button {
+    display: flex;
+    padding: 10px 20px;
+    background-color: var(--midnight-blue);
+    color: var(--light-lavender-gray);
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+    justify-content: center;
+}
+
+.modalStock__button:hover {
+    cursor: pointer;
+    background-color: royalblue;
+}
