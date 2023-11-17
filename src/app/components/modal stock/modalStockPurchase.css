@@ -1,0 +1,66 @@
+.modalStockPurchase__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    background-color: var(--light-lavender-gray);
+    border: 1px solid var(--midnight-blue);
+    padding: 20px 40px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modalStockPurchase__box>.modalStockPurchase__h3 {
+    text-align: center;
+}
+
+.modalStockPurchase__itemStock,
+.modalStockPurchase__price,
+.modalStockPurchase__quantityPurchased {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modalStockPurchase__input,
+.modalStockPurchase__select {
+    padding: 10px 5px;
+    background-color: var(--light-lavender-gray);
+    border: 1px solid var(--midnight-blue);
+    border-radius: 10px;
+}
+
+.modalStockPurchase__buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalStockPurchase__button {
+    display: flex;
+    padding: 10px 20px;
+    background-color: var(--midnight-blue);
+    color: var(--light-lavender-gray);
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+    justify-content: center;
+}
+
+.modalStockPurchase__button--addStock {
+    display: flex;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: var(--midnight-blue);
+    color: var(--light-lavender-gray);
+    border: none;
+    border-radius: 10px;
+    justify-content: center;
+}
+
+.modalStockPurchase__button:hover {
+    cursor: pointer;
+    background-color: royalblue;
+}

@@ -90,6 +90,13 @@ const NavBar = () => {
                     </span>
                   </Link>
                 </li>
+                <li className="nav_bar_dropdown_li">
+                  <Link to="/e/stockAbm" className="nav_bar_dropdown_link">
+                    <span>
+                      Stock ABM
+                    </span>
+                  </Link>
+                </li>
               </ul>
             </li>
             <li>

@@ -11,5 +11,5 @@ export interface Stock extends Base {
   isStock: boolean;
   active: boolean;
   measurementUnit: MeasurementUnit;
-  itemStock: ItemStock;
+  itemStock: ItemStock | undefined;
 }

@@ -49,9 +49,17 @@ export default function ItemStockABM() {
   };
 
   const handleModify = (itemStockParam: ItemStock) => {
-    const father = itemStocks.find(
-      (itemStock) => itemStock.name === itemStockParam.father?.toString()
-    );
+    let father: ItemStock | undefined
+    if (typeof itemStockParam.father?.name === 'string') {
+      father = itemStocks.find(
+        (itemStock) => itemStock.name === itemStockParam.father?.name
+      );
+    } else {
+      father = itemStocks.find(
+        (itemStock) => itemStock.name === itemStockParam.father?.toString()
+      );
+    }
+
     if (itemStock) {
       setItemStock({ ...itemStockParam, father: father });
     }
@@ -70,7 +78,7 @@ export default function ItemStockABM() {
       }
     }
     handleClose();
-    window.location.reload();
+    // window.location.reload();
   };
 
   useEffect(() => {
@@ -145,7 +153,7 @@ export default function ItemStockABM() {
               <h4 className="itemStockABM__h4">{itemStock.id}</h4>
               <h4 className="itemStockABM__h4">{itemStock.name}</h4>
               <h4 className="itemStockABM__h4">
-                {itemStock.father?.toString()}
+                {itemStock.father ? itemStock.father?.name : itemStock.name}
               </h4>
               <h4 className="itemStockABM__h4">
                 {itemStock.active === true ? "De alta" : "De baja"}
@@ -197,9 +205,7 @@ export default function ItemStockABM() {
               <label htmlFor="itemStockABM__modal__select">Rubro Padre</label>
               <select
                 className="itemStockABM__modal__select"
-                defaultValue={
-                  itemStock?.father ? itemStock?.father?.name : "Carne"
-                }
+                defaultValue={itemStock?.father ? itemStock?.father?.name : itemStock?.name}
                 onChange={handleChangeFather}
               >
                 {itemStocks?.map((itemStock) => (

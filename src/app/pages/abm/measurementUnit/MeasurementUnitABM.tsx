@@ -12,9 +12,7 @@ import { toast, Toaster } from "sonner";
 import { MeasurementUnit } from "../../../interfaces/MeasurementUnit";
 
 export default function MeasurementUnitABM() {
-  const [measurementUnits, setMeasurementUnits] = useState<MeasurementUnit[]>(
-    []
-  );
+  const [measurementUnits, setMeasurementUnits] = useState<MeasurementUnit[]>([]);
   const [measurementUnit, setMeasurementUnit] = useState<MeasurementUnit>({
     id: 0,
     name: "",
