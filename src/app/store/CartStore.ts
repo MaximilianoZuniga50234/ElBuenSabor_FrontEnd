@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Product } from "../interfaces/Product";
+import { CartItem } from "../interfaces/CartItem";
 
 type Store = {
-  cartProducts: Product[];
+  cartProducts: CartItem[];
 };
 
 type Actions = {
@@ -17,11 +18,32 @@ export const useStore = create(
     (set) => ({
       cartProducts: [],
       add: (newProduct: Product) =>
-        set((state) => ({ cartProducts: [...state.cartProducts, newProduct] })),
+        set((state) => {
+          const existingProduct = state.cartProducts.find(
+            (cartProduct) => cartProduct.product.id === newProduct.id
+          );
+
+          if (existingProduct) {
+            const updatedCart = state.cartProducts.map((cartProduct) =>
+              cartProduct.product.id === newProduct.id
+                ? { ...cartProduct, amount: cartProduct.amount + 1 }
+                : cartProduct
+            );
+
+            return { cartProducts: updatedCart };
+          } else {
+            return {
+              cartProducts: [
+                ...state.cartProducts,
+                { product: newProduct, amount: 1 },
+              ],
+            };
+          }
+        }),
       remove: (productId: number) =>
         set((state) => ({
           cartProducts: state.cartProducts.filter(
-            (cartProduct) => cartProduct.id !== productId
+            (cartItem) => cartItem.product.id !== productId
           ),
         })),
       clear: () => set({ cartProducts: [] }),
