@@ -16,18 +16,6 @@ interface ModalStockPurchaseProps {
 
 export default function ModalStockPurchase({ stock, setStock, isOpen, handleClose }: ModalStockPurchaseProps) {
 
-    const [stocks, setStocks] = useState<Stock[]>([])
-    const [openModalStock, setOpenModalStock] = useState(false);
-    const handleOpenModalStock = () => setOpenModalStock(true);
-    const handleCloseModalStock = () => setOpenModalStock(false);
-    const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-    const [tokenState, setTokenState] = useState("");
-
-    const [stockModified, setStockModified] = useState({
-        price: 0,
-        quantityPurchased: 0
-    })
-
     const stockInitialState: Stock = {
         id: 0,
         denomination: "",
@@ -41,7 +29,24 @@ export default function ModalStockPurchase({ stock, setStock, isOpen, handleClos
         itemStock: { id: 0, name: "", active: true, father: undefined, }
     }
 
-    const [stockPurchased, setStockPurchased] = useState<Stock>(stockInitialState)
+    const [stocks, setStocks] = useState<Stock[]>([])
+    const [openModalStock, setOpenModalStock] = useState(false);
+    const handleOpenModalStock = () => {
+        if (setStock) {
+            setStock(stockInitialState)
+        }
+        setOpenModalStock(true);
+    }
+    const handleCloseModalStock = () => setOpenModalStock(false);
+    const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+    const [tokenState, setTokenState] = useState("");
+
+    const [stockModified, setStockModified] = useState({
+        price: 0,
+        quantityPurchased: 0
+    })
+
+    const [stockPurchased, setStockPurchased] = useState<Stock>(stock)
 
     const getToken = async () => {
         try {
@@ -67,10 +72,14 @@ export default function ModalStockPurchase({ stock, setStock, isOpen, handleClos
     }, [])
 
     useEffect(() => {
-        if (stocks.length > 0) {
-            setStockPurchased(stocks[0])
+        if (stock.denomination === "") {
+            if (stocks.length > 0) {
+                setStockPurchased(stocks[0])
+            }
+        } else {
+            setStockPurchased(stock)
         }
-    }, [stocks])
+    }, [stock])
 
     useEffect(() => {
         if (stockPurchased) {
@@ -92,7 +101,6 @@ export default function ModalStockPurchase({ stock, setStock, isOpen, handleClos
     }
 
     const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-
         if (stockPurchased) {
             setStockModified({ ...stockModified, price: Number(event.target.value) })
         }
@@ -139,7 +147,7 @@ export default function ModalStockPurchase({ stock, setStock, isOpen, handleClos
                         <div className="modalStockPurchase__itemStock">
                             <label htmlFor="modalStockPurchase__select">Seleccionar ingrediente</label>
                             <select className="modalStockPurchase__select"
-                                defaultValue={stockPurchased.denomination}
+                                value={stockPurchased.denomination}
                                 onChange={handleChangeStock}
                             >
                                 {stocks.map((stock: Stock) => (

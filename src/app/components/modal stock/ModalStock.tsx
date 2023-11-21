@@ -60,7 +60,6 @@ export default function ModalStock({ stock, setStock, isOpen, handleClose, isNew
         }
     }, [isOpen])
 
-
     const handleConfirm = () => {
         if (!isNew) {
             updateStock(stock, tokenState)

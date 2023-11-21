@@ -97,6 +97,13 @@ const NavBar = () => {
                     </span>
                   </Link>
                 </li>
+                <li className="nav_bar_dropdown_li">
+                  <Link to="/e/lowStock" className="nav_bar_dropdown_link">
+                    <span>
+                      Low Stock Page
+                    </span>
+                  </Link>
+                </li>
               </ul>
             </li>
             <li>
