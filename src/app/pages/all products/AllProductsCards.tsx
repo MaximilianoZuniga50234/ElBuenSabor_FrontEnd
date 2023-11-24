@@ -1,23 +1,12 @@
 import { FaCartShopping } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getAllProduct } from "../../functions/ProductAPI";
 import { Product } from "../../interfaces/Product";
 
-export default function AllProductsCards() {
-  const [products, setProducts] = useState<Product[]>([]);
-  useEffect(() => {
-    const getAllItems = async () => {
-      try {
-        const response = await getAllProduct();
-        setProducts(response);
-      } catch (error) {
-        console.error("Error", error);
-      }
-    };
+interface Props {
+  products: Product[];
+}
 
-    getAllItems();
-  }, []);
+export default function AllProductsCards({ products }: Props) {
 
   return (
     <>
@@ -26,7 +15,7 @@ export default function AllProductsCards() {
           <figure className="allProducts__card__figure">
             <img
               src={product.imgUrl}
-              alt=""
+              alt="Imagen del producto"
               className="allProducts__card__img"
             />
           </figure>

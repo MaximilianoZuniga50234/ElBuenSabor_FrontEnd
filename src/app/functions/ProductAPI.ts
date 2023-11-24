@@ -9,3 +9,9 @@ export async function getOneProduct(id: string) {
     r.json()
   );
 }
+
+export async function getProductsForName(search: string) {
+  return await fetch(
+    `http://localhost:9000/api/v1/product/search/${search}`
+  ).then((r) => r.json());
+}
