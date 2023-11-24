@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+  const [wordToSearch, setWordToSearch] = useState("")
 
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
@@ -37,18 +38,26 @@ const NavBar = () => {
     logout({ logoutParams: { returnTo: window.location.origin } })
   }
 
+  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setWordToSearch(event.target.value)
+  }
+
   return (
     <nav className="nav_bar_pre_login_container">
       <Link to="/" className="nav_bar_logo">
         <span>EL BUEN SABOR</span>
       </Link>
 
-      <form className="nav_bar_form">
-        <input type="text" placeholder="Búsqueda" required />
-        <button>
+      <div className="nav_bar_form">
+        <input type="text" placeholder="Búsqueda" required onChange={handleChangeInput} />
+
+        <Link to={
+          wordToSearch != '' ?
+            `u/products/search/${wordToSearch}` :
+            "u/products"}>
           <FaSearch />
-        </button>
-      </form>
+        </Link>
+      </div>
 
       <label
         className="nav_bar_menu_icon"
@@ -58,7 +67,6 @@ const NavBar = () => {
       >
         <FaBars />
       </label>
-
 
       <ul className={`nav_bar_list ${isMenuOpen ? "active" : ""}`}>
         {isAuthenticated ?

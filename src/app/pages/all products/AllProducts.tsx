@@ -1,8 +1,55 @@
 import "./allproducts.css"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import AllProductsCards from "./AllProductsCards"
+import { useEffect, useState } from "react"
+import { Product } from "../../interfaces/Product";
+import { getAllProduct, getProductsForName } from "../../functions/ProductAPI";
 
 export default function AllProducts() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [noResults, setNoResults] = useState(false);
+    const [isSearching, setIsSearching] = useState(false)
+    const { search } = useParams()
+
+    const getAllItems = async () => {
+        if (search) {
+            try {
+                const response = await getProductsForName(search);
+                setProducts(response);
+            } catch (error) {
+                console.error("Error", error);
+            }
+        } else {
+            try {
+                const response = await getAllProduct();
+                setProducts(response);
+            } catch (error) {
+                console.error("Error", error);
+            }
+        }
+    };
+
+    useEffect(() => {
+        getAllItems();
+    }, []);
+
+    useEffect(() => {
+        getAllItems();
+    }, [search]);
+
+    useEffect(() => {
+        if (products.length === 0) {
+            setNoResults(true)
+        } else {
+            setNoResults(false)
+        }
+    }, [products]);
+
+    useEffect(() => {
+        if (search) {
+            setIsSearching(true)
+        }
+    }, [search])
 
     return (
         <>
@@ -135,16 +182,19 @@ export default function AllProducts() {
                 </div>
                 <div className="allProducts__main">
                     <div className="allProducts__main__title">
-                        <h1>
-
-                            Todos los productos
-                        </h1>
+                        {!isSearching
+                            ? <h1>Todos los productos</h1>
+                            : (!noResults
+                                ? <h1>Resultados de la búsqueda</h1>
+                                : <h1>No hay resultados para la búsqueda</h1>
+                            )
+                        }
                     </div>
                     <div className="allProducts__main__container">
-                        <AllProductsCards />
+                        <AllProductsCards products={products} />
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
