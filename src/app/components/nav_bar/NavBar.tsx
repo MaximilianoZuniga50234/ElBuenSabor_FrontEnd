@@ -7,40 +7,38 @@ import { useAuth0 } from "@auth0/auth0-react";
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
-  const [wordToSearch, setWordToSearch] = useState("")
+  const [wordToSearch, setWordToSearch] = useState("");
 
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
   };
 
   const handleLogIn = () => {
-    loginWithRedirect(
-      {
-        appState: {
-          returnTo: window.location.pathname
-        }
-      }
-    )
-  }
+    loginWithRedirect({
+      appState: {
+        returnTo: window.location.pathname,
+      },
+    });
+  };
 
   const handleRegister = () => {
     loginWithRedirect({
       appState: {
-        returnTo: window.location.pathname
+        returnTo: window.location.pathname,
       },
       authorizationParams: {
         screen_hint: "signup",
       },
-    })
-  }
+    });
+  };
 
   const handleLogOut = () => {
-    logout({ logoutParams: { returnTo: window.location.origin } })
-  }
+    logout({ logoutParams: { returnTo: window.location.origin } });
+  };
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setWordToSearch(event.target.value)
-  }
+    setWordToSearch(event.target.value);
+  };
 
   return (
     <nav className="nav_bar_pre_login_container">
@@ -49,12 +47,20 @@ const NavBar = () => {
       </Link>
 
       <div className="nav_bar_form">
-        <input type="text" placeholder="Búsqueda" required onChange={handleChangeInput} />
+        <input
+          type="text"
+          placeholder="Buscar productos"
+          required
+          onChange={handleChangeInput}
+        />
 
-        <Link to={
-          wordToSearch != '' ?
-            `u/products/search/${wordToSearch}` :
-            "u/products"}>
+        <Link
+          to={
+            wordToSearch != ""
+              ? `u/products/search/${wordToSearch}`
+              : "u/products"
+          }
+        >
           <FaSearch />
         </Link>
       </div>
@@ -69,47 +75,41 @@ const NavBar = () => {
       </label>
 
       <ul className={`nav_bar_list ${isMenuOpen ? "active" : ""}`}>
-        {isAuthenticated ?
+        {isAuthenticated ? (
           <>
             <li className="nav_bar_dropdown_container">
-              <button className="nav_bar_button">
-                ABM
-              </button>
+              <button className="nav_bar_button">ABM</button>
 
               <ul className="nav_bar_dropdown_ul">
                 <li className="nav_bar_dropdown_li">
                   <Link to="/e/itemStockAbm" className="nav_bar_dropdown_link">
-                    <span>
-                      Item Stock ABM
-                    </span>
+                    <span>Item Stock ABM</span>
                   </Link>
                 </li>
                 <li className="nav_bar_dropdown_li">
-                  <Link to="/e/itemProductAbm" className="nav_bar_dropdown_link">
-                    <span>
-                      Item Product ABM
-                    </span>
+                  <Link
+                    to="/e/itemProductAbm"
+                    className="nav_bar_dropdown_link"
+                  >
+                    <span>Item Product ABM</span>
                   </Link>
                 </li>
                 <li className="nav_bar_dropdown_li">
-                  <Link to="/e/measurementUnitAbm" className="nav_bar_dropdown_link">
-                    <span>
-                      Measurement Unit ABM
-                    </span>
+                  <Link
+                    to="/e/measurementUnitAbm"
+                    className="nav_bar_dropdown_link"
+                  >
+                    <span>Measurement Unit ABM</span>
                   </Link>
                 </li>
                 <li className="nav_bar_dropdown_li">
                   <Link to="/e/stockAbm" className="nav_bar_dropdown_link">
-                    <span>
-                      Stock ABM
-                    </span>
+                    <span>Stock ABM</span>
                   </Link>
                 </li>
                 <li className="nav_bar_dropdown_li">
                   <Link to="/e/lowStock" className="nav_bar_dropdown_link">
-                    <span>
-                      Low Stock Page
-                    </span>
+                    <span>Low Stock Page</span>
                   </Link>
                 </li>
               </ul>
@@ -120,11 +120,10 @@ const NavBar = () => {
               </button>
             </li>
           </>
-          :
+        ) : (
           <>
             <li>
-              <button className="nav_bar_button" onClick={handleRegister}
-              >
+              <button className="nav_bar_button" onClick={handleRegister}>
                 Registrarse
               </button>
             </li>
@@ -134,7 +133,7 @@ const NavBar = () => {
               </button>
             </li>
           </>
-        }
+        )}
 
         <li className="nav_bar_home">
           <Link to="/" onClick={handleCloseMenu}>
@@ -151,8 +150,8 @@ const NavBar = () => {
             </span>
           </Link>
         </li>
-      </ul >
-    </nav >
+      </ul>
+    </nav>
   );
 };
 

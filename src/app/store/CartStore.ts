@@ -11,6 +11,8 @@ type Actions = {
   add: (newProduct: Product) => void;
   remove: (productId: number) => void;
   clear: () => void;
+  addOne: (productId: number) => void;
+  removeOne: (productId: number) => void;
 };
 
 export const useStore = create(
@@ -47,6 +49,24 @@ export const useStore = create(
           ),
         })),
       clear: () => set({ cartProducts: [] }),
+      addOne: (productId: number) =>
+        set((state) => {
+          const updatedCart = state.cartProducts.map((cartProduct) =>
+            cartProduct.product.id === productId
+              ? { ...cartProduct, amount: cartProduct.amount + 1 }
+              : cartProduct
+          );
+          return { cartProducts: updatedCart };
+        }),
+      removeOne: (productId: number) =>
+        set((state) => {
+          const updatedCart = state.cartProducts.map((cartProduct) =>
+            cartProduct.product.id === productId
+              ? { ...cartProduct, amount: cartProduct.amount - 1 }
+              : cartProduct
+          );
+          return { cartProducts: updatedCart };
+        }),
     }),
     {
       name: "cart",
