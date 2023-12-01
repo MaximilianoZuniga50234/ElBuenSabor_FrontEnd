@@ -1,5 +1,4 @@
 import Router from "./app/routes/Router";
-// import { useFetchAll } from "./app/functions/util/FetchAll";
 import NavBar from "./app/components/nav_bar/NavBar";
 import Footer from "./app/components/footer/Footer";
 

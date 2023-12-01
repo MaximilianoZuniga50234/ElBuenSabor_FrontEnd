@@ -48,19 +48,6 @@ export default function Footer() {
               <FaGithub className="footer__icon" />
               <h3 className="footer__name">
                 <Link
-                  to="https://github.com/FJFFH"
-                  className="footer__link"
-                  target="_blank"
-                >
-                  FJFFH
-                </Link>
-              </h3>
-            </div>
-
-            <div className="footer__user">
-              <FaGithub className="footer__icon" />
-              <h3 className="footer__name">
-                <Link
                   to="https://github.com/Laujo11"
                   className="footer__link"
                   target="_blank"
