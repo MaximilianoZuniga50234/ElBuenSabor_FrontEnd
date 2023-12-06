@@ -120,7 +120,7 @@
   cursor: default;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .nav_bar_pre_login_container {
     justify-content: initial;
     padding: 0 16px;
@@ -219,9 +219,9 @@
 
 }
 
-@media only screen and (max-width: 1024px) and (min-width: 769px) {
+@media only screen and (max-width: 1023px) and (min-width: 768px) {
   .nav_bar_pre_login_container {
-    padding: 0 24px;
+    padding: 0 20px;
     height: 56px;
   }
 
@@ -247,7 +247,7 @@
   }
 }
 
-@media only screen and (min-width: 1025px) {
+@media only screen and (min-width: 1024px) {
   .nav_bar_button {
     cursor: pointer;
     background: #eee;
