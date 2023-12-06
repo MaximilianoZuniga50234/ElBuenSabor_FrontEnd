@@ -3,6 +3,9 @@
 :root {
   --black: #000000;
   --white: #ffffff;
+  --gray: #888888;
+  --light-gray: #cccccc;
+  --lightest-gray: #eeeeee;
   --light-grayish-blue: #dfe4ed;
   --ebony-50: #f1f5fc;
   --ebony-100: #e6ebf9;

@@ -67,7 +67,7 @@
 .cart_main_container .cart_items_container .cart_item img {
   height: 64px;
   width: 96px;
-  justify-self: self-start;
+  justify-self: center;
   border-radius: 4px;
 }
 
@@ -77,6 +77,7 @@
   font-size: 12px;
   background: transparent;
   color: var(--ebony-800);
+  justify-self: center;
 }
 
 .cart_main_container .cart_items_container .cart_item div:last-child {
@@ -112,6 +113,91 @@
   width: inherit;
   display: flex;
   justify-content: space-between;
-  padding: 0 16px 0 16px;
+  padding: 16px 16px 0 16px;
   margin: auto 0 16px 0;
+}
+
+@media only screen and (min-width: 424px) {
+  .cart_main_container .cart_items_container .cart_item {
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 50px 40px;
+  }
+  .cart_main_container .cart_items_container .cart_item img {
+    height: 90px;
+    width: 104px;
+    grid-row: 1 / 3;
+    grid-column: 1;
+    align-self: center;
+  }
+
+  .cart_main_container .cart_items_container .cart_item button {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: self-end;
+    justify-self: self-start;
+    padding: 4px 8px 4px 0;
+    font-size: 14px;
+  }
+
+  .cart_main_container .cart_items_container .cart_item div:last-child {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .cart_main_container {
+    min-height: calc(100vh - 56px);
+  }
+
+  .cart_main_container .cart_items_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    gap: 16px 0;
+  }
+
+  .cart_main_container .cart_items_container .cart_item:first-child {
+    border-top: 0;
+  }
+
+  .cart_main_container .cart_items_container .cart_item,
+  .cart_main_container .cart_items_container .cart_item:first-child {
+    width: 90%;
+    max-height: 300px;
+    border: 1px solid var(--light-gray);
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px var(--gray);
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 3fr 1fr;
+  }
+
+  .cart_main_container .cart_items_container .cart_item img {
+    max-height: 100px;
+    width: 160px;
+    grid-row: 1;
+    grid-column: 1;
+    align-self: center;
+    margin: 4px;
+  }
+
+  .cart_main_container .cart_items_container .cart_item button {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .cart_main_container .cart_items_container .cart_item div:last-child {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: self-end;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .cart_main_container {
+    min-height: calc(100vh - 80px);
+  }
 }
