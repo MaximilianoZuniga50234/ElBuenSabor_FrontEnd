@@ -8,6 +8,7 @@ import "./Home.css";
 import MobileCard from "../../components/home/card/MobileCard";
 import DesktopCard from "../../components/home/card/DesktopCard";
 import { Header1 } from "../../components/header/header1/Header1";
+import Carrousel from "../../components/home/carrousel/Carrousel";
 
 const Home = () => {
   const isMobile = useMediaQuery({ maxWidth: 585 });
@@ -31,6 +32,8 @@ const Home = () => {
   return (
     <>
       <Header1 />
+      <br />
+      <Carrousel />
       <div className="home_main_container">
         <h1>PRODUCTOS</h1>
         <div className="products_group">
