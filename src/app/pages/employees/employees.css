@@ -161,3 +161,108 @@
 .employees_list_table .paginacion_flechas:hover {
   opacity: 0.7;
 }
+
+.modalEmployeesAbm__box,
+.modalConfirmDelete__box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  background-color: var(--light-lavender-gray);
+  border: 1px solid var(--midnight-blue);
+  padding: 20px 40px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalConfirmDelete__box {
+  gap: 20px;
+}
+
+.modalEmployeesAbm__box>.modalEmployeesAbm__h3 {
+  text-align: center;
+}
+
+.modalEmployeesAbm__name,
+.modalEmployeesAbm__lastName,
+.modalEmployeesAbm__address,
+.modalEmployeesAbm__department,
+.modalEmployeesAbm__phoneNumber,
+.modalEmployeesAbm__email,
+.modalEmployeesAbm__role,
+.modalEmployeesAbm__password,
+.modalEmployeesAbm__state {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modalEmployeesAbm__h5 {
+  font-weight: normal;
+}
+
+.modalConfirmDelete__h2 {
+  font-weight: normal;
+  text-align: center;
+}
+
+.modalEmployeesAbm__input,
+.modalEmployeesAbm__select {
+  padding: 7px 5px;
+  background-color: var(--light-lavender-gray);
+  border: 1px solid var(--midnight-blue);
+  border-radius: 10px;
+}
+
+.modalEmployeesAbm__buttons,
+.modalConfirmDelete__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalEmployeesAbm__button,
+.modalConfirmDelete__button {
+  display: flex;
+  padding: 10px 20px;
+  background-color: var(--midnight-blue);
+  color: var(--light-lavender-gray);
+  border: none;
+  border-radius: 10px;
+  width: 100px;
+  justify-content: center;
+}
+
+.modalEmployeesAbm__button:hover {
+  cursor: pointer;
+  background-color: royalblue;
+}
+
+.modalEmployeesAbm__h5--popover {
+  display: flex;
+  align-items: center;
+}
+
+.modalEmployeesAbm__popover__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ebony-950);
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  margin-left: 3px;
+  padding: 0;
+}
+
+.modalEmployeesAbm__popover__icon {
+  display: flex;
+}
+
+.modalEmployeesAbm__popover__div {
+  padding: 5px;
+  color: var(--ebony-950);
+  max-width: 350px;
+}
