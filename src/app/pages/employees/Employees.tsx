@@ -30,7 +30,7 @@ const Employees = () => {
       address: "",
       department: "",
       roleToAdd: "",
-      state: ""
+      state: "De alta"
     },
     last_login: new Date(),
     last_ip: "",
