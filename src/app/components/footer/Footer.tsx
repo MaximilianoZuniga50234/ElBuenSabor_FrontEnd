@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="footer__container">
         <figure className="footer__logo">
           <img
-            src="images/footer/logo-largo.png"
+            src="../images/footer/logo-largo.png"
             alt="logo"
             className="footer__img footer__img--logo"
           />
