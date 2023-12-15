@@ -4,6 +4,8 @@ import { Email, UserAuth0Get, UserAuth0Post } from "../../interfaces/UserAuth0";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { addRoleToUser, createUserAuth0, removeRoleToUser, updateUserAuth0 } from "../../functions/UserAPI";
 import { FaInfo } from "react-icons/fa6";
+import { Department } from "../../interfaces/Department";
+import { getAllDepartment } from "../../functions/DepartmentAPI";
 
 interface ModalEmployeesProps {
     employees?: UserAuth0Get[],
@@ -19,10 +21,13 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
         email: "email@example.com",
         user_metadata: {
             phone_number: 0,
-            address: '',
-            department: '',
-            roleToAdd: '',
-            state: 'De alta'
+            address: {
+                department: "Ciudad",
+                number: 0,
+                street: ""
+            },
+            roleToAdd: "",
+            state: "De alta"
         },
         given_name: '',
         family_name: '',
@@ -31,6 +36,7 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
         connection: 'Username-Password-Authentication',
     }
 
+    const [departments, setDepartments] = useState<Department[]>([])
     const [isConnectionDeleted, setIsConnectionDeleted] = useState<boolean>(false)
     const [isConfirmButtonPressed, setIsConfirmButtonPressed] = useState<boolean>(false)
     const [employeePost, setEmployeePost] = useState<UserAuth0Post>(employeePostInitialState)
@@ -54,6 +60,7 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
     }, [employee])
 
     useEffect(() => {
+        console.log(employeePost)
         if (!isNew && !isConnectionDeleted) {
             const newEmployeePost = { ...employeePost }
             delete newEmployeePost.connection
@@ -63,6 +70,15 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
         }
     }, [employeePost])
 
+    const getDepartments = async () => {
+        const response = await getAllDepartment()
+        setDepartments(response)
+    }
+
+    useEffect(() => {
+        getDepartments()
+    }, [])
+
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmployeePost({ ...employeePost, given_name: event.target.value, name: `${event.target.value} ${employeePost.family_name}` })
     }
@@ -71,16 +87,41 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
         setEmployeePost({ ...employeePost, family_name: event.target.value, name: `${employeePost.given_name} ${event.target.value}` })
     }
 
-    const handleChangeAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEmployeePost({ ...employeePost, user_metadata: { ...employeePost.user_metadata, address: event.target.value } })
-    }
-
-    const handleChangeDepartment = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeStreet = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmployeePost({
             ...employeePost,
             user_metadata: {
                 ...employeePost.user_metadata,
-                department: event.target.value
+                address: {
+                    ...employeePost.user_metadata.address,
+                    street: event.target.value
+                }
+            }
+        })
+    }
+
+    const handleChangeAddressNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmployeePost({
+            ...employeePost,
+            user_metadata: {
+                ...employeePost.user_metadata,
+                address: {
+                    ...employeePost.user_metadata.address,
+                    number: Number(event.target.value)
+                }
+            }
+        })
+    }
+
+    const handleChangeDepartment = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setEmployeePost({
+            ...employeePost,
+            user_metadata: {
+                ...employeePost.user_metadata,
+                address: {
+                    ...employeePost.user_metadata.address,
+                    department: event.target.value
+                }
             }
         })
     }
@@ -180,7 +221,7 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
                             }
                         </h3>
 
-                        <div className="modalEmployeesAbm__name">
+                        <div className="modalEmployeesAbm__div">
                             <h5 className="modalEmployeesAbm__h5">Nombre del empleado</h5>
                             <input type="text"
                                 className="modalEmployeesAbm__input"
@@ -190,7 +231,7 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
                             />
                         </div>
 
-                        <div className="modalEmployeesAbm__lastName">
+                        <div className="modalEmployeesAbm__div">
                             <h5 className="modalEmployeesAbm__h5">Apellido del empleado</h5>
                             <input type="text"
                                 className="modalEmployeesAbm__input"
@@ -200,27 +241,42 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
                             />
                         </div>
 
-                        <div className="modalEmployeesAbm__address">
-                            <h5 className="modalEmployeesAbm__h5">Dirección del empleado</h5>
+                        <div className="modalEmployeesAbm__div">
+                            <h5 className="modalEmployeesAbm__h5">Calle de la dirección del empleado</h5>
                             <input type="text"
                                 className="modalEmployeesAbm__input"
-                                defaultValue={employee.user_metadata?.address}
-                                onChange={handleChangeAddress}
-                                placeholder="Ingrese la dirección del empleado"
+                                defaultValue={employee.user_metadata?.address.street}
+                                onChange={handleChangeStreet}
+                                placeholder="Ingrese la calle de la dirección"
                             />
                         </div>
 
-                        <div className="modalEmployeesAbm__department">
-                            <h5 className="modalEmployeesAbm__h5">Departamento del empleado</h5>
-                            <input type="text"
+                        <div className="modalEmployeesAbm__div">
+                            <h5 className="modalEmployeesAbm__h5" >Número de la dirección del empleado
+                            </h5>
+                            <input type="number"
                                 className="modalEmployeesAbm__input"
-                                defaultValue={employee.user_metadata?.department}
+                                defaultValue={employee.user_metadata?.address.number}
+                                onChange={handleChangeAddressNumber}
+                                placeholder="Ingrese el teléfono del empleado"
+                            />
+                        </div>
+
+                        <div className="modalEmployeesAbm__div">
+                            <h5 className="modalEmployeesAbm__h5">Departamento de la dirección del empleado</h5>
+                            <select
+                                className="modalEmployeesAbm__select"
+                                defaultValue={employee.user_metadata?.address.department}
                                 onChange={handleChangeDepartment}
                                 placeholder="Ingrese el departamento del empleado"
-                            />
+                            >
+                                {departments.map((department: Department) => (
+                                    <option value={department.name} key={department.id}>{department.name}</option>
+                                ))}
+                            </select>
                         </div>
 
-                        <div className="modalEmployeesAbm__phoneNumber">
+                        <div className="modalEmployeesAbm__div">
                             <h5 className="modalEmployeesAbm__h5 modalEmployeesAbm__h5--popover" >Teléfono del empleado
                                 <button onClick={handleClickPhoneNumberPopover} className="modalEmployeesAbm__popover__button">
                                     <h6 className="modalEmployeesAbm__h5">
@@ -257,7 +313,7 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
                             />
                         </div>
 
-                        <div className="modalEmployeesAbm__email">
+                        <div className="modalEmployeesAbm__div">
                             <h5 className="modalEmployeesAbm__h5 modalEmployeesAbm__h5--popover">Email del empleado
                                 <button onClick={handleClickEmailPopover} className="modalEmployeesAbm__popover__button">
                                     <h6 className="modalEmployeesAbm__h5">
@@ -293,7 +349,7 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
                             />
                         </div>
 
-                        <div className="modalEmployeesAbm__role">
+                        <div className="modalEmployeesAbm__div">
                             <h5 className="modalEmployeesAbm__h5">Rol del empleado</h5>
                             <select
                                 className="modalEmployeesAbm__select"
@@ -308,7 +364,7 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
 
                         {isNew ?
                             <>
-                                <div className="modalEmployeesAbm__password">
+                                <div className="modalEmployeesAbm__div">
                                     <h5 className="modalEmployeesAbm__h5 modalEmployeesAbm__h5--popover">Contraseña provisoria
                                         <button onClick={handleClickPasswordPopover} className="modalEmployeesAbm__popover__button">
                                             <h6 className="modalEmployeesAbm__h5">
@@ -350,7 +406,7 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
                                     />
                                 </div>
 
-                                <div className="modalEmployeesAbm__password">
+                                <div className="modalEmployeesAbm__div">
                                     <h5 className="modalEmployeesAbm__h5">Confirmar contraseña</h5>
                                     <input type="text"
                                         className="modalEmployeesAbm__input"
@@ -361,7 +417,7 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
                                 </div>
                             </> :
                             <>
-                                <div className="modalEmployeesAbm__state">
+                                <div className="modalEmployeesAbm__div">
                                     <h5 className="modalEmployeesAbm__h5">Estado del empleado</h5>
                                     <select
                                         className="modalEmployeesAbm__select"
@@ -384,17 +440,19 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
                                     const emailValidate = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
                                     if (employeePost.given_name === "") {
-                                        toast.error('El nombre no puede estar vacío.')
+                                        toast.error('El campo del nombre no puede estar vacío.')
                                     } else if (employeePost.family_name === "") {
-                                        toast.error('El apellido no puede estar vacío.')
-                                    } else if (employeePost.user_metadata.address === "") {
-                                        toast.error('La dirección no puede estar vacía.')
-                                    } else if (employeePost.user_metadata.department === "") {
-                                        toast.error('El departamento no puede estar vacío.')
+                                        toast.error('El campo del apellido no puede estar vacío.')
+                                    } else if (employeePost.user_metadata.address.street === "") {
+                                        toast.error('El campo del nombre de la calle no puede estar vacío.')
+                                    } else if (employeePost.user_metadata.address.number === 0) {
+                                        toast.error('El campo del número de la dirección no puede ser "0".')
                                     } else if (employeePost.user_metadata.phone_number.toString().length != 10) {
                                         toast.error('El número de teléfono es inválido.')
-                                    } else if ((emailValidate.test(employeePost.email) === false) || !(employeePost.email.endsWith(".com"))) {
-                                        toast.error('El email es inválido.')
+                                    } else if (employeePost.email) {
+                                        if ((emailValidate.test(employeePost.email) === false) || !(employeePost.email.endsWith(".com"))) {
+                                            toast.error('El email es inválido.')
+                                        }
                                     } else if (employees?.find(employee => employee.email === employeePost.email) != null) {
                                         toast.error('El email ya está asignado a otro usuario.')
                                     } else if (isNew && employeePost.password && (passwordValidate.test(employeePost.password) === false)) {

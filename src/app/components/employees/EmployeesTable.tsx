@@ -31,8 +31,12 @@ const Table = ({ datos }: Props) => {
     user_id: "",
     user_metadata: {
       phone_number: 0,
-      address: "",
-      department: "",
+      address: {
+        department: "",
+        number: 0,
+        street: ""
+      },
+      roleToAdd: "",
       state: ""
     },
     last_login: new Date(),
