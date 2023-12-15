@@ -2,30 +2,29 @@ import { Link, useParams } from "react-router-dom";
 import AllProductsCards from "./AllProductsCards";
 import { useEffect, useState } from "react";
 import { Product } from "../../interfaces/Product";
-import { getAllProduct, getProductsForName } from "../../functions/ProductAPI";
+import {
+  getAllProduct,
+  getProductsByCategory,
+  getProductsForName,
+} from "../../functions/ProductAPI";
 import "./allproducts.css";
 
 export default function AllProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [noResults, setNoResults] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  const { search } = useParams();
+  const { search, category } = useParams();
 
   const getAllItems = async () => {
-    if (search) {
-      try {
-        const response = await getProductsForName(search);
-        setProducts(response);
-      } catch (error) {
-        console.error("Error", error);
-      }
-    } else {
-      try {
-        const response = await getAllProduct();
-        setProducts(response);
-      } catch (error) {
-        console.error("Error", error);
-      }
+    try {
+      const response = search
+        ? getProductsForName(search)
+        : category
+        ? getProductsByCategory(category)
+        : getAllProduct();
+      setProducts(await response);
+    } catch (error) {
+      console.error("Error", error);
     }
   };
 
@@ -35,21 +34,17 @@ export default function AllProducts() {
 
   useEffect(() => {
     getAllItems();
-  }, [search]);
+  }, [search, category]);
 
   useEffect(() => {
-    if (products.length === 0) {
-      setNoResults(true);
-    } else {
-      setNoResults(false);
-    }
+    setNoResults(products.length === 0);
   }, [products]);
 
   useEffect(() => {
-    if (search) {
+    if (search || category) {
       setIsSearching(true);
     }
-  }, [search]);
+  }, [search, category]);
 
   return (
     <>
@@ -91,42 +86,66 @@ export default function AllProducts() {
             <h6 className="allProducts__bar__categories__title">Categoría</h6>
             <ul className="allProducts__bar__ul">
               <li className="allProducts__bar__li">
-                <Link to="#" className="allProducts__bar__link">
+                <Link
+                  to="/u/products/search/cat/pizzas"
+                  className="allProducts__bar__link"
+                >
                   Pizzas
                 </Link>
               </li>
               <li className="allProducts__bar__li">
-                <Link to="#" className="allProducts__bar__link">
+                <Link
+                  to="/u/products/search/cat/hamburguesas"
+                  className="allProducts__bar__link"
+                >
                   Hamburguesas
                 </Link>
               </li>
               <li className="allProducts__bar__li">
-                <Link to="#" className="allProducts__bar__link">
+                <Link
+                  to="/u/products/search/cat/lomos"
+                  className="allProducts__bar__link"
+                >
                   Lomos
                 </Link>
               </li>
               <li className="allProducts__bar__li">
-                <Link to="#" className="allProducts__bar__link">
+                <Link
+                  to="/u/products/search/cat/panchos"
+                  className="allProducts__bar__link"
+                >
                   Panchos
                 </Link>
               </li>
               <li className="allProducts__bar__li">
-                <Link to="#" className="allProducts__bar__link">
+                <Link
+                  to="/u/products/search/cat/minutas"
+                  className="allProducts__bar__link"
+                >
                   Minutas
                 </Link>
               </li>
               <li className="allProducts__bar__li">
-                <Link to="#" className="allProducts__bar__link">
+                <Link
+                  to="/u/products/search/cat/empanadas"
+                  className="allProducts__bar__link"
+                >
                   Empanadas
                 </Link>
               </li>
               <li className="allProducts__bar__li">
-                <Link to="#" className="allProducts__bar__link">
+                <Link
+                  to="/u/products/search/cat/sándwichs"
+                  className="allProducts__bar__link"
+                >
                   Sándwiches
                 </Link>
               </li>
               <li className="allProducts__bar__li">
-                <Link to="#" className="allProducts__bar__link">
+                <Link
+                  to="/u/products/search/cat/bebidas"
+                  className="allProducts__bar__link"
+                >
                   Bebidas
                 </Link>
               </li>

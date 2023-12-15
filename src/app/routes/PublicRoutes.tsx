@@ -14,6 +14,7 @@ const PublicRoutes = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/products" element={<AllProducts />} />
       <Route path="/products/search/:search" element={<AllProducts />} />
+      <Route path="/products/search/cat/:category" element={<AllProducts />} />
       <Route path="/carrousel" element={<Carrousel />} />
       <Route path="/cart" element={<Cart />} />
     </Routes>
