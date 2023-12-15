@@ -3,6 +3,7 @@ import { FaBars, FaSearch, FaHome, FaInfo } from "react-icons/fa";
 import "./navBar.css";
 import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { FaUser } from "react-icons/fa6";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -147,14 +148,14 @@ const NavBar = () => {
             </span>
           </Link>
         </li>
-
-        <li className="nav_bar_about">
-          <Link to="/about" onClick={handleCloseMenu}>
-            <span>
-              <FaInfo />
-            </span>
-          </Link>
-        </li>
+        {isAuthenticated &&
+          <li className="nav_bar_about">
+            <Link to="/u/profile" onClick={handleCloseMenu}>
+              <span>
+                <FaUser />
+              </span>
+            </Link>
+          </li>}
       </ul>
     </nav>
   );

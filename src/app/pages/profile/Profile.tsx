@@ -1,28 +1,74 @@
 import "./profile.css";
+import { useStore as useCurrentUser } from "../../store/CurrentUserStore"
+import { useEffect, useState } from "react";
+import ModalEditProfile from "../../components/modalEditProfile/ModalEditProfile";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Profile = () => {
+
+  const { user } = useCurrentUser()
+  const { isAuthenticated } = useAuth0()
+  const [isAddressValid, setIsAddressValid] = useState<boolean>(false)
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true)
+  };
+
+  useEffect(() => {
+
+    if (user?.user_metadata.address.number != 0) {
+      setIsAddressValid(true)
+    } else {
+      setIsAddressValid(false)
+    }
+
+  }, [user])
+
   return (
-    <main className="profile_main_container">
-      <section className="profile_container">
-        <h2>Perfil</h2>
-        <img
-          src="https://res.cloudinary.com/dycogxoko/image/upload/v1695236534/assets%20for%20elBuenSabor/cnw3rfld20mwipmfdngl.png"
-          alt="profile_image"
-        />
-        <form className="profile_form">
-          <div>
-            <input type="text" readOnly />
-            <label>Nombre</label>
-            <input type="text" readOnly />
-            <label>Apellido</label>
-          </div>
-          <input type="text" readOnly />
-          <label>Usuario</label>
-          <input type="text" readOnly />
-          <label>Telefono</label>
-        </form>
-        <button>Editar</button>
-      </section>
+    <main className="profile__main__container">
+      {
+        isAuthenticated ?
+          <>
+            <section className="profile__container">
+              <h2>Perfil</h2>
+              <img
+                src={user?.picture}
+              />
+              <form className="profile__form">
+                <div className="profile__form__div">
+
+                  <div className="profile__form__div__name">
+                    <label>Nombre</label>
+                    <input type="text" readOnly defaultValue={user?.given_name} />
+                  </div>
+
+                  <div className="profile__form__div__familyName">
+                    <label>Apellido</label>
+                    <input type="text" readOnly defaultValue={user?.family_name} />
+                  </div>
+
+                </div>
+
+                <div className="profile__form__div">
+                  <div className="profile__form__div__address">
+                    <label>Dirección</label>
+                    <input type="text" readOnly defaultValue={isAddressValid ? `${user?.user_metadata?.address?.street} ${user?.user_metadata?.address?.number}, ${user?.user_metadata?.address?.department}` : ""} />
+                  </div>
+
+                  <div className="profile__form__div__phoneNumber">
+                    <label>Teléfono</label>
+                    <input type="text" readOnly defaultValue={user?.user_metadata?.phone_number != 0 ? user?.user_metadata?.phone_number : ""} />
+                  </div>
+                </div>
+              </form>
+              <button className="profile__form__button" onClick={handleOpen}>Editar</button>
+            </section>
+            <ModalEditProfile open={open} setOpen={setOpen}></ModalEditProfile>
+          </>
+          :
+          <h2>Inicia sesión para ver tu perfil</h2>
+      }
     </main>
   );
 };
