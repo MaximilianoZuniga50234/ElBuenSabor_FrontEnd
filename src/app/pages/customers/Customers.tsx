@@ -1,29 +1,53 @@
 import { FaSearch } from "react-icons/fa";
 import Table from "../../components/customers/CustomersTable";
-import { User } from "../../interfaces/User";
 import { useState, useEffect } from "react";
-import { getAllUser } from "../../functions/UserAPI";
+import { getUserRole, getUsersAuth0 } from "../../functions/UserAPI";
 import "./customers.css";
+import { UserAuth0Get } from "../../interfaces/UserAuth0";
 
 const Customers = () => {
-  const [customers, setCustomers] = useState<User[]>([]);
+
+  const [allUsers, setAllUsers] = useState<UserAuth0Get[]>([]);
+  const [customers, setCustomers] = useState<UserAuth0Get[]>([]);
+
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  const getAllUsers = async () => {
+    const response = await getUsersAuth0()
+    setAllUsers(response)
+  };
 
   useEffect(() => {
-    const getAllItems = async () => {
-      try {
-        const response = await getAllUser();
-        setCustomers(
-          response
-            .filter((user: User) => user.role === "Cliente")
-            .sort((a: User, b: User) => b.orders - a.orders)
-        );
-      } catch (error) {
-        console.error("Error", error);
-      }
-    };
-
-    getAllItems();
+    getAllUsers();
   }, []);
+
+  const getRole = async () => {
+    const updatedCustomers = await Promise.all(
+      allUsers.map(async (user: UserAuth0Get) => {
+        const response = await getUserRole(user.user_id);
+
+        if (response[0].description) {
+          const updatedEmployee = { ...user, role: response[0].description };
+          return updatedEmployee;
+        }
+        return user
+      }))
+
+    const customersFilter = updatedCustomers.filter(customer => customer.role === 'Cliente')
+    setCustomers(customersFilter);
+  }
+
+  useEffect(() => {
+    if (allUsers.length > 0) {
+      setIsLoaded(true)
+    }
+  }, [allUsers])
+
+  useEffect(() => {
+    if (isLoaded === true) {
+      getRole()
+    }
+  }, [isLoaded])
 
   return (
     <main className="main_employees_list">
