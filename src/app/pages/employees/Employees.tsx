@@ -27,8 +27,11 @@ const Employees = () => {
     user_id: "0",
     user_metadata: {
       phone_number: 0,
-      address: "",
-      department: "",
+      address: {
+        department: "Ciudad",
+        number: 0,
+        street: ""
+      },
       roleToAdd: "",
       state: "De alta"
     },
