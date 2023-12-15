@@ -15,3 +15,9 @@ export async function getProductsForName(search: string) {
     `http://localhost:9000/api/v1/product/search/${search}`
   ).then((r) => r.json());
 }
+
+export async function getProductsByCategory(search: string) {
+  return await fetch(
+    `http://localhost:9000/api/v1/product/search/cat/${search}`
+  ).then((r) => r.json());
+}
