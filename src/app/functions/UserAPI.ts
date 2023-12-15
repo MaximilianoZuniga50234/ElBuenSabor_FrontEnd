@@ -27,6 +27,23 @@ export async function getUsersAuth0() {
   return await response.json();
 }
 
+export async function getUserAuth0XId(userId: string) {
+  const response = await fetch(
+    `https://elbuensabor.us.auth0.com/api/v2/users/${userId}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${
+          import.meta.env.VITE_AUTH0_MANAGEMENT_API_TOKEN
+        }`,
+      },
+    }
+  );
+
+  return await response.json();
+}
+
 export async function createUserAuth0(user: UserAuth0Post) {
   await fetch("https://elbuensabor.us.auth0.com/api/v2/users", {
     method: "POST",

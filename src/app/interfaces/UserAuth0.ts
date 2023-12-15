@@ -28,15 +28,20 @@ export interface Identity {
 }
 
 export interface UserMetadata {
+  address: Address;
   phone_number: number;
-  address: string;
-  department: string;
   roleToAdd?: string;
   state: string;
 }
 
+export interface Address {
+  department: string;
+  street: string;
+  number: number;
+}
+
 export interface UserAuth0Post {
-  email: Email;
+  email?: Email;
   user_metadata: UserMetadata;
   given_name: string;
   family_name: string;
