@@ -3,47 +3,17 @@ import NavBar from "./app/components/nav_bar/NavBar";
 import Footer from "./app/components/footer/Footer";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getUserAuth0XId } from "./app/functions/UserAPI";
 import { useStore as useCurrentUser } from "./app/store/CurrentUserStore"
 import { Toaster, toast } from "sonner";
+import { useUserLogged } from "./app/hooks/useUserLogged";
+import { useAllUsers } from "./app/hooks/useAllUsers";
 
 function App() {
-  const { user, setUser } = useCurrentUser()
-
-  const [tokenState, setTokenState] = useState<string>('')
+  const { user } = useCurrentUser()
+  const { isAuthenticated } = useAuth0();
+  useUserLogged()
+  useAllUsers()
   const [isPerfilComplete, setIsPerfilComplete] = useState<boolean>(true)
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-
-  const getToken = async () => {
-    try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-        },
-      });
-      setTokenState(token);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getCurrentUser = async () => {
-    const tokenSeparator = tokenState.split(".");
-    const payload = JSON.parse(atob(tokenSeparator[1]))
-    const userId = payload.sub
-    const response = await getUserAuth0XId(userId)
-    setUser(response)
-  }
-
-  useEffect(() => {
-    if (isAuthenticated) getToken();
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (tokenState != '') {
-      getCurrentUser()
-    }
-  }, [tokenState]);
 
   useEffect(() => {
     if (user != null) {

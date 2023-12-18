@@ -6,16 +6,17 @@ import { addRoleToUser, createUserAuth0, removeRoleToUser, updateUserAuth0 } fro
 import { FaInfo } from "react-icons/fa6";
 import { Department } from "../../interfaces/Department";
 import { getAllDepartment } from "../../functions/DepartmentAPI";
+import { useStore as useUsers } from "../../store/UsersStore"
 
 interface ModalEmployeesProps {
-    employees?: UserAuth0Get[],
     employee: UserAuth0Get,
     open: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>,
     isNew: boolean
 }
 
-export default function ModalEmployeesAbm({ employees, employee, open, setOpen, isNew }: ModalEmployeesProps) {
+export default function ModalEmployeesAbm({ employee, open, setOpen, isNew }: ModalEmployeesProps) {
+    const { users } = useUsers()
 
     const employeePostInitialState: UserAuth0Post = {
         email: "email@example.com",
@@ -449,15 +450,13 @@ export default function ModalEmployeesAbm({ employees, employee, open, setOpen, 
                                         toast.error('El campo del número de la dirección no puede ser "0".')
                                     } else if (employeePost.user_metadata.phone_number.toString().length != 10) {
                                         toast.error('El número de teléfono es inválido.')
-                                    } else if (employeePost.email) {
-                                        if ((emailValidate.test(employeePost.email) === false) || !(employeePost.email.endsWith(".com"))) {
-                                            toast.error('El email es inválido.')
-                                        }
-                                    } else if (employees?.find(employee => employee.email === employeePost.email) != null) {
+                                    } else if (employeePost.email && ((emailValidate.test(employeePost.email) === false) || !(employeePost.email.endsWith(".com")))) {
+                                        toast.error('El email es inválido.')
+                                    } else if (users?.find(user => user.email === employeePost.email) != null) {
                                         toast.error('El email ya está asignado a otro usuario.')
                                     } else if (isNew && employeePost.password && (passwordValidate.test(employeePost.password) === false)) {
                                         toast.error('La contraseña es inválida.')
-                                    } else if (isNew && employeePost.password != confirmPassword) {
+                                    } else if (employeePost.password != confirmPassword) {
                                         toast.error('Las contraseñas no coinciden.')
                                     } else {
                                         handleConfirm()

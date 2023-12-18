@@ -2,10 +2,11 @@ import { Toaster, toast } from "sonner";
 import { Box, Fade, Modal, Popover } from "@mui/material";
 import { Email, UserAuth0Get, UserAuth0Post } from "../../interfaces/UserAuth0";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { getUsersAuth0, updateUserAuth0 } from "../../functions/UserAPI";
+import { updateUserAuth0 } from "../../functions/UserAPI";
 import { FaInfo } from "react-icons/fa6";
 import { Department } from "../../interfaces/Department";
 import { getAllDepartment } from "../../functions/DepartmentAPI";
+import { useStore as useUsers } from "../../store/UsersStore";
 
 interface ModalCustomersProps {
     customer: UserAuth0Get,
@@ -15,16 +16,18 @@ interface ModalCustomersProps {
 
 export default function ModalCustomersAbm({ customer, open, setOpen }: ModalCustomersProps) {
 
-    const [allUsers, setAllUsers] = useState<UserAuth0Get[]>([]);
+    // const [allUsers, setAllUsers] = useState<UserAuth0Get[]>([]);
 
-    const getAllUsers = async () => {
-        const response = await getUsersAuth0()
-        setAllUsers(response)
-    };
+    // const getAllUsers = async () => {
+    //     const response = await getUsersAuth0()
+    //     setAllUsers(response)
+    // };
 
-    useEffect(() => {
-        getAllUsers();
-    }, []);
+    // useEffect(() => {
+    //     getAllUsers();
+    // }, []);
+
+    const { users } = useUsers()
 
     const customerPostInitialState: UserAuth0Post = {
         email: "email@example.com",
@@ -349,16 +352,13 @@ export default function ModalCustomersAbm({ customer, open, setOpen }: ModalCust
                                         toast.error('El campo del número de la dirección no puede ser "0".')
                                     } else if (customerPost.user_metadata.phone_number.toString().length != 10 || customerPost.user_metadata.phone_number === undefined) {
                                         toast.error('El número de teléfono es inválido.')
-                                    } else if ((emailValidate.test(customerPost.email) === false) || !(customerPost.email.endsWith(".com"))) {
+                                    } else if (customerPost.email && ((emailValidate.test(customerPost.email) === false) || !(customerPost.email.endsWith(".com")))) {
                                         toast.error('El email es inválido.')
-                                    } else
-                                        if (customerPost.email != customer.email) {
-                                            if (allUsers?.find(user => user.email === customerPost.email) != null) {
-                                                toast.error('El email ya está asignado a otro usuario.')
-                                            }
-                                        } else {
-                                            handleConfirm()
-                                        }
+                                    } else if (customerPost.email != customer.email && (users?.find(user => user.email === customerPost.email) != null)) {
+                                        toast.error('El email ya está asignado a otro usuario.')
+                                    } else {
+                                        handleConfirm()
+                                    }
                                 }}
                             >{isConfirmButtonPressed ? "Cargando..." : "Confirmar"}</button>
                         </div>
