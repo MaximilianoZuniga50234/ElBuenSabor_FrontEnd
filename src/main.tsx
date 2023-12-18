@@ -6,8 +6,8 @@ import { Auth0ProviderWithNavigate } from "./app/components/auth0/Auth0ProviderW
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
-    {/*<Auth0ProviderWithNavigate>*/}
+    <Auth0ProviderWithNavigate>
       <App />
-    {/*</Auth0ProviderWithNavigate>*/}
+    </Auth0ProviderWithNavigate>
   </BrowserRouter>
 );

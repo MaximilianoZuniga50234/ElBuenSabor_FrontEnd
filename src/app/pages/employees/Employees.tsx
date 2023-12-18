@@ -2,15 +2,16 @@ import { FaPlus } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import Table from "../../components/employees/EmployeesTable";
 import { useState, useEffect } from "react";
-import { getUserRole, getUsersAuth0 } from "../../functions/UserAPI";
+// import { getUserRole, getUsersAuth0 } from "../../functions/UserAPI";
 import "./employees.css";
 import { UserAuth0Get } from "../../interfaces/UserAuth0";
 import ModalEmployeesAbm from "../../components/employees/ModalEmployeesAbm";
+import { useStore as useUsers } from "../../store/UsersStore"
 
 
 const Employees = () => {
   const [employees, setEmployees] = useState<UserAuth0Get[]>([]);
-  const [employeesFilter, setEmployeesFilter] = useState<UserAuth0Get[]>([]);
+  const { users } = useUsers()
 
   const employeeInitialState: UserAuth0Get = {
     created_at: new Date(),
@@ -42,7 +43,6 @@ const Employees = () => {
   }
 
   const [employee, setEmployee] = useState<UserAuth0Get>(employeeInitialState);
-  const [isLoaded, setIsLoaded] = useState(false)
   const [isNew, setIsNew] = useState(true);
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -55,46 +55,53 @@ const Employees = () => {
     handleOpen()
   }
 
-
-  const getAllUsers = async () => {
-    const response = await getUsersAuth0()
-    setEmployees(response)
-  };
-
   useEffect(() => {
-    getAllUsers();
-  }, []);
+    const employees = users.filter(user => user.role != 'Cliente' && user.role != 'Administrador')
+    setEmployees(employees);
+  }, [users])
 
-  const getRole = async () => {
+  // const [employees, setEmployees] = useState<UserAuth0Get[]>([]);
+  // const [isLoaded, setIsLoaded] = useState(false)
 
-    const updatedEmployees = await Promise.all(
-      employees.map(async (employee: UserAuth0Get) => {
-        const response = await getUserRole(employee.user_id);
+  // const getAllUsers = async () => {
+  //   const response = await getUsersAuth0()
+  //   setEmployees(response)
+  // };
 
-        for (let i = 0; i < response.length; i++) {
-          if (response[i].description && response[i].description != "Empleado") {
-            const updatedEmployee = { ...employee, role: response[i].description };
-            return updatedEmployee;
-          }
-        }
-        return employee
-      }))
+  // useEffect(() => {
+  //   getAllUsers();
+  // }, []);
 
-    const employeesFilter = updatedEmployees.filter(employee => employee.role != 'Cliente' && employee.role != 'Administrador')
-    setEmployeesFilter(employeesFilter);
-  }
+  // const getRole = async () => {
 
-  useEffect(() => {
-    if (employees.length > 0) {
-      setIsLoaded(true)
-    }
-  }, [employees])
+  //   const updatedEmployees = await Promise.all(
+  //     employees.map(async (employee: UserAuth0Get) => {
+  //       const response = await getUserRole(employee.user_id);
 
-  useEffect(() => {
-    if (isLoaded === true) {
-      getRole()
-    }
-  }, [isLoaded])
+  //       for (let i = 0; i < response.length; i++) {
+  //         if (response[i].description && response[i].description != "Empleado") {
+  //           const updatedEmployee = { ...employee, role: response[i].description };
+  //           return updatedEmployee;
+  //         }
+  //       }
+  //       return employee
+  //     }))
+
+  //   const employeesFilter = updatedEmployees.filter(employee => employee.role != 'Cliente' && employee.role != 'Administrador')
+  //   setEmployeesFilter(employeesFilter);
+  // }
+
+  // useEffect(() => {
+  //   if (employees.length > 0) {
+  //     setIsLoaded(true)
+  //   }
+  // }, [employees])
+
+  // useEffect(() => {
+  //   if (isLoaded === true) {
+  //     getRole()
+  //   }
+  // }, [isLoaded])
 
   return (
     <main className="main_employees_list">
@@ -111,8 +118,8 @@ const Employees = () => {
           AÑADIR
         </button>
       </div>
-      <Table datos={employeesFilter} />
-      <ModalEmployeesAbm employees={employees} employee={employee} isNew={isNew} open={open} setOpen={setOpen} />
+      <Table datos={employees} />
+      <ModalEmployeesAbm employee={employee} isNew={isNew} open={open} setOpen={setOpen} />
     </main>
   );
 };
