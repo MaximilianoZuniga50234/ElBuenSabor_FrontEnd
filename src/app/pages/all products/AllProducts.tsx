@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import AllProductsCards from "./AllProductsCards";
+import AllProductsCard from "../../components/all_products/AllProductsCard";
 import { useEffect, useState } from "react";
 import { Product } from "../../interfaces/Product";
 import {
@@ -204,7 +204,9 @@ export default function AllProducts() {
             )}
           </div>
           <div className="allProducts__main__container">
-            <AllProductsCards products={products} />
+            {products.map((p) => {
+              return <AllProductsCard product={p} key={p.id} />;
+            })}
           </div>
         </div>
       </div>
