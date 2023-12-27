@@ -61,7 +61,6 @@ export default function ModalEmployeesAbm({ employee, open, setOpen, isNew }: Mo
     }, [employee])
 
     useEffect(() => {
-        console.log(employeePost)
         if (!isNew && !isConnectionDeleted) {
             const newEmployeePost = { ...employeePost }
             delete newEmployeePost.connection
@@ -456,7 +455,7 @@ export default function ModalEmployeesAbm({ employee, open, setOpen, isNew }: Mo
                                         toast.error('El email ya está asignado a otro usuario.')
                                     } else if (isNew && employeePost.password && (passwordValidate.test(employeePost.password) === false)) {
                                         toast.error('La contraseña es inválida.')
-                                    } else if (employeePost.password != confirmPassword) {
+                                    } else if (isNew && employeePost.password != confirmPassword) {
                                         toast.error('Las contraseñas no coinciden.')
                                     } else {
                                         handleConfirm()

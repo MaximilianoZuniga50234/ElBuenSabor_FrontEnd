@@ -67,7 +67,7 @@ export default function ModalEditProfile({ open, setOpen }: ModalEditProfileProp
         if (user) {
             setUserPost({
                 ...userPost,
-                user_metadata: { ...user.user_metadata, address: { ...user.user_metadata.address, department: user?.user_metadata?.address?.department != "" ? user?.user_metadata?.address?.department : "Ciudad" } },
+                user_metadata: { ...user.user_metadata, address: { ...user?.user_metadata?.address, department: user?.user_metadata?.address?.department != "" ? user?.user_metadata?.address?.department : "Ciudad" } },
                 given_name: user.given_name,
                 family_name: user.family_name,
                 name: `${user.given_name} ${user.family_name}`,
@@ -75,12 +75,6 @@ export default function ModalEditProfile({ open, setOpen }: ModalEditProfileProp
             setUserId(user.user_id)
         }
     }, [user])
-
-
-    useEffect(() => {
-        console.log(userPost)
-    }, [userPost])
-
 
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUserPost({ ...userPost, given_name: event.target.value, name: `${event.target.value} ${userPost.family_name}` })
