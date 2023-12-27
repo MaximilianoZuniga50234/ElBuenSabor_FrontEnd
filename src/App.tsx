@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     if (user != null) {
-      if (user?.given_name === "" || user?.family_name === "" || user?.user_metadata.address.department === "" || user?.user_metadata.address.number === 0 || user?.user_metadata.address.street === "") {
+      if (user?.given_name === "" || user?.family_name === "" || user?.user_metadata?.address?.department === "" || user?.user_metadata?.address?.number === 0 || user?.user_metadata?.address?.street === "") {
         setIsPerfilComplete(false)
       }
     }

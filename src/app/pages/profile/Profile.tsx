@@ -17,7 +17,7 @@ const Profile = () => {
 
   useEffect(() => {
 
-    if (user?.user_metadata.address.number != 0) {
+    if (user?.user_metadata?.address?.number != 0) {
       setIsAddressValid(true)
     } else {
       setIsAddressValid(false)
