@@ -3,6 +3,7 @@ import { Address } from "./Address";
 import { Base } from "./Base";
 import { User } from "../interfaces/User";
 import { PurchaseOrderDetail } from "./PurchaseOrderDetail";
+import { Person } from "./Person";
 
 export interface PurchaseOrder extends Base {
   fecha: Date;
@@ -11,8 +12,8 @@ export interface PurchaseOrder extends Base {
   shippingType: string;
   paymentMethod: string;
   total: number;
-  address: Address | null;
-  user: User | null;
+  address?: Address;
+  person?: Person | null;
   status: Status | null;
   details: PurchaseOrderDetail[] | null;
 }

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { FaBars, FaSearch, FaHome, FaInfo } from "react-icons/fa";
+import { FaBars, FaSearch, FaHome } from "react-icons/fa";
 import "./navBar.css";
 import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { FaUser } from "react-icons/fa6";
+import { FaCartShopping, FaUser } from "react-icons/fa6";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -149,13 +149,23 @@ const NavBar = () => {
           </Link>
         </li>
         {isAuthenticated &&
-          <li className="nav_bar_about">
-            <Link to="/u/profile" onClick={handleCloseMenu}>
-              <span>
-                <FaUser />
-              </span>
-            </Link>
-          </li>}
+          <>
+            <li className="nav_bar_about">
+              <Link to="/u/profile" onClick={handleCloseMenu}>
+                <span>
+                  <FaUser />
+                </span>
+              </Link>
+            </li>
+            <li className="nav_bar_cart">
+              <Link to="/u/cart">
+                <span>
+                  <FaCartShopping />
+                </span>
+              </Link>
+            </li>
+          </>
+        }
       </ul>
     </nav>
   );

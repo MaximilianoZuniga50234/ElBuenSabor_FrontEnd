@@ -7,6 +7,7 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { BiCartAdd } from "react-icons/bi";
 import { useStore } from "../../../store/CartStore";
+import { toast } from "sonner";
 
 const Carrousel = () => {
   const [randomProducts, setRandomProducts] = useState<Product[]>([]);
@@ -39,6 +40,7 @@ const Carrousel = () => {
   }, []);
 
   const buttonClick = (product: Product) => {
+    toast.message("Producto agregado al carrito")
     addToCart(product);
   };
 
