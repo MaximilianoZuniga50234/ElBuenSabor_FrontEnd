@@ -24,6 +24,14 @@
   gap: 8px;
 }
 
+.div__noSesion {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .cart_main_container .cart_back_amount a {
   display: flex;
   flex-direction: row;
@@ -117,11 +125,66 @@
   margin: auto 0 16px 0;
 }
 
+.modalCart__box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  background-color: var(--light-lavender-gray);
+  border: 1px solid var(--midnight-blue);
+  padding: 20px 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.modalCart__box>.modalCart__h3 {
+  text-align: center;
+  font-size: medium;
+}
+
+.modalCart__div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalCart__select {
+  padding: 8px 4px;
+  background-color: var(--light-lavender-gray);
+  border: 1px solid var(--midnight-blue);
+  border-radius: 10px;
+}
+
+.modalCart__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalCart__button {
+  display: flex;
+  padding: 6px 12px;
+  background-color: var(--midnight-blue);
+  color: var(--light-lavender-gray);
+  border: none;
+  border-radius: 10px;
+  width: 100px;
+  justify-content: center;
+}
+
+.modalCart__button:hover {
+  cursor: pointer;
+  background-color: royalblue;
+}
+
 @media only screen and (min-width: 424px) {
   .cart_main_container .cart_items_container .cart_item {
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 50px 40px;
   }
+
   .cart_main_container .cart_items_container .cart_item img {
     height: 90px;
     width: 104px;
@@ -143,6 +206,18 @@
     grid-column: 3;
     grid-row: 2;
   }
+
+
+  .modalCart__box {
+    width: 300px;
+    padding: 20px 30px;
+
+  }
+
+  .modalCart__button {
+    padding: 8px 16px;
+  }
+
 }
 
 @media only screen and (min-width: 768px) {
@@ -199,5 +274,22 @@
 @media only screen and (min-width: 1024px) {
   .cart_main_container {
     min-height: calc(100vh - 80px);
+  }
+
+  .modalCart__box {
+    width: 350px;
+    padding: 20px 40px;
+  }
+
+  .modalCart__box>.modalCart__h3 {
+    font-size: large;
+  }
+
+  .modalCart__select {
+    padding: 10px 5px;
+  }
+
+  .modalCart__button {
+    padding: 10px 20px;
   }
 }
