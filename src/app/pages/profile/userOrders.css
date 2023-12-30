@@ -1,0 +1,98 @@
+.userOrders__container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    max-width: 1440px;
+    margin: auto;
+}
+
+.userOrders__table {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 2px solid var(--ebony-950);
+    min-height: 80vh;
+}
+
+.userOrders__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-bottom: 2px solid var(--ebony-950);
+}
+
+.userOrders__content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 230px);
+    gap: 10px;
+    padding: 10px;
+    justify-content: center;
+}
+
+.userOrders__card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ebony-950);
+    padding: 10px;
+    border-radius: 10px;
+    gap: 10px;
+    align-items: center;
+}
+
+.userOrders__card h5 {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.userOrders__card__div {
+    display: flex;
+    gap: 15px;
+}
+
+.userOrders__card__button {
+    width: 100px;
+    justify-content: center;
+}
+
+
+@media (width >=425px) {
+
+    .userOrders__content {
+        grid-template-columns: repeat(auto-fit, minmax(230px, 280px));
+    }
+
+    .userOrders__card {
+        gap: 15px;
+    }
+
+    .userOrders__card h5 {
+        font-size: medium;
+    }
+}
+
+@media (width >=768px) {
+
+    .userOrders__content {
+        grid-template-columns: 1fr;
+    }
+
+    .userOrders__card {
+        padding: 20px 0;
+        display: grid;
+        grid-template-columns: 2fr 2fr 2fr 2fr;
+        align-items: center;
+    }
+
+    .userOrders__card h5 {
+        font-size: larger;
+        justify-content: center;
+    }
+
+    .userOrders__card__button {
+        margin: auto;
+    }
+
+}
