@@ -1,0 +1,124 @@
+.modalOrderDetails__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 280px;
+    background-color: var(--light-lavender-gray);
+    border: 1px solid var(--midnight-blue);
+    padding: 10px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modalOrderDetails__header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.modalOrderDetails__header p {
+    font-size: small;
+}
+
+.modalOrderDetails__orderInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+}
+
+.modalOrderDetails__box h5 {
+    font-weight: 500;
+}
+
+.modalOrderDetails__orderInfo__header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--ebony-950);
+}
+
+.modalOrderDetails__orderInfo__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.modalOrderDetails__products {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+}
+
+
+.modalOrderDetails__products__header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--ebony-950);
+}
+
+.modalOrderDetails__products__content__product {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.modalOrderDetails__closeButton {
+    margin: auto;
+}
+
+@media (width >=425px) {
+
+    .modalOrderDetails__box {
+        min-width: 350px;
+        padding: 15px 15px;
+        gap: 12px;
+    }
+
+    .modalOrderDetails__orderInfo__header,
+    .modalOrderDetails__orderInfo__content,
+    .modalOrderDetails__products__header,
+    .modalOrderDetails__products__content__product {
+        padding: 8px 0;
+    }
+
+}
+
+@media (width >=768px) {
+
+    .modalOrderDetails__box {
+        min-width: 550px;
+        gap: 15px;
+    }
+
+    .modalOrderDetails__header p {
+        font-size: medium;
+    }
+
+    .modalOrderDetails__box h5 {
+        font-size: medium;
+    }
+
+    .modalOrderDetails__orderInfo__header,
+    .modalOrderDetails__orderInfo__content,
+    .modalOrderDetails__products__header,
+    .modalOrderDetails__products__content__product {
+        padding: 10px 0;
+    }
+
+}

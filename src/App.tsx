@@ -7,12 +7,14 @@ import { useStore as useCurrentUser } from "./app/store/CurrentUserStore"
 import { Toaster, toast } from "sonner";
 import { useUserLogged } from "./app/hooks/useUserLogged";
 import { useAllUsers } from "./app/hooks/useAllUsers";
+import { useAddressesAndPersons } from "./app/hooks/useAddressesAndPersons";
 
 function App() {
   const { user } = useCurrentUser()
   const { isAuthenticated } = useAuth0();
   useUserLogged()
   useAllUsers()
+  useAddressesAndPersons()
   const [isPerfilComplete, setIsPerfilComplete] = useState<boolean>(true)
 
   useEffect(() => {
