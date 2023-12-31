@@ -20,6 +20,11 @@
     justify-content: center;
     padding: 10px;
     border-bottom: 2px solid var(--ebony-950);
+    height: 60px;
+}
+
+.userOrders__header__title {
+    text-align: center;
 }
 
 .userOrders__content {
