@@ -31,6 +31,7 @@ export default function UserOrders() {
     })
     const [filterOrders, setFilterOrders] = useState<PurchaseOrder[]>()
     const [open, setOpen] = useState(false)
+    const [isLoaded, setisLoaded] = useState(false)
 
     const handleOpen = (orderParam: PurchaseOrder) => {
         setOpen(true)
@@ -38,8 +39,12 @@ export default function UserOrders() {
     };
 
     const getOrders = async () => {
-        const response = await getAllPurchaseOrder()
-        setOrders(response)
+        try {
+            const response = await getAllPurchaseOrder()
+            setOrders(response)
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     useEffect(() => {
@@ -49,21 +54,26 @@ export default function UserOrders() {
     useEffect(() => {
         if (user && orders && orders.length > 0) {
             setFilterOrders(orders.filter((order: PurchaseOrder) => order.person?.user_id === user?.user_id && order.status?.status === "Por aceptar"))
+            setisLoaded(true)
         }
     }, [user, orders])
 
     return (
+
         <div className="userOrders__container">
             <div className="userOrders__table">
 
                 <div className="userOrders__header">
                     <h1 className="userOrders__header__title">
-                        {isAuthenticated ?
-                            (filterOrders === undefined ||
-                                (filterOrders && filterOrders.length === 0) ?
-                                "No hay órdenes" :
-                                "Mis órdenes") :
-                            "Inicia sesión para ver tus órdenes"
+                        {
+                            isAuthenticated ?
+                                (isLoaded &&
+                                    (filterOrders === undefined ||
+                                        (filterOrders && filterOrders.length === 0) ?
+                                        "No hay órdenes" :
+                                        "Mis órdenes"))
+                                :
+                                "Inicia sesión para ver tus órdenes"
                         }
                     </h1>
                 </div>
