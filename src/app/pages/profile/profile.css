@@ -8,6 +8,10 @@
   margin: 0 auto;
 }
 
+.profile__main__container>h2 {
+  text-align: center;
+}
+
 .profile__container {
   width: 80%;
   height: auto;

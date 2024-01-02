@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { FaBars, FaSearch, FaHome } from "react-icons/fa";
 import "./navBar.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { FaCartShopping, FaUser } from "react-icons/fa6";
+import { FaBagShopping, FaCartShopping, FaUser } from "react-icons/fa6";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,6 +13,14 @@ const NavBar = () => {
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
   };
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) {
+        setIsMenuOpen(false);
+      }
+    })
+  }, [])
 
   const handleLogIn = () => {
     loginWithRedirect({
@@ -120,10 +128,33 @@ const NavBar = () => {
                 </li>
               </ul>
             </li>
-            <li>
-              <button className="nav_bar_button" onClick={handleLogOut}>
-                Cerrar sesión
-              </button>
+            <button className="nav_bar_button" onClick={handleLogOut}>
+              Cerrar sesión
+            </button>
+            <li className="nav_bar_dropdown_profile_container">
+              <span className="nav_bar_user">
+                <FaUser />
+              </span>
+              <ul className="nav_bar_dropdown_profile_ul">
+                <li className="nav_bar_dropdown_profile_li">
+                  <Link to="/u/profile" className="nav_bar_dropdown_profile_link" onClick={handleCloseMenu}>
+                    <span>{isMenuOpen && <FaUser />} Mi perfil</span>
+                  </Link>
+                </li>
+                <li className="nav_bar_dropdown_profile_li">
+                  <Link to="/u/orders" className="nav_bar_dropdown_profile_link" onClick={handleCloseMenu}
+                  >
+                    <span>{isMenuOpen && <FaBagShopping />} Mis órdenes</span>
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li className="nav_bar_cart">
+              <Link to="/u/cart" onClick={handleCloseMenu}>
+                <span>
+                  <FaCartShopping />
+                </span>
+              </Link>
             </li>
           </>
         ) : (
@@ -143,29 +174,11 @@ const NavBar = () => {
 
         <li className="nav_bar_home">
           <Link to="/" onClick={handleCloseMenu}>
-            <span>
+            <span className="nav_bar_user_icon">
               <FaHome />
             </span>
           </Link>
         </li>
-        {isAuthenticated &&
-          <>
-            <li className="nav_bar_about">
-              <Link to="/u/profile" onClick={handleCloseMenu}>
-                <span>
-                  <FaUser />
-                </span>
-              </Link>
-            </li>
-            <li className="nav_bar_cart">
-              <Link to="/u/cart">
-                <span>
-                  <FaCartShopping />
-                </span>
-              </Link>
-            </li>
-          </>
-        }
       </ul>
     </nav>
   );
