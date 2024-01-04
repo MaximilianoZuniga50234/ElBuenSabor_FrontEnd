@@ -93,7 +93,12 @@ export default function ModalOrderDetails({ open, setOpen, order }: ModalOrderDe
                         </div>
                     </div>
 
-                    <button className="modalOrderDetails__closeButton" onClick={handleClose}>Cerrar</button>
+                    <div className="modalOrderDetails__buttons">
+                        <button className="modalOrderDetails__button" onClick={handleClose}>Cerrar</button>
+                        {order.status?.status === "Facturado" &&
+                            <button className="modalOrderDetails__button">Factura</button>
+                        }
+                    </div>
 
                 </Box>
             </Fade>

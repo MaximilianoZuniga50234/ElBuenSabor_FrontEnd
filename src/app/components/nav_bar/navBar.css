@@ -194,10 +194,13 @@
   }
 
   .nav_bar_pre_login_container .nav_bar_list .nav_bar_home a span,
-  .nav_bar_pre_login_container .nav_bar_list .nav_bar_cart a span {
+  .nav_bar_pre_login_container .nav_bar_list .nav_bar_cart a span,
+  .nav_bar_dropdown_profile_link span {
     font-size: 16px;
     margin: 0;
     padding: 0;
+    display: flex;
+    gap: 4px;
   }
 
   .nav_bar_button {
@@ -233,13 +236,11 @@
 
   .nav_bar_home a span::after {
     content: "Inicio";
-    padding-left: 3px;
     font-size: 16px;
   }
 
   .nav_bar_cart a span::after {
     content: "Carrito";
-    padding-left: 3px;
   }
 
 }

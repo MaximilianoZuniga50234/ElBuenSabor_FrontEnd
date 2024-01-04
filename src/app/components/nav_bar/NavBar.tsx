@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaBars, FaSearch, FaHome } from "react-icons/fa";
+import { FaBars, FaSearch, FaHome, FaHistory } from "react-icons/fa";
 import "./navBar.css";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -145,6 +145,12 @@ const NavBar = () => {
                   <Link to="/u/orders" className="nav_bar_dropdown_profile_link" onClick={handleCloseMenu}
                   >
                     <span>{isMenuOpen && <FaBagShopping />} Mis órdenes</span>
+                  </Link>
+                </li>
+                <li className="nav_bar_dropdown_profile_li">
+                  <Link to="/u/orders/history" className="nav_bar_dropdown_profile_link" onClick={handleCloseMenu}
+                  >
+                    <span>{isMenuOpen && <FaHistory />} Historial de órdenes</span>
                   </Link>
                 </li>
               </ul>

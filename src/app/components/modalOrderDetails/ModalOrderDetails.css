@@ -78,8 +78,18 @@
     padding: 5px 0;
 }
 
-.modalOrderDetails__closeButton {
+.modalOrderDetails__buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.modalOrderDetails__button {
     margin: auto;
+    font-size: 12px;
+    justify-content: center;
+    width: 75px;
 }
 
 @media (width >=425px) {
@@ -119,6 +129,13 @@
     .modalOrderDetails__products__header,
     .modalOrderDetails__products__content__product {
         padding: 10px 0;
+    }
+
+
+
+    .modalOrderDetails__button {
+        font-size: 15px;
+        width: 100px;
     }
 
 }
