@@ -4,7 +4,7 @@ import { FaGithub } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <div className="footer">
+    <footer className="footer">
       <div className="footer__container">
         <figure className="footer__logo">
           <img
@@ -74,6 +74,6 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }

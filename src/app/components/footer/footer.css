@@ -1,9 +1,5 @@
-:root {
-    --midnight-blue: #11111F;
-}
-
 .footer {
-    background-color: var(--midnight-blue);
+    background-color: var(--ebony-950);
     width: 100%;
 }
 
