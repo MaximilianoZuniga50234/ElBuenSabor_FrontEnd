@@ -12,6 +12,7 @@
     border-radius: 10px;
     border: 2px solid var(--ebony-950);
     min-height: 80vh;
+    background-color: var(--light-lavender-gray);
 }
 
 .userOrders__header {
@@ -25,6 +26,10 @@
 
 .userOrders__header__title {
     text-align: center;
+}
+
+.userOrders__labels {
+    display: none;
 }
 
 .userOrders__content {
@@ -45,7 +50,7 @@
     align-items: center;
 }
 
-.userOrders__card h5 {
+.userOrders__span {
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -73,7 +78,7 @@
         gap: 15px;
     }
 
-    .userOrders__card h5 {
+    .userOrders__span {
         font-size: medium;
     }
 }
@@ -82,22 +87,37 @@
 
     .userOrders__content {
         grid-template-columns: 1fr;
+        padding: 0;
+    }
+
+    .userOrders__labels {
+        padding: 15px 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: center;
+        text-align: center;
+        border-bottom: 1px solid var(--ebony-950);
+        font-size: larger;
     }
 
     .userOrders__card {
-        padding: 20px 0;
+        padding: 10px 0;
         display: grid;
-        grid-template-columns: 2fr 2fr 2fr 2fr;
+        grid-template-columns: repeat(4, 1fr);
         align-items: center;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid var(--ebony-950);
     }
 
-    .userOrders__card h5 {
-        font-size: larger;
+    .userOrders__span {
+        font-size: large;
         justify-content: center;
     }
 
     .userOrders__card__button {
         margin: auto;
+        font-size: medium;
     }
 
 }

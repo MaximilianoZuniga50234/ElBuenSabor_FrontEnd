@@ -1,0 +1,138 @@
+.ordersHistory__container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    max-width: 1440px;
+    margin: auto;
+}
+
+.ordersHistory__table {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 2px solid var(--ebony-950);
+    min-height: 80vh;
+    background-color: var(--light-lavender-gray);
+}
+
+.ordersHistory__labels {
+    display: none;
+}
+
+.ordersHistory__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-bottom: 2px solid var(--ebony-950);
+    height: 60px;
+}
+
+.ordersHistory__header__title {
+    text-align: center;
+}
+
+.ordersHistory__span {
+    font-size: 12px;
+}
+
+.ordersHistory__cards__container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+    align-items: center;
+    margin: 10px;
+    text-align: center;
+}
+
+.ordersHistory__card__labels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 10px;
+    border-bottom: 1px solid var(--ebony-950);
+    width: 100%;
+}
+
+.ordersHistory__card {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+}
+
+.ordersHistory__card__info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 10px;
+}
+
+.ordersHistory__card__buttons {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px 0;
+}
+
+
+.ordersHistory__button {
+    font-size: 10px;
+    justify-content: center;
+    width: 70px;
+}
+
+
+@media (width >=550px) {
+
+    .ordersHistory__labels {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) 2fr;
+        align-items: center;
+        text-align: center;
+        font-size: 12px;
+        padding: 15px;
+        border-bottom: 1px solid var(--ebony-950);
+    }
+
+    .ordersHistory__cards__container {
+        margin: 0;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid var(--ebony-950);
+    }
+
+    .ordersHistory__card__labels {
+        display: none;
+    }
+
+    .ordersHistory__card {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        align-items: center;
+    }
+
+    .ordersHistory__card__info {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 0;
+    }
+}
+
+@media (width >=768px) {
+
+    .ordersHistory__card {
+        padding: 0 15px;
+    }
+
+    .ordersHistory__h3 {
+        font-size: x-large;
+    }
+
+    .ordersHistory__span {
+        font-size: large;
+    }
+
+    .ordersHistory__button {
+        font-size: medium;
+        width: 90px;
+    }
+}

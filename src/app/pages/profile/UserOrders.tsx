@@ -6,6 +6,7 @@ import { FaClock } from "react-icons/fa6"
 import "./userOrders.css"
 import ModalOrderDetails from "../../components/modalOrderDetails/ModalOrderDetails"
 import { useAuth0 } from "@auth0/auth0-react"
+
 export default function UserOrders() {
     const { user } = useCurrentUser()
     const { isAuthenticated } = useAuth0()
@@ -42,6 +43,7 @@ export default function UserOrders() {
         try {
             const response = await getAllPurchaseOrder()
             setOrders(response)
+            setisLoaded(true)
         } catch (error) {
             console.error(error)
         }
@@ -54,12 +56,10 @@ export default function UserOrders() {
     useEffect(() => {
         if (user && orders && orders.length > 0) {
             setFilterOrders(orders.filter((order: PurchaseOrder) => order.person?.user_id === user?.user_id && order.status?.status === "Por aceptar"))
-            setisLoaded(true)
         }
     }, [user, orders])
 
     return (
-
         <div className="userOrders__container">
             <div className="userOrders__table">
 
@@ -68,22 +68,29 @@ export default function UserOrders() {
                         {
                             isAuthenticated ?
                                 (isLoaded &&
-                                    (filterOrders === undefined ||
-                                        (filterOrders && filterOrders.length === 0) ?
+                                    (filterOrders === undefined || (filterOrders && filterOrders.length === 0) ?
                                         "No hay órdenes" :
-                                        "Mis órdenes"))
+                                        "Mis órdenes")
+                                )
                                 :
                                 "Inicia sesión para ver tus órdenes"
                         }
                     </h1>
                 </div>
+
+                <div className="userOrders__labels">
+                    <span className="userOrders__span"><b>N° de orden</b></span>
+                    <span className="userOrders__span"><b>Total</b></span>
+                    <span className="userOrders__span"><b>Tiempo estimado</b></span>
+                </div>
+
                 <div className="userOrders__content">
                     {
                         filterOrders?.map((order: PurchaseOrder) => (
                             <div className="userOrders__card" key={order.id}>
-                                <h5 className="userOrders__card__title" > Orden N° {order.number}</h5>
-                                <h5 className="userOrders__price">${order.total}</h5>
-                                <h5 className="userOrders__time"> <FaClock /> {order.estimatedEndTime} m.</h5>
+                                <span className="userOrders__span" > Orden N° {order.number}</span>
+                                <span className="userOrders__span">${order.total}</span>
+                                <span className="userOrders__span"> <FaClock /> {order.estimatedEndTime} m.</span>
                                 <button className="userOrders__card__button" onClick={() => { handleOpen(order) }}>Detalles</button>
                             </div>
                         ))}
@@ -91,6 +98,6 @@ export default function UserOrders() {
             </div>
 
             <ModalOrderDetails open={open} setOpen={setOpen} order={order}></ModalOrderDetails>
-        </div>
+        </div >
     )
 }

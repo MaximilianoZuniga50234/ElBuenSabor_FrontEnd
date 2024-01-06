@@ -5,7 +5,8 @@ import Profile from "../pages/profile/Profile";
 import AllProducts from "../pages/all products/AllProducts";
 import Carrousel from "../components/home/carrousel/Carrousel";
 import Cart from "../pages/cart/Cart";
-import UserOrders from "../pages/profile/userOrders";
+import OrdersHistory from "../pages/profile/OrdersHistory";
+import UserOrders from "../pages/profile/UserOrders";
 
 const PublicRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const PublicRoutes = () => {
       <Route path="/carrousel" element={<Carrousel />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/orders" element={<UserOrders />} />
+      <Route path="/orders/history" element={<OrdersHistory />} />
     </Routes>
   );
 };
