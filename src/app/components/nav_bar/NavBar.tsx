@@ -1,26 +1,21 @@
-import { Link } from "react-router-dom";
-import { FaBars, FaSearch, FaHome, FaHistory } from "react-icons/fa";
-import "./navBar.css";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
+import { useStore as useFilter } from "../../store/FilterStore";
+import { FaBars, FaSearch, FaHome, FaHistory } from "react-icons/fa";
 import { FaBagShopping, FaCartShopping, FaUser } from "react-icons/fa6";
+import "./navBar.css";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
   const [wordToSearch, setWordToSearch] = useState("");
+  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+
+  const { params, setName, setActive } = useFilter();
 
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
   };
-
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 768) {
-        setIsMenuOpen(false);
-      }
-    })
-  }, [])
 
   const handleLogIn = () => {
     loginWithRedirect({
@@ -45,9 +40,18 @@ const NavBar = () => {
     logout({ logoutParams: { returnTo: window.location.origin } });
   };
 
-  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setWordToSearch(event.target.value);
   };
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 768) {
+        setIsMenuOpen(false);
+      }
+    });
+    setWordToSearch(params.productName);
+  }, []);
 
   return (
     <nav className="nav_bar_pre_login_container">
@@ -59,16 +63,17 @@ const NavBar = () => {
         <input
           type="text"
           placeholder="Buscar productos"
+          value={wordToSearch}
           required
           onChange={handleChangeInput}
         />
 
         <Link
-          to={
-            wordToSearch != ""
-              ? `u/products/search/${wordToSearch}`
-              : "u/products"
-          }
+          to="u/products"
+          onClick={() => {
+            setName(wordToSearch);
+            setActive(true);
+          }}
         >
           <FaSearch />
         </Link>
@@ -137,12 +142,19 @@ const NavBar = () => {
               </span>
               <ul className="nav_bar_dropdown_profile_ul">
                 <li className="nav_bar_dropdown_profile_li">
-                  <Link to="/u/profile" className="nav_bar_dropdown_profile_link" onClick={handleCloseMenu}>
+                  <Link
+                    to="/u/profile"
+                    className="nav_bar_dropdown_profile_link"
+                    onClick={handleCloseMenu}
+                  >
                     <span>{isMenuOpen && <FaUser />} Mi perfil</span>
                   </Link>
                 </li>
                 <li className="nav_bar_dropdown_profile_li">
-                  <Link to="/u/orders" className="nav_bar_dropdown_profile_link" onClick={handleCloseMenu}
+                  <Link
+                    to="/u/orders"
+                    className="nav_bar_dropdown_profile_link"
+                    onClick={handleCloseMenu}
                   >
                     <span>{isMenuOpen && <FaBagShopping />} Mis órdenes</span>
                   </Link>

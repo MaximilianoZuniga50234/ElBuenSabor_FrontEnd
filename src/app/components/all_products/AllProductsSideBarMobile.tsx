@@ -1,44 +1,53 @@
 import { useEffect, useState } from "react";
 import { getAllItemProduct } from "../../functions/ItemProductAPI";
+import { useStore as useFilter } from "../../store/FilterStore";
 import { ItemProduct } from "../../interfaces/ItemProduct";
-import { FaCaretDown, FaCircleXmark, FaFilter } from "react-icons/fa6";
+import { Filter } from "../../interfaces/Filter";
+import { FaBan, FaCaretDown, FaCircleXmark, FaFilter } from "react-icons/fa6";
 
-interface Filter {
-  isOpen: boolean;
-  category: string;
-  category_selected: boolean;
-  price_selected: boolean;
-  order: string;
-  order_selected: boolean;
+interface Filter_actions {
+  handleOpenClose: () => void;
+  handleOpenCloseOrder: () => void;
+  handleOpenCloseCategory: () => void;
+  handleOpenClosePrice: () => void;
 }
 
-const INITIAL_STATE_FILTER = {
-  isOpen: false,
-  category: "Categoría",
-  category_selected: false,
-  price_selected: false,
-  order: "Ordenar por...",
-  order_selected: false,
-};
+interface Props {
+  actions: Filter_actions;
+  filter: Filter;
+}
 
-const AllProductsSideBarMobile = () => {
+const AllProductsSideBarMobile = ({ actions, filter }: Props) => {
   const [categories, setCategories] = useState<ItemProduct[]>([]);
-  const [filter, setFilter] = useState<Filter>(INITIAL_STATE_FILTER);
+  const [priceMin, setPriceMin] = useState<string>("");
+  const [priceMax, setPriceMax] = useState<string>("");
 
-  const handleOpenCloseOrder = () => {
-    setFilter({ ...filter, order_selected: !filter.order_selected });
+  //FILTERS
+
+  const {
+    setActive,
+    setCategory,
+    setOrder,
+    setMaxPrice,
+    setMinPrice,
+    clearFilter,
+    params,
+  } = useFilter();
+
+  const handleChangeOrder = (order: string) => {
+    setActive(true);
+    setOrder(order);
   };
 
-  const handleOpenClose = () => {
-    setFilter({ ...filter, isOpen: !filter.isOpen });
+  const handleChangeCategory = (category: string) => {
+    setActive(true);
+    setCategory(category);
   };
 
-  const handleOpenCloseCategory = () => {
-    setFilter({ ...filter, category_selected: !filter.category_selected });
-  };
-
-  const handleOpenClosePrice = () => {
-    setFilter({ ...filter, price_selected: !filter.price_selected });
+  const handlePrice = () => {
+    setActive(true);
+    setMinPrice(priceMin);
+    setMaxPrice(priceMax);
   };
 
   const getAllCategories = async () => {
@@ -52,18 +61,21 @@ const AllProductsSideBarMobile = () => {
   return (
     <>
       <div className="allproducts_top_options">
-        <button className="allproducts_filter_button" onClick={handleOpenClose}>
+        <button
+          className="allproducts_filter_button"
+          onClick={actions.handleOpenClose}
+        >
           Filtrar
           <FaFilter />
         </button>
         <div className="allproducts_order_container">
           <div
-            onClick={handleOpenCloseOrder}
+            onClick={actions.handleOpenCloseOrder}
             className={filter.order_selected ? "active" : ""}
           >
             <input
               type="text"
-              value={filter.order}
+              value="Ordenar por..."
               readOnly
               className={filter.order_selected ? "active" : ""}
             />
@@ -71,45 +83,37 @@ const AllProductsSideBarMobile = () => {
           </div>
           <ul className={filter.order_selected ? "active" : ""}>
             <li
-              className={filter.order === "Alfabetico A-Z" ? "selected" : ""}
+              className={params.productOrder === "1" ? "selected" : ""}
               onClick={() => {
-                setFilter({
-                  ...filter,
-                  order: "Alfabetico A-Z",
-                });
+                handleChangeOrder("1");
+                actions.handleOpenCloseOrder();
               }}
             >
               Alfabetico A-Z
             </li>
             <li
-              className={filter.order === "Alfabetico Z-A" ? "selected" : ""}
+              className={params.productOrder === "2" ? "selected" : ""}
               onClick={() => {
-                setFilter({
-                  ...filter,
-                  order: "Alfabetico Z-A",
-                });
+                handleChangeOrder("2");
+                actions.handleOpenCloseOrder();
               }}
             >
               Alfabetico Z-A
             </li>
             <li
-              className={filter.order === "Menor precio" ? "selected" : ""}
+              className={params.productOrder === "3" ? "selected" : ""}
               onClick={() => {
-                setFilter({
-                  ...filter,
-                  order: "Menor precio",
-                });
+                handleChangeOrder("3");
+                actions.handleOpenCloseOrder();
               }}
             >
               Menor precio
             </li>
             <li
-              className={filter.order === "Mayor precio" ? "selected" : ""}
+              className={params.productOrder === "4" ? "selected" : ""}
               onClick={() => {
-                setFilter({
-                  ...filter,
-                  order: "Mayor precio",
-                });
+                handleChangeOrder("4");
+                actions.handleOpenCloseOrder();
               }}
             >
               Mayor precio
@@ -117,15 +121,17 @@ const AllProductsSideBarMobile = () => {
           </ul>
         </div>
       </div>
-      <aside className={filter.isOpen ? "active" : ""}>
+      <aside
+        className={`allproducts_side_bar ${filter.isOpen ? "active" : ""}`}
+      >
         <FaCircleXmark
           className="allproducts_filter_close"
-          onClick={handleOpenClose}
+          onClick={actions.handleOpenClose}
         />
         <div className="allproducts_filter_container">
           <h4>Filtros</h4>
           <div className="allProducts_dropdown_mobile">
-            <div onClick={handleOpenCloseCategory}>
+            <div onClick={actions.handleOpenCloseCategory}>
               <input type="text" value="Categoría" readOnly />
               <FaCaretDown
                 className={filter.category_selected ? "active" : ""}
@@ -146,13 +152,12 @@ const AllProductsSideBarMobile = () => {
                   <li
                     key={c.id}
                     onClick={() => {
-                      setFilter({
-                        ...filter,
-                        category: c.denomination,
-                      });
+                      handleChangeCategory(c.id.toString());
                     }}
                     className={
-                      c.denomination === filter.category ? "selected" : ""
+                      params.productCategory === c.id.toString()
+                        ? "selected"
+                        : ""
                     }
                   >
                     {c.denomination}
@@ -162,7 +167,7 @@ const AllProductsSideBarMobile = () => {
             </ul>
           </div>
           <div className="allProducts_dropdown_mobile">
-            <div onClick={handleOpenClosePrice}>
+            <div onClick={actions.handleOpenClosePrice}>
               <input type="text" value="Precio" readOnly />
               <FaCaretDown className={filter.price_selected ? "active" : ""} />
             </div>
@@ -170,20 +175,41 @@ const AllProductsSideBarMobile = () => {
               className={`filter_price_menu ${
                 filter.price_selected ? "active" : ""
               }`}
-              style={{
-                height: `${filter.price_selected ? 100 : 0}px`,
-              }}
             >
               <li>
-                <label htmlFor="minimum__input">Mínimo</label>
-                <input type="number" id="minimum__input" />
+                <input
+                  type="number"
+                  id="minimum__input"
+                  placeholder="Minimo"
+                  onChange={(e) => {
+                    setPriceMin(e.target.value);
+                  }}
+                  value={priceMin}
+                />
               </li>
               <li>
-                <label htmlFor="maximum__input">Máximo</label>
-                <input type="number" id="maximum__input" />
+                <input
+                  type="number"
+                  id="maximum__input"
+                  placeholder="Maximo"
+                  onChange={(e) => {
+                    setPriceMax(e.target.value);
+                  }}
+                  value={priceMax}
+                />
+              </li>
+              <li>
+                <button onClick={handlePrice}>Aplicar</button>
               </li>
             </ul>
           </div>
+          <button
+            className="allproducts_undo_filter_button_mobile"
+            onClick={clearFilter}
+          >
+            Deshacer filtros
+            <FaBan />
+          </button>
         </div>
       </aside>
     </>
