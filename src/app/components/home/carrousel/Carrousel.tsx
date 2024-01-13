@@ -1,73 +1,55 @@
-import { useState, useEffect } from "react";
+import { MouseEvent, useState } from "react";
+import { toast } from "sonner";
+import AliceCarousel from "react-alice-carousel";
 import Modal from "../../../components/modal/Modal";
 import { Product } from "../../../interfaces/Product";
-import "./carrusel.css";
-import { getAllProduct } from "../../../functions/ProductAPI";
-import AliceCarousel from "react-alice-carousel";
+import { useStore as useCart } from "../../../store/CartStore";
+import { FaCartShopping } from "react-icons/fa6";
 import "react-alice-carousel/lib/alice-carousel.css";
-import { BiCartAdd } from "react-icons/bi";
-import { useStore } from "../../../store/CartStore";
-import { toast } from "sonner";
+import "./carrousel.css";
 
-const Carrousel = () => {
-  const [randomProducts, setRandomProducts] = useState<Product[]>([]);
-  const [discountProducts, setDiscountProducts] = useState<Product[]>([]);
+interface Props {
+  products: Product[];
+}
+
+const Carrousel = ({ products }: Props) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const addToCart = useStore().add;
 
-  const getProductsJSONFetch = async () => {
-    try {
-      const response = await getAllProduct();
-      const discountProducts = response.filter(
-        (product: Product) => product.discountPercentaje > 0
-      );
-      setDiscountProducts(discountProducts);
+  const { add } = useCart();
 
-      const nonDiscountProducts = response.filter(
-        (product: Product) =>
-          !product.discountPercentaje || product.discountPercentaje === 0
-      );
-      const shuffled = nonDiscountProducts.sort(() => 0.5 - Math.random());
-      setRandomProducts(shuffled.slice(0, 10));
-    } catch (error) {
-      console.error("Error", error);
-    }
+  const openModal = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
   };
 
-  useEffect(() => {
-    getProductsJSONFetch();
-  }, []);
-
-  const buttonClick = (product: Product) => {
-    toast.message("Producto agregado al carrito")
-    addToCart(product);
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
-  const createCarouselItems = (products: Product[], showDiscount: boolean) =>
+  const buttonClick = (product: Product, event?: MouseEvent | undefined) => {
+    event?.stopPropagation();
+    toast.message("Producto agregado al carrito");
+    add(product);
+  };
+
+  const createCarouselItems = (products: Product[]) =>
     products.map((product) => (
-      <div className="productCard" key={product.id}>
-        <figure className="productFigure">
-          <div className="image-discount">
-            <img
-              src={product.imgUrl}
-              alt=""
-              className="productImage"
-              onClick={() => openModal(product)}
-            />
-            {showDiscount && (
-              <div className="productDiscount">
-                <p className="products__card__d">
-                  -{product.discountPercentaje}%
-                </p>
-              </div>
-            )}
-          </div>
-        </figure>
+      <div
+        className="productCard"
+        key={product.id}
+        onClick={() => openModal(product)}
+      >
+        <div className="image-discount">
+          <img src={product.imgUrl} alt="" className="productImage" />
+          {product.discountPercentaje > 0 && (
+            <p>-{product.discountPercentaje}%</p>
+          )}
+        </div>
         <div className="productInfo">
-          <div className="productName">
-            <p className="products__card__p">{product.denomination}</p>
-          </div>
+          <p className="products__card__p">
+            <span>{product.denomination}</span>
+          </p>
           <div className="productPriceIcon">
             <div className="productPrice">
               {product.discountPercentaje > 0 ? (
@@ -85,53 +67,27 @@ const Carrousel = () => {
                 <p className="products__card__p">${product.salePrice}</p>
               )}
             </div>
-            <div className="productCart">
-              <button className="button" onClick={() => buttonClick(product)}>
-                <BiCartAdd className="cart-icon" />
-              </button>
-            </div>
+            <button onClick={(e) => buttonClick(product, e)}>
+              <FaCartShopping />
+            </button>
           </div>
         </div>
       </div>
     ));
 
-  const openModal = (product: Product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
-    <div className="Carrousel">
-      <h1 className="title">Destacados</h1>
+    <div className="carrousel">
       <AliceCarousel
-        items={createCarouselItems(randomProducts, false)}
+        items={createCarouselItems(products)}
         responsive={{
           0: { items: 1 },
-          800: { items: 2 },
-          1024: { items: 2 },
-          1304: { items: 3 },
-          1440: { items: 4 },
-          2560: { items: 5 },
-          5570: { items: 7 },
-        }}
-        infinite
-        mouseTracking
-      />
-      <h1 className="title">Ofertas</h1>
-      <AliceCarousel
-        items={createCarouselItems(discountProducts, true)}
-        responsive={{
-          0: { items: 1 },
-          800: { items: 2 },
-          1024: { items: 2 },
-          1304: { items: 3 },
-          1440: { items: 4 },
-          2560: { items: 5 },
-          5570: { items: 7 },
+          550: { items: 2 },
+          820: { items: 3 },
+          1100: { items: 4 },
+          1440: { items: 5 },
+          1700: { items: 6 },
+          2050: { items: 7 },
+          2400: { items: 8 },
         }}
         infinite
         mouseTracking
