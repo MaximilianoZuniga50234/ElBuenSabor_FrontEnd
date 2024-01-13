@@ -1,47 +1,43 @@
 import { useEffect, useState } from "react";
-import Modal from "../../components/modal/Modal";
 import { Product } from "../../interfaces/Product";
-import { getAllProduct } from "../../functions/ProductAPI";
-import Categories from "../../components/home/categories/Categories";
-import { useMediaQuery } from "react-responsive";
-import "./Home.css";
-import MobileCard from "../../components/home/card/MobileCard";
-import DesktopCard from "../../components/home/card/DesktopCard";
 import { Header1 } from "../../components/header/header1/Header1";
 import Carrousel from "../../components/home/carrousel/Carrousel";
+import Categories from "../../components/home/categories/Categories";
+import {
+  getFeaturedProducts,
+  getProductsInSale,
+} from "../../functions/ProductAPI";
+import "./Home.css";
 
 const Home = () => {
-  const isMobile = useMediaQuery({ maxWidth: 585 });
-  const isDesktop = useMediaQuery({ minWidth: 586 });
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [saleProducts, setSaleProducts] = useState<Product[]>([]);
 
-  const [products, setProducts] = useState<Product[]>([]);
-
-  const getProductsJSONFetch = async () => {
+  const getProductsForCarrousel = async () => {
     try {
-      const response = await getAllProduct();
-      setProducts(response);
+      setFeaturedProducts(await getFeaturedProducts());
+      setSaleProducts(await getProductsInSale());
     } catch (error) {
-      console.error("Error", error);
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    getProductsJSONFetch();
+    getProductsForCarrousel();
   }, []);
 
   return (
     <>
       <Header1 />
       <br />
-      <Carrousel />
       <div className="home_main_container">
-        <h1>PRODUCTOS</h1>
-        <div className="products_group">
-          {products.map(
-            (p) =>
-              (isMobile && <MobileCard key={p.id} product={p} />) ||
-              (isDesktop && <DesktopCard key={p.id} product={p} />)
-          )}
+        <div className="home_featured_products">
+          <h1 className="title">Destacados</h1>
+          <Carrousel products={featuredProducts} />
+        </div>
+        <div className="home_sale_products">
+          <h1 className="title">Ofertas</h1>
+          <Carrousel products={saleProducts} />
         </div>
         <Categories />
         {/* <Modal

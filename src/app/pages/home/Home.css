@@ -7,15 +7,32 @@
   margin: 16px 0 0 0;
 }
 
-.home_main_container .products_group {
+.home_featured_products,
+.home_sale_products {
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
+.home_featured_products .title,
+.home_sale_products .title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* .home_main_container .products_group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+} */
 
 /* ESTILOS MOBILE */
 
-.home_main_container .products_group .product_card_mobile:first-child {
+/* .home_main_container .products_group .product_card_mobile:first-child {
   border-top: 1px solid #ccc;
 }
 
@@ -120,11 +137,11 @@
   width: 32px;
   border-radius: 8px;
   z-index: 2;
-}
+}*/
 
 /* ESTILOS DESKTOP */
 
-.product_card_desktop {
+/* .product_card_desktop {
   height: 250px;
   width: 200px;
   border: 0;
@@ -201,69 +218,4 @@
   .home_main_container .products_group {
     grid-template-columns: repeat(5, 1fr);
   }
-}
-
-/* ESTILOS CARROUSEL */
-
-.carousel-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  margin: 0 70px;
-  width: auto;
-}
-
-.carousel-arrow {
-  font-size: 24px;
-  cursor: pointer;
-  margin: 0 10px;
-}
-
-.product-card {
-  display: flex;
-  flex-direction: column;
-  margin: 0 20px 0 0;
-  background-color: lightgray;
-  width: 200px;
-  height: 100%; /* Agrega altura al elemento .product-card para que los elementos internos se ajusten correctamente */
-  justify-content: space-between;
-}
-
-.carousel-content {
-  overflow: hidden;
-}
-
-.product-image {
-  width: 200px;
-  height: 100px;
-  object-fit: cover;
-}
-
-.product-info {
-  padding: 10px;
-  height: 100px;
-}
-
-.product-title {
-  text-align: center;
-  margin: 0;
-}
-
-.product-price {
-  display: flex;
-  justify-content: space-between;
-  align-self: flex-start;
-  margin-top: 15px;
-  height: 50px;
-}
-
-.button,
-.cart-icon {
-  align-self: flex-start;
-  font-size: 25px;
-}
-
-.cart-icon {
-  justify-content: center;
-}
+}  */
