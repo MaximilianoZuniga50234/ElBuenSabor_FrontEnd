@@ -10,7 +10,10 @@ import StockAbm from "../pages/abm/stock/StockAbm";
 const EmployeeRoutes = () => {
   return (
     <Routes>
-      <Route path="/orders" element={<Orders />} />
+      <Route
+        path="/orders"
+        element={<Orders />}
+      />
       <Route
         path="/itemProductABM"
         element={<AuthenticationGuard component={ItemProductABM} />}

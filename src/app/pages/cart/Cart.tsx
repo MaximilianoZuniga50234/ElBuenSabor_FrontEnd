@@ -1,6 +1,7 @@
 import "./cart.css";
 import { useStore } from "../../store/CartStore";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
+import { useStore as useToken } from "../../store/UserTokenStore";
 import { Link } from "react-router-dom";
 import { CartItem } from "../../interfaces/CartItem";
 import { createPurchaseOrder } from "../../functions/PurchaseOrderAPI";
@@ -17,11 +18,16 @@ import { PurchaseOrderDetail } from "../../interfaces/PurchaseOrderDetail";
 
 const Cart = () => {
   const { cartProducts, remove, clear, removeOne, addOne } = useStore();
-  const [tokenState, setTokenState] = useState<string>("");
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-
+  const { isAuthenticated } = useAuth0();
+  const { token } = useToken()
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    if (cartProducts.length > 0) {
+      setOpen(true);
+    } else {
+      alert("No hay elementos en el carrito")
+    }
+  }
   const handleClose = () => setOpen(false);
   const [personsDatabase, setPersonsDatabase] = useState<Person[]>();
   const [addressesDatabase, setAddressesDatabase] = useState<Address[]>();
@@ -39,24 +45,8 @@ const Cart = () => {
   useEffect(() => {
     getAddressesDatabase();
     getPersonsDatabase();
+    console.log(cartProducts)
   }, []);
-
-  const getToken = async () => {
-    try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-        },
-      });
-      setTokenState(token);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) getToken();
-  }, [isAuthenticated]);
 
   const { user } = useCurrentUser()
 
@@ -81,13 +71,14 @@ const Cart = () => {
       department: { id: 0, name: "" },
       person: { id: "0", name: "", email: "", lastName: "", phoneNumber: "", user_id: "" }
     },
-    status: { id: 1, status: "Por aceptar" },
+    status: { id: 1, status: "A confirmar" },
     details: null,
   })
 
+
   useEffect(() => {
     if (purchaseOrder.details && purchaseOrder.details?.length > 0) {
-      createPurchaseOrder(purchaseOrder, tokenState);
+      createPurchaseOrder(purchaseOrder, token);
     }
   }, [purchaseOrder.details]);
 
@@ -136,7 +127,16 @@ const Cart = () => {
         stock: null
       } as PurchaseOrderDetail
     })
-    setPurchaseOrder({ ...purchaseOrder, details: details })
+    setPurchaseOrder({
+      ...purchaseOrder,
+      details: details,
+      estimatedEndTime: purchaseOrder.shippingType === "Envío a domicilio"
+        ? purchaseOrder.estimatedEndTime + 10
+        : purchaseOrder.estimatedEndTime,
+      total: purchaseOrder.shippingType === "Retiro en el local"
+        ? purchaseOrder.total * 0.9
+        : purchaseOrder.total
+    })
     handleClose()
     clear();
   };

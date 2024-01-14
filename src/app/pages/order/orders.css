@@ -36,7 +36,7 @@
   align-items: center;
 }
 
-.main_employees_list .order_title_container form {
+.main_employees_list .order_title_container .idSearcher__container {
   width: 40%;
   display: flex;
   height: 40px;
@@ -52,7 +52,7 @@
   justify-content: center;
 }
 
-.main_employees_list .order_title_container form input,
+.main_employees_list .order_title_container .idSearcher__container input,
 .main_employees_list .order_title_container div div span {
   width: 90%;
   border: 1px solid var(--ebony-800);
@@ -65,7 +65,7 @@
   height: 40px;
 }
 
-.main_employees_list .order_title_container form button,
+.main_employees_list .order_title_container .idSearcher__container button,
 .main_employees_list .order_title_container div div button {
   background: var(--ebony-800);
   color: var(--white);

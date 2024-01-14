@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore as useUsers } from "../store/UsersStore";
+import { useStore as useToken } from "../store/UserTokenStore";
 import { Person } from "../interfaces/Person";
 import { Address } from "../interfaces/Address";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,6 +11,7 @@ import { getAllDepartment } from "../functions/DepartmentAPI";
 
 export function useAddressesAndPersons() {
   const { users } = useUsers();
+  const { token } = useToken();
 
   const [usersPost, setUsersPost] = useState<Person[]>([
     {
@@ -44,20 +46,20 @@ export function useAddressesAndPersons() {
     useState<Department[]>();
 
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-  const [tokenState, setTokenState] = useState("");
+  // const [tokenState, setTokenState] = useState("");
 
-  const getToken = async () => {
-    try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-        },
-      });
-      setTokenState(token);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const getToken = async () => {
+  //   try {
+  //     const token = await getAccessTokenSilently({
+  //       authorizationParams: {
+  //         audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+  //       },
+  //     });
+  //     setTokenState(token);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const postUsersDatabase = async () => {
     const newUserPost = users.map((user) => ({
@@ -115,9 +117,9 @@ export function useAddressesAndPersons() {
     getPersonsDatabase();
   }, []);
 
-  useEffect(() => {
-    if (isAuthenticated) getToken();
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (isAuthenticated) getToken();
+  // }, [isAuthenticated]);
 
   useEffect(() => {
     if (users.length > 0) {
@@ -150,7 +152,7 @@ export function useAddressesAndPersons() {
   useEffect(() => {
     if (
       addressesPost.length > 1 &&
-      tokenState != "" &&
+      token != "" &&
       personsDatabase &&
       personsDatabase.length > 0 &&
       users &&
@@ -168,14 +170,14 @@ export function useAddressesAndPersons() {
         }
 
         if (addressExists === false) {
-          await addAddress(address, tokenState);
+          await addAddress(address, token);
         }
       });
     }
-  }, [users, addressesPost, tokenState, personsDatabase, usersPost]);
+  }, [users, addressesPost, token, personsDatabase, usersPost]);
 
   useEffect(() => {
-    if (usersPost.length > 1 && tokenState != "") {
+    if (usersPost.length > 1 && token != "") {
       usersPost?.forEach(async (user: Person) => {
         let personExists = false;
         if (personsDatabase) {
@@ -188,9 +190,9 @@ export function useAddressesAndPersons() {
         }
 
         if (personExists === false) {
-          await addPerson(user, tokenState);
+          await addPerson(user, token);
         }
       });
     }
-  }, [usersPost, tokenState]);
+  }, [usersPost, token]);
 }
