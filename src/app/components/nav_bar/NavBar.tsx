@@ -131,6 +131,11 @@ const NavBar = () => {
                     <span>Employees ABM</span>
                   </Link>
                 </li>
+                <li className="nav_bar_dropdown_li">
+                  <Link to="/e/orders" className="nav_bar_dropdown_link">
+                    <span>Orders</span>
+                  </Link>
+                </li>
               </ul>
             </li>
             <button className="nav_bar_button" onClick={handleLogOut}>
