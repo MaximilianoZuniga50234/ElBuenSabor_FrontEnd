@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getUserAuth0XId } from "../functions/UserAPI";
+import { getUserAuth0XId, getUserRole } from "../functions/UserAPI";
 import { useStore as useCurrentUser } from "../store/CurrentUserStore";
 
 export function useUserLogged() {
@@ -13,7 +13,15 @@ export function useUserLogged() {
     const payload = JSON.parse(atob(tokenSeparator[1]));
     const userId = payload.sub;
     const response = await getUserAuth0XId(userId);
-    setUser(response);
+    const roles = await getUserRole(userId);
+    let roleToAdd;
+    for (let i = 0; i < roles.length; i++) {
+      if (roles[i].description && roles[i].description != "Empleado") {
+        roleToAdd = roles[i].description;
+      }
+    }
+
+    setUser({ ...response, role: roleToAdd });
   };
 
   const getToken = async () => {
