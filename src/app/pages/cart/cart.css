@@ -24,13 +24,14 @@
   gap: 8px;
 }
 
-.div__noSesion {
+.div__noAuthenticated {
   display: flex;
   height: 100vh;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  text-wrap: balance;
 }
-
 
 .cart_main_container .cart_back_amount a {
   display: flex;
