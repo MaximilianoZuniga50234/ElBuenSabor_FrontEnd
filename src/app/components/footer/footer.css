@@ -16,12 +16,13 @@
 }
 
 .footer__users {
-    background-image: url("images/footer/logo-con-opacidad.png");
+    background-image: url("/images/footer/logo-con-opacidad.png");
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 200px;
     display: flex;
     justify-content: center;
-    padding: 20px 0;
+    padding: 20px;
 }
 
 .footer__users__container {
@@ -83,7 +84,7 @@
     flex: 1;
 }
 
-@media (width>=1024px) {
+@media (width>=768px) {
 
     .footer__container {
         flex-direction: row;
