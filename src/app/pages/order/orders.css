@@ -138,6 +138,10 @@
   background: var(--ebony-200);
 }
 
+.main_employees_list .order_title_container .filters_hidden {
+  display: none;
+}
+
 .orders_list_table {
   border: 1px solid var(--black);
   border-radius: 12px;
