@@ -4,14 +4,14 @@ import { MouseEvent, useState, useEffect } from "react";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
 import "./orders.css";
+import { useStore as useUser } from "../../store/CurrentUserStore";
 
 const Orders = () => {
   const [active, setActive] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("");
   const [orders, setOrders] = useState<PurchaseOrder[]>([]);
   const [changeState, setChangeOrderState] = useState<boolean>(false);
-  // const filterOrders =
-  // filter === "" || filter === "Sin filtro" ? orders : orders.filter((o) => o?.status?.status === filter);
+  const { user } = useUser()
   const [filterOrders, setFilterOrders] = useState<PurchaseOrder[]>([]);
   const [idFilter, setIdFilter] = useState<number>(0)
 
@@ -48,21 +48,25 @@ const Orders = () => {
     }
   }, [changeState]);
 
-
-
   useEffect(() => {
-    if (filter === "" || filter === "Sin filtro") {
-      setFilterOrders(orders)
-    } else {
-      setFilterOrders(orders.filter((o) => o?.status?.status === filter))
+    if (user?.role === "Cajero") {
+      if (filter === "" || filter === "Sin filtro") {
+        setFilterOrders(orders)
+      } else {
+        setFilterOrders(orders.filter((o) => o?.status?.status === filter))
+      }
+    } else if (user?.role === "Cocinero") {
+      setFilterOrders(orders.filter((o) => o?.status?.status === "A cocina"))
+    } else if (user?.role === "Delivery") {
+      setFilterOrders(orders.filter((o) => o?.status?.status === "En delivery"))
     }
-  }, [filter, orders]);
+  }, [filter, orders, user]);
 
   return (
     <main className="main_employees_list">
       <div className="order_title_container">
         <h2>PEDIDOS</h2>
-        <div>
+        <div className={`filters_${user?.role === "Cajero" ? "visible" : "hidden"} `}>
           <div>
             <span className={`${active && "active"}`}>
               {filter === "" ? `Filtrar por estado...` : filter}
@@ -119,7 +123,7 @@ const Orders = () => {
           </div>
         </div>
         <div className="idSearcher__container">
-          <input type="number" placeholder="Buscar por cliente" onChange={(e) => {
+          <input type="number" placeholder="Buscar por ID de cliente" onChange={(e) => {
             setIdFilter(Number(e.target.value));
           }} />
           <button onClick={handleSearch}>

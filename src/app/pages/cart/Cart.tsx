@@ -21,13 +21,7 @@ const Cart = () => {
   const { isAuthenticated } = useAuth0();
   const { token } = useToken()
   const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    if (cartProducts.length > 0) {
-      setOpen(true);
-    } else {
-      alert("No hay elementos en el carrito")
-    }
-  }
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [personsDatabase, setPersonsDatabase] = useState<Person[]>();
   const [addressesDatabase, setAddressesDatabase] = useState<Address[]>();
@@ -45,7 +39,6 @@ const Cart = () => {
   useEffect(() => {
     getAddressesDatabase();
     getPersonsDatabase();
-    console.log(cartProducts)
   }, []);
 
   const { user } = useCurrentUser()
@@ -191,7 +184,10 @@ const Cart = () => {
           </div>
           <div className="cart_buttons_container">
             <button onClick={() => clear()}>Limpiar</button>
-            <button onClick={handleOpen}>Elegir forma de entrega</button>
+            {
+              cartProducts.length > 0 &&
+              <button onClick={handleOpen}>Elegir forma de entrega</button>
+            }
           </div>
         </div >
         <Modal
@@ -237,7 +233,7 @@ const Cart = () => {
 
       :
 
-      <div className="div__noSesion">
+      <div className="div__noAuthenticated">
         <h1>Debes iniciar sesión para ver el carrito</h1>
       </div >
   );
