@@ -172,13 +172,7 @@ const NavBar = () => {
                 </li>
               </ul>
             </li>
-            <li className="nav_bar_cart">
-              <Link to="/u/cart" onClick={handleCloseMenu}>
-                <span>
-                  <FaCartShopping />
-                </span>
-              </Link>
-            </li>
+
           </>
         ) : (
           <>
@@ -195,6 +189,13 @@ const NavBar = () => {
           </>
         )}
 
+        <li className="nav_bar_cart">
+          <Link to="/u/cart" onClick={handleCloseMenu}>
+            <span>
+              <FaCartShopping />
+            </span>
+          </Link>
+        </li>
         <li className="nav_bar_home">
           <Link to="/" onClick={handleCloseMenu}>
             <span className="nav_bar_user_icon">

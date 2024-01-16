@@ -19,7 +19,6 @@ function App() {
   useAllUsers();
   useAddressesAndPersons()
   const [isPerfilComplete, setIsPerfilComplete] = useState<boolean>(true);
-  // const [tokenState, setTokenState] = useState("");
 
   const getToken = async () => {
     try {
@@ -33,10 +32,6 @@ function App() {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    console.log(token)
-  }, [token]);
 
   useEffect(() => {
     if (isAuthenticated && token === "") {

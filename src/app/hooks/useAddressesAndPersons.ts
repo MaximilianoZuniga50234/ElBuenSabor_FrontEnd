@@ -120,10 +120,6 @@ export function useAddressesAndPersons() {
   }, [users, personsDatabase, isAuthenticated]);
 
   useEffect(() => {
-    console.log(personsDatabase);
-  }, [personsDatabase]);
-
-  useEffect(() => {
     if (
       users.length > 0 &&
       departmentsDatabase &&
