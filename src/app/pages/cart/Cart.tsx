@@ -15,6 +15,7 @@ import { Address } from "../../interfaces/Address";
 import { Box, Fade, Modal } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { PurchaseOrderDetail } from "../../interfaces/PurchaseOrderDetail";
+import { toast } from "sonner";
 
 const Cart = () => {
   const { cartProducts, remove, clear, removeOne, addOne } = useStore();
@@ -69,10 +70,19 @@ const Cart = () => {
   })
 
 
-  useEffect(() => {
+  const createOrder = async () => {
     if (purchaseOrder.details && purchaseOrder.details?.length > 0) {
-      createPurchaseOrder(purchaseOrder, token);
+      const response = await createPurchaseOrder(purchaseOrder, token);
+      if (response) {
+        toast.success("Orden creada correctamente.")
+      } else {
+        toast.error("Error al crear la orden.")
+      }
     }
+  }
+
+  useEffect(() => {
+    createOrder()
   }, [purchaseOrder.details]);
 
   useEffect(() => {
@@ -112,130 +122,127 @@ const Cart = () => {
 
   const handleConfirm = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const details: PurchaseOrderDetail[] = cartProducts.map(cartProduct => {
-      return {
-        amount: cartProduct.amount,
-        subtotal: cartProduct.product.salePrice * cartProduct.amount,
-        product: cartProduct.product,
-        stock: null
-      } as PurchaseOrderDetail
-    })
-    setPurchaseOrder({
-      ...purchaseOrder,
-      details: details,
-      estimatedEndTime: purchaseOrder.shippingType === "Envío a domicilio"
-        ? purchaseOrder.estimatedEndTime + 10
-        : purchaseOrder.estimatedEndTime,
-      total: purchaseOrder.shippingType === "Retiro en el local"
-        ? purchaseOrder.total * 0.9
-        : purchaseOrder.total
-    })
+    if (!isAuthenticated) {
+      toast.error("Debes iniciar sesión para realizar una compra.")
+    } else {
+      const details: PurchaseOrderDetail[] = cartProducts.map(cartProduct => {
+        return {
+          amount: cartProduct.amount,
+          subtotal: cartProduct.product.salePrice * cartProduct.amount,
+          product: cartProduct.product,
+          stock: null
+        } as PurchaseOrderDetail
+      })
+      setPurchaseOrder({
+        ...purchaseOrder,
+        details: details,
+        estimatedEndTime: purchaseOrder.shippingType === "Envío a domicilio"
+          ? purchaseOrder.estimatedEndTime + 10
+          : purchaseOrder.estimatedEndTime,
+        total: purchaseOrder.shippingType === "Retiro en el local"
+          ? purchaseOrder.total * 0.9
+          : purchaseOrder.total
+      })
+      clear();
+    }
     handleClose()
-    clear();
+
   };
 
   return (
-
-    isAuthenticated ?
-      <>
-        < div className="cart_main_container" >
-          <h2>Carrito de compras</h2>
-          <div className="cart_back_amount">
-            <Link to="/">
-              <FaArrowLeft />
-              Volver
-            </Link>
-            {cartProducts.length > 0 ? (
-              <p>
-                <b>{cartProducts.length}</b> Productos
-              </p>
-            ) : (
-              <p>Sin productos</p>
-            )}
-          </div>
-          <div className="cart_items_container">
-            {cartProducts.map((cartItem: CartItem) => (
-              <div key={cartItem.product.id} className="cart_item">
-                <img src={cartItem.product.imgUrl} />
-                <div>
-                  <h3>{cartItem.product.denomination}</h3>
-                  <p>Precio: ${cartItem.product.salePrice * cartItem.amount}</p>
-                </div>
-                <button onClick={() => remove(cartItem.product.id)}>
-                  Eliminar
-                </button>
-                <div>
-                  {cartItem.amount > 1 && (
-                    <FaMinus onClick={() => removeOne(cartItem.product.id)} />
-                  )}
-                  <input
-                    type="number"
-                    className="cart_item_amount_input"
-                    value={cartItem.amount}
-                    readOnly
-                  />
-                  {cartItem.amount < 99 && (
-                    <FaPlus onClick={() => addOne(cartItem.product.id)} />
-                  )}
-                  {cartItem.amount > 1 ? <p>Uds.</p> : <p>Ud.</p>}
-                </div>
+    <>
+      <div className="cart_main_container" >
+        <h2>Carrito de compras</h2>
+        <div className="cart_back_amount">
+          <Link to="/">
+            <FaArrowLeft />
+            Volver
+          </Link>
+          {cartProducts.length > 0 ? (
+            <p>
+              <b>{cartProducts.length}</b> {cartProducts.length === 1 ? "Producto" : "Productos"}
+            </p>
+          ) : (
+            <p>Sin productos</p>
+          )}
+        </div>
+        <div className="cart_items_container">
+          {cartProducts.map((cartItem: CartItem) => (
+            <div key={cartItem.product.id} className="cart_item">
+              <img src={cartItem.product.imgUrl} />
+              <div>
+                <h3>{cartItem.product.denomination}</h3>
+                <p>Precio: ${cartItem.product.salePrice * cartItem.amount}</p>
               </div>
-            ))}
-          </div>
-          <div className="cart_buttons_container">
-            <button onClick={() => clear()}>Limpiar</button>
-            {
-              cartProducts.length > 0 &&
-              <button onClick={handleOpen}>Elegir forma de entrega</button>
-            }
-          </div>
-        </div >
-        <Modal
-          open={open}
-          onClose={handleClose}
-          slotProps={{
-            backdrop: {
-              timeout: 300,
-            },
-          }}
-          disableScrollLock={true}
-        >
-          <Fade in={open}>
-            <Box className='modalCart__box'>
-              <h3 className="modalCart__h3">
-                Elegir forma de envío
-              </h3>
-
-              <div className="modalCart__div">
-                <h5 className="modalCart__h5">Forma de entrega</h5>
-                <select
-                  className="modalCart__select"
-                  onChange={handleChangeShippingType}
-                  defaultValue={purchaseOrder.shippingType}
-                  placeholder="Ingrese el departamento del cliente"
-                >
-                  <option value="Retiro en el local">Retiro en el local</option>
-                  <option value="Envío a domicilio">Envío a domicilio</option>
-                </select>
+              <button onClick={() => remove(cartItem.product.id)}>
+                Eliminar
+              </button>
+              <div>
+                {cartItem.amount > 1 && (
+                  <FaMinus onClick={() => removeOne(cartItem.product.id)} />
+                )}
+                <input
+                  type="number"
+                  className="cart_item_amount_input"
+                  value={cartItem.amount}
+                  readOnly
+                />
+                {cartItem.amount < 99 && (
+                  <FaPlus onClick={() => addOne(cartItem.product.id)} />
+                )}
+                {cartItem.amount > 1 ? <p>Uds.</p> : <p>Ud.</p>}
               </div>
-
-              <div className="modalCart__buttons">
-                <button className="modalCart__button" onClick={() => { handleClose() }}>Cancelar</button>
-                <button className="modalCart__button"
-                  onClick={handleConfirm} >
-                  Confirmar
-                </button>
-              </div>
-            </Box>
-          </Fade>
-        </Modal >
-      </>
-
-      :
-
-      <div className="div__noAuthenticated">
-        <h1>Debes iniciar sesión para ver el carrito</h1>
+            </div>
+          ))}
+        </div>
+        <div className="cart_buttons_container">
+          <button onClick={() => clear()}>Limpiar</button>
+          {
+            cartProducts.length > 0 &&
+            <button onClick={handleOpen}>Elegir forma de entrega</button>
+          }
+        </div>
       </div >
+      <Modal
+        open={open}
+        onClose={handleClose}
+        slotProps={{
+          backdrop: {
+            timeout: 300,
+          },
+        }}
+        disableScrollLock={true}
+      >
+        <Fade in={open}>
+          <Box className='modalCart__box'>
+            <h3 className="modalCart__h3">
+              Elegir forma de envío
+            </h3>
+
+            <div className="modalCart__div">
+              <h5 className="modalCart__h5">Forma de entrega</h5>
+              <select
+                className="modalCart__select"
+                onChange={handleChangeShippingType}
+                defaultValue={purchaseOrder.shippingType}
+                placeholder="Ingrese el departamento del cliente"
+              >
+                <option value="Retiro en el local">Retiro en el local</option>
+                <option value="Envío a domicilio">Envío a domicilio</option>
+              </select>
+            </div>
+
+            <div className="modalCart__buttons">
+              <button className="modalCart__button" onClick={() => { handleClose() }}>Cancelar</button>
+              <button className="modalCart__button"
+                onClick={handleConfirm} >
+                Confirmar
+              </button>
+            </div>
+          </Box>
+        </Fade>
+      </Modal >
+    </>
   );
 };
 
