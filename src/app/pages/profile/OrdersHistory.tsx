@@ -60,7 +60,7 @@ export default function OrdersHistory() {
 
     useEffect(() => {
         if (user && orders && orders.length > 0) {
-            setFilterOrders(orders.filter((order: PurchaseOrder) => order.person?.user_id === user?.user_id))
+            setFilterOrders(orders.filter((order: PurchaseOrder) => order.person?.user_id === user?.user_id && order.status?.status === "Entregado"))
         }
     }, [user, orders])
 
@@ -74,26 +74,29 @@ export default function OrdersHistory() {
                                 (isLoaded &&
                                     (filterOrders === undefined || (filterOrders && filterOrders.length === 0) ?
                                         "No hay órdenes" :
-                                        "Historial de órdenes")
+                                        "Historial de órdenes"
+                                    )
                                 )
                                 :
                                 "Inicia sesión para ver tu historial de órdenes"
-                        }</h3>
+                        }
+                        </h3>
                     </div>
                 </div>
 
-                <div className="ordersHistory__labels">
+                <div className={`ordersHistory__labels ${filterOrders?.length && filterOrders.length > 0 ? "" : "hide"}`}>
                     <span className="ordersHistory__span"><b>N° de pedido</b></span>
                     <span className="ordersHistory__span"><b>Fecha</b></span>
                     <span className="ordersHistory__span"><b>Total </b></span>
                 </div>
 
-                <div className="ordersHistory__cards__container">
+                <div className={`ordersHistory__cards__container ${filterOrders?.length && filterOrders.length > 0 ? "" : "hide"}`}>
                     <div className="ordersHistory__card__labels">
-                        <span className="ordersHistory__span">N° de pedido</span>
-                        <span className="ordersHistory__span">Fecha</span>
-                        <span className="ordersHistory__span">Total</span>
+                        <span className="ordersHistory__span"><b>N° de pedido</b></span>
+                        <span className="ordersHistory__span"><b>Fecha</b></span>
+                        <span className="ordersHistory__span"><b>Total </b></span>
                     </div>
+
                     {filterOrders?.map((order) => (
                         <div className="ordersHistory__card" key={order.id}>
                             <div className="ordersHistory__card__info">

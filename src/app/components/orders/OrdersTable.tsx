@@ -14,13 +14,14 @@ import { getAllState } from "../../functions/StatusAPI";
 import { updatePurchaseOrder } from "../../functions/PurchaseOrderAPI";
 import { useStore as useToken } from "../../store/UserTokenStore";
 import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "sonner";
 
 type Props = {
   datos: PurchaseOrder[];
-  setChangeOrderState: Dispatch<SetStateAction<boolean>>;
+  setChangeOrderStatus: Dispatch<SetStateAction<boolean>>;
 };
 
-const Table = ({ datos, setChangeOrderState }: Props) => {
+const Table = ({ datos, setChangeOrderStatus }: Props) => {
 
   const { token } = useToken()
   const { isAuthenticated } = useAuth0()
@@ -30,7 +31,7 @@ const Table = ({ datos, setChangeOrderState }: Props) => {
   // const [isOnlyDrinks, setIsOnlyDrinks] = useState(true); 
 
   const [allStatus, setAllStatus] = useState<Status[]>()
-  const [orderState, setOrderState] = useState<string>("A confirmar")
+  const [orderStatus, setOrderStatus] = useState<string>("A confirmar")
 
   const [purchaseOrder, setPurchaseOrder] = useState<PurchaseOrder>({
     id: 0,
@@ -68,7 +69,7 @@ const Table = ({ datos, setChangeOrderState }: Props) => {
 
   const handleOpen = (order: PurchaseOrder) => {
     setPurchaseOrder(order)
-    setOrderState(order.status ? order?.status?.status : "")
+    setOrderStatus(order.status ? order?.status?.status : "")
     setOpen(true);
   }
 
@@ -82,14 +83,16 @@ const Table = ({ datos, setChangeOrderState }: Props) => {
   }
 
   const handleConfirm = async () => {
+
     if (isAuthenticated) {
       await updatePurchaseOrder(purchaseOrder, token)
       handleClose()
-      setChangeOrderState(true)
+      setChangeOrderStatus(true)
     } else {
-      alert("Inicia sesión")
+      toast("Debes iniciar sesión")
     }
   }
+
   const getStatus = async () => {
     const response = await getAllState()
     setAllStatus(response)
@@ -205,18 +208,18 @@ const Table = ({ datos, setChangeOrderState }: Props) => {
               <select
                 className="modalCart__select"
                 onChange={handleChangeStatus}
-                defaultValue={orderState}
+                defaultValue={orderStatus}
               >
                 <option value="A confirmar" disabled={true}>A confirmar</option>
-                <option value="Facturado" disabled={orderState === "A confirmar" ? false : true}>Facturado</option>
-                <option value="A cocina" disabled={orderState === "Facturado" ? false : true}>A cocina</option>
+                <option value="Facturado" disabled={orderStatus === "A confirmar" ? false : true}>Facturado</option>
+                <option value="A cocina" disabled={orderStatus === "Facturado" ? false : true}>A cocina</option>
                 <option value="Listo"
-                  disabled={orderState === "A cocina" ? false : true}
+                  disabled={orderStatus === "A cocina" ? false : true}
                 // disabled={isOnlyDrinks ? false : true}
                 >Listo</option>
 
-                <option value="En delivery" disabled={orderState === "Listo" && purchaseOrder.shippingType === "Envío a domicilio" ? false : true}>En delivery</option>
-                <option value="Entregado" disabled={orderState === "En delivery" || (orderState === "Listo" && purchaseOrder.shippingType === "Retiro en el local") ? false : true}>Entregado</option>
+                <option value="En delivery" disabled={orderStatus === "Listo" && purchaseOrder.shippingType === "Envío a domicilio" ? false : true}>En delivery</option>
+                <option value="Entregado" disabled={orderStatus === "En delivery" || (orderStatus === "Listo" && purchaseOrder.shippingType === "Retiro en el local") ? false : true}>Entregado</option>
               </select>
             </div>
 

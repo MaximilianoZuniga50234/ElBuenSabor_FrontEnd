@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getUserAuth0XId, getUserRole } from "../functions/UserAPI";
 import { useStore as useCurrentUser } from "../store/CurrentUserStore";
+import { useStore as useUsers } from "../store/UsersStore";
 
 export function useUserLogged() {
   const { setUser } = useCurrentUser();
+  const { users } = useUsers();
   const [tokenState, setTokenState] = useState<string>("");
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
@@ -12,16 +13,10 @@ export function useUserLogged() {
     const tokenSeparator = tokenState.split(".");
     const payload = JSON.parse(atob(tokenSeparator[1]));
     const userId = payload.sub;
-    const response = await getUserAuth0XId(userId);
-    const roles = await getUserRole(userId);
-    let roleToAdd;
-    for (let i = 0; i < roles.length; i++) {
-      if (roles[i].description && roles[i].description != "Empleado") {
-        roleToAdd = roles[i].description;
-      }
+    const user = users.find((user) => user.user_id === userId);
+    if (user) {
+      setUser(user);
     }
-
-    setUser({ ...response, role: roleToAdd });
   };
 
   const getToken = async () => {
@@ -42,8 +37,8 @@ export function useUserLogged() {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    if (tokenState != "") {
+    if (tokenState != "" && users.length > 1) {
       getCurrentUser();
     }
-  }, [tokenState]);
+  }, [tokenState, users]);
 }

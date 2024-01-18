@@ -32,6 +32,10 @@
     text-align: center;
 }
 
+.ordersHistory__h3 {
+    text-align: center;
+}
+
 .ordersHistory__span {
     font-size: 12px;
 }
@@ -50,7 +54,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     padding: 10px;
-    border-bottom: 1px solid var(--ebony-950);
     width: 100%;
 }
 
@@ -63,6 +66,7 @@
 
 .ordersHistory__card__info {
     display: grid;
+    border-top: 1px solid var(--ebony-950);
     grid-template-columns: repeat(3, 1fr);
     padding: 10px;
 }
@@ -80,6 +84,9 @@
     width: 70px;
 }
 
+.hide {
+    display: none;
+}
 
 @media (width >=550px) {
 
@@ -114,6 +121,11 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         padding: 0;
+        border-top: none;
+    }
+
+    .hide {
+        display: none;
     }
 }
 
@@ -134,5 +146,9 @@
     .ordersHistory__button {
         font-size: medium;
         width: 90px;
+    }
+
+    .hide {
+        display: none;
     }
 }
