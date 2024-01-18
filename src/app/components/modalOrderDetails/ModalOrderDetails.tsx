@@ -54,7 +54,7 @@ export default function ModalOrderDetails({ open, setOpen, order }: ModalOrderDe
                             </>
                             :
                             <>
-                                <p>Su pedido llegará listo aproximadamente a las {estimatedHour}</p>
+                                <p>Su pedido llegará aproximadamente a las {estimatedHour}</p>
                                 <p>Envío a domicilio - {`${order.address?.street} ${order.address?.number}, ${order.address?.department.name}`}</p>
                             </>
                         }

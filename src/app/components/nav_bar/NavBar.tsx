@@ -131,6 +131,11 @@ const NavBar = () => {
                     <span>Employees ABM</span>
                   </Link>
                 </li>
+                <li className="nav_bar_dropdown_li">
+                  <Link to="/e/orders" className="nav_bar_dropdown_link">
+                    <span>Orders</span>
+                  </Link>
+                </li>
               </ul>
             </li>
             <button className="nav_bar_button" onClick={handleLogOut}>
@@ -167,13 +172,7 @@ const NavBar = () => {
                 </li>
               </ul>
             </li>
-            <li className="nav_bar_cart">
-              <Link to="/u/cart" onClick={handleCloseMenu}>
-                <span>
-                  <FaCartShopping />
-                </span>
-              </Link>
-            </li>
+
           </>
         ) : (
           <>
@@ -190,6 +189,13 @@ const NavBar = () => {
           </>
         )}
 
+        <li className="nav_bar_cart">
+          <Link to="/u/cart" onClick={handleCloseMenu}>
+            <span>
+              <FaCartShopping />
+            </span>
+          </Link>
+        </li>
         <li className="nav_bar_home">
           <Link to="/" onClick={handleCloseMenu}>
             <span className="nav_bar_user_icon">

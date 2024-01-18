@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore as useUsers } from "../store/UsersStore";
+import { useStore as useToken } from "../store/UserTokenStore";
 import { Person } from "../interfaces/Person";
 import { Address } from "../interfaces/Address";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,6 +11,7 @@ import { getAllDepartment } from "../functions/DepartmentAPI";
 
 export function useAddressesAndPersons() {
   const { users } = useUsers();
+  const { token } = useToken();
 
   const [usersPost, setUsersPost] = useState<Person[]>([
     {
@@ -38,26 +40,38 @@ export function useAddressesAndPersons() {
     },
   ]);
 
-  const [personsDatabase, setPersonsDatabase] = useState<Person[]>();
+  const [personsDatabase, setPersonsDatabase] = useState<Person[]>([]);
   const [addressesDatabase, setAddressesDatabase] = useState<Address[]>();
   const [departmentsDatabase, setDepartmentsDatabase] =
     useState<Department[]>();
 
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-  const [tokenState, setTokenState] = useState("");
+  const { isAuthenticated } = useAuth0();
 
-  const getToken = async () => {
-    try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-        },
-      });
-      setTokenState(token);
-    } catch (error) {
-      console.error(error);
+  useEffect(() => {
+    if (users.length > 0) {
+      postUsersDatabase();
     }
+  }, [users]);
+
+  const getPersonsDatabase = async () => {
+    const response = await getAllPerson();
+    setPersonsDatabase(response);
   };
+
+  const getAddressesDatabase = async () => {
+    const response = await getAllAddress();
+    setAddressesDatabase(response);
+  };
+  const getDepartmentsDatabase = async () => {
+    const response = await getAllDepartment();
+    setDepartmentsDatabase(response);
+  };
+
+  useEffect(() => {
+    getAddressesDatabase();
+    getDepartmentsDatabase();
+    getPersonsDatabase();
+  }, []);
 
   const postUsersDatabase = async () => {
     const newUserPost = users.map((user) => ({
@@ -67,7 +81,6 @@ export function useAddressesAndPersons() {
       phoneNumber: user.user_metadata.phone_number.toString(),
       user_id: user.user_id,
     }));
-
     setUsersPost([...newUserPost]);
   };
 
@@ -95,45 +108,16 @@ export function useAddressesAndPersons() {
     setAddressesPost([...newAddressesPost]);
   };
 
-  const getPersonsDatabase = async () => {
-    const response = await getAllPerson();
-    setPersonsDatabase(response);
-  };
-
-  const getAddressesDatabase = async () => {
-    const response = await getAllAddress();
-    setAddressesDatabase(response);
-  };
-  const getDepartmentsDatabase = async () => {
-    const response = await getAllDepartment();
-    setDepartmentsDatabase(response);
-  };
-
-  useEffect(() => {
-    getAddressesDatabase();
-    getDepartmentsDatabase();
-    getPersonsDatabase();
-  }, []);
-
-  useEffect(() => {
-    if (isAuthenticated) getToken();
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (users.length > 0) {
-      postUsersDatabase();
-    }
-  }, [users]);
-
   useEffect(() => {
     if (
       isAuthenticated &&
       users.length > 0 &&
-      users.length != personsDatabase?.length
+      personsDatabase &&
+      users.length > personsDatabase?.length
     ) {
       getPersonsDatabase();
     }
-  }, [users, personsDatabase]);
+  }, [users, personsDatabase, isAuthenticated]);
 
   useEffect(() => {
     if (
@@ -148,9 +132,29 @@ export function useAddressesAndPersons() {
   }, [users, departmentsDatabase, personsDatabase]);
 
   useEffect(() => {
+    if (usersPost.length > 1 && token != "") {
+      usersPost?.forEach(async (user: Person) => {
+        let personExists = false;
+        if (personsDatabase && personsDatabase.length > 1) {
+          for (const person of personsDatabase) {
+            if (user.user_id === person.user_id) {
+              personExists = true;
+              break;
+            }
+          }
+        }
+
+        if (personExists === false) {
+          await addPerson(user, token);
+        }
+      });
+    }
+  }, [usersPost, token]);
+
+  useEffect(() => {
     if (
       addressesPost.length > 1 &&
-      tokenState != "" &&
+      token != "" &&
       personsDatabase &&
       personsDatabase.length > 0 &&
       users &&
@@ -168,29 +172,16 @@ export function useAddressesAndPersons() {
         }
 
         if (addressExists === false) {
-          await addAddress(address, tokenState);
+          await addAddress(address, token);
         }
       });
     }
-  }, [users, addressesPost, tokenState, personsDatabase, usersPost]);
-
-  useEffect(() => {
-    if (usersPost.length > 1 && tokenState != "") {
-      usersPost?.forEach(async (user: Person) => {
-        let personExists = false;
-        if (personsDatabase) {
-          for (const person of personsDatabase) {
-            if (user.user_id === person.user_id) {
-              personExists = true;
-              break;
-            }
-          }
-        }
-
-        if (personExists === false) {
-          await addPerson(user, tokenState);
-        }
-      });
-    }
-  }, [usersPost, tokenState]);
+  }, [
+    users,
+    addressesPost,
+    token,
+    personsDatabase,
+    usersPost,
+    addressesDatabase,
+  ]);
 }

@@ -12,11 +12,28 @@ export async function getOnePurchaseOrder(id: string) {
   );
 }
 
+export async function updatePurchaseOrder(
+  purchaseOrder: PurchaseOrder,
+  token: string
+) {
+  await fetch(
+    `http://localhost:9000/api/v1/purchaseOrder/${purchaseOrder.id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(purchaseOrder),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+}
+
 export async function createPurchaseOrder(
   purchaseOrder: PurchaseOrder,
   token: string
 ) {
-  await fetch(`http://localhost:9000/api/v1/purchaseOrder`, {
+  const response = await fetch(`http://localhost:9000/api/v1/purchaseOrder`, {
     method: "POST",
     body: JSON.stringify(purchaseOrder),
     headers: {
@@ -24,4 +41,6 @@ export async function createPurchaseOrder(
       Authorization: "Bearer " + token,
     },
   });
+
+  return response.ok ? true : false;
 }

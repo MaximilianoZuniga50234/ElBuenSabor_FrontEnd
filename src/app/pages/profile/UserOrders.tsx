@@ -55,7 +55,7 @@ export default function UserOrders() {
 
     useEffect(() => {
         if (user && orders && orders.length > 0) {
-            setFilterOrders(orders.filter((order: PurchaseOrder) => order.person?.user_id === user?.user_id && order.status?.status === "Por aceptar"))
+            setFilterOrders(orders.filter((order: PurchaseOrder) => order.person?.user_id === user?.user_id && order.status?.status != "Entregado"))
         }
     }, [user, orders])
 

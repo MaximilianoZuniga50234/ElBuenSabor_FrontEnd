@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Fade, Modal } from "@mui/material";
 import { FaArrowLeft, FaMinus, FaPlus } from "react-icons/fa6";
+import { toast } from "sonner";
 import { useStore } from "../../store/CartStore";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
+import { useStore as useToken } from "../../store/UserTokenStore";
 import { createPurchaseOrder } from "../../functions/PurchaseOrderAPI";
 import { getAllAddress } from "../../functions/AddressAPI";
 import { getAllPerson } from "../../functions/PersonAPI";
@@ -17,9 +19,8 @@ import "./cart.css";
 
 const Cart = () => {
   const { cartProducts, remove, clear, removeOne, addOne } = useStore();
-  const [tokenState, setTokenState] = useState<string>("");
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-
+  const { isAuthenticated } = useAuth0();
+  const { token } = useToken()
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -41,24 +42,7 @@ const Cart = () => {
     getPersonsDatabase();
   }, []);
 
-  const getToken = async () => {
-    try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-        },
-      });
-      setTokenState(token);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) getToken();
-  }, [isAuthenticated]);
-
-  const { user } = useCurrentUser();
+  const { user } = useCurrentUser()
 
   const [priceAndTime, setPriceAndTime] = useState({
     totalPrice: 0,
@@ -95,14 +79,24 @@ const Cart = () => {
         user_id: "",
       },
     },
-    status: { id: 1, status: "Por aceptar" },
+    status: { id: 1, status: "A confirmar" },
     details: null,
   });
 
-  useEffect(() => {
+
+  const createOrder = async () => {
     if (purchaseOrder.details && purchaseOrder.details?.length > 0) {
-      createPurchaseOrder(purchaseOrder, tokenState);
+      const response = await createPurchaseOrder(purchaseOrder, token);
+      if (response) {
+        toast.success("Orden creada correctamente.")
+      } else {
+        toast.error("Error al crear la orden.")
+      }
     }
+  }
+
+  useEffect(() => {
+    createOrder()
   }, [purchaseOrder.details]);
 
   useEffect(() => {
@@ -159,22 +153,36 @@ const Cart = () => {
 
   const handleConfirm = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const details: PurchaseOrderDetail[] = cartProducts.map((cartProduct) => {
-      return {
-        amount: cartProduct.amount,
-        subtotal: cartProduct.product.salePrice * cartProduct.amount,
-        product: cartProduct.product,
-        stock: null,
-      } as PurchaseOrderDetail;
-    });
-    setPurchaseOrder({ ...purchaseOrder, details: details });
-    handleClose();
-    clear();
+    if (!isAuthenticated) {
+      toast.error("Debes iniciar sesión para realizar una compra.")
+    } else {
+      const details: PurchaseOrderDetail[] = cartProducts.map(cartProduct => {
+        return {
+          amount: cartProduct.amount,
+          subtotal: cartProduct.product.salePrice * cartProduct.amount,
+          product: cartProduct.product,
+          stock: null
+        } as PurchaseOrderDetail
+      })
+      setPurchaseOrder({
+        ...purchaseOrder,
+        details: details,
+        estimatedEndTime: purchaseOrder.shippingType === "Envío a domicilio"
+          ? purchaseOrder.estimatedEndTime + 10
+          : purchaseOrder.estimatedEndTime,
+        total: purchaseOrder.shippingType === "Retiro en el local"
+          ? purchaseOrder.total * 0.9
+          : purchaseOrder.total
+      })
+      clear();
+    }
+    handleClose()
+
   };
 
-  return isAuthenticated ? (
+  return (
     <>
-      <div className="cart_main_container">
+      <div className="cart_main_container" >
         <h2>Carrito de compras</h2>
         <div className="cart_back_amount">
           <Link to="/">
@@ -183,7 +191,7 @@ const Cart = () => {
           </Link>
           {cartProducts.length > 0 ? (
             <p>
-              <b>{cartProducts.length}</b> Productos
+              <b>{cartProducts.length}</b> {cartProducts.length === 1 ? "Producto" : "Productos"}
             </p>
           ) : (
             <p>Sin productos</p>
@@ -220,9 +228,12 @@ const Cart = () => {
         </div>
         <div className="cart_buttons_container">
           <button onClick={() => clear()}>Limpiar</button>
-          <button onClick={handleOpen}>Elegir forma de entrega</button>
+          {
+            cartProducts.length > 0 &&
+            <button onClick={handleOpen}>Elegir forma de entrega</button>
+          }
         </div>
-      </div>
+      </div >
       <Modal
         open={open}
         onClose={handleClose}
@@ -234,8 +245,10 @@ const Cart = () => {
         disableScrollLock={true}
       >
         <Fade in={open}>
-          <Box className="modalCart__box">
-            <h3 className="modalCart__h3">Elegir forma de envío</h3>
+          <Box className='modalCart__box'>
+            <h3 className="modalCart__h3">
+              Elegir forma de envío
+            </h3>
 
             <div className="modalCart__div">
               <h5 className="modalCart__h5">Forma de entrega</h5>
@@ -251,26 +264,16 @@ const Cart = () => {
             </div>
 
             <div className="modalCart__buttons">
-              <button
-                className="modalCart__button"
-                onClick={() => {
-                  handleClose();
-                }}
-              >
-                Cancelar
-              </button>
-              <button className="modalCart__button" onClick={handleConfirm}>
+              <button className="modalCart__button" onClick={() => { handleClose() }}>Cancelar</button>
+              <button className="modalCart__button"
+                onClick={handleConfirm} >
                 Confirmar
               </button>
             </div>
           </Box>
         </Fade>
-      </Modal>
+      </Modal >
     </>
-  ) : (
-    <div className="div__noSesion">
-      <h1>Debes iniciar sesión para ver el carrito</h1>
-    </div>
   );
 };
 

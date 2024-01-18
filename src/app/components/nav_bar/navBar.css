@@ -85,7 +85,6 @@
 .nav_bar_list li a:hover,
 .nav_bar_button:hover {
   opacity: 0.7;
-  background: var(--lightest-gray);
 }
 
 .nav_bar_dropdown_ul,
@@ -117,8 +116,12 @@
   color: #11111f;
 }
 
-.nav_bar_dropdown_container > .nav_bar_button {
+.nav_bar_dropdown_container>.nav_bar_button {
   cursor: default;
+}
+
+.nav_bar_user:hover {
+  opacity: .7;
 }
 
 .nav_bar_home,
