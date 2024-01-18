@@ -10,7 +10,7 @@ const Orders = () => {
   const [active, setActive] = useState<boolean>(false);
   const [filter, setFilter] = useState<string>("");
   const [orders, setOrders] = useState<PurchaseOrder[]>([]);
-  const [changeState, setChangeOrderState] = useState<boolean>(false);
+  const [changeOrderStatus, setChangeOrderStatus] = useState<boolean>(false);
   const { user } = useUser()
   const [filterOrders, setFilterOrders] = useState<PurchaseOrder[]>([]);
   const [idFilter, setIdFilter] = useState<number>(0)
@@ -42,11 +42,11 @@ const Orders = () => {
   }, []);
 
   useEffect(() => {
-    if (changeState === true) {
+    if (changeOrderStatus === true) {
       getAllItems();
-      setChangeOrderState(false)
+      setChangeOrderStatus(false)
     }
-  }, [changeState]);
+  }, [changeOrderStatus]);
 
   useEffect(() => {
     if (user?.role === "Cajero") {
@@ -131,7 +131,7 @@ const Orders = () => {
           </button>
         </div>
       </div>
-      <Table datos={filterOrders} setChangeOrderState={setChangeOrderState} />
+      <Table datos={filterOrders} setChangeOrderStatus={setChangeOrderStatus} />
     </main>
   );
 };
