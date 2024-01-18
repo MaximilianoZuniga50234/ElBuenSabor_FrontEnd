@@ -29,9 +29,24 @@ const Carrousel = ({ products }: Props) => {
 
   const buttonClick = (product: Product, event?: MouseEvent | undefined) => {
     event?.stopPropagation();
-    toast.message("Producto agregado al carrito");
-    add(product);
-  };
+
+    let insufficientStock = false
+    for (const productDetail of product.details) {
+      if (productDetail.stock.currentStock - productDetail.amount < 0) {
+        insufficientStock = true;
+      }
+
+      if (insufficientStock) {
+        toast.error(`Lo sentimos, no hay suficiente stock para preparar el producto "${product.denomination}".`)
+        break;
+      }
+    }
+
+    if (!insufficientStock) {
+      toast.message("Producto agregado al carrito");
+      add(product);
+    }
+  }
 
   const createCarouselItems = (products: Product[]) =>
     products.map((product) => (

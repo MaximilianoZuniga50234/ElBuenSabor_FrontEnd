@@ -2,13 +2,16 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { Box, Fade, Modal } from "@mui/material";
 import "./ModalOrderDetails.css"
+
 interface ModalOrderDetailsProps {
     open: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>,
-    order: PurchaseOrder
+    setConfirmPurchase?: Dispatch<SetStateAction<boolean>>,
+    order: PurchaseOrder,
+    isOrderFromCart?: boolean,
 }
 
-export default function ModalOrderDetails({ open, setOpen, order }: ModalOrderDetailsProps) {
+export default function ModalOrderDetails({ open, setOpen, order, setConfirmPurchase, isOrderFromCart = false }: ModalOrderDetailsProps) {
 
     const [estimatedHour, setEstimatedHour] = useState<string>()
     const [date, setDate] = useState<string>()
@@ -24,11 +27,17 @@ export default function ModalOrderDetails({ open, setOpen, order }: ModalOrderDe
         setDate(fecha.toLocaleDateString())
     }
 
+
     useEffect(() => {
         if (order) {
             getTime()
         }
     }, [order])
+
+    const handleConfirm = async () => {
+        if (setConfirmPurchase) setConfirmPurchase(true)
+        handleClose()
+    };
 
     return (
         <Modal
@@ -43,20 +52,24 @@ export default function ModalOrderDetails({ open, setOpen, order }: ModalOrderDe
         >
             <Fade in={open}>
                 <Box className='modalOrderDetails__box'>
-                    <h3 className="modalOrderDetails__title">Orden {order?.number}</h3>
+                    {
+                        !isOrderFromCart &&
+                        <h3 className="modalOrderDetails__title">Orden {order?.number}</h3>
+                    }
 
                     <div className="modalOrderDetails__header">
                         <h4>Detalles de entrega</h4>
-                        {order.shippingType === "Retiro en el local" ?
-                            <>
-                                <p>Su pedido estará listo aproximadamente a las {estimatedHour}</p>
-                                <p>Retiro en el local</p>
-                            </>
-                            :
-                            <>
-                                <p>Su pedido llegará aproximadamente a las {estimatedHour}</p>
-                                <p>Envío a domicilio - {`${order.address?.street} ${order.address?.number}, ${order.address?.department.name}`}</p>
-                            </>
+                        {
+                            order.shippingType === "Retiro en el local" ?
+                                <>
+                                    {order.status?.status != "Entregado" && <p>Su pedido estará listo aproximadamente a las {estimatedHour}</p>}
+                                    <p>Retiro en el local</p>
+                                </>
+                                :
+                                <>
+                                    {order.status?.status != "Entregado" && <p>Su pedido llegará aproximadamente a las {estimatedHour}</p>}
+                                    <p>Envío a domicilio - {`${order.address?.street} ${order.address?.number}, ${order.address?.department.name}`}</p>
+                                </>
                         }
                     </div>
 
@@ -73,6 +86,10 @@ export default function ModalOrderDetails({ open, setOpen, order }: ModalOrderDe
                             <h5>{order.paymentMethod}</h5>
                         </div>
                     </div>
+
+                    {order.shippingType === 'Retiro en el local' &&
+                        <h5> El total ya tiene aplicado el descuento del 10%. </h5>
+                    }
 
                     <h4>Productos de la orden</h4>
 
@@ -95,11 +112,15 @@ export default function ModalOrderDetails({ open, setOpen, order }: ModalOrderDe
 
                     <div className="modalOrderDetails__buttons">
                         <button className="modalOrderDetails__button" onClick={handleClose}>Cerrar</button>
-                        {order.status?.status === "Facturado" &&
+                        {
+                            order.status?.status === "Facturado" &&
                             <button className="modalOrderDetails__button">Factura</button>
                         }
+                        {
+                            isOrderFromCart &&
+                            <button className="modalOrderDetails__button" onClick={handleConfirm}>Confirmar</button>
+                        }
                     </div>
-
                 </Box>
             </Fade>
         </Modal >
