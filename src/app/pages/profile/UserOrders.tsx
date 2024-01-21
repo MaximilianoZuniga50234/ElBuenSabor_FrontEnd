@@ -78,7 +78,8 @@ export default function UserOrders() {
                     </h1>
                 </div>
 
-                <div className="userOrders__labels">
+                <div className={`userOrders__labels ${filterOrders?.length && filterOrders.length > 0 ?
+                    "" : "hide"}`}>
                     <span className="userOrders__span"><b>N° de orden</b></span>
                     <span className="userOrders__span"><b>Total</b></span>
                     <span className="userOrders__span"><b>Tiempo estimado</b></span>

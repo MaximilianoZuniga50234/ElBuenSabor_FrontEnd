@@ -67,6 +67,9 @@
     justify-content: center;
 }
 
+.hide {
+    display: none;
+}
 
 @media (width >=425px) {
 
@@ -80,6 +83,10 @@
 
     .userOrders__span {
         font-size: medium;
+    }
+
+    .hide {
+        display: none;
     }
 }
 
@@ -118,6 +125,10 @@
     .userOrders__card__button {
         margin: auto;
         font-size: medium;
+    }
+
+    .hide {
+        display: none;
     }
 
 }
