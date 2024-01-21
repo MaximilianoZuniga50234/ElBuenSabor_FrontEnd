@@ -2,16 +2,18 @@ import { FaPlus } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import Table from "../../components/employees/EmployeesTable";
 import { useState, useEffect } from "react";
-// import { getUserRole, getUsersAuth0 } from "../../functions/UserAPI";
 import "./employees.css";
 import { UserAuth0Get } from "../../interfaces/UserAuth0";
 import ModalEmployeesAbm from "../../components/employees/ModalEmployeesAbm";
-import { useStore as useUsers } from "../../store/UsersStore"
-
+import { useStore as useUsers } from "../../store/UsersStore";
+import { useStore as useUser } from "../../store/CurrentUserStore";
+import NoPermissions from "../../components/noPermissions/NoPermissions";
+import Loader from "../../components/loader/Loader";
 
 const Employees = () => {
   const [employees, setEmployees] = useState<UserAuth0Get[]>([]);
-  const { users } = useUsers()
+  const { users } = useUsers();
+  const { user } = useUser();
 
   const employeeInitialState: UserAuth0Get = {
     created_at: new Date(),
@@ -31,96 +33,66 @@ const Employees = () => {
       address: {
         department: "Ciudad",
         number: 0,
-        street: ""
+        street: "",
       },
       roleToAdd: "",
-      state: "De alta"
+      state: "De alta",
     },
     last_login: new Date(),
     last_ip: "",
     logins_count: 0,
     role: "",
-  }
+  };
 
   const [employee, setEmployee] = useState<UserAuth0Get>(employeeInitialState);
   const [isNew, setIsNew] = useState(true);
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
-    setIsNew(true)
-    setOpen(true)
+    setIsNew(true);
+    setOpen(true);
   };
 
   const handleOpenModal = () => {
-    setEmployee(employeeInitialState)
-    handleOpen()
-  }
+    setEmployee(employeeInitialState);
+    handleOpen();
+  };
 
   useEffect(() => {
-    const employees = users.filter(user => user.role != 'Cliente' && user.role != 'Administrador')
+    const employees = users.filter(
+      (user) => user.role != "Cliente" && user.role != "Administrador"
+    );
     setEmployees(employees);
-  }, [users])
+  }, [users]);
 
-  // const [employees, setEmployees] = useState<UserAuth0Get[]>([]);
-  // const [isLoaded, setIsLoaded] = useState(false)
-
-  // const getAllUsers = async () => {
-  //   const response = await getUsersAuth0()
-  //   setEmployees(response)
-  // };
-
-  // useEffect(() => {
-  //   getAllUsers();
-  // }, []);
-
-  // const getRole = async () => {
-
-  //   const updatedEmployees = await Promise.all(
-  //     employees.map(async (employee: UserAuth0Get) => {
-  //       const response = await getUserRole(employee.user_id);
-
-  //       for (let i = 0; i < response.length; i++) {
-  //         if (response[i].description && response[i].description != "Empleado") {
-  //           const updatedEmployee = { ...employee, role: response[i].description };
-  //           return updatedEmployee;
-  //         }
-  //       }
-  //       return employee
-  //     }))
-
-  //   const employeesFilter = updatedEmployees.filter(employee => employee.role != 'Cliente' && employee.role != 'Administrador')
-  //   setEmployeesFilter(employeesFilter);
-  // }
-
-  // useEffect(() => {
-  //   if (employees.length > 0) {
-  //     setIsLoaded(true)
-  //   }
-  // }, [employees])
-
-  // useEffect(() => {
-  //   if (isLoaded === true) {
-  //     getRole()
-  //   }
-  // }, [isLoaded])
-
-  return (
-    <main className="main_employees_list">
-      <div className="title_container">
-        <h2>Empleados</h2>
-        <form>
-          <input type="text" placeholder="Buscar por nombre y/o apellido" />
-          <button type="submit">
-            <FaSearch />
+  return user?.role ? (
+    user.role === "Administrador" ? (
+      <main className="main_employees_list">
+        <div className="title_container">
+          <h2>Empleados</h2>
+          <form>
+            <input type="text" placeholder="Buscar por nombre y/o apellido" />
+            <button type="submit">
+              <FaSearch />
+            </button>
+          </form>
+          <button onClick={handleOpenModal}>
+            <FaPlus />
+            AÑADIR
           </button>
-        </form>
-        <button onClick={handleOpenModal}>
-          <FaPlus />
-          AÑADIR
-        </button>
-      </div>
-      <Table datos={employees} />
-      <ModalEmployeesAbm employee={employee} isNew={isNew} open={open} setOpen={setOpen} />
-    </main>
+        </div>
+        <Table datos={employees} />
+        <ModalEmployeesAbm
+          employee={employee}
+          isNew={isNew}
+          open={open}
+          setOpen={setOpen}
+        />
+      </main>
+    ) : (
+      <NoPermissions />
+    )
+  ) : (
+    <Loader />
   );
 };
 
