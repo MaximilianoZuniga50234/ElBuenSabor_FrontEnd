@@ -12,7 +12,7 @@ const EmployeeRoutes = () => {
     <Routes>
       <Route
         path="/orders"
-        element={<Orders />}
+        element={<AuthenticationGuard component={Orders} />}
       />
       <Route
         path="/itemProductABM"
