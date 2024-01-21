@@ -143,7 +143,19 @@ const Cart = () => {
     if (!isAuthenticated) {
       toast.error("Debes iniciar sesión para realizar una compra.");
     } else {
-      setOpen(true);
+      if (user?.role != "Cliente") {
+        toast.error(
+          "No puedes realizar una compra con la cuenta de un empleado. Por favor, utiliza otra cuenta."
+        );
+      } else {
+        if (user.user_metadata.state === "De baja") {
+          toast.error(
+            "No puedes realizar una compra porque estás dado de baja del sistema."
+          );
+        } else {
+          setOpen(true);
+        }
+      }
     }
   };
   const handleClose = () => setOpen(false);
