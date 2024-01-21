@@ -5,12 +5,13 @@ import { useStore as useFilter } from "../../store/FilterStore";
 import { FaBars, FaSearch, FaHome, FaHistory } from "react-icons/fa";
 import { FaBagShopping, FaCartShopping, FaUser } from "react-icons/fa6";
 import "./navBar.css";
+import { useStore as useUser } from "../../store/CurrentUserStore";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [wordToSearch, setWordToSearch] = useState("");
   const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
-
+  const { user } = useUser();
   const { params, setName, setActive } = useFilter();
 
   const handleCloseMenu = () => {
@@ -95,42 +96,70 @@ const NavBar = () => {
               <button className="nav_bar_button">ABM</button>
 
               <ul className="nav_bar_dropdown_ul">
-                <li className="nav_bar_dropdown_li">
-                  <Link to="/e/itemStockAbm" className="nav_bar_dropdown_link">
-                    <span>Item Stock ABM</span>
-                  </Link>
-                </li>
-                <li className="nav_bar_dropdown_li">
-                  <Link
-                    to="/e/itemProductAbm"
-                    className="nav_bar_dropdown_link"
-                  >
-                    <span>Item Product ABM</span>
-                  </Link>
-                </li>
-                <li className="nav_bar_dropdown_li">
-                  <Link
-                    to="/e/measurementUnitAbm"
-                    className="nav_bar_dropdown_link"
-                  >
-                    <span>Measurement Unit ABM</span>
-                  </Link>
-                </li>
-                <li className="nav_bar_dropdown_li">
-                  <Link to="/e/stockAbm" className="nav_bar_dropdown_link">
-                    <span>Stock ABM</span>
-                  </Link>
-                </li>
-                <li className="nav_bar_dropdown_li">
-                  <Link to="/e/lowStock" className="nav_bar_dropdown_link">
-                    <span>Low Stock Page</span>
-                  </Link>
-                </li>
-                <li className="nav_bar_dropdown_li">
-                  <Link to="/a/employees" className="nav_bar_dropdown_link">
-                    <span>Employees ABM</span>
-                  </Link>
-                </li>
+                {user?.role &&
+                  (user?.role === "Administrador" ||
+                    user?.role === "Cocinero") && (
+                    <>
+                      <li className="nav_bar_dropdown_li">
+                        <Link
+                          to="/e/itemStockAbm"
+                          className="nav_bar_dropdown_link"
+                        >
+                          <span>Item Stock ABM</span>
+                        </Link>
+                      </li>
+
+                      <li className="nav_bar_dropdown_li">
+                        <Link
+                          to="/e/itemProductAbm"
+                          className="nav_bar_dropdown_link"
+                        >
+                          <span>Item Product ABM</span>
+                        </Link>
+                      </li>
+
+                      <li className="nav_bar_dropdown_li">
+                        <Link
+                          to="/e/measurementUnitAbm"
+                          className="nav_bar_dropdown_link"
+                        >
+                          <span>Measurement Unit ABM</span>
+                        </Link>
+                      </li>
+                      <li className="nav_bar_dropdown_li">
+                        <Link
+                          to="/e/stockAbm"
+                          className="nav_bar_dropdown_link"
+                        >
+                          <span>Stock ABM</span>
+                        </Link>
+                      </li>
+                      <li className="nav_bar_dropdown_li">
+                        <Link
+                          to="/e/lowStock"
+                          className="nav_bar_dropdown_link"
+                        >
+                          <span>Low Stock Page</span>
+                        </Link>
+                      </li>
+                    </>
+                  )}
+
+                {user?.role && user?.role === "Administrador" && (
+                  <>
+                    <li className="nav_bar_dropdown_li">
+                      <Link to="/a/employees" className="nav_bar_dropdown_link">
+                        <span>Employees ABM</span>
+                      </Link>
+                    </li>
+                    <li className="nav_bar_dropdown_li">
+                      <Link to="/a/customers" className="nav_bar_dropdown_link">
+                        <span>Customers ABM</span>
+                      </Link>
+                    </li>
+                  </>
+                )}
+
                 <li className="nav_bar_dropdown_li">
                   <Link to="/e/orders" className="nav_bar_dropdown_link">
                     <span>Orders</span>
@@ -165,14 +194,18 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li className="nav_bar_dropdown_profile_li">
-                  <Link to="/u/orders/history" className="nav_bar_dropdown_profile_link" onClick={handleCloseMenu}
+                  <Link
+                    to="/u/orders/history"
+                    className="nav_bar_dropdown_profile_link"
+                    onClick={handleCloseMenu}
                   >
-                    <span>{isMenuOpen && <FaHistory />} Historial de órdenes</span>
+                    <span>
+                      {isMenuOpen && <FaHistory />} Historial de órdenes
+                    </span>
                   </Link>
                 </li>
               </ul>
             </li>
-
           </>
         ) : (
           <>
