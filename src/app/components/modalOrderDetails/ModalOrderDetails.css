@@ -131,11 +131,27 @@
         padding: 10px 0;
     }
 
-
-
     .modalOrderDetails__button {
         font-size: 15px;
         width: 100px;
+    }
+
+    .modalOrderDetailsDelivery__container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .modalOrderDetailsDelivery__userDetails {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .modalOrderDetailsDelivery__userDetails__info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
     }
 
 }
