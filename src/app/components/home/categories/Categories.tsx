@@ -18,6 +18,7 @@ const Categories = () => {
         >
           <div></div>
           <label>Pizzas</label>
+          <h6>Pizzas</h6>
           <img src="https://res.cloudinary.com/dycogxoko/image/upload/v1695264946/assets%20for%20elBuenSabor/pizza-a-la-piedra-1_juxdcg.webp" />
         </Link>
         <Link
@@ -29,6 +30,7 @@ const Categories = () => {
         >
           <div></div>
           <label>Hamburguesas</label>
+          <h6>Hamburguesas</h6>
           <img src="https://res.cloudinary.com/dycogxoko/image/upload/v1695264946/assets%20for%20elBuenSabor/fotografia-de-hamburguesas_btirdn.jpg" />
         </Link>
         <Link
@@ -40,6 +42,7 @@ const Categories = () => {
         >
           <div></div>
           <label>Lomos</label>
+          <h6>Lomos</h6>
           <img src="https://res.cloudinary.com/dycogxoko/image/upload/v1695264946/assets%20for%20elBuenSabor/IS7T6CMJQBEKDKX3IEKNHTWQEU_wunvc5.webp" />
         </Link>
         <Link
@@ -51,6 +54,7 @@ const Categories = () => {
         >
           <div></div>
           <label>Panchos</label>
+          <h6>Panchos</h6>
           <img src="https://res.cloudinary.com/dycogxoko/image/upload/v1695264946/assets%20for%20elBuenSabor/233556-default_ahldt5.avif" />
         </Link>
         <Link
@@ -62,6 +66,7 @@ const Categories = () => {
         >
           <div></div>
           <label>Minutas</label>
+          <h6>Minutas</h6>
           <img src="https://res.cloudinary.com/dycogxoko/image/upload/v1695264946/assets%20for%20elBuenSabor/436282-24a00532-effe-43a2-a025-27d206875cfb_pocuje.jpg" />
         </Link>
         <Link
@@ -73,6 +78,7 @@ const Categories = () => {
         >
           <div></div>
           <label>Empanadas</label>
+          <h6>Empanadas</h6>
           <img src="https://res.cloudinary.com/dycogxoko/image/upload/v1695264947/assets%20for%20elBuenSabor/Empanadas-fritas-o-al-horno_akp5we.webp" />
         </Link>
         <Link
@@ -84,6 +90,7 @@ const Categories = () => {
         >
           <div></div>
           <label>Sándwichs</label>
+          <h6>Sándwichs</h6>
           <img src="https://res.cloudinary.com/dycogxoko/image/upload/v1695264947/assets%20for%20elBuenSabor/maxresdefault_aoypef.jpg" />
         </Link>
         <Link
@@ -95,6 +102,7 @@ const Categories = () => {
         >
           <div></div>
           <label>Bebidas</label>
+          <h6>Bebidas</h6>
           <img src="https://res.cloudinary.com/dycogxoko/image/upload/v1695264947/assets%20for%20elBuenSabor/mejores-bebidas-isotonicas-1640688481_xyacwv.jpg" />
         </Link>
       </div>

@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Fade, Modal } from "@mui/material";
@@ -7,35 +7,26 @@ import { toast } from "sonner";
 import { useStore } from "../../store/CartStore";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
 import { useStore as useToken } from "../../store/UserTokenStore";
-import { Link } from "react-router-dom";
-import { CartItem } from "../../interfaces/CartItem";
-import { createPurchaseOrder, getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
-import { useEffect, useState } from "react";
-import { FaArrowLeft, FaMinus, FaPlus } from "react-icons/fa6";
-import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
-import { Person } from "../../interfaces/Person";
-import { getAllAddress } from "../../functions/AddressAPI";
-import { getAllPerson } from "../../functions/PersonAPI";
 import { CartItem } from "../../interfaces/CartItem";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { Person } from "../../interfaces/Person";
 import { Address } from "../../interfaces/Address";
-import { Box, Fade, Modal } from "@mui/material";
 import { PurchaseOrderDetail } from "../../interfaces/PurchaseOrderDetail";
-import { toast } from "sonner";
+import {
+  createPurchaseOrder,
+  getAllPurchaseOrder,
+} from "../../functions/PurchaseOrderAPI";
+import { getAllAddress } from "../../functions/AddressAPI";
+import { getAllPerson } from "../../functions/PersonAPI";
 import { updateStock } from "../../functions/StockAPI";
 import ModalOrderDetails from "../../components/modalOrderDetails/ModalOrderDetails";
-import { useAuth0 } from "@auth0/auth0-react";
+import "./cart.css";
 
 const Cart = () => {
   const { cartProducts, remove, clear, removeOne, addOne } = useStore();
-  const { token } = useToken()
-  const { user } = useCurrentUser()
-
-  const [priceAndTime, setPriceAndTime] = useState({
-    totalPrice: 0,
-    totalTime: 0
-  })
+  const { token } = useToken();
+  const { user } = useCurrentUser();
+  const { isAuthenticated } = useAuth0();
 
   const [purchaseOrder, setPurchaseOrder] = useState<PurchaseOrder>({
     id: 0,
@@ -69,8 +60,8 @@ const Cart = () => {
     },
     status: { id: 1, status: "A confirmar" },
     details: null,
-  })
-  const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>()
+  });
+  const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>();
 
   const [confirmPurchase, setConfirmPurchase] = useState(false);
   const [open, setOpen] = useState(false);
@@ -79,23 +70,23 @@ const Cart = () => {
   const [addressesDatabase, setAddressesDatabase] = useState<Address[]>();
   const [priceAndTime, setPriceAndTime] = useState({
     totalPrice: 0,
-    highestTime: 0
-  })
+    highestTime: 0,
+  });
 
   useEffect(() => {
-    getPurchaseOrders()
+    getPurchaseOrders();
     getAddressesDatabase();
     getPersonsDatabase();
   }, []);
 
   useEffect(() => {
-    console.log(purchaseOrder)
+    console.log(purchaseOrder);
   }, [purchaseOrder]);
 
   useEffect(() => {
     if (confirmPurchase) {
-      createOrder()
-      setConfirmPurchase(false)
+      createOrder();
+      setConfirmPurchase(false);
     }
   }, [confirmPurchase]);
 
@@ -123,17 +114,20 @@ const Cart = () => {
       let time = 0;
       let price = 0;
       cartProducts.map(async (cartProduct) => {
-        time = cartProduct.product.estimatedTimeKitchen > time ? cartProduct.product.estimatedTimeKitchen : time
-        price = price + cartProduct.product.salePrice * cartProduct.amount
-      })
-      setPriceAndTime({ totalPrice: price, highestTime: time })
+        time =
+          cartProduct.product.estimatedTimeKitchen > time
+            ? cartProduct.product.estimatedTimeKitchen
+            : time;
+        price = price + cartProduct.product.salePrice * cartProduct.amount;
+      });
+      setPriceAndTime({ totalPrice: price, highestTime: time });
     }
-  }, [cartProducts])
+  }, [cartProducts]);
 
   const getPurchaseOrders = async () => {
-    const response = await getAllPurchaseOrder()
-    setPurchaseOrders(response)
-  }
+    const response = await getAllPurchaseOrder();
+    setPurchaseOrders(response);
+  };
 
   const getPersonsDatabase = async () => {
     const response = await getAllPerson();
@@ -147,53 +141,63 @@ const Cart = () => {
 
   const handleOpen = () => {
     if (!isAuthenticated) {
-      toast.error("Debes iniciar sesión para realizar una compra.")
+      toast.error("Debes iniciar sesión para realizar una compra.");
     } else {
       setOpen(true);
     }
-  }
+  };
   const handleClose = () => setOpen(false);
 
   const handleOpenModalOrderDetails = () => {
-    const details: PurchaseOrderDetail[] = cartProducts.map(cartProduct => {
+    const details: PurchaseOrderDetail[] = cartProducts.map((cartProduct) => {
       return {
         amount: cartProduct.amount,
         subtotal: cartProduct.product.salePrice * cartProduct.amount,
         product: cartProduct.product,
-        stock: null
-      } as PurchaseOrderDetail
-    })
+        stock: null,
+      } as PurchaseOrderDetail;
+    });
 
-    let highestTimeOrders = 0
+    let highestTimeOrders = 0;
 
-    const ordersInKitchen = purchaseOrders?.filter((order) => order.status?.status === "A cocina")
+    const ordersInKitchen = purchaseOrders?.filter(
+      (order) => order.status?.status === "A cocina"
+    );
 
-    ordersInKitchen?.forEach(order => {
-      highestTimeOrders = order.estimatedEndTime > highestTimeOrders ? order.estimatedEndTime : highestTimeOrders
+    ordersInKitchen?.forEach((order) => {
+      highestTimeOrders =
+        order.estimatedEndTime > highestTimeOrders
+          ? order.estimatedEndTime
+          : highestTimeOrders;
     });
 
     setPurchaseOrder({
       ...purchaseOrder,
       details: details,
-      estimatedEndTime: purchaseOrder.shippingType === "Envío a domicilio"
-        ? priceAndTime.highestTime + highestTimeOrders + 10
-        : priceAndTime.highestTime + highestTimeOrders,
-      total: purchaseOrder.shippingType === "Retiro en el local"
-        ? priceAndTime.totalPrice * 0.9
-        : priceAndTime.totalPrice,
-      fecha: new Date()
-    })
+      estimatedEndTime:
+        purchaseOrder.shippingType === "Envío a domicilio"
+          ? priceAndTime.highestTime + highestTimeOrders + 10
+          : priceAndTime.highestTime + highestTimeOrders,
+      total:
+        purchaseOrder.shippingType === "Retiro en el local"
+          ? priceAndTime.totalPrice * 0.9
+          : priceAndTime.totalPrice,
+      fecha: new Date(),
+    });
     setOpenModalOrderDetails(true);
-  }
+  };
 
   const createOrder = async () => {
-    let insufficientStock = false
+    let insufficientStock = false;
     if (purchaseOrder.details && purchaseOrder.details?.length > 0) {
-
       for (const detail of purchaseOrder.details) {
         if (detail.product?.details) {
           for (const productDetail of detail.product.details) {
-            if (productDetail.stock.currentStock - productDetail.amount * detail.amount < 0) {
+            if (
+              productDetail.stock.currentStock -
+                productDetail.amount * detail.amount <
+              0
+            ) {
               insufficientStock = true;
               break;
             }
@@ -201,8 +205,10 @@ const Cart = () => {
         }
 
         if (insufficientStock) {
-          toast.error(`Lo sentimos, no hay suficiente stock para preparar la cantidad seleccionada del producto "${detail.product?.denomination}".`)
-          handleClose()
+          toast.error(
+            `Lo sentimos, no hay suficiente stock para preparar la cantidad seleccionada del producto "${detail.product?.denomination}".`
+          );
+          handleClose();
           break;
         }
       }
@@ -210,40 +216,56 @@ const Cart = () => {
       if (!insufficientStock) {
         const response = await createPurchaseOrder(purchaseOrder, token);
         if (response) {
-          toast.success("Orden creada correctamente.")
+          toast.success("Orden creada correctamente.");
 
           if (purchaseOrder.details) {
             for (const detail of purchaseOrder.details) {
               if (detail.product?.details) {
                 for (const productDetail of detail.product.details) {
-                  await updateStock({ ...productDetail.stock, currentStock: productDetail.stock.currentStock - productDetail.amount * detail.amount }, token)
+                  await updateStock(
+                    {
+                      ...productDetail.stock,
+                      currentStock:
+                        productDetail.stock.currentStock -
+                        productDetail.amount * detail.amount,
+                    },
+                    token
+                  );
                 }
               }
             }
           }
         } else {
-          toast.error("Error al crear la orden.")
+          toast.error("Error al crear la orden.");
         }
-        handleClose()
+        handleClose();
         clear();
       }
     }
-  }
-
-  const handleChangePaymentMethod = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPurchaseOrder({ ...purchaseOrder, paymentMethod: event.target.value })
   };
 
-  const handleChangeShippingType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangePaymentMethod = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setPurchaseOrder({ ...purchaseOrder, paymentMethod: event.target.value });
+  };
+
+  const handleChangeShippingType = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setPurchaseOrder({
-      ...purchaseOrder, shippingType: event.target.value
-      , paymentMethod: event.target.value === "Envío a domicilio" ? "Mercado Pago" : purchaseOrder.paymentMethod
-    })
+      ...purchaseOrder,
+      shippingType: event.target.value,
+      paymentMethod:
+        event.target.value === "Envío a domicilio"
+          ? "Mercado Pago"
+          : purchaseOrder.paymentMethod,
+    });
   };
 
   return (
     <>
-      <div className="cart_main_container" >
+      <div className="cart_main_container">
         <h2>Carrito de compras</h2>
         <div className="cart_back_amount">
           <Link to="/">
@@ -252,7 +274,8 @@ const Cart = () => {
           </Link>
           {cartProducts.length > 0 ? (
             <p>
-              <b>{cartProducts.length}</b> {cartProducts.length === 1 ? "Producto" : "Productos"}
+              <b>{cartProducts.length}</b>{" "}
+              {cartProducts.length === 1 ? "Producto" : "Productos"}
             </p>
           ) : (
             <p>Sin productos</p>
@@ -289,10 +312,9 @@ const Cart = () => {
         </div>
         <div className="cart_buttons_container">
           <button onClick={() => clear()}>Limpiar</button>
-          {
-            cartProducts.length > 0 &&
+          {cartProducts.length > 0 && (
             <button onClick={handleOpen}>Continuar</button>
-          }
+          )}
         </div>
       </div>
 
@@ -307,7 +329,7 @@ const Cart = () => {
         disableScrollLock={true}
       >
         <Fade in={open}>
-          <Box className='modalCart__box'>
+          <Box className="modalCart__box">
             <h3 className="modalCart__h3">
               Elegir forma de entrega y método de pago
             </h3>
@@ -334,25 +356,43 @@ const Cart = () => {
                 placeholder="Ingrese el departamento del cliente"
               >
                 <option value="Mercado Pago">Mercado Pago</option>
-                {purchaseOrder.shippingType === "Retiro en el local" &&
+                {purchaseOrder.shippingType === "Retiro en el local" && (
                   <option value="Efectivo">Efectivo</option>
-                }
+                )}
               </select>
             </div>
 
-            <h5>Retirar la compra en el local otorga un 10% de descuento en la compra.</h5>
+            <h5>
+              Retirar la compra en el local otorga un 10% de descuento en la
+              compra.
+            </h5>
 
             <div className="modalCart__buttons">
-              <button className="modalCart__button" onClick={() => { handleClose() }}>Cancelar</button>
-              <button className="modalCart__button"
-                onClick={handleOpenModalOrderDetails} >
+              <button
+                className="modalCart__button"
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                Cancelar
+              </button>
+              <button
+                className="modalCart__button"
+                onClick={handleOpenModalOrderDetails}
+              >
                 Continuar
               </button>
             </div>
           </Box>
         </Fade>
       </Modal>
-      <ModalOrderDetails open={openModalOrderDetails} order={purchaseOrder} setOpen={setOpenModalOrderDetails} isOrderFromCart={true} setConfirmPurchase={setConfirmPurchase} />
+      <ModalOrderDetails
+        open={openModalOrderDetails}
+        order={purchaseOrder}
+        setOpen={setOpenModalOrderDetails}
+        isOrderFromCart={true}
+        setConfirmPurchase={setConfirmPurchase}
+      />
     </>
   );
 };
