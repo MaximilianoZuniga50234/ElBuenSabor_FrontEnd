@@ -154,7 +154,7 @@
 
 .orders_list_table thead tr {
   display: grid;
-  grid-template-columns: 0.5fr 1.5fr 1fr 1fr 1fr 0.5fr;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
   padding: 0 32px 0 32px;
   border-bottom: 1px solid var(--black);
   background: var(--ebony-900);
@@ -166,11 +166,12 @@
   display: flex;
   font-weight: bold;
   padding: 16px 0 16px 0;
+  justify-content: center;
 }
 
 .orders_list_table tbody tr {
   display: grid;
-  grid-template-columns: 0.5fr 1.5fr 1fr 1fr 1fr 0.5fr;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
   padding: 0 32px 0 32px;
   border-bottom: 1px solid var(--ebony-900);
   border-left: 1px solid var(--ebony-900);
@@ -180,6 +181,7 @@
 .orders_list_table tbody tr td {
   display: flex;
   padding: 16px 0 16px 0;
+  justify-content: center;
 }
 
 .orders_list_table .celda_acciones {

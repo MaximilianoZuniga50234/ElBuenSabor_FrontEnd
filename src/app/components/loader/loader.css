@@ -1,4 +1,4 @@
-.redirecter__container {
+.loader__container {
     width: 100%;
     height: 100vh;
     position: absolute;
@@ -10,7 +10,7 @@
     flex-direction: column;
 }
 
-.redirecter__spinner {
+.loader__spinner {
     position: absolute;
     width: 100px;
     height: 100px;
@@ -21,13 +21,13 @@
     margin: auto;
 }
 
-.redirecter__item {
+.loader__item {
     width: 50px;
     height: 50px;
     position: absolute;
 }
 
-.redirecter__item-1 {
+.loader__item-1 {
     background-color: var(--ebony-900);
     top: 0;
     left: 0;
@@ -35,14 +35,14 @@
     animation: item-1_move 1.8s cubic-bezier(.6, .01, .4, 1) infinite;
 }
 
-.redirecter__item-2 {
+.loader__item-2 {
     background-color: var(--ebony-800);
     top: 0;
     right: 0;
     animation: item-2_move 1.8s cubic-bezier(.6, .01, .4, 1) infinite;
 }
 
-.redirecter__item-3 {
+.loader__item-3 {
     background-color: var(--ebony-700);
     bottom: 0;
     right: 0;
@@ -50,7 +50,7 @@
     animation: item-3_move 1.8s cubic-bezier(.6, .01, .4, 1) infinite;
 }
 
-.redirecter__item-4 {
+.loader__item-4 {
     background-color: var(--ebony-600);
     bottom: 0;
     left: 0;
@@ -137,7 +137,7 @@
     }
 }
 
-.redirecter__h4 {
+.loader__h4 {
     margin: auto;
     padding-top: 150px;
     color: var(--ebony-950);

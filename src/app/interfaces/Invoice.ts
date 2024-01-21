@@ -4,7 +4,7 @@ import { Product } from "./Product";
 import { PurchaseOrder } from "./PurchaseOrder";
 import { Stock } from "./Stock";
 
-interface InvoiceDetail{
+interface InvoiceDetail {
   amount: number;
   subtotal: number;
   invoice: Invoice;
@@ -12,7 +12,7 @@ interface InvoiceDetail{
   stock: Stock;
 }
 
-export interface Invoice extends Base{
+export interface Invoice extends Base {
   date: Date;
   discountAmount: number;
   paymentMethod: string;

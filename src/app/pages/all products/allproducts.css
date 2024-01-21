@@ -613,10 +613,12 @@
   z-index: 2;
   border-radius: 100%;
   padding: 8px;
+  background-color: unset;
 }
 
 .allProducts__bar__link__cart:hover {
   background: var(--lighter-gray);
+  transition: .2s;
 }
 
 @media (width >=425px) {

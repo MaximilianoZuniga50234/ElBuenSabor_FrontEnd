@@ -15,7 +15,6 @@ type Props = {
 };
 
 const Table = ({ datos }: Props) => {
-
   const [customer, setCustomer] = useState<UserAuth0Get>({
     created_at: new Date(),
     email: "email@example.com",
@@ -34,10 +33,10 @@ const Table = ({ datos }: Props) => {
       address: {
         department: "Ciudad",
         number: 0,
-        street: ""
+        street: "",
       },
       roleToAdd: "",
-      state: "De alta"
+      state: "De alta",
     },
     last_login: new Date(),
     last_ip: "",
@@ -46,7 +45,7 @@ const Table = ({ datos }: Props) => {
   });
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
-    setOpen(true)
+    setOpen(true);
   };
 
   const [paginaActual, setPaginaActual] = useState<number>(1);
@@ -61,14 +60,14 @@ const Table = ({ datos }: Props) => {
     n === 0
       ? setPaginaActual(1)
       : n === 2
-        ? setPaginaActual(Math.ceil(datos.length / 10))
-        : setPaginaActual(paginaActual + n);
+      ? setPaginaActual(Math.ceil(datos.length / 10))
+      : setPaginaActual(paginaActual + n);
   };
 
   const handleModify = (customerParam: UserAuth0Get) => {
-    setCustomer(customerParam)
-    handleOpen()
-  }
+    setCustomer(customerParam);
+    handleOpen();
+  };
 
   return (
     <>
@@ -88,9 +87,7 @@ const Table = ({ datos }: Props) => {
               <td>{`${e.name}`}</td>
               <td>{`${e.email}`}</td>
               <td>{`${e.user_metadata?.phone_number}`}</td>
-              <td>
-                {/* {`${e.orders.length}`} */}
-              </td>
+              <td>{/* {`${e.orders.length}`} */}</td>
               <td className="celda_acciones">
                 <FaGear onClick={() => handleModify(e)} />
               </td>
@@ -141,7 +138,11 @@ const Table = ({ datos }: Props) => {
           </tr>
         </tfoot>
       </table>
-      <ModalCustomersAbm customer={customer} open={open} setOpen={setOpen}></ModalCustomersAbm>
+      <ModalCustomersAbm
+        customer={customer}
+        open={open}
+        setOpen={setOpen}
+      ></ModalCustomersAbm>
     </>
   );
 };

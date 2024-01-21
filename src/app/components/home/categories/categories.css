@@ -68,7 +68,7 @@
   cursor: pointer;
 }
 
-.categories_item div:hover ~ label {
+.categories_item div:hover~label {
   transform: translateY(-475%);
 }
 
@@ -109,6 +109,7 @@
 }
 
 @media only screen and (min-width: 1023px) {
+
   .categories_item label,
   .categories_item div {
     display: flex;

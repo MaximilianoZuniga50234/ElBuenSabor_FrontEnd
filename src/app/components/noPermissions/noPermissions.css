@@ -1,0 +1,26 @@
+.noPermissions__container {
+    min-height: 80vh;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.noPermissions__elements {
+    background-color: var(--ebony-200);
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 30px;
+    text-align: center;
+    text-wrap: balance;
+    gap: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--ebony-950);
+    max-width: 500px;
+}
+
+.noPermissions__button a {
+    color: white;
+}

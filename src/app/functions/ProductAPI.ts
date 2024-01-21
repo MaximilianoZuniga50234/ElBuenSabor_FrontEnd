@@ -22,14 +22,14 @@ export async function getOneProduct(id: string) {
 }
 
 export async function getProductsInSale() {
-  return await fetch(`http://localhost:9000/api/v1/product/all/sale`).then((r) =>
-    r.json()
+  return await fetch(`http://localhost:9000/api/v1/product/all/sale`).then(
+    (r) => r.json()
   );
 }
 
 export async function getFeaturedProducts() {
-  return await fetch(`http://localhost:9000/api/v1/product/all/featured`).then((r) =>
-    r.json()
+  return await fetch(`http://localhost:9000/api/v1/product/all/featured`).then(
+    (r) => r.json()
   );
 }
 

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FaGear } from "react-icons/fa6";
+import { FaEye, FaGear } from "react-icons/fa6";
 import {
   HiOutlineChevronDoubleLeft,
   HiOutlineChevronDoubleRight,
@@ -15,6 +15,8 @@ import { updatePurchaseOrder } from "../../functions/PurchaseOrderAPI";
 import { useStore as useToken } from "../../store/UserTokenStore";
 import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "sonner";
+import { useStore as useUser } from "../../store/CurrentUserStore";
+import ModalOrderDetails from "../modalOrderDetails/ModalOrderDetails";
 
 type Props = {
   datos: PurchaseOrder[];
@@ -22,16 +24,18 @@ type Props = {
 };
 
 const Table = ({ datos, setChangeOrderStatus }: Props) => {
-
-  const { token } = useToken()
-  const { isAuthenticated } = useAuth0()
+  const { user } = useUser();
+  const { token } = useToken();
+  const { isAuthenticated } = useAuth0();
   const [paginaActual, setPaginaActual] = useState<number>(1);
 
   const [open, setOpen] = useState(false);
-  // const [isOnlyDrinks, setIsOnlyDrinks] = useState(true); 
+  const [openModalOrderDetails, setOpenModalOrderDetails] = useState(false);
+  useState(false);
+  // const [isOnlyDrinks, setIsOnlyDrinks] = useState(true);
 
-  const [allStatus, setAllStatus] = useState<Status[]>()
-  const [orderStatus, setOrderStatus] = useState<string>("A confirmar")
+  const [allStatus, setAllStatus] = useState<Status[]>();
+  const [orderStatus, setOrderStatus] = useState<string>("A confirmar");
 
   const [purchaseOrder, setPurchaseOrder] = useState<PurchaseOrder>({
     id: 0,
@@ -41,17 +45,31 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     shippingType: "",
     paymentMethod: "",
     total: 0,
-    person: { id: "0", name: "", email: "", lastName: "", phoneNumber: "", user_id: "" },
+    person: {
+      id: "0",
+      name: "",
+      email: "",
+      lastName: "",
+      phoneNumber: "",
+      user_id: "",
+    },
     address: {
       id: 0,
       street: "",
       number: 0,
       department: { id: 0, name: "" },
-      person: { id: "0", name: "", email: "", lastName: "", phoneNumber: "", user_id: "" }
+      person: {
+        id: "0",
+        name: "",
+        email: "",
+        lastName: "",
+        phoneNumber: "",
+        user_id: "",
+      },
     },
     status: { id: 0, status: "" },
     details: null,
-  })
+  });
 
   const indiceInicio = (paginaActual - 1) * 10;
   const indiceFin =
@@ -63,44 +81,48 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     n === 0
       ? setPaginaActual(1)
       : n === 2
-        ? setPaginaActual(Math.ceil(datos.length / 10))
-        : setPaginaActual(paginaActual + n);
+      ? setPaginaActual(Math.ceil(datos.length / 10))
+      : setPaginaActual(paginaActual + n);
+  };
+
+  const handleOpenModalOrderDetails = (order: PurchaseOrder) => {
+    setPurchaseOrder(order);
+    setOpenModalOrderDetails(true);
   };
 
   const handleOpen = (order: PurchaseOrder) => {
-    setPurchaseOrder(order)
-    setOrderStatus(order.status ? order?.status?.status : "")
+    setPurchaseOrder(order);
+    setOrderStatus(order.status ? order?.status?.status : "");
     setOpen(true);
-  }
+  };
 
   const handleClose = () => setOpen(false);
 
   const handleChangeStatus = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newStatus = allStatus?.find((s) => s.status === event.target.value)
+    const newStatus = allStatus?.find((s) => s.status === event.target.value);
     if (newStatus) {
-      setPurchaseOrder({ ...purchaseOrder, status: newStatus })
+      setPurchaseOrder({ ...purchaseOrder, status: newStatus });
     }
-  }
+  };
 
   const handleConfirm = async () => {
-
     if (isAuthenticated) {
-      await updatePurchaseOrder(purchaseOrder, token)
-      handleClose()
-      setChangeOrderStatus(true)
+      await updatePurchaseOrder(purchaseOrder, token);
+      handleClose();
+      setChangeOrderStatus(true);
     } else {
-      toast("Debes iniciar sesión")
+      toast("Debes iniciar sesión");
     }
-  }
+  };
 
   const getStatus = async () => {
-    const response = await getAllState()
-    setAllStatus(response)
-  }
+    const response = await getAllState();
+    setAllStatus(response);
+  };
 
   useEffect(() => {
-    getStatus()
-  }, [])
+    getStatus();
+  }, []);
 
   // Ver si es un pedido de solo bebidas
   // useEffect(() => {
@@ -123,6 +145,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
             <td>TIEMPO</td>
             <td>ENVÍO</td>
             <td>ESTADO</td>
+            <td>DETALLES</td>
             <td></td>
           </tr>
         </thead>
@@ -135,7 +158,20 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
               <td>{`${e.shippingType}`}</td>
               <td>{`${e.status?.status}`}</td>
               <td className="celda_acciones">
-                <button onClick={() => { handleOpen(e) }}>
+                <button
+                  onClick={() => {
+                    handleOpenModalOrderDetails(e);
+                  }}
+                >
+                  <FaEye />
+                </button>
+              </td>
+              <td className="celda_acciones">
+                <button
+                  onClick={() => {
+                    handleOpen(e);
+                  }}
+                >
                   <FaGear />
                 </button>
               </td>
@@ -197,10 +233,8 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
         disableScrollLock={true}
       >
         <Fade in={open}>
-          <Box className='modalCart__box'>
-            <h3 className="modalCart__h3">
-              Cambiar estado del pedido
-            </h3>
+          <Box className="modalCart__box">
+            <h3 className="modalCart__h3">Cambiar estado del pedido</h3>
 
             <div className="modalCart__div">
               <h5 className="modalCart__h5">Estado del pedido</h5>
@@ -210,30 +244,81 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                 onChange={handleChangeStatus}
                 defaultValue={orderStatus}
               >
-                <option value="A confirmar" disabled={true}>A confirmar</option>
-                <option value="Facturado" disabled={orderStatus === "A confirmar" ? false : true}>Facturado</option>
-                <option value="A cocina" disabled={orderStatus === "Facturado" ? false : true}>A cocina</option>
-                <option value="Listo"
-                  disabled={orderStatus === "A cocina" ? false : true}
-                // disabled={isOnlyDrinks ? false : true}
-                >Listo</option>
+                <option value="A confirmar" disabled={true}>
+                  A confirmar
+                </option>
+                <option
+                  value="Facturado"
+                  disabled={orderStatus === "A confirmar" ? false : true}
+                >
+                  Facturado
+                </option>
+                <option
+                  value="A cocina"
+                  disabled={orderStatus === "Facturado" ? false : true}
+                >
+                  A cocina
+                </option>
+                <option
+                  value="Listo"
+                  disabled={
+                    orderStatus === "A cocina" && user?.role === "Cocinero"
+                      ? false
+                      : true
+                  }
+                  // disabled={isOnlyDrinks ? false : true}
+                >
+                  Listo
+                </option>
 
-                <option value="En delivery" disabled={orderStatus === "Listo" && purchaseOrder.shippingType === "Envío a domicilio" ? false : true}>En delivery</option>
-                <option value="Entregado" disabled={orderStatus === "En delivery" || (orderStatus === "Listo" && purchaseOrder.shippingType === "Retiro en el local") ? false : true}>Entregado</option>
+                <option
+                  value="En delivery"
+                  disabled={
+                    orderStatus === "Listo" &&
+                    purchaseOrder.shippingType === "Envío a domicilio"
+                      ? false
+                      : true
+                  }
+                >
+                  En delivery
+                </option>
+                <option
+                  value="Entregado"
+                  disabled={
+                    (orderStatus === "En delivery" &&
+                      user?.role === "Delivery") ||
+                    (orderStatus === "Listo" &&
+                      purchaseOrder.shippingType === "Retiro en el local")
+                      ? false
+                      : true
+                  }
+                >
+                  Entregado
+                </option>
               </select>
             </div>
 
             <div className="modalCart__buttons">
-              <button className="modalCart__button" onClick={() => { handleClose() }}>Cancelar</button>
-              <button className="modalCart__button"
-                onClick={handleConfirm}
+              <button
+                className="modalCart__button"
+                onClick={() => {
+                  handleClose();
+                }}
               >
+                Cancelar
+              </button>
+              <button className="modalCart__button" onClick={handleConfirm}>
                 Confirmar
               </button>
             </div>
           </Box>
         </Fade>
-      </Modal >
+      </Modal>
+      <ModalOrderDetails
+        open={openModalOrderDetails}
+        setOpen={setOpenModalOrderDetails}
+        order={purchaseOrder}
+      />
     </>
   );
 };

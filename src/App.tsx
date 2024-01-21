@@ -10,14 +10,13 @@ import NavBar from "./app/components/nav_bar/NavBar";
 import Footer from "./app/components/footer/Footer";
 import { useAddressesAndPersons } from "./app/hooks/useAddressesAndPersons";
 
-
 function App() {
   const { user } = useCurrentUser();
   const { setToken, token } = useToken();
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   useUserLogged();
   useAllUsers();
-  useAddressesAndPersons()
+  useAddressesAndPersons();
   const [isPerfilComplete, setIsPerfilComplete] = useState<boolean>(true);
 
   const getToken = async () => {
@@ -35,10 +34,9 @@ function App() {
 
   useEffect(() => {
     if (isAuthenticated && token === "") {
-      getToken()
+      getToken();
     }
   }, [isAuthenticated, token]);
-
 
   useEffect(() => {
     if (user != null) {

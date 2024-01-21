@@ -15,7 +15,6 @@ type Props = {
 };
 
 const Table = ({ datos }: Props) => {
-
   const [employee, setEmployee] = useState<UserAuth0Get>({
     created_at: new Date(),
     email: "email@example.com",
@@ -34,10 +33,10 @@ const Table = ({ datos }: Props) => {
       address: {
         department: "",
         number: 0,
-        street: ""
+        street: "",
       },
       roleToAdd: "",
-      state: ""
+      state: "",
     },
     last_login: new Date(),
     last_ip: "",
@@ -47,8 +46,8 @@ const Table = ({ datos }: Props) => {
   const [isNew, setIsNew] = useState(true);
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
-    setIsNew(false)
-    setOpen(true)
+    setIsNew(false);
+    setOpen(true);
   };
 
   const [paginaActual, setPaginaActual] = useState<number>(1);
@@ -63,14 +62,14 @@ const Table = ({ datos }: Props) => {
     n === 0
       ? setPaginaActual(1)
       : n === 2
-        ? setPaginaActual(Math.ceil(datos.length / 10))
-        : setPaginaActual(paginaActual + n);
+      ? setPaginaActual(Math.ceil(datos.length / 10))
+      : setPaginaActual(paginaActual + n);
   };
 
   const handleModify = (employeeParam: UserAuth0Get) => {
-    setEmployee(employeeParam)
-    handleOpen()
-  }
+    setEmployee(employeeParam);
+    handleOpen();
+  };
 
   return (
     <>
@@ -85,13 +84,12 @@ const Table = ({ datos }: Props) => {
           </tr>
         </thead>
         <tbody>
-
           {elementosPaginaActual.map((e) => (
             <tr key={e.user_id}>
               <td>{`${e.name}`}</td>
               <td>{`${e.email}`}</td>
               <td>{`${e.user_metadata?.phone_number}`}</td>
-              <td>{`${e.role != undefined ? e.role : 'Cargando...'}`}</td>
+              <td>{`${e.role != undefined ? e.role : "Cargando..."}`}</td>
               <td className="celda_acciones">
                 <FaGear onClick={() => handleModify(e)} />
               </td>
@@ -140,10 +138,14 @@ const Table = ({ datos }: Props) => {
                 )}
             </td>
           </tr>
-
         </tfoot>
       </table>
-      <ModalEmployeesAbm employee={employee} isNew={isNew} open={open} setOpen={setOpen} />
+      <ModalEmployeesAbm
+        employee={employee}
+        isNew={isNew}
+        open={open}
+        setOpen={setOpen}
+      />
     </>
   );
 };
