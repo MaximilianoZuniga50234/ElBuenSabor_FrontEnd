@@ -1,7 +1,6 @@
 import { Status } from "./Status";
 import { Address } from "./Address";
 import { Base } from "./Base";
-import { User } from "../interfaces/User";
 import { PurchaseOrderDetail } from "./PurchaseOrderDetail";
 import { Person } from "./Person";
 

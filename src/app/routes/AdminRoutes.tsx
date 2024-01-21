@@ -6,8 +6,14 @@ import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 const AdminRoutes = () => {
   return (
     <Routes>
-      <Route path="/employees" element={<AuthenticationGuard component={Employees} />} />
-      <Route path="/customers" element={<AuthenticationGuard component={Customers} />} />
+      <Route
+        path="/employees"
+        element={<AuthenticationGuard component={Employees} />}
+      />
+      <Route
+        path="/customers"
+        element={<AuthenticationGuard component={Customers} />}
+      />
     </Routes>
   );
 };

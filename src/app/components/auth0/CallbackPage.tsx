@@ -1,5 +1,3 @@
 export default function CallbackPage() {
-    return (
-        <div></div>
-    )
+  return <div></div>;
 }

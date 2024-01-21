@@ -14,12 +14,21 @@ const PublicRoutes = () => {
     <Routes>
       <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
-      <Route path="/profile" element={<AuthenticationGuard component={Profile} />} />
+      <Route
+        path="/profile"
+        element={<AuthenticationGuard component={Profile} />}
+      />
       <Route path="/products" element={<AllProducts />} />
       <Route path="/carrousel" element={<Carrousel />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/orders" element={<AuthenticationGuard component={UserOrders} />} />
-      <Route path="/orders/history" element={<AuthenticationGuard component={OrdersHistory} />} />
+      <Route
+        path="/orders"
+        element={<AuthenticationGuard component={UserOrders} />}
+      />
+      <Route
+        path="/orders/history"
+        element={<AuthenticationGuard component={OrdersHistory} />}
+      />
     </Routes>
   );
 };
