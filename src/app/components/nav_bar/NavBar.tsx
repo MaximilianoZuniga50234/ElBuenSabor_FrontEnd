@@ -92,12 +92,12 @@ const NavBar = () => {
       <ul className={`nav_bar_list ${isMenuOpen ? "active" : ""}`}>
         {isAuthenticated ? (
           <>
-            <li className="nav_bar_dropdown_container">
-              <button className="nav_bar_button">ABM</button>
+            {user?.role && user?.role != "Cliente" && (
+              <li className="nav_bar_dropdown_container">
+                <button className="nav_bar_button">Administración</button>
 
-              <ul className="nav_bar_dropdown_ul">
-                {user?.role &&
-                  (user?.role === "Administrador" ||
+                <ul className="nav_bar_dropdown_ul">
+                  {(user?.role === "Administrador" ||
                     user?.role === "Cocinero") && (
                     <>
                       <li className="nav_bar_dropdown_li">
@@ -105,7 +105,7 @@ const NavBar = () => {
                           to="/e/itemStockAbm"
                           className="nav_bar_dropdown_link"
                         >
-                          <span>Item Stock ABM</span>
+                          <span>Rubros de ingredientes</span>
                         </Link>
                       </li>
 
@@ -114,7 +114,7 @@ const NavBar = () => {
                           to="/e/itemProductAbm"
                           className="nav_bar_dropdown_link"
                         >
-                          <span>Item Product ABM</span>
+                          <span>Rubros de productos</span>
                         </Link>
                       </li>
 
@@ -123,7 +123,7 @@ const NavBar = () => {
                           to="/e/measurementUnitAbm"
                           className="nav_bar_dropdown_link"
                         >
-                          <span>Measurement Unit ABM</span>
+                          <span>Unidades de medida</span>
                         </Link>
                       </li>
                       <li className="nav_bar_dropdown_li">
@@ -131,7 +131,7 @@ const NavBar = () => {
                           to="/e/stockAbm"
                           className="nav_bar_dropdown_link"
                         >
-                          <span>Stock ABM</span>
+                          <span>Ingredientes</span>
                         </Link>
                       </li>
                       <li className="nav_bar_dropdown_li">
@@ -139,34 +139,42 @@ const NavBar = () => {
                           to="/e/lowStock"
                           className="nav_bar_dropdown_link"
                         >
-                          <span>Low Stock Page</span>
+                          <span>Ingredientes con bajo stock</span>
                         </Link>
                       </li>
                     </>
                   )}
 
-                {user?.role && user?.role === "Administrador" && (
-                  <>
-                    <li className="nav_bar_dropdown_li">
-                      <Link to="/a/employees" className="nav_bar_dropdown_link">
-                        <span>Employees ABM</span>
-                      </Link>
-                    </li>
-                    <li className="nav_bar_dropdown_li">
-                      <Link to="/a/customers" className="nav_bar_dropdown_link">
-                        <span>Customers ABM</span>
-                      </Link>
-                    </li>
-                  </>
-                )}
+                  {user?.role === "Administrador" && (
+                    <>
+                      <li className="nav_bar_dropdown_li">
+                        <Link
+                          to="/a/employees"
+                          className="nav_bar_dropdown_link"
+                        >
+                          <span>Tabla de empleados</span>
+                        </Link>
+                      </li>
+                      <li className="nav_bar_dropdown_li">
+                        <Link
+                          to="/a/customers"
+                          className="nav_bar_dropdown_link"
+                        >
+                          <span>Tabla de clientes</span>
+                        </Link>
+                      </li>
+                    </>
+                  )}
 
-                <li className="nav_bar_dropdown_li">
-                  <Link to="/e/orders" className="nav_bar_dropdown_link">
-                    <span>Orders</span>
-                  </Link>
-                </li>
-              </ul>
-            </li>
+                  <li className="nav_bar_dropdown_li">
+                    <Link to="/e/orders" className="nav_bar_dropdown_link">
+                      <span>Pedidos</span>
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            )}
+
             <button className="nav_bar_button" onClick={handleLogOut}>
               Cerrar sesión
             </button>
