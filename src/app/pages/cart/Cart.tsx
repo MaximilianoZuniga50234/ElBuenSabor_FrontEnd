@@ -72,6 +72,7 @@ const Cart = () => {
     totalPrice: 0,
     highestTime: 0,
   });
+  const [isPerfilComplete, setIsPerfilComplete] = useState<boolean>(true);
 
   useEffect(() => {
     getPurchaseOrders();
@@ -124,6 +125,20 @@ const Cart = () => {
     }
   }, [cartProducts]);
 
+  useEffect(() => {
+    if (user != null) {
+      if (
+        user?.given_name === "" ||
+        user?.family_name === "" ||
+        user?.user_metadata?.address?.department === "" ||
+        user?.user_metadata?.address?.number === 0 ||
+        user?.user_metadata?.address?.street === ""
+      ) {
+        setIsPerfilComplete(false);
+      }
+    }
+  }, [user]);
+
   const getPurchaseOrders = async () => {
     const response = await getAllPurchaseOrder();
     setPurchaseOrders(response);
@@ -143,17 +158,23 @@ const Cart = () => {
     if (!isAuthenticated) {
       toast.error("Debes iniciar sesión para realizar una compra.");
     } else {
-      if (user?.role != "Cliente") {
+      if (!isPerfilComplete) {
         toast.error(
-          "No puedes realizar una compra con la cuenta de un empleado. Por favor, utiliza otra cuenta."
+          "Debes completar la información de tu perfil antes de realizar una compra."
         );
       } else {
-        if (user.user_metadata.state === "De baja") {
+        if (user?.role != "Cliente") {
           toast.error(
-            "No puedes realizar una compra porque estás dado de baja del sistema."
+            "No puedes realizar una compra con la cuenta de un empleado. Por favor, utiliza otra cuenta."
           );
         } else {
-          setOpen(true);
+          if (user.user_metadata.state === "De baja") {
+            toast.error(
+              "No puedes realizar una compra porque estás dado de baja del sistema."
+            );
+          } else {
+            setOpen(true);
+          }
         }
       }
     }
