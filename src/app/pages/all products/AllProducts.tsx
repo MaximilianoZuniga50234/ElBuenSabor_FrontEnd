@@ -55,7 +55,9 @@ export default function AllProducts() {
         params.productMinPrice,
         params.productMaxPrice
       );
-      setProducts(await response);
+      setProducts(
+        (await response).filter((product: Product) => product.active === true)
+      );
     } catch (error) {
       console.error("Error", error);
     }
@@ -70,6 +72,7 @@ export default function AllProducts() {
   useEffect(() => {
     getAllItems();
     setIsSearching(active);
+    window.scrollTo(0, 0);
   }, [params]);
 
   useEffect(() => {
