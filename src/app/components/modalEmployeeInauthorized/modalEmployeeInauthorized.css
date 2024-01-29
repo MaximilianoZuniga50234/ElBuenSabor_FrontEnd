@@ -1,0 +1,23 @@
+.modalEmployeeInauthorized__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 280px;
+    background-color: var(--light-lavender-gray);
+    border: 1px solid var(--midnight-blue);
+    padding: 20px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    max-width: 500px;
+
+}
+
+.modalEmployeeInauthorized__title {
+    font-weight: 500;
+    text-wrap: balance;
+    text-align: center;
+}

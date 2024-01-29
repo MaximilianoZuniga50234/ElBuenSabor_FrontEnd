@@ -9,6 +9,7 @@ import Router from "./app/routes/Router";
 import NavBar from "./app/components/nav_bar/NavBar";
 import Footer from "./app/components/footer/Footer";
 import { useAddressesAndPersons } from "./app/hooks/useAddressesAndPersons";
+import ModalEmployeeInauthorized from "./app/components/modalEmployeeInauthorized/ModalEmployeeInauthorized";
 
 function App() {
   const { user } = useCurrentUser();
@@ -17,7 +18,8 @@ function App() {
   useUserLogged();
   useAllUsers();
   useAddressesAndPersons();
-  const [isPerfilComplete, setIsPerfilComplete] = useState<boolean>(true);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
   const getToken = async () => {
     try {
@@ -33,24 +35,14 @@ function App() {
   };
 
   useEffect(() => {
+    user && user.user_metadata.state === "De baja" && handleOpen();
+  }, [user]);
+
+  useEffect(() => {
     if (isAuthenticated && token === "") {
       getToken();
     }
   }, [isAuthenticated, token]);
-
-  useEffect(() => {
-    if (user != null) {
-      if (
-        user?.given_name === "" ||
-        user?.family_name === "" ||
-        user?.user_metadata?.address?.department === "" ||
-        user?.user_metadata?.address?.number === 0 ||
-        user?.user_metadata?.address?.street === ""
-      ) {
-        setIsPerfilComplete(false);
-      }
-    }
-  }, [user]);
 
   return (
     <main className="whole_app_container">
@@ -62,11 +54,7 @@ function App() {
       </section>
       <Footer />
       <Toaster position="top-center" richColors visibleToasts={1} />
-      {isAuthenticated &&
-        isPerfilComplete === false &&
-        toast(
-          "Presiona el icono del usuario que se encuentra a la derecha de la barra de navegación para completar tu perfil."
-        )}
+      <ModalEmployeeInauthorized open={open} />
     </main>
   );
 }
