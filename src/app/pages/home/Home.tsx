@@ -1,17 +1,23 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Product } from "../../interfaces/Product";
-import { Header1 } from "../../components/header/header1/Header1";
-import Carrousel from "../../components/home/carrousel/Carrousel";
-import Categories from "../../components/home/categories/Categories";
 import {
   getFeaturedProducts,
   getProductsInSale,
 } from "../../functions/ProductAPI";
-import "./Home.css";
-import { useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-import { toast } from "sonner";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
+import Loader from "../../components/loader/Loader";
+import "./Home.css";
+
+const Header1 = lazy(() => import("../../components/header/header1/Header1"));
+const Carrousel = lazy(
+  () => import("../../components/home/carrousel/Carrousel")
+);
+const Categories = lazy(
+  () => import("../../components/home/categories/Categories")
+);
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -60,7 +66,7 @@ const Home = () => {
   }, [user]);
 
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       <Header1 />
       <br />
       <div className="home_main_container">
@@ -80,7 +86,7 @@ const Home = () => {
         onAddToCart={ButtonClick}
       /> */}
       </div>
-    </>
+    </Suspense>
   );
 };
 

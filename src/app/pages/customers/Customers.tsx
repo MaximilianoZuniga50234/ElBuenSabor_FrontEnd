@@ -1,13 +1,16 @@
+import { useState, useEffect, Suspense, lazy } from "react";
 import { FaSearch } from "react-icons/fa";
-import Table from "../../components/customers/CustomersTable";
-import { useState, useEffect } from "react";
 // import { getUserRole, getUsersAuth0 } from "../../functions/UserAPI";
-import "./customers.css";
 import { UserAuth0Get } from "../../interfaces/UserAuth0";
 import { useStore as useUsers } from "../../store/UsersStore";
 import { useStore as useUser } from "../../store/CurrentUserStore";
-import NoPermissions from "../../components/noPermissions/NoPermissions";
 import Loader from "../../components/loader/Loader";
+import "./customers.css";
+
+const Table = lazy(() => import("../../components/customers/CustomersTable"));
+const NoPermissions = lazy(
+  () => import("../../components/noPermissions/NoPermissions")
+);
 
 const Customers = () => {
   const [customers, setCustomers] = useState<UserAuth0Get[]>([]);
@@ -19,25 +22,25 @@ const Customers = () => {
     setCustomers(customers);
   }, [users]);
 
-  return user?.role ? (
-    user.role === "Administrador" ? (
-      <main className="main_employees_list">
-        <div className="title_container">
-          <h2>Clientes</h2>
-          <form>
-            <input type="text" placeholder="Buscar por nombre y/o apellido" />
-            <button type="submit">
-              <FaSearch />
-            </button>
-          </form>
-        </div>
-        <Table datos={customers} />
-      </main>
-    ) : (
-      <NoPermissions />
-    )
-  ) : (
-    <Loader />
+  return (
+    <Suspense fallback={<Loader />}>
+      {user?.role === "Administrador" ? (
+        <main className="main_employees_list">
+          <div className="title_container">
+            <h2>Clientes</h2>
+            <form>
+              <input type="text" placeholder="Buscar por nombre y/o apellido" />
+              <button type="submit">
+                <FaSearch />
+              </button>
+            </form>
+          </div>
+          <Table datos={customers} />
+        </main>
+      ) : (
+        <NoPermissions />
+      )}
+    </Suspense>
   );
 };
 

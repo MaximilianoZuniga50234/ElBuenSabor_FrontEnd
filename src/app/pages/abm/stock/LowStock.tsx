@@ -1,12 +1,17 @@
-import { useState, useEffect } from "react";
-import "./lowStock.css";
+import { useState, useEffect, Suspense, lazy } from "react";
+import { FaPlus } from "react-icons/fa6";
 import { getAllStock } from "../../../functions/StockAPI";
 import { Stock } from "../../../interfaces/Stock";
-import { FaPlus } from "react-icons/fa6";
-import ModalStockPurchase from "../../../components/modal stock/ModalStockPurchase";
 import { useStore as useUser } from "../../../store/CurrentUserStore";
-import NoPermissions from "../../../components/noPermissions/NoPermissions";
 import Loader from "../../../components/loader/Loader";
+import "./lowStock.css";
+
+const NoPermissions = lazy(
+  () => import("../../../components/noPermissions/NoPermissions")
+);
+const ModalStockPurchase = lazy(
+  () => import("../../../components/modalStock/ModalStockPurchase")
+);
 
 export default function LowStock() {
   const [openModalStockPurchase, setOpenModalStockPurchase] = useState(false);
@@ -49,68 +54,62 @@ export default function LowStock() {
     handleOpenModalStockPurchase();
   };
 
-  return user?.role ? (
-    user.role === "Administrador" || user.role === "Cocinero" ? (
-      <>
-        <div className="lowStockPage__container">
-          <div className="lowStockPage__table">
-            <div className="lowStockPage__header">
-              <div className="lowStockPage__title">
-                <h1 className="lowStockPage__h1">
-                  Ingredientes con bajo stock
-                </h1>
-              </div>
-            </div>
-
-            <div className="lowStockPage__labels">
-              <h3 className="lowStockPage__h3">Nombre del ingrediente</h3>
-              <h3 className="lowStockPage__h3">Unidad de medida</h3>
-              <h3 className="lowStockPage__h3">Stock mínimo</h3>
-              <h3 className="lowStockPage__h3">Stock actual</h3>
-              <h3 className="lowStockPage__h3">Diferencia de stock</h3>
-              <h3 className="lowStockPage__h3">Registrar compra</h3>
-            </div>
-
-            <div className="lowStockPage__rows__container">
-              {stocks.map((stock: Stock) => (
-                <div className="lowStockPage__row" key={stock.id}>
-                  <h4 className="lowStockPage__h4">{stock.denomination}</h4>
-                  <h4 className="lowStockPage__h4">
-                    {stock.measurementUnit.name}
-                  </h4>
-                  <h4 className="lowStockPage__h4">{stock.minimumStock}</h4>
-                  <h4 className="lowStockPage__h4">{stock.currentStock}</h4>
-                  <h4 className="lowStockPage__h4">
-                    {Math.abs(stock.currentStock - stock.minimumStock)}
-                  </h4>
-                  <div className="lowStockPage__icon">
-                    <button
-                      className="lowStockPage__button lowStockPage__button--icon"
-                      onClick={() => {
-                        handleRegisterPurchase(stock);
-                      }}
-                    >
-                      <FaPlus />
-                    </button>
-                  </div>
-                </div>
-              ))}
+  return user?.role === "Administrador" || user?.role === "Cocinero" ? (
+    <Suspense fallback={<Loader />}>
+      <div className="lowStockPage__container">
+        <div className="lowStockPage__table">
+          <div className="lowStockPage__header">
+            <div className="lowStockPage__title">
+              <h1 className="lowStockPage__h1">Ingredientes con bajo stock</h1>
             </div>
           </div>
-          <ModalStockPurchase
-            stock={stock}
-            setStock={setStock}
-            isOpen={openModalStockPurchase}
-            handleClose={handleCloseModalStockPurchase}
-          ></ModalStockPurchase>
+
+          <div className="lowStockPage__labels">
+            <h3 className="lowStockPage__h3">Nombre del ingrediente</h3>
+            <h3 className="lowStockPage__h3">Unidad de medida</h3>
+            <h3 className="lowStockPage__h3">Stock mínimo</h3>
+            <h3 className="lowStockPage__h3">Stock actual</h3>
+            <h3 className="lowStockPage__h3">Diferencia de stock</h3>
+            <h3 className="lowStockPage__h3">Registrar compra</h3>
+          </div>
+
+          <div className="lowStockPage__rows__container">
+            {stocks.map((stock: Stock) => (
+              <div className="lowStockPage__row" key={stock.id}>
+                <h4 className="lowStockPage__h4">{stock.denomination}</h4>
+                <h4 className="lowStockPage__h4">
+                  {stock.measurementUnit.name}
+                </h4>
+                <h4 className="lowStockPage__h4">{stock.minimumStock}</h4>
+                <h4 className="lowStockPage__h4">{stock.currentStock}</h4>
+                <h4 className="lowStockPage__h4">
+                  {Math.abs(stock.currentStock - stock.minimumStock)}
+                </h4>
+                <div className="lowStockPage__icon">
+                  <button
+                    className="lowStockPage__button lowStockPage__button--icon"
+                    onClick={() => {
+                      handleRegisterPurchase(stock);
+                    }}
+                  >
+                    <FaPlus />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </>
-    ) : (
-      <>
-        <NoPermissions />
-      </>
-    )
+        <ModalStockPurchase
+          stock={stock}
+          setStock={setStock}
+          isOpen={openModalStockPurchase}
+          handleClose={handleCloseModalStockPurchase}
+        ></ModalStockPurchase>
+      </div>
+    </Suspense>
   ) : (
-    <Loader />
+    <>
+      <NoPermissions />
+    </>
   );
 }

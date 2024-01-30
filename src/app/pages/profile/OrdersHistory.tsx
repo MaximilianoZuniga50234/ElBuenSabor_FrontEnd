@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
 import { getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
+import Loader from "../../components/loader/Loader";
 import "./ordersHistory.css";
-import ModalOrderDetails from "../../components/modalOrderDetails/ModalOrderDetails";
-import { useAuth0 } from "@auth0/auth0-react";
+
+const ModalOrderDetails = lazy(
+  () => import("../../components/modalOrderDetails/ModalOrderDetails")
+);
 
 export default function OrdersHistory() {
   const { user } = useCurrentUser();
@@ -86,44 +90,28 @@ export default function OrdersHistory() {
   }, [user, orders]);
 
   return (
-    <div className="ordersHistory__container">
-      <div className="ordersHistory__table">
-        <div className="ordersHistory__header">
-          <div className="ordersHistory__title">
-            <h3 className="ordersHistory__h3">
-              {isAuthenticated
-                ? isLoaded &&
-                  (filterOrders === undefined ||
-                  (filterOrders && filterOrders.length === 0)
-                    ? "No hay órdenes"
-                    : "Historial de órdenes")
-                : "Inicia sesión para ver tu historial de órdenes"}
-            </h3>
+    <Suspense fallback={<Loader />}>
+      <div className="ordersHistory__container">
+        <div className="ordersHistory__table">
+          <div className="ordersHistory__header">
+            <div className="ordersHistory__title">
+              <h3 className="ordersHistory__h3">
+                {isAuthenticated
+                  ? isLoaded &&
+                    (filterOrders === undefined ||
+                    (filterOrders && filterOrders.length === 0)
+                      ? "No hay órdenes"
+                      : "Historial de órdenes")
+                  : "Inicia sesión para ver tu historial de órdenes"}
+              </h3>
+            </div>
           </div>
-        </div>
 
-        <div
-          className={`ordersHistory__labels ${
-            filterOrders?.length && filterOrders.length > 0 ? "" : "hide"
-          }`}
-        >
-          <span className="ordersHistory__span">
-            <b>N° de pedido</b>
-          </span>
-          <span className="ordersHistory__span">
-            <b>Fecha</b>
-          </span>
-          <span className="ordersHistory__span">
-            <b>Total </b>
-          </span>
-        </div>
-
-        <div
-          className={`ordersHistory__cards__container ${
-            filterOrders?.length && filterOrders.length > 0 ? "" : "hide"
-          }`}
-        >
-          <div className="ordersHistory__card__labels">
+          <div
+            className={`ordersHistory__labels ${
+              filterOrders?.length && filterOrders.length > 0 ? "" : "hide"
+            }`}
+          >
             <span className="ordersHistory__span">
               <b>N° de pedido</b>
             </span>
@@ -135,34 +123,52 @@ export default function OrdersHistory() {
             </span>
           </div>
 
-          {filterOrders?.map((order) => (
-            <div className="ordersHistory__card" key={order.id}>
-              <div className="ordersHistory__card__info">
-                <span className="ordersHistory__span">{order.number}</span>
-                {getDate(order)}
-                <span className="ordersHistory__span">${order.total}</span>
-              </div>
-              <div className="ordersHistory__card__buttons">
-                <button
-                  className="ordersHistory__button"
-                  onClick={() => {
-                    handleOpen(order);
-                  }}
-                >
-                  Detalles
-                </button>
-                <button className="ordersHistory__button">Factura</button>
-              </div>
+          <div
+            className={`ordersHistory__cards__container ${
+              filterOrders?.length && filterOrders.length > 0 ? "" : "hide"
+            }`}
+          >
+            <div className="ordersHistory__card__labels">
+              <span className="ordersHistory__span">
+                <b>N° de pedido</b>
+              </span>
+              <span className="ordersHistory__span">
+                <b>Fecha</b>
+              </span>
+              <span className="ordersHistory__span">
+                <b>Total </b>
+              </span>
             </div>
-          ))}
 
-          <ModalOrderDetails
-            open={open}
-            setOpen={setOpen}
-            order={order}
-          ></ModalOrderDetails>
+            {filterOrders?.map((order) => (
+              <div className="ordersHistory__card" key={order.id}>
+                <div className="ordersHistory__card__info">
+                  <span className="ordersHistory__span">{order.number}</span>
+                  {getDate(order)}
+                  <span className="ordersHistory__span">${order.total}</span>
+                </div>
+                <div className="ordersHistory__card__buttons">
+                  <button
+                    className="ordersHistory__button"
+                    onClick={() => {
+                      handleOpen(order);
+                    }}
+                  >
+                    Detalles
+                  </button>
+                  <button className="ordersHistory__button">Factura</button>
+                </div>
+              </div>
+            ))}
+
+            <ModalOrderDetails
+              open={open}
+              setOpen={setOpen}
+              order={order}
+            ></ModalOrderDetails>
+          </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
