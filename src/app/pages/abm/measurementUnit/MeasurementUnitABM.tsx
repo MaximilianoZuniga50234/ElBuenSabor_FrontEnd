@@ -1,18 +1,21 @@
-import "./measurementUnitABM.css";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { FaPencilAlt } from "react-icons/fa";
-import { useEffect, useState } from "react";
 import { Modal, Fade, Box } from "@mui/material";
+import { toast, Toaster } from "sonner";
 import {
   addMeasurementUnit,
   getAllMeasurementUnit,
   updateMeasurementUnit,
 } from "../../../functions/MeasurementUnitAPI";
-import { useAuth0 } from "@auth0/auth0-react";
-import { toast, Toaster } from "sonner";
 import { MeasurementUnit } from "../../../interfaces/MeasurementUnit";
 import { useStore as useUser } from "../../../store/CurrentUserStore";
-import NoPermissions from "../../../components/noPermissions/NoPermissions";
 import Loader from "../../../components/loader/Loader";
+import "./measurementUnitABM.css";
+
+const NoPermissions = lazy(
+  () => import("../../../components/noPermissions/NoPermissions")
+);
 
 export default function MeasurementUnitABM() {
   const [measurementUnits, setMeasurementUnits] = useState<MeasurementUnit[]>(
@@ -103,142 +106,133 @@ export default function MeasurementUnitABM() {
     }
   };
 
-  return user?.role ? (
-    user.role === "Administrador" || user.role === "Cocinero" ? (
-      <>
-        <div className="measurementUnitABM__container">
-          <div className="measurementUnitABM__table">
-            <div className="measurementUnitABM__header">
-              <div className="measurementUnitABM__title">
-                <h1 className="measurementUnitABM__h1">Unidades de medida</h1>
-              </div>
-
-              <div className="measurementUnitABM__button__container">
-                <button
-                  className="measurementUnitABM__button"
-                  onClick={() => handleAdd()}
-                >
-                  Añadir nueva medida
-                </button>
-              </div>
+  return user?.role === "Administrador" || user?.role === "Cocinero" ? (
+    <Suspense fallback={<Loader />}>
+      <div className="measurementUnitABM__container">
+        <div className="measurementUnitABM__table">
+          <div className="measurementUnitABM__header">
+            <div className="measurementUnitABM__title">
+              <h1 className="measurementUnitABM__h1">Unidades de medida</h1>
             </div>
 
-            <div className="measurementUnitABM__labels">
-              <h3 className="measurementUnitABM__h3">Id</h3>
-              <h3 className="measurementUnitABM__h3">
-                Nombre de la unidad de medida
-              </h3>
-              <h3 className="measurementUnitABM__h3">Estado</h3>
-              <h3 className="measurementUnitABM__h3">Modificar</h3>
-            </div>
-
-            <div className="measurementUnitABM__rows__container">
-              {measurementUnits.map((measurementUnit: MeasurementUnit) => (
-                <div
-                  className="measurementUnitABM__row"
-                  key={measurementUnit.id}
-                >
-                  <h4 className="measurementUnitABM__h4">
-                    {measurementUnit.id}
-                  </h4>
-                  <h4 className="measurementUnitABM__h4">
-                    {measurementUnit.name}
-                  </h4>
-                  <h4 className="measurementUnitABM__h4">
-                    {measurementUnit.active === true ? "De alta" : "De baja"}
-                  </h4>
-                  <div className="measurementUnitABM__icon">
-                    <button
-                      className="measurementUnitABM__button measurementUnitABM__button--icon"
-                      onClick={() => handleModify(measurementUnit)}
-                    >
-                      <FaPencilAlt />
-                    </button>
-                  </div>
-                </div>
-              ))}
+            <div className="measurementUnitABM__button__container">
+              <button
+                className="measurementUnitABM__button"
+                onClick={() => handleAdd()}
+              >
+                Añadir nueva medida
+              </button>
             </div>
           </div>
 
-          <Toaster position="top-center" richColors visibleToasts={1} />
-          <Modal
-            open={open}
-            onClose={handleClose}
-            slotProps={{
-              backdrop: {
-                timeout: 300,
-              },
-            }}
-            disableScrollLock={true}
-          >
-            <Fade in={open}>
-              <Box className="measurementUnitABM__modal__box">
-                <h3 className="measurementUnitABM__modal__h3">
-                  {isNew ? "Añadir nueva" : "Modificar"} unidad de medida
-                </h3>
+          <div className="measurementUnitABM__labels">
+            <h3 className="measurementUnitABM__h3">Id</h3>
+            <h3 className="measurementUnitABM__h3">
+              Nombre de la unidad de medida
+            </h3>
+            <h3 className="measurementUnitABM__h3">Estado</h3>
+            <h3 className="measurementUnitABM__h3">Modificar</h3>
+          </div>
 
-                <div className="measurementUnitABM__modal__name">
-                  <label htmlFor="measurementUnitABM__modal__input">
-                    Nombre de la unidad de medida
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Ingrese el nombre"
-                    className="measurementUnitABM__modal__input"
-                    defaultValue={!isNew ? measurementUnit?.name : ""}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="measurementUnitABM__modal__state">
-                  <label htmlFor="measurementUnitABM__modal__select">
-                    Estado de la unidad de medida
-                  </label>
-                  <select
-                    className="measurementUnitABM__modal__select"
-                    defaultValue={
-                      measurementUnit?.active === true ? "De alta" : "De baja"
-                    }
-                    onChange={handleChangeOption}
-                  >
-                    <option className="measurementUnitABM__modal__option">
-                      De alta
-                    </option>
-                    <option className="measurementUnitABM__modal__option">
-                      De baja
-                    </option>
-                  </select>
-                </div>
-
-                <div className="measurementUnitABM__modal__buttons">
+          <div className="measurementUnitABM__rows__container">
+            {measurementUnits.map((measurementUnit: MeasurementUnit) => (
+              <div className="measurementUnitABM__row" key={measurementUnit.id}>
+                <h4 className="measurementUnitABM__h4">{measurementUnit.id}</h4>
+                <h4 className="measurementUnitABM__h4">
+                  {measurementUnit.name}
+                </h4>
+                <h4 className="measurementUnitABM__h4">
+                  {measurementUnit.active === true ? "De alta" : "De baja"}
+                </h4>
+                <div className="measurementUnitABM__icon">
                   <button
-                    className="measurementUnitABM__modal__button"
-                    onClick={handleClose}
+                    className="measurementUnitABM__button measurementUnitABM__button--icon"
+                    onClick={() => handleModify(measurementUnit)}
                   >
-                    Cancelar
-                  </button>
-                  <button
-                    className="measurementUnitABM__modal__button"
-                    onClick={function () {
-                      measurementUnit?.name === ""
-                        ? toast.error("El nombre no puede estar vacío.")
-                        : handleConfirm();
-                    }}
-                  >
-                    Confirmar
+                    <FaPencilAlt />
                   </button>
                 </div>
-              </Box>
-            </Fade>
-          </Modal>
+              </div>
+            ))}
+          </div>
         </div>
-      </>
-    ) : (
-      <>
-        <NoPermissions />
-      </>
-    )
+
+        <Toaster position="top-center" richColors visibleToasts={1} />
+        <Modal
+          open={open}
+          onClose={handleClose}
+          slotProps={{
+            backdrop: {
+              timeout: 300,
+            },
+          }}
+          disableScrollLock={true}
+        >
+          <Fade in={open}>
+            <Box className="measurementUnitABM__modal__box">
+              <h3 className="measurementUnitABM__modal__h3">
+                {isNew ? "Añadir nueva" : "Modificar"} unidad de medida
+              </h3>
+
+              <div className="measurementUnitABM__modal__name">
+                <label htmlFor="measurementUnitABM__modal__input">
+                  Nombre de la unidad de medida
+                </label>
+                <input
+                  type="text"
+                  placeholder="Ingrese el nombre"
+                  className="measurementUnitABM__modal__input"
+                  defaultValue={!isNew ? measurementUnit?.name : ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="measurementUnitABM__modal__state">
+                <label htmlFor="measurementUnitABM__modal__select">
+                  Estado de la unidad de medida
+                </label>
+                <select
+                  className="measurementUnitABM__modal__select"
+                  defaultValue={
+                    measurementUnit?.active === true ? "De alta" : "De baja"
+                  }
+                  onChange={handleChangeOption}
+                >
+                  <option className="measurementUnitABM__modal__option">
+                    De alta
+                  </option>
+                  <option className="measurementUnitABM__modal__option">
+                    De baja
+                  </option>
+                </select>
+              </div>
+
+              <div className="measurementUnitABM__modal__buttons">
+                <button
+                  className="measurementUnitABM__modal__button"
+                  onClick={handleClose}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="measurementUnitABM__modal__button"
+                  onClick={function () {
+                    measurementUnit?.name === ""
+                      ? toast.error("El nombre no puede estar vacío.")
+                      : handleConfirm();
+                  }}
+                >
+                  Confirmar
+                </button>
+              </div>
+            </Box>
+          </Fade>
+        </Modal>
+      </div>
+    </Suspense>
   ) : (
-    <Loader />
+    <>
+      <NoPermissions />
+    </>
   );
 }

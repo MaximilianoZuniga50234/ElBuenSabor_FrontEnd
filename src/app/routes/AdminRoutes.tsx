@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
+import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 import Employees from "../pages/employees/Employees";
 import Customers from "../pages/customers/Customers";
-import { AuthenticationGuard } from "../components/auth0/AuthenticationGuard";
 
 const AdminRoutes = () => {
   return (

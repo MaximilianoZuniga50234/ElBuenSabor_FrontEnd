@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Fade, Modal } from "@mui/material";
@@ -19,8 +19,12 @@ import {
 import { getAllAddress } from "../../functions/AddressAPI";
 import { getAllPerson } from "../../functions/PersonAPI";
 import { updateStock } from "../../functions/StockAPI";
-import ModalOrderDetails from "../../components/modalOrderDetails/ModalOrderDetails";
+import Loader from "../../components/loader/Loader";
 import "./cart.css";
+
+const ModalOrderDetails = lazy(
+  () => import("../../components/modalOrderDetails/ModalOrderDetails")
+);
 
 const Cart = () => {
   const { cartProducts, remove, clear, removeOne, addOne } = useStore();
@@ -297,7 +301,7 @@ const Cart = () => {
   };
 
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       <div className="cart_main_container">
         <h2>Carrito de compras</h2>
         <div className="cart_back_amount">
@@ -426,7 +430,7 @@ const Cart = () => {
         isOrderFromCart={true}
         setConfirmPurchase={setConfirmPurchase}
       />
-    </>
+    </Suspense>
   );
 };
 

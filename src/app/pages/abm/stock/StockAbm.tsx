@@ -1,13 +1,20 @@
+import { useState, useEffect, Suspense, lazy } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Stock } from "../../../interfaces/Stock";
-import "./stockAbm.css";
-import { useState, useEffect } from "react";
 import { getAllStock } from "../../../functions/StockAPI";
-import ModalStock from "../../../components/modal stock/ModalStock";
-import ModalStockPurchase from "../../../components/modal stock/ModalStockPurchase";
 import { useStore as useUser } from "../../../store/CurrentUserStore";
-import NoPermissions from "../../../components/noPermissions/NoPermissions";
 import Loader from "../../../components/loader/Loader";
+import "./stockAbm.css";
+
+const NoPermissions = lazy(
+  () => import("../../../components/noPermissions/NoPermissions")
+);
+const ModalStock = lazy(
+  () => import("../../../components/modalStock/ModalStock")
+);
+const ModalStockPurchase = lazy(
+  () => import("../../../components/modalStock/ModalStockPurchase")
+);
 
 export default function StockAbm() {
   const { user } = useUser();
@@ -62,93 +69,89 @@ export default function StockAbm() {
     handleOpenModalStockPurchase();
   };
 
-  return user?.role ? (
-    user.role === "Administrador" || user.role === "Cocinero" ? (
-      <>
-        <div className="stockAbm__container">
-          <div className="stockAbm__table">
-            <div className="stockAbm__header">
-              <div className="stockAbm__title">
-                <h1 className="stockAbm__h1">Ingredientes</h1>
-              </div>
-
-              <div className="stockAbm__buttons__container">
-                <button
-                  className="stockAbm__button stockAbm__button--header"
-                  onClick={handleRegisterPurchase}
-                >
-                  Registrar compra
-                </button>
-
-                <button
-                  className="stockAbm__button stockAbm__button--header"
-                  onClick={handleAdd}
-                >
-                  Añadir nuevo ingrediente
-                </button>
-              </div>
+  return user?.role === "Administrador" || user?.role === "Cocinero" ? (
+    <Suspense fallback={<Loader />}>
+      <div className="stockAbm__container">
+        <div className="stockAbm__table">
+          <div className="stockAbm__header">
+            <div className="stockAbm__title">
+              <h1 className="stockAbm__h1">Ingredientes</h1>
             </div>
 
-            <div className="stockAbm__labels">
-              <h3 className="stockAbm__h3">Nombre</h3>
-              <h3 className="stockAbm__h3">Rubro</h3>
-              <h3 className="stockAbm__h3">Costo</h3>
-              <h3 className="stockAbm__h3">Stock mínimo</h3>
-              <h3 className="stockAbm__h3">Stock actual</h3>
-              <h3 className="stockAbm__h3">Unidad de medida</h3>
-              <h3 className="stockAbm__h3">Estado</h3>
-              <h3 className="stockAbm__h3">Modificar</h3>
-            </div>
+            <div className="stockAbm__buttons__container">
+              <button
+                className="stockAbm__button stockAbm__button--header"
+                onClick={handleRegisterPurchase}
+              >
+                Registrar compra
+              </button>
 
-            <div className="stockAbm__rows__container">
-              {stocks.map((stock: Stock) => (
-                <div className="stockAbm__row" key={stock.id}>
-                  <h4 className="stockAbm__h4">{stock.denomination}</h4>
-                  <h4 className="stockAbm__h4">{stock.itemStock?.name}</h4>
-                  <h4 className="stockAbm__h4">{stock.purchasePrice}</h4>
-                  <h4 className="stockAbm__h4">{stock.minimumStock}</h4>
-                  <h4 className="stockAbm__h4">{stock.currentStock}</h4>
-                  <h4 className="stockAbm__h4">{stock.measurementUnit.name}</h4>
-                  <h4 className="stockAbm__h4">
-                    {stock.active === true ? "De alta" : "De baja"}
-                  </h4>
-                  <div className="stockAbm__icon">
-                    <button
-                      className="stockAbm__button stockAbm__button--icon"
-                      onClick={() => {
-                        handleModify(stock);
-                      }}
-                    >
-                      <FaPencilAlt />
-                    </button>
-                  </div>
-                  <div className="stockAbm__icon"></div>
-                </div>
-              ))}
+              <button
+                className="stockAbm__button stockAbm__button--header"
+                onClick={handleAdd}
+              >
+                Añadir nuevo ingrediente
+              </button>
             </div>
           </div>
-          <ModalStock
-            stock={stock}
-            setStock={setStock}
-            isOpen={openModalStock}
-            handleClose={handleCloseModalStock}
-            isNew={isNew}
-          ></ModalStock>
 
-          <ModalStockPurchase
-            stock={stock}
-            setStock={setStock}
-            isOpen={openModalStockPurchase}
-            handleClose={handleCloseModalStockPurchase}
-          ></ModalStockPurchase>
+          <div className="stockAbm__labels">
+            <h3 className="stockAbm__h3">Nombre</h3>
+            <h3 className="stockAbm__h3">Rubro</h3>
+            <h3 className="stockAbm__h3">Costo</h3>
+            <h3 className="stockAbm__h3">Stock mínimo</h3>
+            <h3 className="stockAbm__h3">Stock actual</h3>
+            <h3 className="stockAbm__h3">Unidad de medida</h3>
+            <h3 className="stockAbm__h3">Estado</h3>
+            <h3 className="stockAbm__h3">Modificar</h3>
+          </div>
+
+          <div className="stockAbm__rows__container">
+            {stocks.map((stock: Stock) => (
+              <div className="stockAbm__row" key={stock.id}>
+                <h4 className="stockAbm__h4">{stock.denomination}</h4>
+                <h4 className="stockAbm__h4">{stock.itemStock?.name}</h4>
+                <h4 className="stockAbm__h4">{stock.purchasePrice}</h4>
+                <h4 className="stockAbm__h4">{stock.minimumStock}</h4>
+                <h4 className="stockAbm__h4">{stock.currentStock}</h4>
+                <h4 className="stockAbm__h4">{stock.measurementUnit.name}</h4>
+                <h4 className="stockAbm__h4">
+                  {stock.active === true ? "De alta" : "De baja"}
+                </h4>
+                <div className="stockAbm__icon">
+                  <button
+                    className="stockAbm__button stockAbm__button--icon"
+                    onClick={() => {
+                      handleModify(stock);
+                    }}
+                  >
+                    <FaPencilAlt />
+                  </button>
+                </div>
+                <div className="stockAbm__icon"></div>
+              </div>
+            ))}
+          </div>
         </div>
-      </>
-    ) : (
-      <>
-        <NoPermissions />
-      </>
-    )
+        <ModalStock
+          stock={stock}
+          setStock={setStock}
+          isOpen={openModalStock}
+          handleClose={handleCloseModalStock}
+          isNew={isNew}
+        ></ModalStock>
+
+        <ModalStockPurchase
+          stock={stock}
+          setStock={setStock}
+          isOpen={openModalStockPurchase}
+          handleClose={handleCloseModalStockPurchase}
+        ></ModalStockPurchase>
+      </div>
+    </Suspense>
   ) : (
-    <Loader />
+    <>
+      <NoPermissions />
+    </>
   );
 }

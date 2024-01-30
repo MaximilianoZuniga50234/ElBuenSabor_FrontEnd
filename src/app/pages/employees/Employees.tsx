@@ -1,14 +1,19 @@
+import { useState, useEffect, lazy, Suspense } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
-import Table from "../../components/employees/EmployeesTable";
-import { useState, useEffect } from "react";
-import "./employees.css";
 import { UserAuth0Get } from "../../interfaces/UserAuth0";
-import ModalEmployeesAbm from "../../components/employees/ModalEmployeesAbm";
 import { useStore as useUsers } from "../../store/UsersStore";
 import { useStore as useUser } from "../../store/CurrentUserStore";
-import NoPermissions from "../../components/noPermissions/NoPermissions";
 import Loader from "../../components/loader/Loader";
+import "./employees.css";
+
+const ModalEmployeesAbm = lazy(
+  () => import("../../components/employees/ModalEmployeesAbm")
+);
+const Table = lazy(() => import("../../components/customers/CustomersTable"));
+const NoPermissions = lazy(
+  () => import("../../components/noPermissions/NoPermissions")
+);
 
 const Employees = () => {
   const [employees, setEmployees] = useState<UserAuth0Get[]>([]);
@@ -64,35 +69,35 @@ const Employees = () => {
     setEmployees(employees);
   }, [users]);
 
-  return user?.role ? (
-    user.role === "Administrador" ? (
-      <main className="main_employees_list">
-        <div className="title_container">
-          <h2>Empleados</h2>
-          <form>
-            <input type="text" placeholder="Buscar por nombre y/o apellido" />
-            <button type="submit">
-              <FaSearch />
+  return (
+    <Suspense fallback={<Loader />}>
+      {user?.role === "Administrador" ? (
+        <main className="main_employees_list">
+          <div className="title_container">
+            <h2>Empleados</h2>
+            <form>
+              <input type="text" placeholder="Buscar por nombre y/o apellido" />
+              <button type="submit">
+                <FaSearch />
+              </button>
+            </form>
+            <button onClick={handleOpenModal}>
+              <FaPlus />
+              AÑADIR
             </button>
-          </form>
-          <button onClick={handleOpenModal}>
-            <FaPlus />
-            AÑADIR
-          </button>
-        </div>
-        <Table datos={employees} />
-        <ModalEmployeesAbm
-          employee={employee}
-          isNew={isNew}
-          open={open}
-          setOpen={setOpen}
-        />
-      </main>
-    ) : (
-      <NoPermissions />
-    )
-  ) : (
-    <Loader />
+          </div>
+          <Table datos={employees} />
+          <ModalEmployeesAbm
+            employee={employee}
+            isNew={isNew}
+            open={open}
+            setOpen={setOpen}
+          />
+        </main>
+      ) : (
+        <NoPermissions />
+      )}
+    </Suspense>
   );
 };
 

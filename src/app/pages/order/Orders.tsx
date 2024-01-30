@@ -1,13 +1,16 @@
+import { MouseEvent, useState, useEffect, lazy, Suspense } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { FaChevronDown, FaChevronUp, FaSearch } from "react-icons/fa";
-import Table from "../../components/orders/OrdersTable";
-import { MouseEvent, useState, useEffect } from "react";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
-import "./orders.css";
 import { useStore as useUser } from "../../store/CurrentUserStore";
-import { useAuth0 } from "@auth0/auth0-react";
-import NoPermissions from "../../components/noPermissions/NoPermissions";
 import Loader from "../../components/loader/Loader";
+import "./orders.css";
+
+const NoPermissions = lazy(
+  () => import("../../components/noPermissions/NoPermissions")
+);
+const Table = lazy(() => import("../../components/orders/OrdersTable"));
 
 const Orders = () => {
   const [active, setActive] = useState<boolean>(false);
@@ -76,108 +79,98 @@ const Orders = () => {
 
   return (
     isAuthenticated && (
-      <>
-        {user?.role ? (
-          user?.role != "Cliente" ? (
-            <main className="main_employees_list">
-              <div className="order_title_container">
-                <h2>PEDIDOS</h2>
-                <div
-                  className={`filters_${
-                    user?.role === "Cajero" ? "visible" : "hidden"
-                  } `}
-                >
-                  <div>
-                    <span className={`${active && "active"}`}>
-                      {filter === "" ? `Filtrar por estado...` : filter}
-                    </span>
-                    <button
-                      className={`${active && "active"}`}
-                      onClick={handleDrop}
-                    >
-                      {active ? <FaChevronUp /> : <FaChevronDown />}
-                    </button>
-                  </div>
-                  <div className={`filter_order_list ${active && "active"}`}>
-                    <ul>
-                      <li
-                        className={`${filter === "Sin filtro" ? "active" : ""}`}
-                        onClick={handleFilter}
-                      >
-                        Sin filtro
-                      </li>
-                      <li
-                        className={`${
-                          filter === "A confirmar" ? "active" : ""
-                        }`}
-                        onClick={handleFilter}
-                      >
-                        A confirmar
-                      </li>
-                      <li
-                        className={`${filter === "Facturado" ? "active" : ""}`}
-                        onClick={handleFilter}
-                      >
-                        Facturado
-                      </li>
-                      <li
-                        className={`${filter === "A cocina" ? "active" : ""}`}
-                        onClick={handleFilter}
-                      >
-                        A cocina
-                      </li>
-                      <li
-                        className={`${filter === "Listo" ? "active" : ""}`}
-                        onClick={handleFilter}
-                      >
-                        Listo
-                      </li>
-                      <li
-                        className={`${
-                          filter === "En delivery" ? "active" : ""
-                        }`}
-                        onClick={handleFilter}
-                      >
-                        En delivery
-                      </li>
-                      <li
-                        className={`${filter === "Entregado" ? "active" : ""}`}
-                        onClick={handleFilter}
-                      >
-                        Entregado
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="idSearcher__container">
-                  <input
-                    type="number"
-                    placeholder="Buscar por ID de cliente"
-                    onChange={(e) => {
-                      setIdFilter(Number(e.target.value));
-                    }}
-                  />
-                  <button onClick={handleSearch}>
-                    <FaSearch />
+      <Suspense fallback={<Loader />}>
+        {user?.role != "Cliente" ? (
+          <main className="main_employees_list">
+            <div className="order_title_container">
+              <h2>PEDIDOS</h2>
+              <div
+                className={`filters_${
+                  user?.role === "Cajero" ? "visible" : "hidden"
+                } `}
+              >
+                <div>
+                  <span className={`${active && "active"}`}>
+                    {filter === "" ? `Filtrar por estado...` : filter}
+                  </span>
+                  <button
+                    className={`${active && "active"}`}
+                    onClick={handleDrop}
+                  >
+                    {active ? <FaChevronUp /> : <FaChevronDown />}
                   </button>
                 </div>
+                <div className={`filter_order_list ${active && "active"}`}>
+                  <ul>
+                    <li
+                      className={`${filter === "Sin filtro" ? "active" : ""}`}
+                      onClick={handleFilter}
+                    >
+                      Sin filtro
+                    </li>
+                    <li
+                      className={`${filter === "A confirmar" ? "active" : ""}`}
+                      onClick={handleFilter}
+                    >
+                      A confirmar
+                    </li>
+                    <li
+                      className={`${filter === "Facturado" ? "active" : ""}`}
+                      onClick={handleFilter}
+                    >
+                      Facturado
+                    </li>
+                    <li
+                      className={`${filter === "A cocina" ? "active" : ""}`}
+                      onClick={handleFilter}
+                    >
+                      A cocina
+                    </li>
+                    <li
+                      className={`${filter === "Listo" ? "active" : ""}`}
+                      onClick={handleFilter}
+                    >
+                      Listo
+                    </li>
+                    <li
+                      className={`${filter === "En delivery" ? "active" : ""}`}
+                      onClick={handleFilter}
+                    >
+                      En delivery
+                    </li>
+                    <li
+                      className={`${filter === "Entregado" ? "active" : ""}`}
+                      onClick={handleFilter}
+                    >
+                      Entregado
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <Table
-                datos={filterOrders}
-                setChangeOrderStatus={setChangeOrderStatus}
-              />
-            </main>
-          ) : (
-            <>
-              <NoPermissions />
-            </>
-          )
+              <div className="idSearcher__container">
+                <input
+                  type="number"
+                  placeholder="Buscar por ID de cliente"
+                  onChange={(e) => {
+                    setIdFilter(Number(e.target.value));
+                  }}
+                />
+                <button onClick={handleSearch}>
+                  <FaSearch />
+                </button>
+              </div>
+            </div>
+            <Table
+              datos={filterOrders}
+              setChangeOrderStatus={setChangeOrderStatus}
+            />
+          </main>
         ) : (
           <>
-            <Loader />
+            <NoPermissions />
           </>
         )}
-      </>
+      </Suspense>
     )
   );
 };

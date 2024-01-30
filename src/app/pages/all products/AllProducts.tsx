@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Product } from "../../interfaces/Product";
 import { Filter } from "../../interfaces/Filter";
 import { getAllProduct } from "../../functions/ProductAPI";
 import { useStore as useFilter } from "../../store/FilterStore";
-import AllProductsCard from "../../components/all_products/AllProductsCard";
-import AllProductsSideBar from "../../components/all_products/AllProductsSideBar";
-import AllProductsSideBarMobile from "../../components/all_products/AllProductsSideBarMobile";
+import Loader from '../../components/loader/Loader'
 import "./allproducts.css";
+
+const AllProductsCard = lazy(()=> import("../../components/all_products/AllProductsCard"))
+const AllProductsSideBar = lazy(()=> import("../../components/all_products/AllProductsSideBar"))
+const AllProductsSideBarMobile = lazy(()=> import("../../components/all_products/AllProductsSideBarMobile"))
 
 const INITIAL_STATE_FILTER = {
   isOpen: false,
@@ -80,29 +82,31 @@ export default function AllProducts() {
   }, [products]);
 
   return (
-    <div className="allProducts__container">
-      {isMobile && (
-        <AllProductsSideBarMobile actions={filterActions} filter={filter} />
-      )}
-      {isDesktop && (
-        <AllProductsSideBar actions={filterActions} filter={filter} />
-      )}
-      <div className="allProducts__main">
-        <div className="allProducts__main__title">
-          {!isSearching ? (
-            <h1>Todos los productos</h1>
-          ) : !noResults ? (
-            <h1>Resultados de la búsqueda</h1>
-          ) : (
-            <h1>No hay resultados para la búsqueda</h1>
-          )}
-        </div>
-        <div className="allProducts__main__container">
-          {products.map((p) => {
-            return <AllProductsCard product={p} key={p.id} />;
-          })}
+    <Suspense fallback={<Loader />}>
+      <div className="allProducts__container">
+        {isMobile && (
+          <AllProductsSideBarMobile actions={filterActions} filter={filter} />
+        )}
+        {isDesktop && (
+          <AllProductsSideBar actions={filterActions} filter={filter} />
+        )}
+        <div className="allProducts__main">
+          <div className="allProducts__main__title">
+            {!isSearching ? (
+              <h1>Todos los productos</h1>
+            ) : !noResults ? (
+              <h1>Resultados de la búsqueda</h1>
+            ) : (
+              <h1>No hay resultados para la búsqueda</h1>
+            )}
+          </div>
+          <div className="allProducts__main__container">
+            {products.map((p) => {
+              return <AllProductsCard product={p} key={p.id} />;
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
