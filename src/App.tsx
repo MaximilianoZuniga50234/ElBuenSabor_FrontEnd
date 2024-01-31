@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 import { useStore as useCurrentUser } from "./app/store/CurrentUserStore";
 import { useStore as useToken } from "./app/store/UserTokenStore";
 import { useUserLogged } from "./app/hooks/useUserLogged";
@@ -53,7 +53,7 @@ function App() {
         <Router />
       </section>
       <Footer />
-      <Toaster position="top-center" richColors visibleToasts={1} />
+      <Toaster position="bottom-right" richColors visibleToasts={1} />
       <ModalEmployeeInauthorized open={open} />
     </main>
   );

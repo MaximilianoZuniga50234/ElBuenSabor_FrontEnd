@@ -139,12 +139,11 @@ export default function UserOrders() {
             ))}
           </div>
         </div>
-
         <ModalOrderDetails
           open={open}
           setOpen={setOpen}
-          order={order}
-        ></ModalOrderDetails>
+          purchaseOrder={order}
+        />
       </div>
     </Suspense>
   );

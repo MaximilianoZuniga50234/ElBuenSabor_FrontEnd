@@ -17,10 +17,57 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "sonner";
 import { useStore as useUser } from "../../store/CurrentUserStore";
 import ModalOrderDetails from "../modalOrderDetails/ModalOrderDetails";
+import { Invoice, InvoiceDetail } from "../../interfaces/Invoice";
+import { createInvoice } from "../../functions/InvoiceAPI";
 
 type Props = {
   datos: PurchaseOrder[];
   setChangeOrderStatus: Dispatch<SetStateAction<boolean>>;
+};
+
+const PURCHASE_ORDER_INITIAL_STATE = {
+  id: 0,
+  fecha: new Date(),
+  number: 0,
+  estimatedEndTime: 0,
+  shippingType: "",
+  paymentMethod: "",
+  total: 0,
+  person: {
+    id: "0",
+    name: "",
+    email: "",
+    lastName: "",
+    phoneNumber: "",
+    user_id: "",
+  },
+  address: {
+    id: 0,
+    street: "",
+    number: 0,
+    department: { id: 0, name: "" },
+    person: {
+      id: "0",
+      name: "",
+      email: "",
+      lastName: "",
+      phoneNumber: "",
+      user_id: "",
+    },
+  },
+  status: { id: 0, status: "" },
+  details: null,
+};
+
+const INVOICE_INITIAL_STATE = {
+  id: 0,
+  date: new Date(),
+  discountAmount: 0,
+  totalSale: 0,
+  totalCost: 0,
+  purchaseOrder: PURCHASE_ORDER_INITIAL_STATE,
+  // mercadoPagoData: null,
+  details: [],
 };
 
 const Table = ({ datos, setChangeOrderStatus }: Props) => {
@@ -37,39 +84,11 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
   const [allStatus, setAllStatus] = useState<Status[]>();
   const [orderStatus, setOrderStatus] = useState<string>("A confirmar");
 
-  const [purchaseOrder, setPurchaseOrder] = useState<PurchaseOrder>({
-    id: 0,
-    fecha: new Date(),
-    number: 0,
-    estimatedEndTime: 0,
-    shippingType: "",
-    paymentMethod: "",
-    total: 0,
-    person: {
-      id: "0",
-      name: "",
-      email: "",
-      lastName: "",
-      phoneNumber: "",
-      user_id: "",
-    },
-    address: {
-      id: 0,
-      street: "",
-      number: 0,
-      department: { id: 0, name: "" },
-      person: {
-        id: "0",
-        name: "",
-        email: "",
-        lastName: "",
-        phoneNumber: "",
-        user_id: "",
-      },
-    },
-    status: { id: 0, status: "" },
-    details: null,
-  });
+  const [purchaseOrder, setPurchaseOrder] = useState<PurchaseOrder>(
+    PURCHASE_ORDER_INITIAL_STATE
+  );
+
+  const [invoice, setInvoice] = useState<Invoice>(INVOICE_INITIAL_STATE);
 
   const indiceInicio = (paginaActual - 1) * 10;
   const indiceFin =
@@ -104,8 +123,57 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
       setPurchaseOrder({ ...purchaseOrder, status: newStatus });
     }
   };
+  const postInvoice = async () => {
+    try {
+      await createInvoice(invoice, token);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (invoice.details.length > 0) {
+      postInvoice();
+    }
+  }, [invoice]);
+
+  const generateInvoice = () => {
+    let totalPrice = 0;
+    if (purchaseOrder.details) {
+      const invoiceDetails: InvoiceDetail[] = purchaseOrder.details.map(
+        (detail) => {
+          totalPrice += detail.subtotal;
+          return {
+            amount: detail.amount,
+            subtotal: detail.subtotal,
+            product: detail.product,
+            stock: detail.stock,
+          } as InvoiceDetail;
+        }
+      );
+
+      setInvoice({
+        ...invoice,
+        discountAmount:
+          purchaseOrder.shippingType === "Retiro en el local"
+            ? totalPrice * 0.1
+            : 0,
+        totalCost: totalPrice,
+        totalSale: purchaseOrder.total,
+        purchaseOrder: purchaseOrder,
+        details: invoiceDetails,
+      });
+    }
+  };
 
   const handleConfirm = async () => {
+    if (
+      orderStatus === "A confirmar" &&
+      purchaseOrder.status?.status === "Facturado"
+    ) {
+      generateInvoice();
+    }
+
     if (isAuthenticated) {
       await updatePurchaseOrder(purchaseOrder, token);
       handleClose();
@@ -116,8 +184,12 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
   };
 
   const getStatus = async () => {
-    const response = await getAllState();
-    setAllStatus(response);
+    try {
+      const response = await getAllState();
+      setAllStatus(response);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -317,7 +389,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
       <ModalOrderDetails
         open={openModalOrderDetails}
         setOpen={setOpenModalOrderDetails}
-        order={purchaseOrder}
+        purchaseOrder={purchaseOrder}
       />
     </>
   );

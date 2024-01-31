@@ -425,7 +425,7 @@ const Cart = () => {
       </Modal>
       <ModalOrderDetails
         open={openModalOrderDetails}
-        order={purchaseOrder}
+        purchaseOrder={purchaseOrder}
         setOpen={setOpenModalOrderDetails}
         isOrderFromCart={true}
         setConfirmPurchase={setConfirmPurchase}
