@@ -51,10 +51,6 @@ const Orders = () => {
   }, []);
 
   useEffect(() => {
-    console.log(user?.role);
-  }, [user?.role]);
-
-  useEffect(() => {
     if (changeOrderStatus === true) {
       getAllItems();
       setChangeOrderStatus(false);

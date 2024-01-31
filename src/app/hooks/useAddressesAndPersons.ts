@@ -77,7 +77,7 @@ export function useAddressesAndPersons() {
     const newUserPost = users.map((user) => ({
       email: user.email,
       lastName: user.family_name,
-      name: user.name,
+      name: user.given_name,
       phoneNumber: user.user_metadata.phone_number.toString(),
       user_id: user.user_id,
     }));
@@ -100,7 +100,7 @@ export function useAddressesAndPersons() {
         email: user?.email ?? "",
         lastName: user?.family_name ?? "",
         name: user?.given_name ?? "",
-        phoneNumber: user?.user_metadata.phone_number.toString() ?? "",
+        phoneNumber: user?.user_metadata?.phone_number.toString() ?? "",
         user_id: user?.user_id ?? "",
       },
     }));

@@ -10,6 +10,40 @@ const ModalOrderDetails = lazy(
   () => import("../../components/modalOrderDetails/ModalOrderDetails")
 );
 
+const PURCHASE_ORDER_INITIAL_STATE = {
+  id: 0,
+  fecha: new Date(),
+  number: 0,
+  estimatedEndTime: 0,
+  shippingType: "",
+  paymentMethod: "",
+  total: 0,
+  person: {
+    id: "0",
+    name: "",
+    email: "",
+    lastName: "",
+    phoneNumber: "",
+    user_id: "",
+  },
+  address: {
+    id: 0,
+    street: "",
+    number: 0,
+    department: { id: 0, name: "" },
+    person: {
+      id: "0",
+      name: "",
+      email: "",
+      lastName: "",
+      phoneNumber: "",
+      user_id: "",
+    },
+  },
+  status: { id: 0, status: "" },
+  details: null,
+};
+
 export default function OrdersHistory() {
   const { user } = useCurrentUser();
   const { isAuthenticated } = useAuth0();
@@ -22,39 +56,10 @@ export default function OrdersHistory() {
   };
 
   const [orders, setOrders] = useState<PurchaseOrder[]>();
-  const [order, setOrder] = useState<PurchaseOrder>({
-    id: 0,
-    fecha: new Date(),
-    number: Math.floor(Math.random() * (999999 - 100000 + 1) + 100000),
-    estimatedEndTime: 0,
-    shippingType: "Retiro en el local",
-    paymentMethod: "Efectivo",
-    total: 0,
-    person: {
-      id: "0",
-      name: "",
-      email: "",
-      lastName: "",
-      phoneNumber: "",
-      user_id: "",
-    },
-    address: {
-      id: 0,
-      street: "",
-      number: 0,
-      department: { id: 0, name: "" },
-      person: {
-        id: "0",
-        name: "",
-        email: "",
-        lastName: "",
-        phoneNumber: "",
-        user_id: "",
-      },
-    },
-    status: { id: 1, status: "Por aceptar" },
-    details: null,
-  });
+  const [order, setOrder] = useState<PurchaseOrder>(
+    PURCHASE_ORDER_INITIAL_STATE
+  );
+
   const [filterOrders, setFilterOrders] = useState<PurchaseOrder[]>();
   const [open, setOpen] = useState(false);
   const handleOpen = (orderParam: PurchaseOrder) => {
@@ -156,7 +161,15 @@ export default function OrdersHistory() {
                   >
                     Detalles
                   </button>
-                  <button className="ordersHistory__button">Factura</button>
+                  {/* <PDFDownloadLink
+                    document={<InvoicePdf invoice={invoice} />}
+                    fileName={`Factura_${invoice.id}.pdf`}
+                    className="modalOrderDetails__button"
+                  >
+                    <button className="modalOrderDetails__button">
+                      Factura
+                    </button>
+                  </PDFDownloadLink> */}
                 </div>
               </div>
             ))}
@@ -164,7 +177,7 @@ export default function OrdersHistory() {
             <ModalOrderDetails
               open={open}
               setOpen={setOpen}
-              order={order}
+              purchaseOrder={order}
             ></ModalOrderDetails>
           </div>
         </div>
