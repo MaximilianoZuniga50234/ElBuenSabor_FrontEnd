@@ -4,7 +4,7 @@ import { Product } from "./Product";
 import { PurchaseOrder } from "./PurchaseOrder";
 import { Stock } from "./Stock";
 
-interface InvoiceDetail {
+export interface InvoiceDetail {
   amount: number;
   subtotal: number;
   invoice: Invoice;
@@ -14,11 +14,10 @@ interface InvoiceDetail {
 
 export interface Invoice extends Base {
   date: Date;
-  discountAmount: number;
-  paymentMethod: string;
+  discountAmount?: number;
   totalSale: number;
   totalCost: number;
   purchaseOrder: PurchaseOrder;
-  mercadoPagoData: MercadoPagoData;
+  mercadoPagoData?: MercadoPagoData;
   details: InvoiceDetail[];
 }
