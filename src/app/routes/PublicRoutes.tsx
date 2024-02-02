@@ -7,6 +7,7 @@ import AllProducts from "../pages/all products/AllProducts";
 import Cart from "../pages/cart/Cart";
 import OrdersHistory from "../pages/profile/OrdersHistory";
 import UserOrders from "../pages/profile/UserOrders";
+import InvoiceView from "../../InvoiceView";
 
 const PublicRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const PublicRoutes = () => {
         path="/orders/history"
         element={<AuthenticationGuard component={OrdersHistory} />}
       />
+      <Route path="/invoice" element={<InvoiceView />} />
     </Routes>
   );
 };

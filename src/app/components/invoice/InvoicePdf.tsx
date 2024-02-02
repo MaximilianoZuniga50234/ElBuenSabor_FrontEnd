@@ -64,7 +64,8 @@ export default function InvoicePdf({ invoice }: Props) {
 
   useEffect(() => {
     if (invoice && !date) {
-      setDate(invoice.date.toLocaleDateString());
+      const invoiceDate = new Date(invoice.date);
+      setDate(invoiceDate.toLocaleDateString());
     }
   }, [invoice, date]);
 
