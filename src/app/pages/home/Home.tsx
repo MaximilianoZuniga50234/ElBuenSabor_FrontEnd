@@ -37,6 +37,11 @@ const Home = () => {
   };
 
   useEffect(() => {
+
+    //Con esta línea forzas una redirección a la página de error con un error 500
+    //De esta forma vamos a manejar los errores...
+    //navigate("/error", {state: {error: "500", message: "Error de prueba"}});
+
     getProductsForCarrousel();
   }, []);
 
