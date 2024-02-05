@@ -1,0 +1,114 @@
+.error_page_main_container {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: var(--white);
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error_page_main_container article {
+  width: 90%;
+  height: auto;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0px 0px 8px 0px var(--black);
+  margin: 72px 0 0 0;
+  padding: 16px;
+  z-index: 12;
+  background: var(--ebony-50);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.error_page_main_container article h1 {
+  font-size: 42px;
+}
+
+.error_page_main_container article p {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.error_page_main_container a {
+  border: 0;
+  border-radius: 8px;
+  width: fit-content;
+  height: auto;
+  padding: 4px 16px 4px 16px;
+  margin: 48px 0 0 0;
+  font-size: 20px;
+  color: var(--white);
+  background: var(--ebony-950);
+  z-index: 12;
+}
+
+.error_page_main_container img {
+  position: absolute;
+  width: 400px;
+  height: 500px;
+  transform: rotate(-20deg);
+  opacity: 0.3;
+  bottom: 0;
+  right: -40px;
+  z-index: 11;
+}
+
+@media only screen and (min-width: 424px) {
+  .error_page_main_container img {
+    right: 0;
+  }
+}
+
+@media only screen and (min-width: 767px) {
+
+  .error_page_main_container article {
+    width: 80%;
+    padding: 24px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .error_page_main_container article h1 {
+    font-size: 64px;
+  }
+  
+  .error_page_main_container article p {
+    font-size: 24px;
+  }
+
+  .error_page_main_container a {
+    padding: 8px 24px 8px 24px;
+    margin: 64px 0 0 0;
+    font-size: 20px;
+  }
+
+  .error_page_main_container img {
+    width: 500px;
+    bottom: -50px;
+    right: -50px;
+  }
+}
+
+@media only screen and (min-width: 767px) {
+  .error_page_main_container article {
+    width: 75%;
+    height: 25%;
+  }
+
+  .error_page_main_container a {
+    margin: 72px 0 0 0;
+    font-size: 24px;
+  }
+
+  .error_page_main_container img {
+    width: 650px;
+    height: 600px;
+  }
+}
