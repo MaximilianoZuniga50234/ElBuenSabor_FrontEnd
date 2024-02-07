@@ -8,6 +8,7 @@ import Cart from "../pages/cart/Cart";
 import OrdersHistory from "../pages/profile/OrdersHistory";
 import UserOrders from "../pages/profile/UserOrders";
 import InvoiceView from "../../InvoiceView";
+import Pruebamp from "../pages/home/Pruebamp";
 
 const PublicRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const PublicRoutes = () => {
         element={<AuthenticationGuard component={OrdersHistory} />}
       />
       <Route path="/invoice" element={<InvoiceView />} />
+      <Route path="/mp" element={<Pruebamp />} />
     </Routes>
   );
 };
