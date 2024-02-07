@@ -13,6 +13,7 @@
     "@auth0/auth0-react": "^2.2.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mercadopago/sdk-react": "^0.0.16",
     "@mui/material": "^5.14.13",
     "@react-pdf/renderer": "^3.3.4",
     "install": "^0.13.0",
