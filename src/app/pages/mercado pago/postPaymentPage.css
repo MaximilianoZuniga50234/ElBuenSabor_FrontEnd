@@ -1,0 +1,24 @@
+.postPaymentPage__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.postPaymentPage__content {
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid var(--ebony-950);
+    background-color: var(--ebony-200);
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+    text-wrap: balance;
+}
+
+.postPaymentPage__button a {
+    color: var(--ebony-50);
+}

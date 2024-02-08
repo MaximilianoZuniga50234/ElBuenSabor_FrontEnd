@@ -2,13 +2,11 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { useState } from "react";
 import { createPreference } from "../../functions/MercadoPagoApi";
 import { useStore } from "../../store/UserTokenStore";
-import { useStore as useUser } from "../../store/CurrentUserStore";
-import { Person } from "../../interfaces/Person";
 
 export default function Pruebamp() {
   const [preferenceId, setPreferenceId] = useState("");
 
-  initMercadoPago("TEST-63df9836-0c73-46e5-b88b-460ebd265694", {
+  initMercadoPago("TEST-0f14502d-ca69-425c-8886-7d871a5d1240", {
     locale: "es-AR",
   });
 
