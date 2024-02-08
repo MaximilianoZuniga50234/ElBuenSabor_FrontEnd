@@ -118,14 +118,18 @@ const Cart = () => {
     if (cartProducts.length > 0) {
       let time = 0;
       let price = 0;
-      cartProducts.map(async (cartProduct) => {
-        time =
-          cartProduct.product.estimatedTimeKitchen > time
-            ? cartProduct.product.estimatedTimeKitchen
-            : time;
-        price = price + cartProduct.product.salePrice * cartProduct.amount;
-      });
-      setPriceAndTime({ totalPrice: price, highestTime: time });
+      if (cartProducts.length > 0) {
+        cartProducts.map(async (cartProduct) => {
+          time =
+            cartProduct.product.estimatedTimeKitchen > time
+              ? cartProduct.product.estimatedTimeKitchen
+              : time;
+          price = price + cartProduct.product.salePrice * cartProduct.amount;
+        });
+        setPriceAndTime({ totalPrice: price, highestTime: time });
+      }
+    } else {
+      setPriceAndTime({ totalPrice: 0, highestTime: 0 });
     }
   }, [cartProducts]);
 
@@ -365,6 +369,11 @@ const Cart = () => {
             </div>
           ))}
         </div>
+
+        <h1>
+          {priceAndTime.totalPrice != 0 && `Total: ${priceAndTime.totalPrice}`}
+        </h1>
+
         <div className="cart_buttons_container">
           <button onClick={() => clear()}>Limpiar</button>
           {cartProducts.length > 0 && (
