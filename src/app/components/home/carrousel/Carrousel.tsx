@@ -4,7 +4,7 @@ import AliceCarousel from "react-alice-carousel";
 import Modal from "../../../components/modal/Modal";
 import { Product } from "../../../interfaces/Product";
 import { useStore as useCart } from "../../../store/CartStore";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaClock } from "react-icons/fa6";
 import "react-alice-carousel/lib/alice-carousel.css";
 import "./carrousel.css";
 
@@ -30,23 +30,42 @@ const Carrousel = ({ products }: Props) => {
   const buttonClick = (product: Product, event?: MouseEvent | undefined) => {
     event?.stopPropagation();
 
-    let insufficientStock = false;
-    for (const productDetail of product.details) {
-      if (productDetail.stock.currentStock - productDetail.amount < 0) {
-        insufficientStock = true;
+    const currentDate = new Date();
+
+    if (
+      (currentDate.getDay() > 0 &&
+        currentDate.getDay() < 6 &&
+        currentDate.getHours() >= 20) ||
+      ((currentDate.getDay() === 0 || currentDate.getDay() === 6) &&
+        (currentDate.getHours() >= 20 ||
+          (currentDate.getHours() >= 11 && currentDate.getHours() < 15)))
+    ) {
+      let insufficientStock = false;
+      for (const productDetail of product.details) {
+        if (productDetail.stock.currentStock - productDetail.amount < 0) {
+          insufficientStock = true;
+        }
+
+        if (insufficientStock) {
+          toast.error(
+            `Lo sentimos, no hay suficiente stock para preparar el producto "${product.denomination}".`
+          );
+          break;
+        }
       }
 
-      if (insufficientStock) {
-        toast.error(
-          `Lo sentimos, no hay suficiente stock para preparar el producto "${product.denomination}".`
-        );
-        break;
+      if (!insufficientStock) {
+        toast.success("Producto agregado al carrito");
+        add(product);
       }
-    }
-
-    if (!insufficientStock) {
-      toast.success("Producto agregado al carrito");
-      add(product);
+    } else {
+      toast.error(
+        "Lo sentimos, no puedes agregar un producto al carrito fuera de nuestro horario de atención. El mismo es de 20:00 hs. a 00:00 hs. de lunes a viernes y también de 11:00 hs. a 15:00 hs. los sábados y domingos.",
+        {
+          duration: 10000,
+          icon: <FaClock />,
+        }
+      );
     }
   };
 
