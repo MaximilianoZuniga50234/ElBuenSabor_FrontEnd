@@ -8,7 +8,11 @@ import Cart from "../pages/cart/Cart";
 import OrdersHistory from "../pages/profile/OrdersHistory";
 import UserOrders from "../pages/profile/UserOrders";
 import InvoiceView from "../../InvoiceView";
-import Pruebamp from "../pages/home/Pruebamp";
+import Pruebamp from "../pages/mercado pago/Pruebamp";
+import SuccesPage from "../pages/mercado pago/SuccessPage";
+import PendingPage from "../pages/mercado pago/PendingPage";
+import FailurePage from "../pages/mercado pago/FailurePage";
+import NotFound from "../pages/notFound/NotFound";
 
 const PublicRoutes = () => {
   return (
@@ -31,6 +35,19 @@ const PublicRoutes = () => {
       />
       <Route path="/invoice" element={<InvoiceView />} />
       <Route path="/mp" element={<Pruebamp />} />
+      <Route
+        path="/success"
+        element={<AuthenticationGuard component={SuccesPage} />}
+      />
+      <Route
+        path="/pending"
+        element={<AuthenticationGuard component={PendingPage} />}
+      />
+      <Route
+        path="/failure"
+        element={<AuthenticationGuard component={FailurePage} />}
+      />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
