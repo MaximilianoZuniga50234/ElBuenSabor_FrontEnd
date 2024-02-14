@@ -6,6 +6,10 @@ import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
 import { getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
 import Loader from "../../components/loader/Loader";
 import "./userOrders.css";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import InvoicePdf from "../../components/invoice/InvoicePdf";
+import { Invoice } from "../../interfaces/Invoice";
+import { getAllInvoice } from "../../functions/InvoiceAPI";
 
 const ModalOrderDetails = lazy(
   () => import("../../components/modalOrderDetails/ModalOrderDetails")
@@ -49,6 +53,8 @@ export default function UserOrders() {
     details: null,
   });
   const [filterOrders, setFilterOrders] = useState<PurchaseOrder[]>();
+  const [invoices, setInvoices] = useState<Invoice[]>();
+
   const [open, setOpen] = useState(false);
   const [isLoaded, setisLoaded] = useState(false);
 
@@ -67,8 +73,19 @@ export default function UserOrders() {
     }
   };
 
+  const getInvoices = async () => {
+    try {
+      const response = await getAllInvoice();
+      setInvoices(response);
+      setisLoaded(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getOrders();
+    getInvoices();
   }, []);
 
   useEffect(() => {
@@ -119,22 +136,44 @@ export default function UserOrders() {
             {filterOrders?.map((order: PurchaseOrder) => (
               <div className="userOrders__card" key={order.id}>
                 <span className="userOrders__span">
-                  {" "}
                   Orden N° {order.number}
                 </span>
                 <span className="userOrders__span">${order.total}</span>
                 <span className="userOrders__span">
-                  {" "}
                   <FaClock /> {order.estimatedEndTime} m.
                 </span>
-                <button
-                  className="userOrders__card__button"
-                  onClick={() => {
-                    handleOpen(order);
-                  }}
-                >
-                  Detalles
-                </button>
+                <div className="userOrders__card__buttons">
+                  <button
+                    className="userOrders__card__button"
+                    onClick={() => {
+                      handleOpen(order);
+                    }}
+                  >
+                    Detalles
+                  </button>
+
+                  {order.status?.status != "Por aceptar" &&
+                    invoices &&
+                    invoices.length > 0 &&
+                    (() => {
+                      const invoice = invoices.find(
+                        (i) => i.purchaseOrder.id === order.id
+                      );
+
+                      if (invoice) {
+                        return (
+                          <PDFDownloadLink
+                            document={<InvoicePdf invoice={invoice} />}
+                            fileName={`Factura_${invoice.id}.pdf`}
+                          >
+                            <button className="userOrders__card__button">
+                              Factura
+                            </button>
+                          </PDFDownloadLink>
+                        );
+                      }
+                    })()}
+                </div>
               </div>
             ))}
           </div>

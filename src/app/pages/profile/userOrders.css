@@ -62,8 +62,14 @@
     gap: 15px;
 }
 
+.userOrders__card__buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
 .userOrders__card__button {
-    width: 100px;
+    width: 80px;
     justify-content: center;
 }
 
@@ -100,7 +106,7 @@
     .userOrders__labels {
         padding: 15px 0;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: 2fr 1fr 2fr 2fr;
         align-items: center;
         text-align: center;
         border-bottom: 1px solid var(--ebony-950);
@@ -110,8 +116,10 @@
     .userOrders__card {
         padding: 10px 0;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: 2fr 1fr 2fr 2fr;
         align-items: center;
+        text-align: center;
+        gap: 0;
         border: none;
         border-radius: 0;
         border-bottom: 1px solid var(--ebony-950);
@@ -123,7 +131,6 @@
     }
 
     .userOrders__card__button {
-        margin: auto;
         font-size: medium;
     }
 
@@ -131,4 +138,10 @@
         display: none;
     }
 
+}
+
+@media (width >=1024px) {
+    .userOrders__card__button {
+        width: 100px;
+    }
 }

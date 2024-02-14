@@ -58,7 +58,9 @@ const Orders = () => {
   }, [changeOrderStatus]);
 
   useEffect(() => {
-    if (user?.role === "Cajero") {
+    if (user?.role === "Administrador") {
+      setFilterOrders(orders);
+    } else if (user?.role === "Cajero") {
       if (filter === "" || filter === "Sin filtro") {
         setFilterOrders(orders);
       } else {
