@@ -30,43 +30,43 @@ const Carrousel = ({ products }: Props) => {
   const buttonClick = (product: Product, event?: MouseEvent | undefined) => {
     event?.stopPropagation();
 
-    const currentDate = new Date();
+    // const currentDate = new Date();
 
-    if (
-      (currentDate.getDay() > 0 &&
-        currentDate.getDay() < 6 &&
-        currentDate.getHours() >= 20) ||
-      ((currentDate.getDay() === 0 || currentDate.getDay() === 6) &&
-        (currentDate.getHours() >= 20 ||
-          (currentDate.getHours() >= 11 && currentDate.getHours() < 15)))
-    ) {
-      let insufficientStock = false;
-      for (const productDetail of product.details) {
-        if (productDetail.stock.currentStock - productDetail.amount < 0) {
-          insufficientStock = true;
-        }
-
-        if (insufficientStock) {
-          toast.error(
-            `Lo sentimos, no hay suficiente stock para preparar el producto "${product.denomination}".`
-          );
-          break;
-        }
+    // if (
+    //   (currentDate.getDay() > 0 &&
+    //     currentDate.getDay() < 6 &&
+    //     currentDate.getHours() >= 20) ||
+    //   ((currentDate.getDay() === 0 || currentDate.getDay() === 6) &&
+    //     (currentDate.getHours() >= 20 ||
+    //       (currentDate.getHours() >= 11 && currentDate.getHours() < 15)))
+    // ) {
+    let insufficientStock = false;
+    for (const productDetail of product.details) {
+      if (productDetail.stock.currentStock - productDetail.amount < 0) {
+        insufficientStock = true;
       }
 
-      if (!insufficientStock) {
-        toast.success("Producto agregado al carrito");
-        add(product);
+      if (insufficientStock) {
+        toast.error(
+          `Lo sentimos, no hay suficiente stock para preparar el producto "${product.denomination}".`
+        );
+        break;
       }
-    } else {
-      toast.error(
-        "Lo sentimos, no puedes agregar un producto al carrito fuera de nuestro horario de atención. El mismo es de 20:00 hs. a 00:00 hs. de lunes a viernes y también de 11:00 hs. a 15:00 hs. los sábados y domingos.",
-        {
-          duration: 10000,
-          icon: <FaClock />,
-        }
-      );
     }
+
+    if (!insufficientStock) {
+      toast.success("Producto agregado al carrito");
+      add(product);
+    }
+    // } else {
+    //   toast.error(
+    //     "Lo sentimos, no puedes agregar un producto al carrito fuera de nuestro horario de atención. El mismo es de 20:00 hs. a 00:00 hs. de lunes a viernes y también de 11:00 hs. a 15:00 hs. los sábados y domingos.",
+    //     {
+    //       duration: 10000,
+    //       icon: <FaClock />,
+    //     }
+    //   );
+    // }
   };
 
   const createCarouselItems = (products: Product[]) =>
