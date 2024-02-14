@@ -163,45 +163,46 @@ const Cart = () => {
   };
 
   const handleOpen = () => {
-    const currentDate = new Date();
+    // const currentDate = new Date();
     if (!isAuthenticated) {
       toast.error("Debes iniciar sesión para realizar una compra.");
-    } else {
-      if (
-        (currentDate.getDay() > 0 &&
-          currentDate.getDay() < 6 &&
-          currentDate.getHours() >= 20) ||
-        ((currentDate.getDay() === 0 || currentDate.getDay() === 6) &&
-          (currentDate.getHours() >= 20 ||
-            (currentDate.getHours() >= 11 && currentDate.getHours() < 15)))
-      ) {
-        if (!isPerfilComplete) {
-          toast.error(
-            "Debes completar la información de tu perfil antes de realizar una compra."
-          );
-          // } else {
-          //   if (user?.role != "Cliente") {
-          //     toast.error(
-          //       "No puedes realizar una compra con la cuenta de un empleado. Por favor, utiliza otra cuenta."
-          //     );
-          //   } else {
-          //     if (user.user_metadata.state === "De baja") {
-          //       toast.error(
-          //         "No puedes realizar una compra porque estás dado de baja del sistema."
-          //       );
-        } else {
-          setOpen(true);
-        }
-      } else {
-        toast.error(
-          "Lo sentimos, no puedes realizar un pedido fuera de nuestro horario de atención. El mismo es de 20:00 hs. a 00:00 hs. de lunes a viernes y también de 11:00 hs. a 15:00 hs. los sábados y domingos.",
-          {
-            duration: 10000,
-            icon: <FaClock />,
-          }
-        );
-      }
     }
+    // {
+    //   if (
+    //     (currentDate.getDay() > 0 &&
+    //       currentDate.getDay() < 6 &&
+    //       currentDate.getHours() >= 20) ||
+    //     ((currentDate.getDay() === 0 || currentDate.getDay() === 6) &&
+    //       (currentDate.getHours() >= 20 ||
+    //         (currentDate.getHours() >= 11 && currentDate.getHours() < 15)))
+    //   ) {
+    else if (!isPerfilComplete) {
+      toast.error(
+        "Debes completar la información de tu perfil antes de realizar una compra."
+      );
+      // } else {
+      //   if (user?.role != "Cliente") {
+      //     toast.error(
+      //       "No puedes realizar una compra con la cuenta de un empleado. Por favor, utiliza otra cuenta."
+      //     );
+      //   } else {
+      //     if (user.user_metadata.state === "De baja") {
+      //       toast.error(
+      //         "No puedes realizar una compra porque estás dado de baja del sistema."
+      //       );
+    } else {
+      setOpen(true);
+    }
+    // } else {
+    //   toast.error(
+    //     "Lo sentimos, no puedes realizar un pedido fuera de nuestro horario de atención. El mismo es de 20:00 hs. a 00:00 hs. de lunes a viernes y también de 11:00 hs. a 15:00 hs. los sábados y domingos.",
+    //     {
+    //       duration: 10000,
+    //       icon: <FaClock />,
+    //     }
+    //   );
+    // }
+    // }
   };
   // }
   // };
@@ -371,7 +372,7 @@ const Cart = () => {
         </div>
 
         <h1>
-          {priceAndTime.totalPrice != 0 && `Total: ${priceAndTime.totalPrice}`}
+          {priceAndTime.totalPrice != 0 && `Total: $${priceAndTime.totalPrice}`}
         </h1>
 
         <div className="cart_buttons_container">

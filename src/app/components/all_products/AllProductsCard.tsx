@@ -25,6 +25,16 @@ export default function AllProductsCard({ product }: Props) {
   const addToCart = (product: Product, event?: MouseEvent | undefined) => {
     event?.stopPropagation();
 
+    // const currentDate = new Date();
+
+    // if (
+    //   (currentDate.getDay() > 0 &&
+    //     currentDate.getDay() < 6 &&
+    //     currentDate.getHours() >= 20) ||
+    //   ((currentDate.getDay() === 0 || currentDate.getDay() === 6) &&
+    //     (currentDate.getHours() >= 20 ||
+    //       (currentDate.getHours() >= 11 && currentDate.getHours() < 15)))
+    // ) {
     let insufficientStock = false;
     for (const productDetail of product.details) {
       if (productDetail.stock.currentStock - productDetail.amount < 0) {
@@ -43,6 +53,15 @@ export default function AllProductsCard({ product }: Props) {
       toast.success("Producto agregado al carrito");
       add(product);
     }
+    // } else {
+    //   toast.error(
+    //     "Lo sentimos, no puedes agregar un producto al carrito fuera de nuestro horario de atención. El mismo es de 20:00 hs. a 00:00 hs. de lunes a viernes y también de 11:00 hs. a 15:00 hs. los sábados y domingos.",
+    //     {
+    //       duration: 10000,
+    //       icon: <FaClock />,
+    //     }
+    //   );
+    // }
   };
 
   return (
