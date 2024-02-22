@@ -17,6 +17,7 @@ export interface Invoice extends Base {
   discountAmount?: number;
   totalSale: number;
   totalCost: number;
+  active: boolean;
   purchaseOrder: PurchaseOrder;
   mercadoPagoData?: MercadoPagoData;
   details: InvoiceDetail[];

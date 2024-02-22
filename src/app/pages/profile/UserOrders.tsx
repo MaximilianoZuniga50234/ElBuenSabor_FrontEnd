@@ -27,6 +27,7 @@ export default function UserOrders() {
     shippingType: "Retiro en el local",
     paymentMethod: "Efectivo",
     total: 0,
+    active: true,
     person: {
       id: "0",
       name: "",

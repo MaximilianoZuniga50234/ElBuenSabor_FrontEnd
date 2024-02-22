@@ -235,3 +235,66 @@
 .orders_list_table .paginacion_flechas:hover {
   opacity: 0.7;
 }
+
+
+.modalOrders__box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: var(--light-lavender-gray);
+  border: 1px solid var(--midnight-blue);
+  padding: 20px 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.modalOrders__box>.modalOrders__h3 {
+  text-align: center;
+  font-size: medium;
+}
+
+.modalOrders__div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalOrders__select {
+  padding: 8px 4px;
+  background-color: var(--light-lavender-gray);
+  border: 1px solid var(--midnight-blue);
+  border-radius: 10px;
+}
+
+.modalOrders__buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+
+.modalOrders__button:hover {
+  cursor: pointer;
+  background-color: royalblue;
+}
+
+
+.modalOrders__deleteInvoice {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modalOrders__deleteInvoice__button {
+  display: flex;
+  justify-content: center;
+}
+
+.modalOrders__deleteInvoice__text {
+  display: flex;
+  font-size: 14px;
+  text-align: center;
+}

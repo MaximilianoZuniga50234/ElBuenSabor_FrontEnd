@@ -2,7 +2,7 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Fade, Modal } from "@mui/material";
-import { FaArrowLeft, FaClock, FaMinus, FaPlus } from "react-icons/fa6";
+import { FaArrowLeft, FaMinus, FaPlus } from "react-icons/fa6";
 import { toast } from "sonner";
 import { useStore } from "../../store/CartStore";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
@@ -40,6 +40,7 @@ const Cart = () => {
     shippingType: "Retiro en el local",
     paymentMethod: "Efectivo",
     total: 0,
+    active: true,
     person: {
       id: "0",
       name: "",
