@@ -18,7 +18,14 @@ import { toast } from "sonner";
 import { useStore as useUser } from "../../store/CurrentUserStore";
 import ModalOrderDetails from "../modalOrderDetails/ModalOrderDetails";
 import { Invoice, InvoiceDetail } from "../../interfaces/Invoice";
-import { createInvoice } from "../../functions/InvoiceAPI";
+import {
+  createInvoice,
+  getAllInvoice,
+  updateInvoice,
+} from "../../functions/InvoiceAPI";
+import { CreditNote } from "../../interfaces/CreditNote";
+import { createCreditNote } from "../../functions/CreditNoteAPI";
+import { updateStock } from "../../functions/StockAPI";
 
 type Props = {
   datos: PurchaseOrder[];
@@ -33,6 +40,7 @@ const PURCHASE_ORDER_INITIAL_STATE = {
   shippingType: "",
   paymentMethod: "",
   total: 0,
+  active: true,
   person: {
     id: "0",
     name: "",
@@ -65,9 +73,17 @@ const INVOICE_INITIAL_STATE = {
   discountAmount: 0,
   totalSale: 0,
   totalCost: 0,
+  active: true,
   purchaseOrder: PURCHASE_ORDER_INITIAL_STATE,
   // mercadoPagoData: null,
   details: [],
+};
+const CREDIT_NOTE_INITIAL_STATE = {
+  id: 0,
+  date: new Date(),
+  total: 0,
+  purchaseOrder: PURCHASE_ORDER_INITIAL_STATE,
+  invoice: INVOICE_INITIAL_STATE,
 };
 
 const Table = ({ datos, setChangeOrderStatus }: Props) => {
@@ -75,6 +91,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
   const { token } = useToken();
   const { isAuthenticated } = useAuth0();
   const [paginaActual, setPaginaActual] = useState<number>(1);
+  const [cancelInvoice, setCancelInvoice] = useState<boolean>(false);
 
   const [open, setOpen] = useState(false);
   const [openModalOrderDetails, setOpenModalOrderDetails] = useState(false);
@@ -88,7 +105,11 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     PURCHASE_ORDER_INITIAL_STATE
   );
 
+  const [invoices, setInvoices] = useState<Invoice[]>();
   const [invoice, setInvoice] = useState<Invoice>(INVOICE_INITIAL_STATE);
+  const [creditNote, setCreditNote] = useState<CreditNote>(
+    CREDIT_NOTE_INITIAL_STATE
+  );
 
   const indiceInicio = (paginaActual - 1) * 10;
   const indiceFin =
@@ -112,6 +133,8 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
   const handleOpen = (order: PurchaseOrder) => {
     setPurchaseOrder(order);
     setOrderStatus(order.status ? order?.status?.status : "");
+    setCancelInvoice(false);
+    getInvoices();
     setOpen(true);
   };
 
@@ -122,7 +145,9 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     if (newStatus) {
       setPurchaseOrder({ ...purchaseOrder, status: newStatus });
     }
+    setCancelInvoice(false);
   };
+
   const postInvoice = async () => {
     try {
       await createInvoice(invoice, token);
@@ -136,6 +161,21 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
       postInvoice();
     }
   }, [invoice]);
+
+  useEffect(() => {
+    if (purchaseOrder.id != 0 && invoices && invoices?.length > 0) {
+      setCreditNote({
+        id: 0,
+        date: new Date(),
+        invoice:
+          invoices?.find(
+            (invoice: Invoice) => invoice.purchaseOrder.id === purchaseOrder.id
+          ) ?? INVOICE_INITIAL_STATE,
+        purchaseOrder: purchaseOrder,
+        total: invoice.totalSale,
+      });
+    }
+  }, [purchaseOrder, invoices]);
 
   const generateInvoice = () => {
     let totalPrice = 0;
@@ -166,6 +206,38 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     }
   };
 
+  const createNoteAndUpdateInvoiceAndOrder = async () => {
+    try {
+      await updateInvoice({ ...creditNote.invoice, active: false }, token);
+      await updatePurchaseOrder(
+        { ...creditNote.purchaseOrder, active: false },
+        token
+      );
+      await createCreditNote(creditNote, token);
+
+      if (creditNote.purchaseOrder.details) {
+        for (const detail of creditNote.purchaseOrder.details) {
+          if (detail.product?.details) {
+            for (const productDetail of detail.product.details) {
+              await updateStock(
+                {
+                  ...productDetail.stock,
+                  currentStock:
+                    productDetail.stock.currentStock +
+                    productDetail.amount * detail.amount,
+                },
+                token
+              );
+            }
+          }
+        }
+      }
+      setChangeOrderStatus(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleConfirm = async () => {
     if (
       orderStatus === "A confirmar" &&
@@ -174,13 +246,17 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
       generateInvoice();
     }
 
-    if (isAuthenticated) {
-      await updatePurchaseOrder(purchaseOrder, token);
-      handleClose();
-      setChangeOrderStatus(true);
+    if (cancelInvoice) {
+      createNoteAndUpdateInvoiceAndOrder();
     } else {
-      toast("Debes iniciar sesión");
+      if (isAuthenticated) {
+        await updatePurchaseOrder(purchaseOrder, token);
+        setChangeOrderStatus(true);
+      } else {
+        toast("Debes iniciar sesión");
+      }
     }
+    handleClose();
   };
 
   const getStatus = async () => {
@@ -192,9 +268,22 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     }
   };
 
+  const getInvoices = async () => {
+    try {
+      const response = await getAllInvoice();
+      setInvoices(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     getStatus();
   }, []);
+
+  const handleChangeDeleteInvoice = () => {
+    setCancelInvoice(!cancelInvoice);
+  };
 
   // Ver si es un pedido de solo bebidas
   // useEffect(() => {
@@ -305,36 +394,59 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
         disableScrollLock={true}
       >
         <Fade in={open}>
-          <Box className="modalCart__box">
-            <h3 className="modalCart__h3">Cambiar estado del pedido</h3>
+          <Box className="modalOrders__box">
+            <h3 className="modalOrders__h3">Cambiar estado del pedido</h3>
 
-            <div className="modalCart__div">
-              <h5 className="modalCart__h5">Estado del pedido</h5>
+            <div className="modalOrders__div">
+              <h5 className="modalOrders__h5">Estado del pedido</h5>
 
               <select
-                className="modalCart__select"
+                className="modalOrders__select"
                 onChange={handleChangeStatus}
                 defaultValue={orderStatus}
               >
-                <option value="A confirmar" disabled={true}>
+                <option
+                  value="A confirmar"
+                  disabled={
+                    purchaseOrder.status?.status === "Facturado" &&
+                    orderStatus === "A confirmar"
+                      ? false
+                      : true
+                  }
+                >
                   A confirmar
                 </option>
                 <option
                   value="Facturado"
-                  disabled={orderStatus === "A confirmar" ? false : true}
+                  disabled={
+                    orderStatus === "A confirmar" ||
+                    (purchaseOrder.status?.status === "A cocina" &&
+                      orderStatus === "Facturado")
+                      ? false
+                      : true
+                  }
                 >
                   Facturado
                 </option>
                 <option
                   value="A cocina"
-                  disabled={orderStatus === "Facturado" ? false : true}
+                  disabled={
+                    orderStatus === "Facturado" ||
+                    (purchaseOrder.status?.status === "Listo" &&
+                      orderStatus === "A cocina")
+                      ? false
+                      : true
+                  }
                 >
                   A cocina
                 </option>
                 <option
                   value="Listo"
                   disabled={
-                    orderStatus === "A cocina" && user?.role === "Cocinero"
+                    (orderStatus === "A cocina" && user?.role === "Cocinero") ||
+                    ((purchaseOrder.status?.status === "En delivery" ||
+                      purchaseOrder.status?.status === "Entregado") &&
+                      orderStatus === "Listo")
                       ? false
                       : true
                   }
@@ -346,8 +458,10 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                 <option
                   value="En delivery"
                   disabled={
-                    orderStatus === "Listo" &&
-                    purchaseOrder.shippingType === "Envío a domicilio"
+                    purchaseOrder.shippingType === "Envío a domicilio" &&
+                    (orderStatus === "Listo" ||
+                      (purchaseOrder.status?.status === "Entregado" &&
+                        orderStatus === "En delivery"))
                       ? false
                       : true
                   }
@@ -370,16 +484,32 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
               </select>
             </div>
 
-            <div className="modalCart__buttons">
+            {orderStatus === "Facturado" &&
+              purchaseOrder.status?.status === "Facturado" && (
+                <div className="modalOrders__deleteInvoice">
+                  <button
+                    className="modalOrders__deleteInvoice__button"
+                    onClick={handleChangeDeleteInvoice}
+                  >
+                    {cancelInvoice ? "No anular factura" : "Anular factura"}
+                  </button>
+                  <p className="modalOrders__deleteInvoice__text">
+                    Anular la factura generará una orden de compra para el
+                    usuario. Al presionar el botón para confirmar se realizará
+                    la operación.
+                  </p>
+                </div>
+              )}
+            <div className="modalOrders__buttons">
               <button
-                className="modalCart__button"
+                className="modalOrders__button"
                 onClick={() => {
                   handleClose();
                 }}
               >
                 Cancelar
               </button>
-              <button className="modalCart__button" onClick={handleConfirm}>
+              <button className="modalOrders__button" onClick={handleConfirm}>
                 Confirmar
               </button>
             </div>

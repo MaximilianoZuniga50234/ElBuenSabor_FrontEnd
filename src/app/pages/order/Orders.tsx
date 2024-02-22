@@ -40,7 +40,7 @@ const Orders = () => {
   const getAllItems = async () => {
     try {
       const response = await getAllPurchaseOrder();
-      setOrders(response);
+      setOrders(response.filter((o: PurchaseOrder) => o.active));
     } catch (error) {
       console.error("Error", error);
     }

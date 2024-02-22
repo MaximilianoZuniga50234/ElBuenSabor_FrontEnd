@@ -22,3 +22,14 @@ export async function createInvoice(invoice: Invoice, token: string) {
     },
   });
 }
+
+export async function updateInvoice(invoice: Invoice, token: string) {
+  await fetch(`http://localhost:9000/api/v1/invoice/${invoice.id}`, {
+    method: "PUT",
+    body: JSON.stringify(invoice),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+}
