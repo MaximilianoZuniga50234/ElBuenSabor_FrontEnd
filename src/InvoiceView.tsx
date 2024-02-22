@@ -15,6 +15,7 @@ const PURCHASE_ORDER_INITIAL_STATE = {
   shippingType: "",
   paymentMethod: "",
   total: 0,
+  active: true,
   person: {
     id: "0",
     name: "",
@@ -46,6 +47,7 @@ const INVOICE_INITIAL_STATE = {
   date: new Date(),
   discountAmount: 0,
   totalSale: 0,
+  active: true,
   totalCost: 0,
   purchaseOrder: PURCHASE_ORDER_INITIAL_STATE,
   // mercadoPagoData: null,

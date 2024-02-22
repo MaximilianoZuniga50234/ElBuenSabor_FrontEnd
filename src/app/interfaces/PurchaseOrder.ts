@@ -11,6 +11,7 @@ export interface PurchaseOrder extends Base {
   shippingType: string;
   paymentMethod: string;
   total: number;
+  active: boolean;
   address?: Address;
   person?: Person | null;
   status: Status | null;
