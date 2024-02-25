@@ -81,6 +81,7 @@ const INVOICE_INITIAL_STATE = {
 const CREDIT_NOTE_INITIAL_STATE = {
   id: 0,
   date: new Date(),
+  active: true,
   total: 0,
   purchaseOrder: PURCHASE_ORDER_INITIAL_STATE,
   invoice: INVOICE_INITIAL_STATE,
@@ -164,15 +165,18 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
 
   useEffect(() => {
     if (purchaseOrder.id != 0 && invoices && invoices?.length > 0) {
+      const correspondentInvoice: Invoice =
+        invoices?.find(
+          (invoice: Invoice) => invoice.purchaseOrder.id === purchaseOrder.id
+        ) ?? INVOICE_INITIAL_STATE;
+
       setCreditNote({
         id: 0,
         date: new Date(),
-        invoice:
-          invoices?.find(
-            (invoice: Invoice) => invoice.purchaseOrder.id === purchaseOrder.id
-          ) ?? INVOICE_INITIAL_STATE,
+        active: true,
+        invoice: correspondentInvoice,
         purchaseOrder: purchaseOrder,
-        total: invoice.totalSale,
+        total: correspondentInvoice.totalSale,
       });
     }
   }, [purchaseOrder, invoices]);
