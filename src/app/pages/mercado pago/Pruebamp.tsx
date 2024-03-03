@@ -10,11 +10,11 @@ export default function Pruebamp() {
     locale: "es-AR",
   });
 
-  const [product, setProduct] = useState({
+  const product = {
     title: "prueba",
     price: 253,
     quantity: 1,
-  });
+  };
 
   const { token } = useStore();
 

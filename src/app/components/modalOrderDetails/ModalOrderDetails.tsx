@@ -141,7 +141,7 @@ export default function ModalOrderDetails({
                 )}
 
                 <div className="modalOrderDetails__header">
-                  <h4>Detalles de entrega</h4>
+                  <h5>Detalles de entrega</h5>
                   {purchaseOrder.shippingType === "Retiro en el local" ? (
                     <>
                       {purchaseOrder.status?.status != "Entregado" &&
@@ -170,42 +170,42 @@ export default function ModalOrderDetails({
                   )}
                 </div>
 
-                <h4>Detalles de la orden</h4>
+                <h5>Detalles de la orden</h5>
                 <div className="modalOrderDetails__orderInfo">
                   <div className="modalOrderDetails__orderInfo__header">
-                    <h5>
+                    <h6>
                       <b>Fecha</b>
-                    </h5>
-                    <h5>
+                    </h6>
+                    <h6>
                       <b>Total</b>
-                    </h5>
-                    <h5>
+                    </h6>
+                    <h6>
                       <b>Forma de pago</b>
-                    </h5>
+                    </h6>
                   </div>
                   <div className="modalOrderDetails__orderInfo__content">
-                    <h5>{date}</h5>
-                    <h5>${purchaseOrder.total}</h5>
-                    <h5>{purchaseOrder.paymentMethod}</h5>
+                    <h6>{date}</h6>
+                    <h6>${purchaseOrder.total}</h6>
+                    <h6>{purchaseOrder.paymentMethod}</h6>
                   </div>
                 </div>
 
                 {purchaseOrder.shippingType === "Retiro en el local" && (
-                  <h5> El total ya tiene aplicado el descuento del 10%. </h5>
+                  <h6> El total ya tiene aplicado el descuento del 10%. </h6>
                 )}
-                <h4>Productos de la orden</h4>
+                <h5>Productos de la orden</h5>
 
                 <div className="modalOrderDetails__products">
                   <div className="modalOrderDetails__products__header">
-                    <h5>
+                    <h6>
                       <b>Nombre</b>
-                    </h5>
-                    <h5>
+                    </h6>
+                    <h6>
                       <b>Cantidad</b>
-                    </h5>
-                    <h5>
+                    </h6>
+                    <h6>
                       <b>Precio</b>
-                    </h5>
+                    </h6>
                   </div>
                   <div className="modalOrderDetails__products__content">
                     {purchaseOrder.details?.map((product) => (
@@ -213,9 +213,9 @@ export default function ModalOrderDetails({
                         className="modalOrderDetails__products__content__product"
                         key={product?.product?.id}
                       >
-                        <h5>{product.product?.denomination}</h5>
-                        <h5>{product.amount}</h5>
-                        <h5>${product.subtotal}</h5>
+                        <h6>{product.product?.denomination}</h6>
+                        <h6>{product.amount}</h6>
+                        <h6>${product.subtotal}</h6>
                       </div>
                     ))}
                   </div>
@@ -256,30 +256,30 @@ export default function ModalOrderDetails({
                 </h2>
                 <div className="modalOrderDetailsDelivery__userDetails">
                   <div className="modalOrderDetailsDelivery__userDetails__title">
-                    <h3 className="modalOrderDetailsDelivery__h4">
+                    <h3 className="modalOrderDetailsDelivery__h5">
                       <b>Detalles del cliente</b>
                     </h3>
                   </div>
                   <div className="modalOrderDetailsDelivery__userDetails__info">
-                    <h5>
+                    <h6>
                       <b>Nombre:</b> {purchaseOrder.person?.name}
-                    </h5>
-                    <h5>
+                    </h6>
+                    <h6>
                       <b>Apellido:</b> {purchaseOrder.person?.lastName}
-                    </h5>
-                    <h5>
+                    </h6>
+                    <h6>
                       <b>Departamento:</b>{" "}
                       {purchaseOrder.address?.department.name}
-                    </h5>
-                    <h5>
+                    </h6>
+                    <h6>
                       <b>Calle:</b> {purchaseOrder.address?.street}
-                    </h5>
-                    <h5>
+                    </h6>
+                    <h6>
                       <b>Número:</b> {purchaseOrder.address?.number}
-                    </h5>
-                    <h5>
+                    </h6>
+                    <h6>
                       <b>Total:</b> ${purchaseOrder.total}
-                    </h5>
+                    </h6>
                   </div>
                 </div>
               </div>
