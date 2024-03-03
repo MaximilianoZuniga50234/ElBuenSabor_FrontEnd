@@ -53,7 +53,7 @@ function App() {
         <Router />
       </section>
       <Footer />
-      <Toaster position="bottom-right" richColors visibleToasts={1} />
+      <Toaster position="bottom-left" richColors visibleToasts={1} />
       <ModalEmployeeInauthorized open={open} />
     </main>
   );

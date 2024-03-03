@@ -31,7 +31,7 @@
     border-radius: 10px;
 }
 
-.modalOrderDetails__box h5 {
+.modalOrderDetails__box h6 {
     font-weight: 500;
 }
 
@@ -113,15 +113,19 @@
 
     .modalOrderDetails__box {
         min-width: 550px;
-        gap: 15px;
+        gap: 10px;
     }
 
     .modalOrderDetails__header p {
-        font-size: medium;
+        font-size: 14px;
+    }
+
+    .modalOrderDetails__box h6 {
+        font-size: 12px;
     }
 
     .modalOrderDetails__box h5 {
-        font-size: medium;
+        font-size: 16px;
     }
 
     .modalOrderDetails__orderInfo__header,
@@ -154,4 +158,23 @@
         gap: 8px;
     }
 
+}
+
+@media (width >=1024px) {
+    .modalOrderDetails__box {
+        min-width: 550px;
+        gap: 15px;
+    }
+
+    .modalOrderDetails__header p {
+        font-size: 16px;
+    }
+
+    .modalOrderDetails__box h6 {
+        font-size: 16px;
+    }
+
+    .modalOrderDetails__box h5 {
+        font-size: 18px;
+    }
 }

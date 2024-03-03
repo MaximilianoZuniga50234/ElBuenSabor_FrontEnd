@@ -610,7 +610,7 @@
 .allProducts__bar__link__cart {
   color: var(--ebony-950);
   position: relative;
-  z-index: 2;
+  z-index: 1;
   border-radius: 100%;
   padding: 8px;
   background-color: unset;
