@@ -40,6 +40,7 @@ const PURCHASE_ORDER_INITIAL_STATE = {
   shippingType: "",
   paymentMethod: "",
   total: 0,
+  amountToPaid: 0,
   active: true,
   person: {
     id: "0",
@@ -176,7 +177,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
         active: true,
         invoice: correspondentInvoice,
         purchaseOrder: purchaseOrder,
-        total: correspondentInvoice.totalSale,
+        total: correspondentInvoice.purchaseOrder.amountToPaid,
       });
     }
   }, [purchaseOrder, invoices]);
@@ -217,21 +218,23 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
         { ...creditNote.purchaseOrder, active: false },
         token
       );
-      await createCreditNote(creditNote, token);
+      if (creditNote.total != 0) {
+        await createCreditNote(creditNote, token);
 
-      if (creditNote.purchaseOrder.details) {
-        for (const detail of creditNote.purchaseOrder.details) {
-          if (detail.product?.details) {
-            for (const productDetail of detail.product.details) {
-              await updateStock(
-                {
-                  ...productDetail.stock,
-                  currentStock:
-                    productDetail.stock.currentStock +
-                    productDetail.amount * detail.amount,
-                },
-                token
-              );
+        if (creditNote.purchaseOrder.details) {
+          for (const detail of creditNote.purchaseOrder.details) {
+            if (detail.product?.details) {
+              for (const productDetail of detail.product.details) {
+                await updateStock(
+                  {
+                    ...productDetail.stock,
+                    currentStock:
+                      productDetail.stock.currentStock +
+                      productDetail.amount * detail.amount,
+                  },
+                  token
+                );
+              }
             }
           }
         }

@@ -21,26 +21,39 @@ import { getAllPerson } from "../../functions/PersonAPI";
 import { updateStock } from "../../functions/StockAPI";
 import Loader from "../../components/loader/Loader";
 import "./cart.css";
+import { CreditNote } from "../../interfaces/CreditNote";
+import {
+  getAllCreditNotes,
+  updateCreditNote,
+} from "../../functions/CreditNoteAPI";
 
 const ModalOrderDetails = lazy(
   () => import("../../components/modalOrderDetails/ModalOrderDetails")
 );
 
-const Cart = () => {
-  const { cartProducts, remove, clear, removeOne, addOne } = useStore();
-  const { token } = useToken();
-  const { user } = useCurrentUser();
-  const { isAuthenticated } = useAuth0();
-
-  const [purchaseOrder, setPurchaseOrder] = useState<PurchaseOrder>({
+const PURCHASE_ORDER_INITIAL_STATE = {
+  id: 0,
+  fecha: new Date(),
+  number: 0,
+  estimatedEndTime: 0,
+  shippingType: "",
+  paymentMethod: "",
+  total: 0,
+  amountToPaid: 0,
+  active: true,
+  person: {
+    id: "0",
+    name: "",
+    email: "",
+    lastName: "",
+    phoneNumber: "",
+    user_id: "",
+  },
+  address: {
     id: 0,
-    fecha: new Date(),
-    number: Math.floor(Math.random() * (999999 - 100000 + 1) + 100000),
-    estimatedEndTime: 0,
-    shippingType: "Retiro en el local",
-    paymentMethod: "Efectivo",
-    total: 0,
-    active: true,
+    street: "",
+    number: 0,
+    department: { id: 0, name: "" },
     person: {
       id: "0",
       name: "",
@@ -49,25 +62,30 @@ const Cart = () => {
       phoneNumber: "",
       user_id: "",
     },
-    address: {
-      id: 0,
-      street: "",
-      number: 0,
-      department: { id: 0, name: "" },
-      person: {
-        id: "0",
-        name: "",
-        email: "",
-        lastName: "",
-        phoneNumber: "",
-        user_id: "",
-      },
-    },
+  },
+  status: { id: 0, status: "" },
+  details: null,
+};
+
+const Cart = () => {
+  const { cartProducts, remove, clear, removeOne, addOne } = useStore();
+  const { token } = useToken();
+  const { user } = useCurrentUser();
+  const { isAuthenticated } = useAuth0();
+
+  const [purchaseOrder, setPurchaseOrder] = useState<PurchaseOrder>({
+    ...PURCHASE_ORDER_INITIAL_STATE,
+    shippingType: "Retiro en el local",
+    paymentMethod: "Efectivo",
     status: { id: 1, status: "A confirmar" },
-    details: null,
   });
+
   const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>();
 
+  const [creditNotes, setCreditNotes] = useState<CreditNote[]>();
+  const [userCreditNotes, setUserCreditNotes] = useState<CreditNote[]>([]);
+
+  const [totalCreditNoteAmount, setTotalCreditNoteAmount] = useState(0);
   const [confirmPurchase, setConfirmPurchase] = useState(false);
   const [open, setOpen] = useState(false);
   const [openModalOrderDetails, setOpenModalOrderDetails] = useState(false);
@@ -83,11 +101,27 @@ const Cart = () => {
     getPurchaseOrders();
     getAddressesDatabase();
     getPersonsDatabase();
+    getCreditNotes();
   }, []);
 
   useEffect(() => {
-    console.log(purchaseOrder);
-  }, [purchaseOrder]);
+    if (userCreditNotes.length > 0) {
+      userCreditNotes.forEach((note: CreditNote) => {
+        setTotalCreditNoteAmount(totalCreditNoteAmount + note.total);
+      });
+    }
+  }, [userCreditNotes]);
+
+  useEffect(() => {
+    if (creditNotes && creditNotes.length > 0 && user) {
+      setUserCreditNotes(
+        creditNotes.filter(
+          (note: CreditNote) =>
+            note.purchaseOrder.person?.user_id === user.user_id && note.active
+        )
+      );
+    }
+  }, [creditNotes, user]);
 
   useEffect(() => {
     if (confirmPurchase) {
@@ -161,6 +195,11 @@ const Cart = () => {
   const getAddressesDatabase = async () => {
     const response = await getAllAddress();
     setAddressesDatabase(response);
+  };
+
+  const getCreditNotes = async () => {
+    const response = await getAllCreditNotes();
+    setCreditNotes(response);
   };
 
   const handleOpen = () => {
@@ -275,7 +314,48 @@ const Cart = () => {
       }
 
       if (!insufficientStock) {
-        const response = await createPurchaseOrder(purchaseOrder, token);
+        let response = null;
+
+        if (userCreditNotes.length > 0) {
+          if (purchaseOrder.total >= totalCreditNoteAmount) {
+            response = await createPurchaseOrder(
+              {
+                ...purchaseOrder,
+                amountToPaid: purchaseOrder.total - totalCreditNoteAmount,
+              },
+              token
+            );
+
+            userCreditNotes.forEach((note: CreditNote) => {
+              updateCreditNote({ ...note, total: 0, active: false }, token);
+            });
+          } else {
+            response = await createPurchaseOrder(purchaseOrder, token);
+
+            let totalOrder = purchaseOrder.total;
+
+            userCreditNotes.forEach((note: CreditNote) => {
+              if (totalOrder >= note.total) {
+                totalOrder = totalOrder - note.total;
+                updateCreditNote({ ...note, total: 0, active: false }, token);
+              } else {
+                updateCreditNote(
+                  { ...note, total: note.total - totalOrder },
+                  token
+                );
+              }
+            });
+          }
+        } else {
+          response = await createPurchaseOrder(
+            {
+              ...purchaseOrder,
+              amountToPaid: purchaseOrder.total,
+            },
+            token
+          );
+        }
+
         if (response) {
           toast.success("Orden creada correctamente.");
 
@@ -432,6 +512,16 @@ const Cart = () => {
               Retirar la compra en el local otorga un 10% de descuento en la
               compra.
             </h5>
+
+            {userCreditNotes.length > 0 && (
+              <h5>
+                Atención: Tienes una nota de crédito con un monto de $
+                {totalCreditNoteAmount} a tu favor. Se usará automáticamente. En
+                caso de que el monto a abonar sea mayor, deberás pagar la
+                diferencia. Si es menor, se guardará el saldo restante de tu
+                nota de crédito.
+              </h5>
+            )}
 
             <div className="modalCart__buttons">
               <button

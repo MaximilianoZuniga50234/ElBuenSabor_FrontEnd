@@ -18,6 +18,7 @@ const PURCHASE_ORDER_INITIAL_STATE = {
   shippingType: "",
   paymentMethod: "",
   total: 0,
+  amountToPaid: 0,
   active: true,
   person: {
     id: "0",

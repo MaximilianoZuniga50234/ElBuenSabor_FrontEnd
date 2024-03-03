@@ -27,6 +27,7 @@ export default function UserOrders() {
     shippingType: "Retiro en el local",
     paymentMethod: "Efectivo",
     total: 0,
+    amountToPaid: 0,
     active: true,
     person: {
       id: "0",
@@ -95,7 +96,8 @@ export default function UserOrders() {
         orders.filter(
           (order: PurchaseOrder) =>
             order.person?.user_id === user?.user_id &&
-            order.status?.status != "Entregado"
+            order.status?.status != "Entregado" &&
+            order.active
         )
       );
     }
