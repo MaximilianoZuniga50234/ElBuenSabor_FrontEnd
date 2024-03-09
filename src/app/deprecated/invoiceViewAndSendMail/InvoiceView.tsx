@@ -1,11 +1,11 @@
 import { PDFViewer, pdf } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import InvoicePdf from "./app/components/invoice/InvoicePdf";
-import { Invoice } from "./app/interfaces/Invoice";
-import { getAllInvoice } from "./app/functions/InvoiceAPI";
+import InvoicePdf from "../../components/invoice/InvoicePdf";
+import { Invoice } from "../../interfaces/Invoice";
+import { getAllInvoice } from "../../functions/InvoiceAPI";
 import "./invoice.css";
 
-import { sendEmail } from "./app/functions/EmailAPI";
+import { sendEmail } from "../../functions/EmailAPI";
 
 const PURCHASE_ORDER_INITIAL_STATE = {
   id: 0,
@@ -14,6 +14,7 @@ const PURCHASE_ORDER_INITIAL_STATE = {
   estimatedEndTime: 0,
   shippingType: "",
   paymentMethod: "",
+  amountToPaid: 0,
   total: 0,
   active: true,
   person: {

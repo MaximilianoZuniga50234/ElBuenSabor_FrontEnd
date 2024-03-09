@@ -7,7 +7,7 @@ import AllProducts from "../pages/all products/AllProducts";
 import Cart from "../pages/cart/Cart";
 import OrdersHistory from "../pages/profile/OrdersHistory";
 import UserOrders from "../pages/profile/UserOrders";
-import InvoiceView from "../../InvoiceView";
+import InvoiceView from "../deprecated/invoiceViewAndSendMail/InvoiceView";
 import Pruebamp from "../pages/mercado pago/Pruebamp";
 import SuccesPage from "../pages/mercado pago/SuccessPage";
 import PendingPage from "../pages/mercado pago/PendingPage";
