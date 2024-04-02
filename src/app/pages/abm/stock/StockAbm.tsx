@@ -113,7 +113,9 @@ export default function StockAbm() {
                 <h4 className="stockAbm__h4">{stock.itemStock?.name}</h4>
                 <h4 className="stockAbm__h4">{stock.purchasePrice}</h4>
                 <h4 className="stockAbm__h4">{stock.minimumStock}</h4>
-                <h4 className="stockAbm__h4">{stock.currentStock}</h4>
+                <h4 className="stockAbm__h4">
+                  {stock.currentStock.toPrecision(4)}
+                </h4>
                 <h4 className="stockAbm__h4">{stock.measurementUnit.name}</h4>
                 <h4 className="stockAbm__h4">
                   {stock.active === true ? "De alta" : "De baja"}
