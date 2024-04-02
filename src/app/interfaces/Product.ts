@@ -18,4 +18,5 @@ export interface Product extends Base {
   active: boolean;
   itemProduct: ItemProduct;
   details: ProductDetail[];
+  quantitySold?: number;
 }
