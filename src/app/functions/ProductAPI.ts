@@ -1,9 +1,9 @@
 export async function getAllProduct(
-  name: string | null,
-  order: string | null,
-  category: string | null,
-  min: string | null,
-  max: string | null
+  name?: string,
+  order?: string,
+  category?: string,
+  min?: string,
+  max?: string
 ) {
   const url = new URL("http://localhost:9000/api/v1/product/all");
   if (name) url.searchParams.append("name", name);

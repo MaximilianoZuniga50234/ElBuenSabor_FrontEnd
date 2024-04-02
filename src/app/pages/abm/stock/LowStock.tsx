@@ -81,9 +81,13 @@ export default function LowStock() {
                   {stock.measurementUnit.name}
                 </h4>
                 <h4 className="lowStockPage__h4">{stock.minimumStock}</h4>
-                <h4 className="lowStockPage__h4">{stock.currentStock}</h4>
                 <h4 className="lowStockPage__h4">
-                  {Math.abs(stock.currentStock - stock.minimumStock)}
+                  {stock.currentStock.toPrecision(4)}
+                </h4>
+                <h4 className="lowStockPage__h4">
+                  {Math.abs(
+                    stock.currentStock - stock.minimumStock
+                  ).toPrecision(4)}
                 </h4>
                 <div className="lowStockPage__icon">
                   <button
