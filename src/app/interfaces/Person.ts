@@ -5,4 +5,6 @@ export interface Person {
   phoneNumber: string;
   email: string;
   user_id: string;
+  ordersQuantity?: number;
+  totalOrdersAmount?: number;
 }

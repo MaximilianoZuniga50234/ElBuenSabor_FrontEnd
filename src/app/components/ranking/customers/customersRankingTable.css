@@ -1,0 +1,188 @@
+.customersRanking__table {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.customersRanking__table__container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+    border: 2px solid var(--ebony-950);
+    background-color: var(--ebony-50);
+    width: 100%;
+    max-width: 450px;
+}
+
+.customersRanking__table__container h5 {
+    font-weight: normal;
+}
+
+.customersRanking__table__header {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 0.5fr;
+    align-items: center;
+    border-bottom: 1px solid var(--ebony-950);
+    padding: 10px 5px;
+}
+
+.customersRanking__table__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.customersRanking__table__content__customer {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 0.5fr;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid var(--ebony-950);
+}
+
+.customersRanking__table__content__customer:last-child {
+    border-bottom: none;
+}
+
+.customersRanking__noResults {
+    text-wrap: balance;
+}
+
+.customersRanking__footer {
+    display: flex;
+    width: 100%;
+    max-width: 450px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+}
+
+.customersRanking__footer__pagination {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 12px;
+}
+
+.customersRanking__footer__excel button {
+    font-size: 12px;
+}
+
+.customersRanking__footer__pagination__arrow:hover {
+    cursor: pointer;
+}
+
+.customersRanking__table__content__customer__button {
+    justify-self: center;
+    font-size: 12px;
+    padding: 8px;
+}
+
+@media (width >=425px) {
+    .customersRanking__table__header {
+        padding: 10px 10px;
+    }
+
+    .customersRanking__table__content__customer {
+        padding: 10px 10px;
+    }
+
+    .customersRanking__noResults {
+        font-size: 18px;
+    }
+
+    .customersRanking__footer__pagination {
+        flex-direction: row;
+        gap: 30px;
+        justify-content: space-between;
+        font-size: 14px;
+    }
+
+    .customersRanking__footer__excel button {
+        font-size: 14px;
+    }
+
+    .customersRanking__table__content__customer__button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+}
+
+@media (width >=550px) {
+    .customersRanking__table__container h5 {
+        font-size: 16px;
+    }
+
+    .customersRanking__table__content__customer__button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+@media (width >=768px) {
+
+    .customersRanking__table__title {
+        padding: 20px 10px;
+    }
+
+    .customersRanking__table__container {
+        width: 70%;
+        max-width: 100%;
+    }
+
+    .customersRanking__table__container h5 {
+        font-size: 18px;
+    }
+
+    .customersRanking__table__header {
+        padding: 15px 5px;
+    }
+
+    .customersRanking__table__content__customer {
+        padding: 15px 5px;
+    }
+
+    .customersRanking__noResults {
+        font-size: 20px;
+    }
+
+    .customersRanking__footer {
+        width: 70%;
+        max-width: 100%;
+    }
+
+    .customersRanking__footer__pagination {
+        font-size: 16px;
+    }
+
+    .customersRanking__footer__excel button {
+        font-size: 16px;
+    }
+
+}
+
+@media (width >=1024px) {
+
+    .customersRanking__table__header {
+        padding: 20px 5px;
+    }
+
+    .customersRanking__table__content__customer {
+        padding: 20px 5px;
+    }
+
+    .customersRanking__table__container h5 {
+        font-size: 24px;
+    }
+
+    .customersRanking__footer__pagination {
+        font-size: 18px;
+    }
+
+    .customersRanking__footer__excel button {
+        font-size: 18px;
+    }
+}

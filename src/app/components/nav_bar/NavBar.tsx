@@ -171,6 +171,14 @@ const NavBar = () => {
                           <span>Ranking de productos</span>
                         </Link>
                       </li>
+                      <li className="nav_bar_dropdown_li">
+                        <Link
+                          to="/a/customersRanking"
+                          className="nav_bar_dropdown_link"
+                        >
+                          <span>Ranking de clientes</span>
+                        </Link>
+                      </li>
                     </>
                   )}
 
