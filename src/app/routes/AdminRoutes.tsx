@@ -4,6 +4,7 @@ import Employees from "../pages/employees/Employees";
 import Customers from "../pages/customers/Customers";
 import ProductsRanking from "../pages/ranking/products/ProductsRanking";
 import CustomersRanking from "../pages/ranking/customers/CustomersRanking";
+import MonetaryMovements from "../pages/monetary movements/MonetaryMovements";
 
 const AdminRoutes = () => {
   return (
@@ -23,6 +24,10 @@ const AdminRoutes = () => {
       <Route
         path="/customersRanking"
         element={<AuthenticationGuard component={CustomersRanking} />}
+      />
+      <Route
+        path="/monetaryMovements"
+        element={<AuthenticationGuard component={MonetaryMovements} />}
       />
     </Routes>
   );
