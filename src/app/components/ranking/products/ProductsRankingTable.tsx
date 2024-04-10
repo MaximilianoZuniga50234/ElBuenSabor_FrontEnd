@@ -1,5 +1,5 @@
-import "./rankingTable.css";
-import { Product } from "../../interfaces/Product";
+import "./productsRankingTable.css";
+import { Product } from "../../../interfaces/Product";
 import { useEffect, useState } from "react";
 import {
   HiOutlineChevronDoubleLeft,
