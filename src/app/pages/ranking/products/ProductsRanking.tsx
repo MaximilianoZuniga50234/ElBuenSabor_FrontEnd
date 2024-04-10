@@ -1,18 +1,18 @@
 import { Suspense, lazy, useEffect, useState } from "react";
-import { getAllProduct } from "../../functions/ProductAPI";
-import { Product } from "../../interfaces/Product";
-import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
-import { getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
-import { PurchaseOrderDetail } from "../../interfaces/PurchaseOrderDetail";
-import { useStore } from "../../store/CurrentUserStore";
+import { getAllProduct } from "../../../functions/ProductAPI";
+import { Product } from "../../../interfaces/Product";
+import { PurchaseOrder } from "../../../interfaces/PurchaseOrder";
+import { getAllPurchaseOrder } from "../../../functions/PurchaseOrderAPI";
+import { PurchaseOrderDetail } from "../../../interfaces/PurchaseOrderDetail";
+import { useStore } from "../../../store/CurrentUserStore";
 import "./productsRanking.css";
-import { Drinks } from "../../components/ranking/RankingTable";
+import { Drinks } from "../../../components/ranking/products/ProductsRankingTable";
 import { FaSearch } from "react-icons/fa";
 import { toast } from "sonner";
-import Loader from "../../components/loader/Loader";
+import Loader from "../../../components/loader/Loader";
 
-const RankingTable = lazy(
-  () => import("../../components/ranking/RankingTable")
+const ProductsRankingTable = lazy(
+  () => import("../../../components/ranking/products/ProductsRankingTable")
 );
 
 export default function ProductsRanking() {
@@ -68,6 +68,11 @@ export default function ProductsRanking() {
     getProducts();
     getPurchaseOrders();
   }, []);
+
+  useEffect(() => {
+    console.log(datesToFilter);
+    isNaN(datesToFilter.startDate.getTime()) && console.log("es invalida");
+  }, [datesToFilter]);
 
   useEffect(() => {
     if (purchaseOrders) {
@@ -128,7 +133,12 @@ export default function ProductsRanking() {
   }, [showProducts, products, filteredOrders]);
 
   const handleClick = () => {
-    if (datesToFilter.startDate.getHours() != 0) {
+    if (
+      isNaN(datesToFilter.startDate.getTime()) &&
+      isNaN(datesToFilter.endDate.getTime())
+    ) {
+      setFilteredOrders(purchaseOrders);
+    } else if (datesToFilter.startDate.getHours() != 0) {
       toast.error("Debe especificar una fecha de inicio para filtrar.");
     } else if (
       datesToFilter.endDate.getHours() != 23 ||
@@ -189,31 +199,32 @@ export default function ProductsRanking() {
             </button>
           </div>
         </div>
-
-        <div className="productsRanking__options">
-          <button
-            className={`productsRanking__option__products ${
-              showProducts ? "active" : ""
-            }`}
-            onClick={() => {
-              setShowProducts(true);
-            }}
-          >
-            Comidas
-          </button>
-          <button
-            className={`productsRanking__option__drinks ${
-              !showProducts ? "active" : ""
-            }`}
-            onClick={() => {
-              setShowProducts(false);
-            }}
-          >
-            Bebidas
-          </button>
-        </div>
+        {filteredProducts.length > 0 && (
+          <div className="productsRanking__options">
+            <button
+              className={`productsRanking__option__products ${
+                showProducts ? "active" : ""
+              }`}
+              onClick={() => {
+                setShowProducts(true);
+              }}
+            >
+              Comidas
+            </button>
+            <button
+              className={`productsRanking__option__drinks ${
+                !showProducts ? "active" : ""
+              }`}
+              onClick={() => {
+                setShowProducts(false);
+              }}
+            >
+              Bebidas
+            </button>
+          </div>
+        )}
         {!isLoading && (
-          <RankingTable
+          <ProductsRankingTable
             products={filteredProducts}
             showProducts={showProducts}
             datesToFilter={datesToFilter}
