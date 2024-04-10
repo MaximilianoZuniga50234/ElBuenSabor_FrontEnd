@@ -59,7 +59,10 @@ export default function CustomersRankingTable({
     const titulo = [
       {
         A:
-          datesToFilter.startDate.getTime() === datesToFilter.endDate.getTime()
+          datesToFilter.startDate.getTime() ===
+            datesToFilter.endDate.getTime() ||
+          (isNaN(datesToFilter.startDate.getTime()) &&
+            isNaN(datesToFilter.endDate.getTime()))
             ? `Clientes que realizaron pedidos hasta el día de la fecha.`
             : `Clientes que realizaron pedidos ${
                 datesToFilter.startDate.getDay() !=

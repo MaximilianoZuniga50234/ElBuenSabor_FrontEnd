@@ -51,7 +51,10 @@ export default function RankingTable({
     const titulo = [
       {
         A:
-          datesToFilter.startDate.getTime() === datesToFilter.endDate.getTime()
+          datesToFilter.startDate.getTime() ===
+            datesToFilter.endDate.getTime() ||
+          (isNaN(datesToFilter.startDate.getTime()) &&
+            isNaN(datesToFilter.endDate.getTime()))
             ? `${
                 showProducts ? "Productos vendidos" : "Bebidas vendidas"
               } hasta el día de la fecha.`

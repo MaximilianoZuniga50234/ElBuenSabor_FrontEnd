@@ -70,11 +70,6 @@ export default function ProductsRanking() {
   }, []);
 
   useEffect(() => {
-    console.log(datesToFilter);
-    isNaN(datesToFilter.startDate.getTime()) && console.log("es invalida");
-  }, [datesToFilter]);
-
-  useEffect(() => {
     if (purchaseOrders) {
       setFilteredOrders(purchaseOrders);
     }
