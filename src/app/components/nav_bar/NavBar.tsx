@@ -97,6 +97,11 @@ const NavBar = () => {
                 <button className="nav_bar_button">Administración</button>
 
                 <ul className="nav_bar_dropdown_ul">
+                  <li className="nav_bar_dropdown_li">
+                    <Link to="/e/orders" className="nav_bar_dropdown_link">
+                      <span>Pedidos</span>
+                    </Link>
+                  </li>
                   {(user?.role === "Administrador" ||
                     user?.role === "Cocinero") && (
                     <>
@@ -179,14 +184,16 @@ const NavBar = () => {
                           <span>Ranking de clientes</span>
                         </Link>
                       </li>
+                      <li className="nav_bar_dropdown_li">
+                        <Link
+                          to="/a/monetaryMovements"
+                          className="nav_bar_dropdown_link"
+                        >
+                          <span>Movimientos monetarios</span>
+                        </Link>
+                      </li>
                     </>
                   )}
-
-                  <li className="nav_bar_dropdown_li">
-                    <Link to="/e/orders" className="nav_bar_dropdown_link">
-                      <span>Pedidos</span>
-                    </Link>
-                  </li>
                 </ul>
               </li>
             )}
