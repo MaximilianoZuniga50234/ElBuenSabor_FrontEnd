@@ -7,6 +7,10 @@ import { Invoice } from "../../interfaces/Invoice";
 import { getAllInvoice } from "../../functions/InvoiceAPI";
 import InvoicePdf from "../invoice/InvoicePdf";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useStore as useToken } from "../../store/UserTokenStore";
+import { createPreference } from "../../functions/MercadoPagoApi";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { MercadoPagoInfo } from "../../interfaces/MercadoPagoInfo";
 
 interface ModalOrderDetailsProps {
   open: boolean;
@@ -24,6 +28,7 @@ const PURCHASE_ORDER_INITIAL_STATE = {
   shippingType: "",
   paymentMethod: "",
   total: 0,
+  amountToPaid: 0,
   active: true,
   person: {
     id: "0",
@@ -71,9 +76,25 @@ export default function ModalOrderDetails({
   isOrderFromCart = false,
 }: ModalOrderDetailsProps) {
   const { user } = useUser();
+  const { token } = useToken();
+
+  const [preferenceId, setPreferenceId] = useState("");
+
+  initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY, {
+    locale: "es-AR",
+  });
+
+  const [mercadoPagoInfo, setMercadoPagoInfo] = useState<MercadoPagoInfo>({
+    title: "Productos",
+    price: 0,
+    quantity: 1,
+  });
+
   const [estimatedHour, setEstimatedHour] = useState<string>();
   const [date, setDate] = useState<string>();
   const handleClose = () => {
+    setPreferenceId("");
+    localStorage.removeItem("order");
     setOpen(false);
   };
 
@@ -86,10 +107,26 @@ export default function ModalOrderDetails({
   };
 
   useEffect(() => {
+    if (mercadoPagoInfo.price != 0) {
+      getPreference();
+    }
+  }, [purchaseOrder.fecha]);
+
+  useEffect(() => {
     if (purchaseOrder) {
       getTime();
     }
   }, [purchaseOrder]);
+
+  useEffect(() => {
+    if (isOrderFromCart) {
+      setMercadoPagoInfo({
+        title: "Productos",
+        quantity: 1,
+        price: purchaseOrder.amountToPaid,
+      });
+    }
+  }, [purchaseOrder.amountToPaid]);
 
   const handleConfirm = async () => {
     if (setConfirmPurchase) setConfirmPurchase(true);
@@ -107,6 +144,17 @@ export default function ModalOrderDetails({
       );
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const getPreference = async () => {
+    try {
+      const data = await createPreference(mercadoPagoInfo, token);
+      if (data) {
+        setPreferenceId(data.id);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -221,7 +269,14 @@ export default function ModalOrderDetails({
                   </div>
                 </div>
 
-                <div className="modalOrderDetails__buttons">
+                <div
+                  className={`modalOrderDetails__buttons ${
+                    isOrderFromCart &&
+                    purchaseOrder.paymentMethod === "Mercado Pago" &&
+                    purchaseOrder.amountToPaid != 0 &&
+                    "mercado-pago"
+                  }`}
+                >
                   <button
                     className="modalOrderDetails__button"
                     onClick={handleClose}
@@ -239,14 +294,38 @@ export default function ModalOrderDetails({
                       </button>
                     </PDFDownloadLink>
                   )}
-                  {isOrderFromCart && (
-                    <button
-                      className="modalOrderDetails__button"
-                      onClick={handleConfirm}
-                    >
-                      Confirmar
-                    </button>
-                  )}
+                  {isOrderFromCart &&
+                    (purchaseOrder.paymentMethod === "Mercado Pago" &&
+                    purchaseOrder.amountToPaid != 0 ? (
+                      preferenceId != "" && (
+                        <div>
+                          <Wallet
+                            initialization={{ preferenceId: preferenceId }}
+                            customization={{
+                              visual: {
+                                borderRadius: "12px",
+                                verticalPadding: "8px",
+                              },
+                            }}
+                            onReady={() => {
+                              localStorage.setItem(
+                                "order",
+                                JSON.stringify(purchaseOrder)
+                              );
+                            }}
+                          />
+                        </div>
+                      )
+                    ) : (
+                      <>
+                        <button
+                          className="modalOrderDetails__button"
+                          onClick={handleConfirm}
+                        >
+                          Confirmar
+                        </button>
+                      </>
+                    ))}
                 </div>
               </>
             ) : (

@@ -48,6 +48,7 @@ button {
   background-color: var(--ebony-800);
   align-items: center;
   font-size: 14px;
+  justify-content: center;
 }
 
 button:hover {

@@ -1,12 +1,11 @@
-interface ProductMp {
-  title: string;
-  quantity: number;
-  price: number;
-}
+import { MercadoPagoInfo } from "../interfaces/MercadoPagoInfo";
 
-export async function createPreference(product: ProductMp, token: string) {
+export async function createPreference(
+  mercadoPagoInfo: MercadoPagoInfo,
+  token: string
+) {
   const response = await fetch("http://localhost:9000/mp", {
-    body: JSON.stringify(product),
+    body: JSON.stringify(mercadoPagoInfo),
     method: "POST",
     headers: {
       "Content-Type": "application/json",

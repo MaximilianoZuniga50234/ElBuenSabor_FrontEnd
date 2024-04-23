@@ -68,6 +68,13 @@
     text-align: center;
     padding: 5px 0;
     border-bottom: 1px solid var(--ebony-950);
+
+}
+
+.modalOrderDetails__products__content {
+    max-height: 100px;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 
 .modalOrderDetails__products__content__product {
@@ -80,7 +87,6 @@
 
 .modalOrderDetails__buttons {
     display: flex;
-    gap: 10px;
     justify-content: space-evenly;
     padding: 10px;
 }
@@ -90,6 +96,19 @@
     font-size: 12px;
     justify-content: center;
     width: 75px;
+}
+
+.mercado-pago {
+    flex-direction: column;
+    max-width: 280px;
+    align-self: center;
+    padding: 0;
+}
+
+.mercado-pago .modalOrderDetails__button {
+    order: 2;
+    width: auto;
+    margin: 0;
 }
 
 @media (width >=425px) {
@@ -158,12 +177,15 @@
         gap: 8px;
     }
 
+    .modalOrderDetails__products__content {
+        max-height: 120px;
+    }
+
 }
 
 @media (width >=1024px) {
     .modalOrderDetails__box {
         min-width: 550px;
-        gap: 15px;
     }
 
     .modalOrderDetails__header p {

@@ -130,6 +130,11 @@
         justify-content: center;
     }
 
+    .userOrders__card__buttons{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+    }
+
     .userOrders__card__button {
         font-size: medium;
     }

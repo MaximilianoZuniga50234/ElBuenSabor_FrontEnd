@@ -105,30 +105,18 @@ const Cart = () => {
   }, []);
 
   useEffect(() => {
-    if (userCreditNotes.length > 0) {
-      userCreditNotes.forEach((note: CreditNote) => {
-        setTotalCreditNoteAmount(totalCreditNoteAmount + note.total);
-      });
+    if (user != null) {
+      if (
+        user?.given_name === "" ||
+        user?.family_name === "" ||
+        user?.user_metadata?.address?.department === "" ||
+        user?.user_metadata?.address?.number === 0 ||
+        user?.user_metadata?.address?.street === ""
+      ) {
+        setIsPerfilComplete(false);
+      }
     }
-  }, [userCreditNotes]);
-
-  useEffect(() => {
-    if (creditNotes && creditNotes.length > 0 && user) {
-      setUserCreditNotes(
-        creditNotes.filter(
-          (note: CreditNote) =>
-            note.purchaseOrder.person?.user_id === user.user_id && note.active
-        )
-      );
-    }
-  }, [creditNotes, user]);
-
-  useEffect(() => {
-    if (confirmPurchase) {
-      createOrder();
-      setConfirmPurchase(false);
-    }
-  }, [confirmPurchase]);
+  }, [user]);
 
   useEffect(() => {
     if (
@@ -150,37 +138,96 @@ const Cart = () => {
   }, [user, personsDatabase, addressesDatabase]);
 
   useEffect(() => {
+    let time = 0;
+    let price = 0;
     if (cartProducts.length > 0) {
-      let time = 0;
-      let price = 0;
-      if (cartProducts.length > 0) {
-        cartProducts.map(async (cartProduct) => {
-          time =
-            cartProduct.product.estimatedTimeKitchen > time
-              ? cartProduct.product.estimatedTimeKitchen
-              : time;
-          price = price + cartProduct.product.salePrice * cartProduct.amount;
-        });
-        setPriceAndTime({ totalPrice: price, highestTime: time });
-      }
-    } else {
-      setPriceAndTime({ totalPrice: 0, highestTime: 0 });
+      cartProducts.map(async (cartProduct) => {
+        time =
+          cartProduct.product.estimatedTimeKitchen > time
+            ? cartProduct.product.estimatedTimeKitchen
+            : time;
+        price = price + cartProduct.product.salePrice * cartProduct.amount;
+      });
     }
+    setPriceAndTime({ totalPrice: price, highestTime: time });
   }, [cartProducts]);
 
   useEffect(() => {
-    if (user != null) {
-      if (
-        user?.given_name === "" ||
-        user?.family_name === "" ||
-        user?.user_metadata?.address?.department === "" ||
-        user?.user_metadata?.address?.number === 0 ||
-        user?.user_metadata?.address?.street === ""
-      ) {
-        setIsPerfilComplete(false);
+    if (creditNotes && creditNotes.length > 0 && user) {
+      setUserCreditNotes(
+        creditNotes.filter(
+          (note: CreditNote) =>
+            note.purchaseOrder.person?.user_id === user.user_id && note.active
+        )
+      );
+    }
+  }, [creditNotes, user]);
+
+  useEffect(() => {
+    if (userCreditNotes.length > 0) {
+      userCreditNotes.forEach((note: CreditNote) => {
+        setTotalCreditNoteAmount(totalCreditNoteAmount + note.total);
+      });
+    }
+  }, [userCreditNotes]);
+
+  useEffect(() => {
+    if (purchaseOrder.shippingType === "Retiro en el local") {
+      setPurchaseOrder({
+        ...purchaseOrder,
+        amountToPaid:
+          totalCreditNoteAmount > priceAndTime.totalPrice * 0.9
+            ? 0
+            : priceAndTime.totalPrice * 0.9 - totalCreditNoteAmount,
+      });
+    } else {
+      setPurchaseOrder({
+        ...purchaseOrder,
+        amountToPaid:
+          totalCreditNoteAmount > priceAndTime.totalPrice
+            ? 0
+            : priceAndTime.totalPrice - totalCreditNoteAmount,
+      });
+    }
+  }, [purchaseOrder.shippingType]);
+
+  useEffect(() => {
+    if (confirmPurchase) {
+      createOrder();
+      setConfirmPurchase(false);
+    }
+  }, [confirmPurchase]);
+
+  useEffect(() => {
+    if (purchaseOrder.details && purchaseOrder.details?.length > 0) {
+      let insufficientStock = false;
+      for (const detail of purchaseOrder.details) {
+        if (detail.product?.details) {
+          for (const productDetail of detail.product.details) {
+            if (
+              productDetail.stock.currentStock -
+                productDetail.amount * detail.amount <
+              0
+            ) {
+              insufficientStock = true;
+              break;
+            }
+          }
+        }
+
+        if (insufficientStock) {
+          toast.error(
+            `Lo sentimos, no hay suficiente stock para preparar la cantidad seleccionada del producto "${detail.product?.denomination}".`
+          );
+          break;
+        }
+      }
+
+      if (!insufficientStock) {
+        setOpen(true);
       }
     }
-  }, [user]);
+  }, [purchaseOrder.details]);
 
   const getPurchaseOrders = async () => {
     const response = await getAllPurchaseOrder();
@@ -231,7 +278,24 @@ const Cart = () => {
       //         "No puedes realizar una compra porque estás dado de baja del sistema."
       //       );
     } else {
-      setOpen(true);
+      const details: PurchaseOrderDetail[] = cartProducts.map((cartProduct) => {
+        return {
+          amount: cartProduct.amount,
+          subtotal: cartProduct.product.salePrice * cartProduct.amount,
+          product: cartProduct.product,
+          stock: null,
+        } as PurchaseOrderDetail;
+      });
+
+      setPurchaseOrder({
+        ...purchaseOrder,
+        details: details,
+        total: priceAndTime.totalPrice * 0.9,
+        amountToPaid:
+          totalCreditNoteAmount > priceAndTime.totalPrice * 0.9
+            ? 0
+            : priceAndTime.totalPrice * 0.9 - totalCreditNoteAmount,
+      });
     }
     // } else {
     //   toast.error(
@@ -249,15 +313,6 @@ const Cart = () => {
   const handleClose = () => setOpen(false);
 
   const handleOpenModalOrderDetails = () => {
-    const details: PurchaseOrderDetail[] = cartProducts.map((cartProduct) => {
-      return {
-        amount: cartProduct.amount,
-        subtotal: cartProduct.product.salePrice * cartProduct.amount,
-        product: cartProduct.product,
-        stock: null,
-      } as PurchaseOrderDetail;
-    });
-
     let highestTimeOrders = 0;
 
     const ordersInKitchen = purchaseOrders?.filter(
@@ -273,116 +328,77 @@ const Cart = () => {
 
     setPurchaseOrder({
       ...purchaseOrder,
-      details: details,
       estimatedEndTime:
         purchaseOrder.shippingType === "Envío a domicilio"
           ? priceAndTime.highestTime + highestTimeOrders + 10
           : priceAndTime.highestTime + highestTimeOrders,
-      total:
-        purchaseOrder.shippingType === "Retiro en el local"
-          ? priceAndTime.totalPrice * 0.9
-          : priceAndTime.totalPrice,
       fecha: new Date(),
     });
     setOpenModalOrderDetails(true);
   };
 
   const createOrder = async () => {
-    let insufficientStock = false;
-    if (purchaseOrder.details && purchaseOrder.details?.length > 0) {
-      for (const detail of purchaseOrder.details) {
-        if (detail.product?.details) {
-          for (const productDetail of detail.product.details) {
-            if (
-              productDetail.stock.currentStock -
-                productDetail.amount * detail.amount <
-              0
-            ) {
-              insufficientStock = true;
-              break;
-            }
-          }
-        }
+    let response = null;
 
-        if (insufficientStock) {
-          toast.error(
-            `Lo sentimos, no hay suficiente stock para preparar la cantidad seleccionada del producto "${detail.product?.denomination}".`
-          );
-          handleClose();
-          break;
-        }
-      }
+    if (userCreditNotes.length > 0) {
+      if (purchaseOrder.total >= totalCreditNoteAmount) {
+        response = await createPurchaseOrder(
+          {
+            ...purchaseOrder,
+            amountToPaid: purchaseOrder.total - totalCreditNoteAmount,
+          },
+          token
+        );
 
-      if (!insufficientStock) {
-        let response = null;
+        userCreditNotes.forEach((note: CreditNote) => {
+          updateCreditNote({ ...note, total: 0, active: false }, token);
+        });
+      } else {
+        response = await createPurchaseOrder({...purchaseOrder, paymentMethod: "Efectivo"}, token);
 
-        if (userCreditNotes.length > 0) {
-          if (purchaseOrder.total >= totalCreditNoteAmount) {
-            response = await createPurchaseOrder(
-              {
-                ...purchaseOrder,
-                amountToPaid: purchaseOrder.total - totalCreditNoteAmount,
-              },
+        let totalOrder = purchaseOrder.total;
+
+        userCreditNotes.forEach((note: CreditNote) => {
+          if (totalOrder >= note.total) {
+            totalOrder = totalOrder - note.total;
+            updateCreditNote({ ...note, total: 0, active: false }, token);
+          } else {
+            updateCreditNote(
+              { ...note, total: note.total - totalOrder },
               token
             );
-
-            userCreditNotes.forEach((note: CreditNote) => {
-              updateCreditNote({ ...note, total: 0, active: false }, token);
-            });
-          } else {
-            response = await createPurchaseOrder(purchaseOrder, token);
-
-            let totalOrder = purchaseOrder.total;
-
-            userCreditNotes.forEach((note: CreditNote) => {
-              if (totalOrder >= note.total) {
-                totalOrder = totalOrder - note.total;
-                updateCreditNote({ ...note, total: 0, active: false }, token);
-              } else {
-                updateCreditNote(
-                  { ...note, total: note.total - totalOrder },
-                  token
-                );
-              }
-            });
           }
-        } else {
-          response = await createPurchaseOrder(
-            {
-              ...purchaseOrder,
-              amountToPaid: purchaseOrder.total,
-            },
-            token
-          );
-        }
+        });
+      }
+    } else {
+      response = await createPurchaseOrder(purchaseOrder, token);
+    }
 
-        if (response) {
-          toast.success("Orden creada correctamente.");
+    if (response) {
+      toast.success("Orden creada correctamente.");
 
-          if (purchaseOrder.details) {
-            for (const detail of purchaseOrder.details) {
-              if (detail.product?.details) {
-                for (const productDetail of detail.product.details) {
-                  await updateStock(
-                    {
-                      ...productDetail.stock,
-                      currentStock:
-                        productDetail.stock.currentStock -
-                        productDetail.amount * detail.amount,
-                    },
-                    token
-                  );
-                }
-              }
+      if (purchaseOrder.details) {
+        for (const detail of purchaseOrder.details) {
+          if (detail.product?.details) {
+            for (const productDetail of detail.product.details) {
+              await updateStock(
+                {
+                  ...productDetail.stock,
+                  currentStock:
+                    productDetail.stock.currentStock -
+                    productDetail.amount * detail.amount,
+                },
+                token
+              );
             }
           }
-        } else {
-          toast.error("Error al crear la orden.");
         }
-        handleClose();
-        clear();
       }
+    } else {
+      toast.error("Error al crear la orden.");
     }
+    handleClose();
+    clear();
   };
 
   const handleChangePaymentMethod = (
@@ -401,6 +417,10 @@ const Cart = () => {
         event.target.value === "Envío a domicilio"
           ? "Mercado Pago"
           : purchaseOrder.paymentMethod,
+      total:
+        event.target.value === "Retiro en el local"
+          ? priceAndTime.totalPrice * 0.9
+          : priceAndTime.totalPrice,
     });
   };
 

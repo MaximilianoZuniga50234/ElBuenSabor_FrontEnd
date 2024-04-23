@@ -15,20 +15,29 @@ const ModalOrderDetails = lazy(
   () => import("../../components/modalOrderDetails/ModalOrderDetails")
 );
 
-export default function UserOrders() {
-  const { user } = useCurrentUser();
-  const { isAuthenticated } = useAuth0();
-  const [orders, setOrders] = useState<PurchaseOrder[]>();
-  const [order, setOrder] = useState<PurchaseOrder>({
+const PURCHASE_ORDER_INITIAL_STATE = {
+  id: 0,
+  fecha: new Date(),
+  number: Math.floor(Math.random() * (999999 - 100000 + 1) + 100000),
+  estimatedEndTime: 0,
+  shippingType: "Retiro en el local",
+  paymentMethod: "Efectivo",
+  total: 0,
+  amountToPaid: 0,
+  active: true,
+  person: {
+    id: "0",
+    name: "",
+    email: "",
+    lastName: "",
+    phoneNumber: "",
+    user_id: "",
+  },
+  address: {
     id: 0,
-    fecha: new Date(),
-    number: Math.floor(Math.random() * (999999 - 100000 + 1) + 100000),
-    estimatedEndTime: 0,
-    shippingType: "Retiro en el local",
-    paymentMethod: "Efectivo",
-    total: 0,
-    amountToPaid: 0,
-    active: true,
+    street: "",
+    number: 0,
+    department: { id: 0, name: "" },
     person: {
       id: "0",
       name: "",
@@ -37,23 +46,18 @@ export default function UserOrders() {
       phoneNumber: "",
       user_id: "",
     },
-    address: {
-      id: 0,
-      street: "",
-      number: 0,
-      department: { id: 0, name: "" },
-      person: {
-        id: "0",
-        name: "",
-        email: "",
-        lastName: "",
-        phoneNumber: "",
-        user_id: "",
-      },
-    },
-    status: { id: 1, status: "Por aceptar" },
-    details: null,
-  });
+  },
+  status: { id: 1, status: "A confirmar" },
+  details: null,
+};
+
+export default function UserOrders() {
+  const { user } = useCurrentUser();
+  const { isAuthenticated } = useAuth0();
+  const [orders, setOrders] = useState<PurchaseOrder[]>();
+  const [order, setOrder] = useState<PurchaseOrder>(
+    PURCHASE_ORDER_INITIAL_STATE
+  );
   const [filterOrders, setFilterOrders] = useState<PurchaseOrder[]>();
   const [invoices, setInvoices] = useState<Invoice[]>();
 
