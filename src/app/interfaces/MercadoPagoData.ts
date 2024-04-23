@@ -1,10 +1,15 @@
 import { Base } from "./Base";
 
 export interface MercadoPagoData extends Base {
-  paymentIdentifier: number;
-  creatioDate: Date;
-  approvalDate: Date;
-  paymentMehod: string;
-  cardNumber: string;
-  state: string;
+  collectionId: string;
+  collectionStatus: string;
+  paymentId: string;
+  status: string;
+  externalReference: string;
+  paymentType: string;
+  merchantOrderId: string;
+  preferenceId: string;
+  siteId: string;
+  processingMode: string;
+  merchantAccountId: string;
 }

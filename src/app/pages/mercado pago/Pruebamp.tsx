@@ -10,9 +10,9 @@ export default function Pruebamp() {
     locale: "es-AR",
   });
 
-  const product = {
+  const mercadoPagoInfo = {
     title: "prueba",
-    price: 253,
+    price: 200,
     quantity: 1,
   };
 
@@ -20,7 +20,7 @@ export default function Pruebamp() {
 
   const getPreference = async () => {
     try {
-      const data = await createPreference(product, token);
+      const data = await createPreference(mercadoPagoInfo, token);
       if (data) {
         console.log(data.id);
         setPreferenceId(data.id);

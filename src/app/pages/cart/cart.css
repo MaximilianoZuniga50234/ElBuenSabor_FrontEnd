@@ -165,14 +165,7 @@
 }
 
 .modalCart__button {
-  display: flex;
-  padding: 6px 12px;
-  background-color: var(--midnight-blue);
-  color: var(--light-lavender-gray);
-  border: none;
-  border-radius: 10px;
   width: 100px;
-  justify-content: center;
 }
 
 .modalCart__button:hover {
