@@ -12,7 +12,7 @@
     border-radius: 10px;
     border: 2px solid var(--ebony-950);
     min-height: 80vh;
-    background-color: var(--light-lavender-gray);
+    background-color: var(--ebony-50);
 }
 
 .userOrders__header {
@@ -78,7 +78,6 @@
 }
 
 @media (width >=425px) {
-
     .userOrders__content {
         grid-template-columns: repeat(auto-fit, minmax(230px, 280px));
     }
@@ -130,9 +129,9 @@
         justify-content: center;
     }
 
-    .userOrders__card__buttons{
+    .userOrders__card__buttons {
         display: grid;
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .userOrders__card__button {
@@ -142,7 +141,6 @@
     .hide {
         display: none;
     }
-
 }
 
 @media (width >=1024px) {

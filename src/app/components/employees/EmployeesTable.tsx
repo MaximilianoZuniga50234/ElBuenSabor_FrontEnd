@@ -6,7 +6,6 @@ import {
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from "react-icons/hi";
-import { IoArrowRedoSharp } from "react-icons/io5";
 import { UserAuth0Get } from "../../interfaces/UserAuth0";
 import ModalEmployeesAbm from "./ModalEmployeesAbm";
 
@@ -80,7 +79,7 @@ const Table = ({ datos }: Props) => {
             <td>CORREO ELECTRÓNICO</td>
             <td>TELÉFONO</td>
             <td>CARGO</td>
-            <td>MODIFICAR</td>
+            <td></td>
           </tr>
         </thead>
         <tbody>
@@ -91,21 +90,15 @@ const Table = ({ datos }: Props) => {
               <td>{`${e.user_metadata?.phone_number}`}</td>
               <td>{`${e.role != undefined ? e.role : "Cargando..."}`}</td>
               <td className="celda_acciones">
-                <FaGear onClick={() => handleModify(e)} />
+                <button onClick={() => handleModify(e)}>
+                  <FaGear />
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr>
-            <td>
-              <a href="?">
-                <IoArrowRedoSharp />
-                EXPORTAR A EXCEL
-              </a>
-            </td>
-            <td></td>
-            <td></td>
             <td>
               {indiceInicio} - {indiceFin} de {datos.length}
             </td>

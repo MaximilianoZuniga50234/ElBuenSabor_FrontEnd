@@ -1,5 +1,4 @@
 import { Suspense, lazy, useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { FaClock } from "react-icons/fa6";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
@@ -53,7 +52,6 @@ const PURCHASE_ORDER_INITIAL_STATE = {
 
 export default function UserOrders() {
   const { user } = useCurrentUser();
-  const { isAuthenticated } = useAuth0();
   const [orders, setOrders] = useState<PurchaseOrder[]>();
   const [order, setOrder] = useState<PurchaseOrder>(
     PURCHASE_ORDER_INITIAL_STATE
@@ -73,7 +71,6 @@ export default function UserOrders() {
     try {
       const response = await getAllPurchaseOrder();
       setOrders(response);
-      setisLoaded(true);
     } catch (error) {
       console.error(error);
     }
@@ -83,7 +80,6 @@ export default function UserOrders() {
     try {
       const response = await getAllInvoice();
       setInvoices(response);
-      setisLoaded(true);
     } catch (error) {
       console.error(error);
     }
@@ -104,6 +100,7 @@ export default function UserOrders() {
             order.active
         )
       );
+      setisLoaded(true);
     }
   }, [user, orders]);
 
@@ -113,13 +110,7 @@ export default function UserOrders() {
         <div className="userOrders__table">
           <div className="userOrders__header">
             <h1 className="userOrders__header__title">
-              {isAuthenticated
-                ? isLoaded &&
-                  (filterOrders === undefined ||
-                  (filterOrders && filterOrders.length === 0)
-                    ? "No hay órdenes"
-                    : "Mis órdenes")
-                : "Inicia sesión para ver tus órdenes"}
+              {isLoaded && (filterOrders ? "Mis órdenes" : "No hay órdenes")}
             </h1>
           </div>
 

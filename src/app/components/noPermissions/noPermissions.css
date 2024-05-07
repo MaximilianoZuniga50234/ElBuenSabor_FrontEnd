@@ -22,5 +22,5 @@
 }
 
 .noPermissions__button a {
-    color: white;
+    color: var(--white);
 }

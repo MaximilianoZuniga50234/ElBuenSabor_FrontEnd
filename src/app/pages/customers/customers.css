@@ -1,4 +1,4 @@
-.main_employees_list {
+.main_customers_list {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -7,7 +7,7 @@
   justify-content: center;
 }
 
-.main_employees_list .title_container {
+.main_customers_list .title_container {
   width: 90%;
   align-self: flex-start;
   display: flex;
@@ -17,23 +17,11 @@
   margin: 24px 0 16px 5%;
 }
 
-.main_employees_list .title_container h2 {
+.main_customers_list .title_container h2 {
   font-size: 36px;
 }
 
-.main_employees_list .title_container button {
-  background: #2f2c79;
-  border: 0;
-  border-radius: 12px;
-  color: #fff;
-  padding: 12px 16px 12px 16px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-}
-
-.main_employees_list .title_container form {
+.main_customers_list .title_container form {
   width: 40%;
   display: flex;
   height: 40px;
@@ -41,134 +29,121 @@
   gap: 0;
 }
 
-.main_employees_list .title_container form input {
+.main_customers_list .title_container form input {
   width: 90%;
   border: 0;
-  background-color: #eee;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
   border-radius: 12px 0 0 12px;
   padding: 0 8px 0 8px;
 }
 
-.main_employees_list .title_container form button {
-  background: #11111f;
-  color: #fff;
-  border: 0;
+.main_customers_list .title_container form button {
   border-radius: 0 12px 12px 0;
 }
 
-.main_employees_list .title_container form button svg {
+.main_customers_list .title_container form button svg {
   width: 16px;
   height: 16px;
 }
 
-.main_employees_list .title_container button:hover {
-  opacity: 0.7;
-  cursor: pointer;
-}
-
-.main_employees_list .title_container button svg {
+.main_customers_list .title_container button svg {
   width: 16px;
   height: 16px;
   font-weight: bolder;
 }
 
-.employees_list_table {
-  border: 1px solid #000000;
+.customers_list_table {
+  border: 1px solid var(--ebony-950);
   border-radius: 12px;
-  background: #eeeef6;
+  background: var(--ebony-50);
   width: 90%;
   margin: 8px 0 0 0;
   border-spacing: 0;
   border: 0;
 }
 
-.employees_list_table thead tr {
+.customers_list_table thead tr {
   display: grid;
-  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
+  grid-template-columns: 1.75fr 1.75fr 1.5fr 0.5fr;
   padding: 0 32px 0 32px;
-  border-bottom: 1px solid #000;
-  background: #222246;
+  border-bottom: 1px solid var(--ebony-950);
+  background: var(--ebony-900);
   border-radius: 12px 12px 0 0;
-  color: #fff;
+  color: var(--white);
 }
 
-.employees_list_table thead tr td {
+.customers_list_table thead tr td {
   display: flex;
   font-weight: bold;
   padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
 }
 
-.employees_list_table tbody tr {
+.customers_list_table tbody tr {
   display: grid;
-  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
+  grid-template-columns: 1.75fr 1.75fr 1.5fr 0.5fr;
   padding: 0 32px 0 32px;
-  border-bottom: 1px solid #222246;
-  border-left: 1px solid #222246;
-  border-right: 1px solid #222246;
+  border-bottom: 1px solid var(--ebony-950);
+  border-left: 1px solid var(--ebony-950);
+  border-right: 1px solid var(--ebony-950);
 }
 
-.employees_list_table tbody tr td {
+.customers_list_table tbody tr td {
   display: flex;
   padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
 }
 
-.employees_list_table .celda_acciones {
+.customers_list_table .celda_acciones {
   display: flex;
   font-size: 20px;
   justify-content: center;
 }
 
-.employees_list_table .celda_acciones svg {
+.customers_list_table .celda_acciones svg {
   cursor: pointer;
 }
 
-.employees_list_table tfoot tr {
+.customers_list_table tfoot tr {
   display: grid;
   grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
   padding: 0 32px 0 32px;
-  background: var(--light-grayish-blue);
+  background: var(--ebony-50);
   border: 0;
 }
 
-.employees_list_table tfoot tr td {
+.customers_list_table tfoot tr td {
   display: flex;
   flex-direction: row;
   padding: 16px 0 16px 0;
   gap: 8px;
 }
 
-.employees_list_table tfoot tr td span {
+.customers_list_table tfoot tr td a {
   display: flex;
   flex-direction: row;
   padding: 8px 16px 8px 16px;
   gap: 4px;
   border: 0;
   border-radius: 12px;
-  background-color: #ddddf6;
+  color: var(--white);
+  background-color: var(--ebony-950);
 }
 
-.employees_list_table tfoot tr td span {
-  display: flex;
-  flex-direction: row;
-  padding: 8px 16px 8px 16px;
-  gap: 4px;
-  border: 0;
-  border-radius: 12px;
-  color: #fff;
-  background-color: #222250;
-}
-
-.employees_list_table tfoot tr td span:hover {
+.customers_list_table tfoot tr td a:hover {
   cursor: pointer;
   opacity: 0.7;
 }
 
-.employees_list_table .paginacion_flechas {
+.customers_list_table .paginacion_flechas {
   height: 16px;
   width: 16px;
 }
 
-.employees_list_table .paginacion_flechas:hover {
+.customers_list_table .paginacion_flechas:hover {
   opacity: 0.7;
 }
 
@@ -178,13 +153,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 350px;
-  background-color: var(--light-lavender-gray);
-  border: 1px solid var(--midnight-blue);
-  padding: 20px 40px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  padding: 10px 40px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+  overflow-y: scroll;
+  max-height: 95vh;
+  scrollbar-width: none;
 }
 
 .modalCustomersAbm__box>.modalCustomersAbm__h3 {
@@ -201,33 +179,28 @@
   font-weight: normal;
 }
 
+.modalConfirmDelete__h2 {
+  font-weight: normal;
+  text-align: center;
+}
+
 .modalCustomersAbm__input,
 .modalCustomersAbm__select {
-  padding: 8px 5px;
-  background-color: var(--light-lavender-gray);
-  border: 1px solid var(--midnight-blue);
+  padding: 6px 5px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
   border-radius: 10px;
 }
 
-.modalCustomersAbm__buttons {
+.modalCustomersAbm__buttons,
+.modalConfirmDelete__buttons {
   display: flex;
   justify-content: space-between;
 }
 
-.modalCustomersAbm__button {
-  display: flex;
-  padding: 10px 20px;
-  background-color: var(--midnight-blue);
-  color: var(--light-lavender-gray);
-  border: none;
-  border-radius: 10px;
+.modalCustomersAbm__button,
+.modalConfirmDelete__button {
   width: 100px;
-  justify-content: center;
-}
-
-.modalCustomersAbm__button:hover {
-  cursor: pointer;
-  background-color: royalblue;
 }
 
 .modalCustomersAbm__h5--popover {
@@ -236,11 +209,6 @@
 }
 
 .modalCustomersAbm__popover__button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--ebony-950);
-  border-radius: 50%;
   height: 15px;
   width: 15px;
   margin-left: 3px;

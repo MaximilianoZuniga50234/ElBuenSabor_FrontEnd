@@ -1,6 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from "react";
 import { FaSearch } from "react-icons/fa";
-// import { getUserRole, getUsersAuth0 } from "../../functions/UserAPI";
 import { UserAuth0Get } from "../../interfaces/UserAuth0";
 import { useStore as useUsers } from "../../store/UsersStore";
 import { useStore as useUser } from "../../store/CurrentUserStore";
@@ -25,7 +24,7 @@ const Customers = () => {
   return (
     <Suspense fallback={<Loader />}>
       {user?.role === "Administrador" ? (
-        <main className="main_employees_list">
+        <main className="main_customers_list">
           <div className="title_container">
             <h2>Clientes</h2>
             <form>

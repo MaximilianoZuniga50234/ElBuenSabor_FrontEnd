@@ -1,21 +1,15 @@
-:root {
-    --midnight-blue: #11111F;
-    --light-lavender-gray: #EEEEF6;
-}
-
 .itemStockABM__container {
     padding: 30px;
     max-width: 1440px;
     margin: 0 auto;
-
 }
 
 .itemStockABM__table {
     display: flex;
     flex-direction: column;
-    background-color: var(--light-lavender-gray);
+    background-color: var(--ebony-50);
     border-radius: 10px;
-    border: 2px solid var(--midnight-blue);
+    border: 2px solid var(--ebony-950);
 }
 
 .itemStockABM__header {
@@ -27,27 +21,12 @@
     flex: 1;
 }
 
-.itemStockABM__button__container {
-    flex: 1;
-    display: flex;
-    justify-content: end;
-}
-
-.itemStockABM__button {
-    color: var(--light-lavender-gray);
-    background-color: var(--midnight-blue);
-    padding: 8px;
-    border-radius: 10px;
-    border: none;
-    transition: .1s;
-}
-
 .itemStockABM__labels {
     display: grid;
     grid-template-columns: 1fr 4fr 2fr 2fr 2fr;
     padding: 16px 0;
     text-align: center;
-    border-top: 1px solid var(--midnight-blue);
+    border-top: 1px solid var(--ebony-950);
 }
 
 .itemStockABM__row {
@@ -55,7 +34,7 @@
     grid-template-columns: 1fr 4fr 2fr 2fr 2fr;
     padding: 10px 0;
     text-align: center;
-    border-top: 1px solid var(--midnight-blue);
+    border-top: 1px solid var(--ebony-950);
     align-items: center;
 }
 
@@ -65,45 +44,29 @@
 }
 
 .itemStockABM__button--icon {
-    background-color: var(--midnight-blue);
-    color: var(--light-lavender-gray);
-    padding: 8px;
-    border-radius: 10px;
-    align-items: center;
-    display: flex;
-    transition: .1s;
+    padding: 10px;
 }
 
 .itemStockABM__h4 {
     font-weight: 500;
 }
 
-.itemStockABM__button--icon:hover {
-    cursor: pointer;
-    background-color: royalblue;
-
-}
-
-.itemStockABM__button:hover {
-    cursor: pointer;
-    background-color: royalblue;
-}
-
-
 .itemStockABM__modal__box {
     position: absolute;
-    /* top: 45%; */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 350px;
-    background-color: var(--light-lavender-gray);
-    border: 1px solid var(--midnight-blue);
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
     padding: 20px 40px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 30px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
 }
 
 .itemStockABM__modal__h3 {
@@ -121,8 +84,8 @@
 .itemStockABM__modal__input,
 .itemStockABM__modal__select {
     padding: 10px 5px;
-    background-color: var(--light-lavender-gray);
-    border: 1px solid var(--midnight-blue);
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
     border-radius: 10px;
 }
 
@@ -133,17 +96,5 @@
 }
 
 .itemStockABM__modal__button {
-    display: flex;
-    padding: 10px 20px;
-    background-color: var(--midnight-blue);
-    color: var(--light-lavender-gray);
-    border: none;
-    border-radius: 10px;
     width: 100px;
-    justify-content: center;
-}
-
-.itemStockABM__modal__button:hover {
-    cursor: pointer;
-    background-color: royalblue;
 }

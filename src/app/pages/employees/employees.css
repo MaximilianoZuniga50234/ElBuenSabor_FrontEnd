@@ -22,15 +22,7 @@
 }
 
 .main_employees_list .title_container button {
-  background: #2f2c79;
-  border: 0;
-  border-radius: 12px;
-  color: #fff;
   padding: 12px 16px 12px 16px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
 }
 
 .main_employees_list .title_container form {
@@ -44,26 +36,19 @@
 .main_employees_list .title_container form input {
   width: 90%;
   border: 0;
-  background-color: #eee;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
   border-radius: 12px 0 0 12px;
   padding: 0 8px 0 8px;
 }
 
 .main_employees_list .title_container form button {
-  background: #11111f;
-  color: #fff;
-  border: 0;
   border-radius: 0 12px 12px 0;
 }
 
 .main_employees_list .title_container form button svg {
   width: 16px;
   height: 16px;
-}
-
-.main_employees_list .title_container button:hover {
-  opacity: 0.7;
-  cursor: pointer;
 }
 
 .main_employees_list .title_container button svg {
@@ -73,9 +58,9 @@
 }
 
 .employees_list_table {
-  border: 1px solid #000000;
+  border: 1px solid var(--ebony-950);
   border-radius: 12px;
-  background: #eeeef6;
+  background: var(--ebony-50);
   width: 90%;
   margin: 8px 0 0 0;
   border-spacing: 0;
@@ -86,30 +71,34 @@
   display: grid;
   grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
   padding: 0 32px 0 32px;
-  border-bottom: 1px solid #000;
-  background: #222246;
+  border-bottom: 1px solid var(--ebony-950);
+  background: var(--ebony-900);
   border-radius: 12px 12px 0 0;
-  color: #fff;
+  color: var(--white);
 }
 
 .employees_list_table thead tr td {
   display: flex;
   font-weight: bold;
   padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .employees_list_table tbody tr {
   display: grid;
   grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
   padding: 0 32px 0 32px;
-  border-bottom: 1px solid #222246;
-  border-left: 1px solid #222246;
-  border-right: 1px solid #222246;
+  border-bottom: 1px solid var(--ebony-950);
+  border-left: 1px solid var(--ebony-950);
+  border-right: 1px solid var(--ebony-950);
 }
 
 .employees_list_table tbody tr td {
   display: flex;
   padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .employees_list_table .celda_acciones {
@@ -126,7 +115,7 @@
   display: grid;
   grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
   padding: 0 32px 0 32px;
-  background: var(--light-grayish-blue);
+  background: var(--ebony-50);
   border: 0;
 }
 
@@ -144,8 +133,8 @@
   gap: 4px;
   border: 0;
   border-radius: 12px;
-  color: #fff;
-  background-color: #222250;
+  color: var(--white);
+  background-color: var(--ebony-950);
 }
 
 .employees_list_table tfoot tr td a:hover {
@@ -168,15 +157,17 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 350px;
-  background-color: var(--light-lavender-gray);
-  border: 1px solid var(--midnight-blue);
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
   padding: 10px 40px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  overflow-y: scroll;
+  max-height: 95vh;
+  scrollbar-width: none;
 }
-
 
 .modalEmployeesAbm__box>.modalEmployeesAbm__h3 {
   text-align: center;
@@ -185,7 +176,7 @@
 .modalEmployeesAbm__div {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .modalEmployeesAbm__h5 {
@@ -200,8 +191,8 @@
 .modalEmployeesAbm__input,
 .modalEmployeesAbm__select {
   padding: 6px 5px;
-  background-color: var(--light-lavender-gray);
-  border: 1px solid var(--midnight-blue);
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
   border-radius: 10px;
 }
 
@@ -213,19 +204,7 @@
 
 .modalEmployeesAbm__button,
 .modalConfirmDelete__button {
-  display: flex;
-  padding: 10px 20px;
-  background-color: var(--midnight-blue);
-  color: var(--light-lavender-gray);
-  border: none;
-  border-radius: 10px;
   width: 100px;
-  justify-content: center;
-}
-
-.modalEmployeesAbm__button:hover {
-  cursor: pointer;
-  background-color: royalblue;
 }
 
 .modalEmployeesAbm__h5--popover {
@@ -234,11 +213,6 @@
 }
 
 .modalEmployeesAbm__popover__button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--ebony-950);
-  border-radius: 50%;
   height: 15px;
   width: 15px;
   margin-left: 3px;

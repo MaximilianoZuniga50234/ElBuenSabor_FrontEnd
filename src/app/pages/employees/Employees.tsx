@@ -10,7 +10,7 @@ import "./employees.css";
 const ModalEmployeesAbm = lazy(
   () => import("../../components/employees/ModalEmployeesAbm")
 );
-const Table = lazy(() => import("../../components/customers/CustomersTable"));
+const Table = lazy(() => import("../../components/employees/EmployeesTable"));
 const NoPermissions = lazy(
   () => import("../../components/noPermissions/NoPermissions")
 );

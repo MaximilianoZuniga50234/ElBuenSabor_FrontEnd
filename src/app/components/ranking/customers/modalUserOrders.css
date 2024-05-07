@@ -13,6 +13,9 @@
     gap: 20px;
     align-items: center;
     max-width: 800px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
 }
 
 .modalUserOrders__title {

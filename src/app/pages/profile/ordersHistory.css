@@ -12,7 +12,7 @@
     border-radius: 10px;
     border: 2px solid var(--ebony-950);
     min-height: 80vh;
-    background-color: var(--light-lavender-gray);
+    background-color: var(--ebony-50);
 }
 
 .ordersHistory__labels {
@@ -75,8 +75,8 @@
     display: flex;
     justify-content: space-evenly;
     padding: 10px 0;
+    width: 100%;
 }
-
 
 .ordersHistory__button {
     font-size: 10px;

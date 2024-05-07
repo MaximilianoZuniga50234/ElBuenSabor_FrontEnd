@@ -58,37 +58,34 @@ export default function CustomersRanking() {
   }, [purchaseOrders]);
 
   useEffect(() => {
-    if (
-      user &&
-      persons.length > 1 &&
-      filteredOrders &&
-      filteredOrders?.length > 0
-    ) {
+    if (user && filteredOrders) {
       setIsLoading(false);
-      persons.forEach((p) => {
-        if (p.ordersQuantity) {
-          p.ordersQuantity = 0;
-          p.totalOrdersAmount = 0;
-        }
-      });
+      if (persons.length > 1 && filteredOrders?.length > 0) {
+        persons.forEach((p) => {
+          if (p.ordersQuantity) {
+            p.ordersQuantity = 0;
+            p.totalOrdersAmount = 0;
+          }
+        });
 
-      filteredOrders.forEach((order: PurchaseOrder) => {
-        const personIndex = persons?.findIndex(
-          (person: Person) => person.id === order.person?.id
-        );
+        filteredOrders.forEach((order: PurchaseOrder) => {
+          const personIndex = persons?.findIndex(
+            (person: Person) => person.id === order.person?.id
+          );
 
-        if (personIndex !== -1) {
-          const totalAmount = persons[personIndex].totalOrdersAmount ?? 0;
-          const quantity = persons[personIndex].ordersQuantity ?? 0;
-          persons[personIndex] = {
-            ...persons[personIndex],
-            ordersQuantity: quantity ? quantity + 1 : 1,
-            totalOrdersAmount: totalAmount
-              ? totalAmount + order.total
-              : order.total,
-          };
-        }
-      });
+          if (personIndex !== -1) {
+            const totalAmount = persons[personIndex].totalOrdersAmount ?? 0;
+            const quantity = persons[personIndex].ordersQuantity ?? 0;
+            persons[personIndex] = {
+              ...persons[personIndex],
+              ordersQuantity: quantity ? quantity + 1 : 1,
+              totalOrdersAmount: totalAmount
+                ? totalAmount + order.total
+                : order.total,
+            };
+          }
+        });
+      }
     }
   }, [persons, user, filteredOrders]);
 

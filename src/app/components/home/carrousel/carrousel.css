@@ -148,17 +148,7 @@
 }
 
 .carrousel .productCard .productInfo .productPriceIcon button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--ebony-950);
-  color: var(--white);
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
   padding: 0;
-  position: relative;
-  z-index: 2;
 }
 
 .carrousel .productCard .productInfo .productPriceIcon button:hover {

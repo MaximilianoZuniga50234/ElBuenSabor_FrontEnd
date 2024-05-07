@@ -6,7 +6,6 @@ import {
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from "react-icons/hi";
-import { IoArrowRedoSharp } from "react-icons/io5";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { Box, Fade, Modal } from "@mui/material";
 import { Status } from "../../interfaces/Status";
@@ -348,14 +347,6 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
         </tbody>
         <tfoot>
           <tr>
-            <td>
-              <a href="?">
-                <IoArrowRedoSharp />
-                EXPORTAR A EXCEL
-              </a>
-            </td>
-            <td></td>
-            <td></td>
             <td>
               {indiceInicio} - {indiceFin} de {datos.length}
             </td>

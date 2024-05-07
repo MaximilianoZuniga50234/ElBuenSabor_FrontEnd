@@ -17,7 +17,7 @@
   flex-direction: column;
   align-items: center;
   gap: 48px;
-  background: var(--lightest-gray);
+  background: var(--ebony-100);
   width: 90%;
   height: 50%;
   margin: 48px;
@@ -70,20 +70,24 @@
 }
 
 @keyframes moveArrowLeft {
+
   0%,
   100% {
     transform: translateX(-4px);
   }
+
   50% {
     transform: translateX(0);
   }
 }
 
 @keyframes moveArrowRight {
+
   0%,
   100% {
     transform: translateX(4px);
   }
+
   50% {
     transform: translateX(0);
   }
@@ -117,7 +121,7 @@
     align-items: baseline;
   }
 
-  .not_found_article .not_found_article_text div p{
+  .not_found_article .not_found_article_text div p {
     font-size: 16px;
   }
 

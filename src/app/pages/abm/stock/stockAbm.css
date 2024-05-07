@@ -7,7 +7,7 @@
 .stockAbm__table {
     display: flex;
     flex-direction: column;
-    background-color: var(--light-lavender-gray);
+    background-color: var(--ebony-50);
     border-radius: 10px;
     border: 2px solid var(--ebony-950);
 }
@@ -29,17 +29,11 @@
 }
 
 .stockAbm__button {
-    color: var(--light-lavender-gray);
-    background-color: var(--ebony-950);
     padding: 8px;
-    border-radius: 10px;
-    border: none;
-    transition: .1s;
 }
 
 .stockAbm__button--header {
     width: 180px;
-    justify-content: center;
 }
 
 .stockAbm__labels {
@@ -65,17 +59,10 @@
     justify-content: center;
 }
 
+.stockAbm__button--icon {
+    padding: 10px;
+}
+
 .stockAbm__h4 {
     font-weight: 500;
-}
-
-.stockAbm__button--icon:hover {
-    cursor: pointer;
-    background-color: royalblue;
-
-}
-
-.stockAbm__button:hover {
-    cursor: pointer;
-    background-color: royalblue;
 }
