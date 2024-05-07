@@ -2,7 +2,13 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { useStore as useFilter } from "../../store/FilterStore";
-import { FaBars, FaSearch, FaHome, FaHistory } from "react-icons/fa";
+import {
+  FaBars,
+  FaSearch,
+  FaHome,
+  FaHistory,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import { FaBagShopping, FaCartShopping, FaUser } from "react-icons/fa6";
 import "./navBar.css";
 import { useStore as useUser } from "../../store/CurrentUserStore";
@@ -198,9 +204,6 @@ const NavBar = () => {
               </li>
             )}
 
-            <button className="nav_bar_button" onClick={handleLogOut}>
-              Cerrar sesión
-            </button>
             <li className="nav_bar_dropdown_profile_container">
               <span className="nav_bar_user">
                 <FaUser />
@@ -235,6 +238,14 @@ const NavBar = () => {
                     </span>
                   </Link>
                 </li>
+                <li className="nav_bar_dropdown_profile_li">
+                  <button
+                    className="nav_bar_dropdown_profile_link"
+                    onClick={handleLogOut}
+                  >
+                    <span>{isMenuOpen && <FaSignOutAlt />} Cerrar sesión</span>
+                  </button>
+                </li>
               </ul>
             </li>
           </>
@@ -255,7 +266,7 @@ const NavBar = () => {
 
         <li className="nav_bar_cart">
           <Link to="/u/cart" onClick={handleCloseMenu}>
-            <span>
+            <span className="nav_bar_user_icon">
               <FaCartShopping />
             </span>
           </Link>

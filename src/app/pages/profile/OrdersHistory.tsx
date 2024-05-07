@@ -1,10 +1,13 @@
 import { Suspense, lazy, useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
 import { getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
 import Loader from "../../components/loader/Loader";
 import "./ordersHistory.css";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import InvoicePdf from "../../components/invoice/InvoicePdf";
+import { Invoice } from "../../interfaces/Invoice";
+import { getAllInvoice } from "../../functions/InvoiceAPI";
 
 const ModalOrderDetails = lazy(
   () => import("../../components/modalOrderDetails/ModalOrderDetails")
@@ -48,7 +51,6 @@ const PURCHASE_ORDER_INITIAL_STATE = {
 
 export default function OrdersHistory() {
   const { user } = useCurrentUser();
-  const { isAuthenticated } = useAuth0();
 
   const getDate = (order: PurchaseOrder) => {
     const fecha = order?.fecha ? new Date(order?.fecha) : null;
@@ -63,6 +65,8 @@ export default function OrdersHistory() {
   );
 
   const [filterOrders, setFilterOrders] = useState<PurchaseOrder[]>();
+  const [invoices, setInvoices] = useState<Invoice[]>();
+
   const [open, setOpen] = useState(false);
   const handleOpen = (orderParam: PurchaseOrder) => {
     setOpen(true);
@@ -74,7 +78,15 @@ export default function OrdersHistory() {
     try {
       const response = await getAllPurchaseOrder();
       setOrders(response);
-      setisLoaded(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getInvoices = async () => {
+    try {
+      const response = await getAllInvoice();
+      setInvoices(response);
     } catch (error) {
       console.error(error);
     }
@@ -82,6 +94,7 @@ export default function OrdersHistory() {
 
   useEffect(() => {
     getOrders();
+    getInvoices();
   }, []);
 
   useEffect(() => {
@@ -93,6 +106,7 @@ export default function OrdersHistory() {
             order.status?.status === "Entregado"
         )
       );
+      setisLoaded(true);
     }
   }, [user, orders]);
 
@@ -103,13 +117,7 @@ export default function OrdersHistory() {
           <div className="ordersHistory__header">
             <div className="ordersHistory__title">
               <h3 className="ordersHistory__h3">
-                {isAuthenticated
-                  ? isLoaded &&
-                    (filterOrders === undefined ||
-                    (filterOrders && filterOrders.length === 0)
-                      ? "No hay órdenes"
-                      : "Historial de órdenes")
-                  : "Inicia sesión para ver tu historial de órdenes"}
+                {isLoaded && (filterOrders ? "Mis órdenes" : "No hay órdenes")}
               </h3>
             </div>
           </div>
@@ -147,7 +155,7 @@ export default function OrdersHistory() {
               </span>
             </div>
 
-            {filterOrders?.map((order) => (
+            {filterOrders?.map((order: PurchaseOrder) => (
               <div className="ordersHistory__card" key={order.id}>
                 <div className="ordersHistory__card__info">
                   <span className="ordersHistory__span">{order.number}</span>
@@ -163,15 +171,27 @@ export default function OrdersHistory() {
                   >
                     Detalles
                   </button>
-                  {/* <PDFDownloadLink
-                    document={<InvoicePdf invoice={invoice} />}
-                    fileName={`Factura_${invoice.id}.pdf`}
-                    className="modalOrderDetails__button"
-                  >
-                    <button className="modalOrderDetails__button">
-                      Factura
-                    </button>
-                  </PDFDownloadLink> */}
+                  {order.status?.status != "Por aceptar" &&
+                    invoices &&
+                    invoices.length > 0 &&
+                    (() => {
+                      const invoice = invoices.find(
+                        (i) => i.purchaseOrder.id === order.id
+                      );
+
+                      if (invoice) {
+                        return (
+                          <PDFDownloadLink
+                            document={<InvoicePdf invoice={invoice} />}
+                            fileName={`Factura_${invoice.id}.pdf`}
+                          >
+                            <button className="ordersHistory__button">
+                              Factura
+                            </button>
+                          </PDFDownloadLink>
+                        );
+                      }
+                    })()}
                 </div>
               </div>
             ))}

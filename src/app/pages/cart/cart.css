@@ -64,13 +64,13 @@
   display: grid;
   grid-template-columns: 100px auto;
   background: var(--white);
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--ebony-100);
   padding: 4px;
   gap: 8px;
 }
 
 .cart_main_container .cart_items_container .cart_item:first-child {
-  border-top: 1px solid #ccc;
+  border-top: 1px solid var(--ebony-100);
 }
 
 .cart_main_container .cart_items_container .cart_item img {
@@ -132,13 +132,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 250px;
-  background-color: var(--light-lavender-gray);
-  border: 1px solid var(--midnight-blue);
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
   padding: 20px 20px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   gap: 30px;
+  overflow-y: scroll;
+  max-height: 95vh;
+  scrollbar-width: none;
 }
 
 .modalCart__box>.modalCart__h3 {
@@ -154,8 +157,8 @@
 
 .modalCart__select {
   padding: 8px 4px;
-  background-color: var(--light-lavender-gray);
-  border: 1px solid var(--midnight-blue);
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
   border-radius: 10px;
 }
 
@@ -166,11 +169,6 @@
 
 .modalCart__button {
   width: 100px;
-}
-
-.modalCart__button:hover {
-  cursor: pointer;
-  background-color: royalblue;
 }
 
 @media only screen and (min-width: 424px) {
@@ -235,7 +233,7 @@
   .cart_main_container .cart_items_container .cart_item:first-child {
     width: 90%;
     max-height: 300px;
-    border: 1px solid var(--light-gray);
+    border: 1px solid var(--ebony-200);
     border-radius: 12px;
     box-shadow: 2px 2px 8px var(--gray);
     grid-template-columns: 1fr 2fr;
@@ -281,9 +279,5 @@
 
   .modalCart__select {
     padding: 10px 5px;
-  }
-
-  .modalCart__button {
-    padding: 10px 20px;
   }
 }

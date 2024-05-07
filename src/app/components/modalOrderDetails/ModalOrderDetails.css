@@ -4,13 +4,16 @@
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 280px;
-    background-color: var(--light-lavender-gray);
-    border: 1px solid var(--midnight-blue);
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
     padding: 10px 10px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
 }
 
 .modalOrderDetails__header {
@@ -68,7 +71,6 @@
     text-align: center;
     padding: 5px 0;
     border-bottom: 1px solid var(--ebony-950);
-
 }
 
 .modalOrderDetails__products__content {

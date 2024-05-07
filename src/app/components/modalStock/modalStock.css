@@ -4,13 +4,16 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 350px;
-    background-color: var(--light-lavender-gray);
-    border: 1px solid var(--midnight-blue);
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
     padding: 20px 40px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
 }
 
 .modalStock__box>.modalStock__h3 {
@@ -31,8 +34,8 @@
 .modalStock__input,
 .modalStock__select {
     padding: 10px 5px;
-    background-color: var(--light-lavender-gray);
-    border: 1px solid var(--midnight-blue);
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
     border-radius: 10px;
 }
 
@@ -42,17 +45,5 @@
 }
 
 .modalStock__button {
-    display: flex;
-    padding: 10px 20px;
-    background-color: var(--midnight-blue);
-    color: var(--light-lavender-gray);
-    border: none;
-    border-radius: 10px;
     width: 100px;
-    justify-content: center;
-}
-
-.modalStock__button:hover {
-    cursor: pointer;
-    background-color: royalblue;
 }

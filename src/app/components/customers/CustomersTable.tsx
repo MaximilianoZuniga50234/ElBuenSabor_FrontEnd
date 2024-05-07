@@ -6,7 +6,6 @@ import {
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from "react-icons/hi";
-import { IoArrowRedoSharp } from "react-icons/io5";
 import { UserAuth0Get } from "../../interfaces/UserAuth0";
 import ModalCustomersAbm from "./ModalCustomersAbm";
 
@@ -71,13 +70,12 @@ const Table = ({ datos }: Props) => {
 
   return (
     <>
-      <table className="employees_list_table">
+      <table className="customers_list_table">
         <thead>
           <tr>
             <td>NOMBRE Y APELLIDO</td>
             <td>CORREO ELECTRÓNICO</td>
             <td>TELÉFONO</td>
-            <td>Ordenes</td>
             <td></td>
           </tr>
         </thead>
@@ -87,23 +85,16 @@ const Table = ({ datos }: Props) => {
               <td>{`${e.name}`}</td>
               <td>{`${e.email}`}</td>
               <td>{`${e.user_metadata?.phone_number}`}</td>
-              <td>{/* {`${e.orders.length}`} */}</td>
               <td className="celda_acciones">
-                <FaGear onClick={() => handleModify(e)} />
+                <button onClick={() => handleModify(e)}>
+                  <FaGear />
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr>
-            <td>
-              <span>
-                <IoArrowRedoSharp />
-                EXPORTAR A EXCEL
-              </span>
-            </td>
-            <td></td>
-            <td></td>
             <td>
               {indiceInicio} - {indiceFin} de {datos.length}
             </td>

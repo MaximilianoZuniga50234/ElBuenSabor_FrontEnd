@@ -76,34 +76,33 @@ export default function ProductsRanking() {
   }, [purchaseOrders]);
 
   useEffect(() => {
-    if (
-      user &&
-      products.length > 1 &&
-      filteredOrders &&
-      filteredOrders?.length > 0
-    ) {
-      setIsLoading(false);
-      products.forEach((p) => {
-        if (p.quantitySold) {
-          p.quantitySold = 0;
-        }
-      });
-
-      filteredOrders.forEach((order: PurchaseOrder) => {
-        order.details?.forEach((detail: PurchaseOrderDetail) => {
-          const productIndex = products?.findIndex(
-            (product: Product) => product.id === detail.product?.id
-          );
-
-          if (productIndex !== -1) {
-            const quantity = products[productIndex].quantitySold ?? 0;
-            products[productIndex] = {
-              ...products[productIndex],
-              quantitySold: quantity ? quantity + detail.amount : detail.amount,
-            };
+    if (user && filteredOrders) {
+      if (products.length > 1 && filteredOrders?.length > 0) {
+        setIsLoading(false);
+        products.forEach((p) => {
+          if (p.quantitySold) {
+            p.quantitySold = 0;
           }
         });
-      });
+
+        filteredOrders.forEach((order: PurchaseOrder) => {
+          order.details?.forEach((detail: PurchaseOrderDetail) => {
+            const productIndex = products?.findIndex(
+              (product: Product) => product.id === detail.product?.id
+            );
+
+            if (productIndex !== -1) {
+              const quantity = products[productIndex].quantitySold ?? 0;
+              products[productIndex] = {
+                ...products[productIndex],
+                quantitySold: quantity
+                  ? quantity + detail.amount
+                  : detail.amount,
+              };
+            }
+          });
+        });
+      }
     }
   }, [products, user, filteredOrders]);
 

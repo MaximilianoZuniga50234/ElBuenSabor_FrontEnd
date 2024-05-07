@@ -55,7 +55,7 @@ const Carrousel = ({ products }: Props) => {
     }
 
     if (!insufficientStock) {
-      toast.success("Producto agregado al carrito");
+      toast.success("Producto agregado al carrito.");
       add(product);
     }
     // } else {

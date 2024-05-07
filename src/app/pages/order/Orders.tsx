@@ -79,9 +79,9 @@ const Orders = () => {
     isAuthenticated && (
       <Suspense fallback={<Loader />}>
         {user?.role != "Cliente" ? (
-          <main className="main_employees_list">
+          <main className="main_orders_list">
             <div className="order_title_container">
-              <h2>PEDIDOS</h2>
+              <h2>Pedidos</h2>
               <div
                 className={`filters_${
                   user?.role === "Cajero" ? "visible" : "hidden"

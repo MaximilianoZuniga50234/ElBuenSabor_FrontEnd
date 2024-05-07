@@ -7,7 +7,7 @@
 .itemProductABM__table {
     display: flex;
     flex-direction: column;
-    background-color: var(--light-lavender-gray);
+    background-color: var(--ebony-50);
     border-radius: 10px;
     border: 2px solid var(--ebony-950);
 }
@@ -19,21 +19,6 @@
 
 .itemProductABM__title {
     flex: 1;
-}
-
-.itemProductABM__button__container {
-    flex: 1;
-    display: flex;
-    justify-content: end;
-}
-
-.itemProductABM__button {
-    color: var(--light-lavender-gray);
-    background-color: var(--ebony-950);
-    padding: 8px;
-    border-radius: 10px;
-    border: none;
-    transition: .1s;
 }
 
 .itemProductABM__labels {
@@ -59,30 +44,11 @@
 }
 
 .itemProductABM__button--icon {
-    background-color: var(--ebony-950);
-    color: var(--light-lavender-gray);
     padding: 10px;
-    border-radius: 10px;
-    align-items: center;
-    display: flex;
-    transition: .1s;
-    width: 34px;
-    height: 34px;
 }
 
 .itemProductABM__h4 {
     font-weight: 500;
-}
-
-.itemProductABM__button--icon:hover {
-    cursor: pointer;
-    background-color: royalblue;
-
-}
-
-.itemProductABM__button:hover {
-    cursor: pointer;
-    background-color: royalblue;
 }
 
 .itemProductABM__modal__box {
@@ -91,13 +57,16 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 350px;
-    background-color: var(--light-lavender-gray);
+    background-color: var(--ebony-50);
     border: 1px solid var(--ebony-950);
     padding: 20px 40px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 30px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
 }
 
 .itemProductABM__modal__h3 {
@@ -114,7 +83,7 @@
 .itemProductABM__modal__input,
 .itemProductABM__modal__select {
     padding: 10px 5px;
-    background-color: var(--light-lavender-gray);
+    background-color: var(--ebony-50);
     border: 1px solid var(--ebony-950);
     border-radius: 10px;
 }
@@ -125,17 +94,5 @@
 }
 
 .itemProductABM__modal__button {
-    display: flex;
-    padding: 10px 20px;
-    background-color: var(--ebony-950);
-    color: var(--light-lavender-gray);
-    border: none;
-    border-radius: 10px;
     width: 100px;
-    justify-content: center;
-}
-
-.itemProductABM__modal__button:hover {
-    cursor: pointer;
-    background-color: royalblue;
 }

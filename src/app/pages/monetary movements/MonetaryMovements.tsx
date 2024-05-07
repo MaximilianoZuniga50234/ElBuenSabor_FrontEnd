@@ -49,33 +49,31 @@ export default function MonetaryMovements() {
   }, [purchaseOrders]);
 
   useEffect(() => {
-    console.log(filteredOrders);
-  }, [filteredOrders]);
-
-  useEffect(() => {
-    if (user && filteredOrders && filteredOrders?.length > 0) {
+    if (user && filteredOrders) {
       setIsLoading(false);
-      setTotalAmounts({ income: 0, cost: 0, profit: 0 });
+      if (filteredOrders?.length > 0) {
+        setTotalAmounts({ income: 0, cost: 0, profit: 0 });
 
-      let income = 0;
-      let cost = 0;
-      let profit = 0;
-      filteredOrders.forEach((order: PurchaseOrder) => {
-        order.details?.forEach((detail: PurchaseOrderDetail) => {
-          detail.product?.details.forEach((productDetail) => {
-            cost =
-              cost + productDetail.stock.purchasePrice * productDetail.amount;
+        let income = 0;
+        let cost = 0;
+        let profit = 0;
+        filteredOrders.forEach((order: PurchaseOrder) => {
+          order.details?.forEach((detail: PurchaseOrderDetail) => {
+            detail.product?.details.forEach((productDetail) => {
+              cost =
+                cost + productDetail.stock.purchasePrice * productDetail.amount;
+            });
           });
+
+          income += order.total;
         });
 
-        income += order.total;
-      });
+        profit = income - cost;
 
-      profit = income - cost;
-
-      setTotalAmounts({ income: income, cost: cost, profit: profit });
-    } else {
-      setTotalAmounts({ income: 0, cost: 0, profit: 0 });
+        setTotalAmounts({ income: income, cost: cost, profit: profit });
+      } else {
+        setTotalAmounts({ income: 0, cost: 0, profit: 0 });
+      }
     }
   }, [user, filteredOrders]);
 

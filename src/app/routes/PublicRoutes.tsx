@@ -8,7 +8,6 @@ import Cart from "../pages/cart/Cart";
 import OrdersHistory from "../pages/profile/OrdersHistory";
 import UserOrders from "../pages/profile/UserOrders";
 import InvoiceView from "../deprecated/invoiceViewAndSendMail/InvoiceView";
-import Pruebamp from "../pages/mercado pago/Pruebamp";
 import SuccesPage from "../pages/mercado pago/SuccessPage";
 import PendingPage from "../pages/mercado pago/PendingPage";
 import FailurePage from "../pages/mercado pago/FailurePage";
@@ -34,7 +33,6 @@ const PublicRoutes = () => {
         element={<AuthenticationGuard component={OrdersHistory} />}
       />
       <Route path="/invoice" element={<InvoiceView />} />
-      <Route path="/mp" element={<Pruebamp />} />
       <Route
         path="/success"
         element={<AuthenticationGuard component={SuccesPage} />}
