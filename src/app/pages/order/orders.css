@@ -284,3 +284,16 @@
   font-size: 14px;
   text-align: center;
 }
+
+.modalOrders__addTime{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modalOrders__addTime__input{
+  padding: 8px 4px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  border-radius: 10px;
+}
