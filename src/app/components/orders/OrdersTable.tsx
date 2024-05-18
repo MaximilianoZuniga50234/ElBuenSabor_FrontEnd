@@ -93,6 +93,8 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
   const { isAuthenticated } = useAuth0();
   const [paginaActual, setPaginaActual] = useState<number>(1);
   const [cancelInvoice, setCancelInvoice] = useState<boolean>(false);
+  const [addTime, setAddTime] = useState<boolean>(false);
+  const [newOrderTime, setNewOrderTime] = useState<number>(0);
 
   const [open, setOpen] = useState(false);
   const [openModalOrderDetails, setOpenModalOrderDetails] = useState(false);
@@ -135,6 +137,8 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     setPurchaseOrder(order);
     setOrderStatus(order.status ? order?.status?.status : "");
     setCancelInvoice(false);
+    setAddTime(false);
+    setNewOrderTime(0);
     getInvoices();
     setOpen(true);
   };
@@ -147,6 +151,8 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
       setPurchaseOrder({ ...purchaseOrder, status: newStatus });
     }
     setCancelInvoice(false);
+    setAddTime(false);
+    setNewOrderTime(0);
   };
 
   const postInvoice = async () => {
@@ -254,6 +260,16 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
 
     if (cancelInvoice) {
       createNoteAndUpdateInvoiceAndOrder();
+    } else if (addTime) {
+      await updatePurchaseOrder(
+        {
+          ...purchaseOrder,
+          estimatedEndTime: purchaseOrder.estimatedEndTime + newOrderTime,
+        },
+        token
+      );
+      setChangeOrderStatus(true);
+      setAddTime(false);
     } else {
       if (isAuthenticated) {
         await updatePurchaseOrder(purchaseOrder, token);
@@ -289,6 +305,17 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
 
   const handleChangeDeleteInvoice = () => {
     setCancelInvoice(!cancelInvoice);
+  };
+
+  const handleChangeAddTime = () => {
+    setAddTime(!addTime);
+    setNewOrderTime(0);
+  };
+
+  const handleChangeNewOrderTime = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setNewOrderTime(Number(event.target.value));
   };
 
   // Ver si es un pedido de solo bebidas
@@ -498,6 +525,31 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                   </p>
                 </div>
               )}
+
+            {orderStatus === "A cocina" &&
+              purchaseOrder.status?.status === "A cocina" &&
+              user?.role === "Cocinero" && (
+                <div className="modalOrders__addTime">
+                  <button
+                    className="modalOrders__addTime__button"
+                    onClick={handleChangeAddTime}
+                  >
+                    {addTime
+                      ? "No agregar tiempo de retraso"
+                      : "Agregar tiempo de retraso"}
+                  </button>
+
+                  {addTime && (
+                    <input
+                      type="number"
+                      className="modalOrders__addTime__input"
+                      onChange={handleChangeNewOrderTime}
+                      placeholder="Tiempo a agregar (en minutos)"
+                    />
+                  )}
+                </div>
+              )}
+
             <div className="modalOrders__buttons">
               <button
                 className="modalOrders__button"
