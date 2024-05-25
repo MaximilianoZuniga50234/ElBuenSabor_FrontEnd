@@ -22,3 +22,14 @@ export async function addPerson(person: Person, token: string) {
     },
   });
 }
+
+export async function updatePerson(person: Person, token: string, id: string) {
+  await fetch(`http://localhost:9000/api/v1/person/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(person),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+}

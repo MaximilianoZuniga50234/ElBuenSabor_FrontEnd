@@ -1,6 +1,6 @@
 import { Box, Fade, Modal, Popover } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { UserAuth0Post } from "../../interfaces/UserAuth0";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
 import { getAllDepartment } from "../../functions/DepartmentAPI";
@@ -49,17 +49,31 @@ export default function ModalEditProfile({
   };
 
   const getDepartments = async () => {
-    const response = await getAllDepartment();
-    setDepartments(response);
+    try {
+      const response = await getAllDepartment();
+      setDepartments(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     getDepartments();
   }, []);
 
+  const updateUser = async () => {
+    try {
+      delete userPost.password;
+      await updateUserAuth0(userPost, userId);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isPasswordDeleted) {
-      updateUserAuth0(userPost, userId);
+      updateUser();
     }
   }, [isPasswordDeleted]);
 
@@ -80,6 +94,7 @@ export default function ModalEditProfile({
         given_name: user.given_name,
         family_name: user.family_name,
         name: `${user.given_name} ${user.family_name}`,
+        connection: user.identities[0].connection,
       });
       setUserId(user.user_id);
     }
@@ -169,16 +184,47 @@ export default function ModalEditProfile({
   };
 
   const handleConfirm = async () => {
-    setIsConfirmButtonPressed(true);
-    if (userPost.password === "") {
-      const newUserPost = { ...userPost };
-      delete newUserPost.password;
-      setUserPost(newUserPost);
-      setIsPasswordDeleted(true);
+    const passwordValidate =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&-])[A-Za-z\d!@#$%^&-]{8,}$/;
+
+    if (userPost.given_name === "" || userPost.given_name === undefined) {
+      toast.error("El campo del nombre no puede estar vacío.");
+    } else if (
+      userPost.family_name === "" ||
+      userPost.family_name === undefined
+    ) {
+      toast.error("El campo del apellido no puede estar vacío.");
+    } else if (userPost.user_metadata.address.street === "") {
+      toast.error("El campo del nombre de la calle no puede estar vacío.");
+    } else if (userPost.user_metadata.address.number === 0) {
+      toast.error('El campo del número de la dirección no puede ser "0".');
+    } else if (
+      userPost.user_metadata.phone_number.toString().length != 10 ||
+      userPost.user_metadata.phone_number === undefined
+    ) {
+      toast.error("El número de teléfono es inválido.");
+    } else if (userPost.password != "") {
+      if (
+        userPost.password &&
+        passwordValidate.test(userPost.password) === false
+      ) {
+        toast.error("La contraseña es inválida.");
+      } else if (userPost.password != confirmPassword) {
+        toast.error("Las contraseñas no coinciden.");
+      }
     } else {
-      await updateUserAuth0(userPost, userId);
+      setIsConfirmButtonPressed(true);
+      if (userPost.password === "") {
+        setIsPasswordDeleted(true);
+      } else {
+        try {
+          await updateUserAuth0(userPost, userId);
+          window.location.reload();
+        } catch (error) {
+          console.error(error);
+        }
+      }
     }
-    setTimeout(() => window.location.reload(), 1500);
   };
 
   const [phoneNumberAnchorEl, setPhoneNumberAnchorEl] =
@@ -213,7 +259,6 @@ export default function ModalEditProfile({
 
   return (
     <>
-      <Toaster position="top-center" richColors visibleToasts={1} />
       <Modal
         open={open}
         onClose={handleClose}
@@ -401,47 +446,7 @@ export default function ModalEditProfile({
               <button
                 className="modalEditProfile__button"
                 disabled={isConfirmButtonPressed ? true : false}
-                onClick={function () {
-                  const passwordValidate =
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&-])[A-Za-z\d!@#$%^&-]{8,}$/;
-
-                  if (
-                    userPost.given_name === "" ||
-                    userPost.given_name === undefined
-                  ) {
-                    toast.error("El campo del nombre no puede estar vacío.");
-                  } else if (
-                    userPost.family_name === "" ||
-                    userPost.family_name === undefined
-                  ) {
-                    toast.error("El campo del apellido no puede estar vacío.");
-                  } else if (userPost.user_metadata.address.street === "") {
-                    toast.error(
-                      "El campo del nombre de la calle no puede estar vacío."
-                    );
-                  } else if (userPost.user_metadata.address.number === 0) {
-                    toast.error(
-                      'El campo del número de la dirección no puede ser "0".'
-                    );
-                  } else if (
-                    userPost.user_metadata.phone_number.toString().length !=
-                      10 ||
-                    userPost.user_metadata.phone_number === undefined
-                  ) {
-                    toast.error("El número de teléfono es inválido.");
-                  } else if (userPost.password != "") {
-                    if (
-                      userPost.password &&
-                      passwordValidate.test(userPost.password) === false
-                    ) {
-                      toast.error("La contraseña es inválida.");
-                    } else if (userPost.password != confirmPassword) {
-                      toast.error("Las contraseñas no coinciden.");
-                    }
-                  } else {
-                    handleConfirm();
-                  }
-                }}
+                onClick={handleConfirm}
               >
                 {isConfirmButtonPressed ? "Cargando..." : "Confirmar"}
               </button>

@@ -3,185 +3,195 @@ import { useStore as useUsers } from "../store/UsersStore";
 import { useStore as useToken } from "../store/UserTokenStore";
 import { Person } from "../interfaces/Person";
 import { Address } from "../interfaces/Address";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Department } from "../interfaces/Department";
-import { addPerson, getAllPerson } from "../functions/PersonAPI";
-import { addAddress, getAllAddress } from "../functions/AddressAPI";
+import { addPerson, getAllPerson, updatePerson } from "../functions/PersonAPI";
+import {
+  addAddress,
+  getAllAddress,
+  updateAddress,
+} from "../functions/AddressAPI";
 import { getAllDepartment } from "../functions/DepartmentAPI";
 
 export function useAddressesAndPersons() {
   const { users } = useUsers();
   const { token } = useToken();
 
-  const [usersPost, setUsersPost] = useState<Person[]>([
-    {
-      email: "",
-      lastName: "",
-      name: "",
-      phoneNumber: "",
-      user_id: "",
-    },
-  ]);
-
-  const [addressesPost, setAddressesPost] = useState<Address[]>([
-    {
-      id: 0,
-      department: { id: 0, name: "" },
-      number: 0,
-      person: {
-        email: "",
-        lastName: "",
-        name: "",
-        phoneNumber: "",
-        user_id: "",
-        id: "",
-      },
-      street: "",
-    },
-  ]);
-
-  const [personsDatabase, setPersonsDatabase] = useState<Person[]>([]);
+  const [personsDatabase, setPersonsDatabase] = useState<Person[]>();
   const [addressesDatabase, setAddressesDatabase] = useState<Address[]>();
   const [departmentsDatabase, setDepartmentsDatabase] =
     useState<Department[]>();
 
-  const { isAuthenticated } = useAuth0();
+  const [personsPost, setPersonsPost] = useState<Person[]>();
+  const [addressesPost, setAddressesPost] = useState<Address[]>();
 
   useEffect(() => {
-    if (users.length > 0) {
-      postUsersDatabase();
-    }
-  }, [users]);
-
-  const getPersonsDatabase = async () => {
-    const response = await getAllPerson();
-    setPersonsDatabase(response);
-  };
-
-  const getAddressesDatabase = async () => {
-    const response = await getAllAddress();
-    setAddressesDatabase(response);
-  };
-  const getDepartmentsDatabase = async () => {
-    const response = await getAllDepartment();
-    setDepartmentsDatabase(response);
-  };
-
-  useEffect(() => {
-    getAddressesDatabase();
-    getDepartmentsDatabase();
-    getPersonsDatabase();
+    getPersons();
+    getAddresses();
+    getDepartments();
   }, []);
 
-  const postUsersDatabase = async () => {
-    const newUserPost = users.map((user) => ({
-      email: user.email,
-      lastName: user.family_name,
-      name: user.given_name,
-      phoneNumber: user.user_metadata.phone_number.toString(),
-      user_id: user.user_id,
-    }));
-    setUsersPost([...newUserPost]);
-  };
-
-  const postAddressesDatabase = async () => {
-    const newAddressesPost = users.map((user) => ({
-      id: 0,
-      department: departmentsDatabase?.find(
-        (department) =>
-          department.name === user?.user_metadata?.address?.department
-      ) ?? { id: 0, name: "" },
-      number: user?.user_metadata?.address?.number ?? 0,
-      street: user?.user_metadata?.address?.street ?? "",
-      person: {
-        id:
-          personsDatabase?.find((person) => person.user_id === user.user_id)
-            ?.id ?? "",
-        email: user?.email ?? "",
-        lastName: user?.family_name ?? "",
-        name: user?.given_name ?? "",
-        phoneNumber: user?.user_metadata?.phone_number.toString() ?? "",
-        user_id: user?.user_id ?? "",
-      },
-    }));
-
-    setAddressesPost([...newAddressesPost]);
-  };
-
-  useEffect(() => {
-    if (
-      isAuthenticated &&
-      users.length > 0 &&
-      personsDatabase &&
-      users.length > personsDatabase?.length
-    ) {
-      getPersonsDatabase();
+  const getPersons = async () => {
+    try {
+      const persons = await getAllPerson();
+      setPersonsDatabase(persons);
+    } catch (error) {
+      console.error(error);
     }
-  }, [users, personsDatabase, isAuthenticated]);
+  };
+
+  const getAddresses = async () => {
+    try {
+      const addresses = await getAllAddress();
+      setAddressesDatabase(addresses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getDepartments = async () => {
+    try {
+      const departments = await getAllDepartment();
+      setDepartmentsDatabase(departments);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (users.length > 0 && token) {
+      const newPersonsPost = users.map((user) => ({
+        email: user.email,
+        lastName: user.family_name,
+        name: user.given_name,
+        phoneNumber: user.user_metadata.phone_number.toString(),
+        user_id: user.user_id,
+      }));
+      setPersonsPost(newPersonsPost);
+    }
+  }, [users, token]);
+
+  const insertPersons = async () => {
+    try {
+      if (personsPost && personsPost?.length > 0) {
+        if (personsDatabase && personsDatabase.length === 0) {
+          for (const personPost of personsPost) {
+            await addPerson(personPost, token);
+          }
+          await getPersons();
+        } else if (personsDatabase && personsDatabase.length > 0) {
+          let personExists = false;
+          for (const personPost of personsPost) {
+            for (const person of personsDatabase) {
+              if (person.user_id === personPost.user_id) {
+                personExists = true;
+                break;
+              }
+            }
+            if (!personExists) {
+              await addPerson(personPost, token);
+              await getPersons();
+            } else {
+              const person = personsDatabase.find(
+                (p) => p.user_id === personPost.user_id
+              );
+              if (
+                person &&
+                person.id &&
+                (person.name != personPost.name ||
+                  person.lastName != personPost.lastName ||
+                  person.phoneNumber != personPost.phoneNumber)
+              ) {
+                await updatePerson(personPost, token, person.id);
+                await getPersons();
+              }
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    insertPersons();
+  }, [personsPost, personsDatabase]);
 
   useEffect(() => {
     if (
       users.length > 0 &&
+      token &&
       departmentsDatabase &&
-      departmentsDatabase?.length > 0 &&
+      departmentsDatabase.length > 0 &&
       personsDatabase &&
-      personsDatabase?.length === users.length
+      personsDatabase.length > 0
     ) {
-      postAddressesDatabase();
+      const newAddressesPost: Address[] = [];
+      for (const user of users) {
+        const department = departmentsDatabase.find(
+          (d) => d.name === user.user_metadata.address.department
+        );
+        const person = personsDatabase?.find(
+          (person) => person.user_id === user.user_id
+        );
+        if (department && person) {
+          newAddressesPost.push({
+            id: 0,
+            street: user.user_metadata.address.street,
+            number: user.user_metadata.address.number,
+            department: department,
+            person: person,
+          });
+        }
+      }
+      setAddressesPost(newAddressesPost);
     }
-  }, [users, departmentsDatabase, personsDatabase]);
+  }, [users, token, departmentsDatabase, personsDatabase]);
 
-  useEffect(() => {
-    if (usersPost.length > 1 && token != "") {
-      usersPost?.forEach(async (user: Person) => {
-        let personExists = false;
-        if (personsDatabase && personsDatabase.length > 1) {
-          for (const person of personsDatabase) {
-            if (user.user_id === person.user_id) {
-              personExists = true;
-              break;
+  const insertAddresses = async () => {
+    try {
+      if (addressesPost && addressesPost.length > 0) {
+        if (addressesDatabase && addressesDatabase.length === 0) {
+          for (const addressPost of addressesPost) {
+            await addAddress(addressPost, token);
+          }
+          await getAddresses();
+        } else if (addressesDatabase && addressesDatabase.length > 0) {
+          let addressExists = false;
+          for (const addressPost of addressesPost) {
+            for (const address of addressesDatabase) {
+              if (address.person.user_id === addressPost.person.user_id) {
+                addressExists = true;
+                break;
+              }
+            }
+            if (!addressExists) {
+              await addAddress(addressPost, token);
+              await getAddresses();
+            } else {
+              const address = addressesDatabase.find(
+                (a) => a.person.user_id === addressPost.person.user_id
+              );
+              if (
+                address &&
+                address.id &&
+                (address.department.name != addressPost.department.name ||
+                  address.number != addressPost.number ||
+                  address.street != addressPost.street)
+              ) {
+                await updateAddress(addressPost, token, address.id);
+                await getAddresses();
+              }
             }
           }
         }
-
-        if (personExists === false) {
-          await addPerson(user, token);
-        }
-      });
+      }
+    } catch (error) {
+      console.error(error);
     }
-  }, [usersPost, token]);
+  };
 
   useEffect(() => {
-    if (
-      addressesPost.length > 1 &&
-      token != "" &&
-      personsDatabase &&
-      personsDatabase.length > 0 &&
-      users &&
-      personsDatabase.length === users.length
-    ) {
-      addressesPost?.forEach(async (address: Address) => {
-        let addressExists = false;
-        if (addressesDatabase && addressesDatabase?.length > 1) {
-          for (const addressDatabase of addressesDatabase) {
-            if (address.person.id === addressDatabase.person.id) {
-              addressExists = true;
-              break;
-            }
-          }
-        }
-
-        if (addressExists === false) {
-          await addAddress(address, token);
-        }
-      });
-    }
-  }, [
-    users,
-    addressesPost,
-    token,
-    personsDatabase,
-    usersPost,
-    addressesDatabase,
-  ]);
+    insertAddresses();
+  }, [addressesPost, addressesDatabase]);
 }

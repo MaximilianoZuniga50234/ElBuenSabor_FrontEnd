@@ -22,3 +22,14 @@ export async function addAddress(address: Address, token: string) {
     },
   });
 }
+
+export async function updateAddress(address: Address, token: string, id: number) {
+  await fetch(`http://localhost:9000/api/v1/address/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(address),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+}
