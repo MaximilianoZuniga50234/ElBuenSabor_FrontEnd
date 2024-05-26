@@ -17,8 +17,11 @@ import { updateStock } from "../../functions/StockAPI";
 import { useStore as useCart } from "../../store/CartStore";
 import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
 import { Invoice, InvoiceDetail } from "../../interfaces/Invoice";
-import { createInvoice } from "../../functions/InvoiceAPI";
+import { createInvoice, getAllInvoice } from "../../functions/InvoiceAPI";
 import { MercadoPagoData } from "../../interfaces/MercadoPagoData";
+import { pdf } from "@react-pdf/renderer";
+import InvoicePdf from "../../components/invoice/InvoicePdf";
+import { sendEmail } from "../../functions/EmailAPI";
 
 const PURCHASE_ORDER_INITIAL_STATE = {
   id: 0,
@@ -287,9 +290,31 @@ export default function SuccesPage() {
   const postInvoice = async () => {
     try {
       await createInvoice(invoice, token);
+      const updatedInvoices = await getInvoices();
+      const invoiceMail = updatedInvoices.find(
+        (o: Invoice) => o.purchaseOrder.id === purchaseOrder?.id
+      );
+      generatePdfBase64(invoiceMail);
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const getInvoices = async () => {
+    try {
+      const response = await getAllInvoice();
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const generatePdfBase64 = async (invoiceMail: Invoice) => {
+    const pdfBlob = await pdf(<InvoicePdf invoice={invoiceMail} />).toBlob();
+    const formData = new FormData();
+    formData.append("file", pdfBlob, `Factura_${invoiceMail.id}.pdf`);
+    formData.append("order", JSON.stringify(invoiceMail.purchaseOrder));
+    sendEmail(formData);
   };
 
   return (
