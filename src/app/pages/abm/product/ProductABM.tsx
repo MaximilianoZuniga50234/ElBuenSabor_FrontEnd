@@ -130,71 +130,73 @@ const ProductABM = () => {
   }, []);
 
   return (
-    <Suspense fallback={<Loader />}>
-      {user?.role === "Administrador" ? (
-        <main className="main_products_list">
-          <div className="title_container">
-            <h2>Productos</h2>
-            <form onSubmit={(e) => handleSearch(e, search)}>
-              <input
-                type="text"
-                placeholder="Buscar producto"
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button type="submit">
-                <FaMagnifyingGlass />
+    user?.role && (
+      <Suspense fallback={<Loader />}>
+        {user?.role === "Administrador" || user?.role === "Cocinero" ? (
+          <main className="main_products_list">
+            <div className="title_container">
+              <h2>Productos</h2>
+              <form onSubmit={(e) => handleSearch(e, search)}>
+                <input
+                  type="text"
+                  placeholder="Buscar producto"
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <button type="submit">
+                  <FaMagnifyingGlass />
+                </button>
+              </form>
+              <button
+                className="product_add_button"
+                onClick={() => {
+                  handleVisibleModal();
+                  setIsNew(true);
+                  setProduct(INITIAL_STATE);
+                }}
+              >
+                Añadir nuevo producto
               </button>
-            </form>
-            <button
-              className="product_add_button"
-              onClick={() => {
-                handleVisibleModal();
-                setIsNew(true);
-                setProduct(INITIAL_STATE);
-              }}
-            >
-              Añadir nuevo producto
-            </button>
-          </div>
-          {products.length > 0 && (
-            <ProductTable
-              datos={products}
-              newHandler={setIsNew}
-              handler={handleVisibleModal}
-              handlerDelete={handleVisibleDeleteModal}
-              setProduct={setProduct}
-            />
-          )}
-          {products.length === 0 && search !== "" && (
-            <div className="no_products">
-              <h4>NO HAY PRODUCTOS CON ESA DENOMINACIÓN</h4>
             </div>
-          )}
-          {products.length === 0 && search === "" && (
-            <div className="no_products">
-              <h4>NO HAY PRODUCTOS</h4>
-            </div>
-          )}
+            {products.length > 0 && (
+              <ProductTable
+                datos={products}
+                newHandler={setIsNew}
+                handler={handleVisibleModal}
+                handlerDelete={handleVisibleDeleteModal}
+                setProduct={setProduct}
+              />
+            )}
+            {products.length === 0 && search !== "" && (
+              <div className="no_products">
+                <h4>NO HAY PRODUCTOS CON ESA DENOMINACIÓN</h4>
+              </div>
+            )}
+            {products.length === 0 && search === "" && (
+              <div className="no_products">
+                <h4>NO HAY PRODUCTOS</h4>
+              </div>
+            )}
 
-          <ProductABMModal
-            open={open}
-            isNew={isNew}
-            handler={handleVisibleModal}
-            product={product}
-            handleProduct={setProduct}
-            handleConfirmProduct={handleConfirmProduct}
-          />
-          <ProductABMModalDelete
-            open={openDelete}
-            handler={handleVisibleDeleteModal}
-            product={product}
-            handleDeactive={handleDeactive}
-          />
-        </main>
-      ) : (
-        <NoPermissions />
-      )}
-    </Suspense>
+            <ProductABMModal
+              open={open}
+              isNew={isNew}
+              handler={handleVisibleModal}
+              product={product}
+              handleProduct={setProduct}
+              handleConfirmProduct={handleConfirmProduct}
+            />
+            <ProductABMModalDelete
+              open={openDelete}
+              handler={handleVisibleDeleteModal}
+              product={product}
+              handleDeactive={handleDeactive}
+            />
+          </main>
+        ) : (
+          <NoPermissions />
+        )}
+      </Suspense>
+    )
   );
 };
 

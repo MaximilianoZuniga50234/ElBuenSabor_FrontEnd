@@ -70,34 +70,39 @@ const Employees = () => {
   }, [users]);
 
   return (
-    <Suspense fallback={<Loader />}>
-      {user?.role === "Administrador" ? (
-        <main className="main_employees_list">
-          <div className="title_container">
-            <h2>Empleados</h2>
-            <form>
-              <input type="text" placeholder="Buscar por nombre y/o apellido" />
-              <button type="submit">
-                <FaSearch />
+    user?.role && (
+      <Suspense fallback={<Loader />}>
+        {user?.role === "Administrador" ? (
+          <main className="main_employees_list">
+            <div className="title_container">
+              <h2>Empleados</h2>
+              <form>
+                <input
+                  type="text"
+                  placeholder="Buscar por nombre y/o apellido"
+                />
+                <button type="submit">
+                  <FaSearch />
+                </button>
+              </form>
+              <button onClick={handleOpenModal}>
+                <FaPlus />
+                AÑADIR
               </button>
-            </form>
-            <button onClick={handleOpenModal}>
-              <FaPlus />
-              AÑADIR
-            </button>
-          </div>
-          <Table datos={employees} />
-          <ModalEmployeesAbm
-            employee={employee}
-            isNew={isNew}
-            open={open}
-            setOpen={setOpen}
-          />
-        </main>
-      ) : (
-        <NoPermissions />
-      )}
-    </Suspense>
+            </div>
+            <Table datos={employees} />
+            <ModalEmployeesAbm
+              employee={employee}
+              isNew={isNew}
+              open={open}
+              setOpen={setOpen}
+            />
+          </main>
+        ) : (
+          <NoPermissions />
+        )}
+      </Suspense>
+    )
   );
 };
 

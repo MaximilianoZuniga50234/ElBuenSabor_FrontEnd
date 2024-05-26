@@ -13,7 +13,9 @@ import { useStore as useUser } from "../../../store/CurrentUserStore";
 import Loader from "../../../components/loader/Loader";
 import "./itemStockABM.css";
 
-const NoPermissions = lazy(()=> import("../../../components/noPermissions/NoPermissions"))
+const NoPermissions = lazy(
+  () => import("../../../components/noPermissions/NoPermissions")
+);
 
 export default function ItemStockABM() {
   const [itemStocks, setItemStocks] = useState<ItemStock[]>([]);
@@ -125,155 +127,160 @@ export default function ItemStockABM() {
     }
   };
 
-  return user?.role === "Administrador" || user?.role === "Cocinero" ? (
-    <Suspense fallback={<Loader />}>
-      <div className="itemStockABM__container">
-        <div className="itemStockABM__table">
-          <div className="itemStockABM__header">
-            <div className="itemStockABM__title">
-              <h1 className="itemStockABM__h1">Rubros de ingredientes</h1>
+  return (
+    user?.role &&
+    (user?.role === "Administrador" || user?.role === "Cocinero" ? (
+      <Suspense fallback={<Loader />}>
+        <div className="itemStockABM__container">
+          <div className="itemStockABM__table">
+            <div className="itemStockABM__header">
+              <div className="itemStockABM__title">
+                <h1 className="itemStockABM__h1">Rubros de ingredientes</h1>
+              </div>
+
+              <div className="itemStockABM__button__container">
+                <button
+                  className="itemStockABM__button"
+                  onClick={() => handleAdd()}
+                >
+                  Añadir nuevo rubro
+                </button>
+              </div>
             </div>
 
-            <div className="itemStockABM__button__container">
-              <button
-                className="itemStockABM__button"
-                onClick={() => handleAdd()}
-              >
-                Añadir nuevo rubro
-              </button>
+            <div className="itemStockABM__labels">
+              <h3 className="itemStockABM__h3">Id</h3>
+              <h3 className="itemStockABM__h3">Nombre del rubro</h3>
+              <h3 className="itemStockABM__h3">Padre</h3>
+              <h3 className="itemStockABM__h3">Estado</h3>
+              <h3 className="itemStockABM__h3">Modificar</h3>
+            </div>
+
+            <div className="itemStockABM__rows__container">
+              {itemStocks.map((itemStock) => (
+                <div className="itemStockABM__row" key={itemStock.id}>
+                  <h4 className="itemStockABM__h4">{itemStock.id}</h4>
+                  <h4 className="itemStockABM__h4">{itemStock.name}</h4>
+                  <h4 className="itemStockABM__h4">
+                    {itemStock.father ? itemStock.father?.name : itemStock.name}
+                  </h4>
+                  <h4 className="itemStockABM__h4">
+                    {itemStock.active === true ? "De alta" : "De baja"}
+                  </h4>
+                  <div className="itemStockABM__icon">
+                    <button
+                      className="itemStockABM__button itemStockABM__button--icon"
+                      onClick={() => handleModify(itemStock)}
+                    >
+                      <FaPencilAlt />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="itemStockABM__labels">
-            <h3 className="itemStockABM__h3">Id</h3>
-            <h3 className="itemStockABM__h3">Nombre del rubro</h3>
-            <h3 className="itemStockABM__h3">Padre</h3>
-            <h3 className="itemStockABM__h3">Estado</h3>
-            <h3 className="itemStockABM__h3">Modificar</h3>
-          </div>
+          <Toaster position="top-center" richColors visibleToasts={1} />
+          <Modal
+            open={open}
+            onClose={handleClose}
+            slotProps={{
+              backdrop: {
+                timeout: 300,
+              },
+            }}
+            disableScrollLock={true}
+          >
+            <Fade in={open}>
+              <Box className="itemStockABM__modal__box">
+                <h3 className="itemStockABM__modal__h3">
+                  {isNew ? "Añadir nuevo" : "Modificar"} rubro
+                </h3>
 
-          <div className="itemStockABM__rows__container">
-            {itemStocks.map((itemStock) => (
-              <div className="itemStockABM__row" key={itemStock.id}>
-                <h4 className="itemStockABM__h4">{itemStock.id}</h4>
-                <h4 className="itemStockABM__h4">{itemStock.name}</h4>
-                <h4 className="itemStockABM__h4">
-                  {itemStock.father ? itemStock.father?.name : itemStock.name}
-                </h4>
-                <h4 className="itemStockABM__h4">
-                  {itemStock.active === true ? "De alta" : "De baja"}
-                </h4>
-                <div className="itemStockABM__icon">
-                  <button
-                    className="itemStockABM__button itemStockABM__button--icon"
-                    onClick={() => handleModify(itemStock)}
+                <div className="itemStockABM__modal__name">
+                  <label htmlFor="itemStockABM__modal__input">
+                    Nombre del rubro
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Ingrese el nombre"
+                    className="itemStockABM__modal__input"
+                    defaultValue={!isNew ? itemStock?.name : ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="itemStockABM__modal__father">
+                  <label htmlFor="itemStockABM__modal__select">
+                    Rubro Padre
+                  </label>
+                  <select
+                    className="itemStockABM__modal__select"
+                    defaultValue={
+                      itemStock?.father
+                        ? itemStock?.father?.name
+                        : itemStock?.name
+                    }
+                    onChange={handleChangeFather}
                   >
-                    <FaPencilAlt />
+                    {itemStocks?.map((itemStock) => (
+                      <option
+                        className="itemStockABM__modal__option"
+                        key={itemStock.id}
+                      >
+                        {itemStock.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="itemStockABM__modal__state">
+                  <label htmlFor="itemStockABM__modal__select">
+                    Estado del rubro
+                  </label>
+                  <select
+                    className="itemStockABM__modal__select"
+                    defaultValue={
+                      itemStock?.active === true ? "De alta" : "De baja"
+                    }
+                    onChange={handleChangeOption}
+                  >
+                    <option className="itemStockABM__modal__option">
+                      De alta
+                    </option>
+                    <option className="itemStockABM__modal__option">
+                      De baja
+                    </option>
+                  </select>
+                </div>
+
+                <div className="itemStockABM__modal__buttons">
+                  <button
+                    className="itemStockABM__modal__button"
+                    onClick={handleClose}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    className="itemStockABM__modal__button"
+                    onClick={function () {
+                      itemStock?.name === ""
+                        ? toast.error("El nombre no puede estar vacío.")
+                        : handleConfirm();
+                    }}
+                  >
+                    Confirmar
                   </button>
                 </div>
-              </div>
-            ))}
-          </div>
+              </Box>
+            </Fade>
+          </Modal>
         </div>
-
-        <Toaster position="top-center" richColors visibleToasts={1} />
-        <Modal
-          open={open}
-          onClose={handleClose}
-          slotProps={{
-            backdrop: {
-              timeout: 300,
-            },
-          }}
-          disableScrollLock={true}
-        >
-          <Fade in={open}>
-            <Box className="itemStockABM__modal__box">
-              <h3 className="itemStockABM__modal__h3">
-                {isNew ? "Añadir nuevo" : "Modificar"} rubro
-              </h3>
-
-              <div className="itemStockABM__modal__name">
-                <label htmlFor="itemStockABM__modal__input">
-                  Nombre del rubro
-                </label>
-                <input
-                  type="text"
-                  placeholder="Ingrese el nombre"
-                  className="itemStockABM__modal__input"
-                  defaultValue={!isNew ? itemStock?.name : ""}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="itemStockABM__modal__father">
-                <label htmlFor="itemStockABM__modal__select">Rubro Padre</label>
-                <select
-                  className="itemStockABM__modal__select"
-                  defaultValue={
-                    itemStock?.father
-                      ? itemStock?.father?.name
-                      : itemStock?.name
-                  }
-                  onChange={handleChangeFather}
-                >
-                  {itemStocks?.map((itemStock) => (
-                    <option
-                      className="itemStockABM__modal__option"
-                      key={itemStock.id}
-                    >
-                      {itemStock.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="itemStockABM__modal__state">
-                <label htmlFor="itemStockABM__modal__select">
-                  Estado del rubro
-                </label>
-                <select
-                  className="itemStockABM__modal__select"
-                  defaultValue={
-                    itemStock?.active === true ? "De alta" : "De baja"
-                  }
-                  onChange={handleChangeOption}
-                >
-                  <option className="itemStockABM__modal__option">
-                    De alta
-                  </option>
-                  <option className="itemStockABM__modal__option">
-                    De baja
-                  </option>
-                </select>
-              </div>
-
-              <div className="itemStockABM__modal__buttons">
-                <button
-                  className="itemStockABM__modal__button"
-                  onClick={handleClose}
-                >
-                  Cancelar
-                </button>
-                <button
-                  className="itemStockABM__modal__button"
-                  onClick={function () {
-                    itemStock?.name === ""
-                      ? toast.error("El nombre no puede estar vacío.")
-                      : handleConfirm();
-                  }}
-                >
-                  Confirmar
-                </button>
-              </div>
-            </Box>
-          </Fade>
-        </Modal>
-      </div>
-    </Suspense>
-  ) : (
-    <>
-      <NoPermissions />
-    </>
+      </Suspense>
+    ) : (
+      <>
+        <NoPermissions />
+      </>
+    ))
   );
 }

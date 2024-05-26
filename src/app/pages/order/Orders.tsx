@@ -1,5 +1,4 @@
 import { MouseEvent, useState, useEffect, lazy, Suspense } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { FaChevronDown, FaChevronUp, FaSearch } from "react-icons/fa";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
@@ -18,7 +17,6 @@ const Orders = () => {
   const [orders, setOrders] = useState<PurchaseOrder[]>([]);
   const [changeOrderStatus, setChangeOrderStatus] = useState<boolean>(false);
   const { user } = useUser();
-  const { isAuthenticated } = useAuth0();
   const [filterOrders, setFilterOrders] = useState<PurchaseOrder[]>([]);
   const [idFilter, setIdFilter] = useState<number>(0);
 
@@ -76,7 +74,7 @@ const Orders = () => {
   }, [filter, orders, user]);
 
   return (
-    isAuthenticated && (
+    user?.role && (
       <Suspense fallback={<Loader />}>
         {user?.role != "Cliente" ? (
           <main className="main_orders_list">

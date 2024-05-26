@@ -112,7 +112,7 @@ export default function RankingTable({
     );
   };
 
-  return products.length > 0 ? (
+  return products && products.length > 0 ? (
     <main className="productsRanking__table">
       <div className="productsRanking__table__container">
         <div className="productsRanking__table__header">

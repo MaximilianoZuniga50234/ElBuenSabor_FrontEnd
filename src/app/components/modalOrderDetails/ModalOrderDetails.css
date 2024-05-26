@@ -76,7 +76,23 @@
 .modalOrderDetails__products__content {
     max-height: 100px;
     overflow-y: auto;
-    scrollbar-width: none;
+}
+
+.modalOrderDetails__products__content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modalOrderDetails__products__content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.0);
+}
+
+.modalOrderDetails__products__content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalOrderDetails__products__content::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    background-clip: content-box;
 }
 
 .modalOrderDetails__products__content__product {
