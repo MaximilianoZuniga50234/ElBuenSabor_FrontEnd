@@ -72,38 +72,29 @@ export function useAddressesAndPersons() {
 
   const insertPersons = async () => {
     try {
-      if (personsPost && personsPost?.length > 0) {
+      if (personsPost && personsPost.length > 0) {
         if (personsDatabase && personsDatabase.length === 0) {
           for (const personPost of personsPost) {
             await addPerson(personPost, token);
           }
           await getPersons();
         } else if (personsDatabase && personsDatabase.length > 0) {
-          let personExists = false;
           for (const personPost of personsPost) {
-            for (const person of personsDatabase) {
-              if (person.user_id === personPost.user_id) {
-                personExists = true;
-                break;
-              }
-            }
-            if (!personExists) {
+            const existingPerson = personsDatabase.find(
+              (person) => person.user_id === personPost.user_id
+            );
+            if (!existingPerson) {
               await addPerson(personPost, token);
               await getPersons();
-            } else {
-              const person = personsDatabase.find(
-                (p) => p.user_id === personPost.user_id
-              );
-              if (
-                person &&
-                person.id &&
-                (person.name != personPost.name ||
-                  person.lastName != personPost.lastName ||
-                  person.phoneNumber != personPost.phoneNumber)
-              ) {
-                await updatePerson(personPost, token, person.id);
-                await getPersons();
-              }
+            } else if (
+              existingPerson &&
+              existingPerson.id &&
+              (existingPerson.name !== personPost.name ||
+                existingPerson.lastName !== personPost.lastName ||
+                existingPerson.phoneNumber !== personPost.phoneNumber)
+            ) {
+              await updatePerson(personPost, token, existingPerson.id);
+              await getPersons();
             }
           }
         }
@@ -157,31 +148,22 @@ export function useAddressesAndPersons() {
           }
           await getAddresses();
         } else if (addressesDatabase && addressesDatabase.length > 0) {
-          let addressExists = false;
           for (const addressPost of addressesPost) {
-            for (const address of addressesDatabase) {
-              if (address.person.user_id === addressPost.person.user_id) {
-                addressExists = true;
-                break;
-              }
-            }
-            if (!addressExists) {
+            const existingAddress = addressesDatabase.find(
+              (address) => address.person.user_id === addressPost.person.user_id
+            );
+            if (!existingAddress) {
               await addAddress(addressPost, token);
               await getAddresses();
-            } else {
-              const address = addressesDatabase.find(
-                (a) => a.person.user_id === addressPost.person.user_id
-              );
-              if (
-                address &&
-                address.id &&
-                (address.department.name != addressPost.department.name ||
-                  address.number != addressPost.number ||
-                  address.street != addressPost.street)
-              ) {
-                await updateAddress(addressPost, token, address.id);
-                await getAddresses();
-              }
+            } else if (
+              existingAddress &&
+              (existingAddress.department.name !==
+                addressPost.department.name ||
+                existingAddress.number !== addressPost.number ||
+                existingAddress.street !== addressPost.street)
+            ) {
+              await updateAddress(addressPost, token, existingAddress.id);
+              await getAddresses();
             }
           }
         }
