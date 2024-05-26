@@ -25,6 +25,9 @@ import {
 import { CreditNote } from "../../interfaces/CreditNote";
 import { createCreditNote } from "../../functions/CreditNoteAPI";
 import { updateStock } from "../../functions/StockAPI";
+import InvoicePdf from "../invoice/InvoicePdf";
+import { pdf } from "@react-pdf/renderer";
+import { sendEmail } from "../../functions/EmailAPI";
 
 type Props = {
   datos: PurchaseOrder[];
@@ -158,9 +161,22 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
   const postInvoice = async () => {
     try {
       await createInvoice(invoice, token);
+      const updatedInvoices = await getInvoices();
+      const invoiceMail = updatedInvoices.find(
+        (o: Invoice) => o.purchaseOrder.id === purchaseOrder.id
+      );
+      generatePdfBase64(invoiceMail);
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const generatePdfBase64 = async (invoiceMail: Invoice) => {
+    const pdfBlob = await pdf(<InvoicePdf invoice={invoiceMail} />).toBlob();
+    const formData = new FormData();
+    formData.append("file", pdfBlob, `Factura_${invoiceMail.id}.pdf`);
+    formData.append("order", JSON.stringify(invoiceMail.purchaseOrder));
+    sendEmail(formData);
   };
 
   useEffect(() => {
@@ -171,19 +187,19 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
 
   useEffect(() => {
     if (purchaseOrder.id != 0 && invoices && invoices?.length > 0) {
-      const correspondentInvoice: Invoice =
-        invoices?.find(
-          (invoice: Invoice) => invoice.purchaseOrder.id === purchaseOrder.id
-        ) ?? INVOICE_INITIAL_STATE;
+      const correspondentInvoice = invoices?.find(
+        (invoice: Invoice) => invoice.purchaseOrder.id === purchaseOrder.id
+      );
 
-      setCreditNote({
-        id: 0,
-        date: new Date(),
-        active: true,
-        invoice: correspondentInvoice,
-        purchaseOrder: purchaseOrder,
-        total: correspondentInvoice.purchaseOrder.amountToPaid,
-      });
+      correspondentInvoice &&
+        setCreditNote({
+          id: 0,
+          date: new Date(),
+          active: true,
+          invoice: correspondentInvoice,
+          purchaseOrder: purchaseOrder,
+          total: correspondentInvoice.purchaseOrder.amountToPaid,
+        });
     }
   }, [purchaseOrder, invoices]);
 
@@ -294,6 +310,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     try {
       const response = await getAllInvoice();
       setInvoices(response);
+      return response;
     } catch (err) {
       console.error(err);
     }
