@@ -6,6 +6,7 @@ import MeasurementUnitABM from "../pages/abm/measurementUnit/MeasurementUnitABM"
 import Orders from "../pages/order/Orders";
 import LowStock from "../pages/abm/stock/LowStock";
 import StockAbm from "../pages/abm/stock/StockAbm";
+import ProductABM from "../pages/abm/product/ProductABM";
 
 const EmployeeRoutes = () => {
   return (
@@ -29,6 +30,10 @@ const EmployeeRoutes = () => {
       <Route
         path="/stockAbm"
         element={<AuthenticationGuard component={StockAbm} />}
+      />
+      <Route
+        path="/productAbm"
+        element={<AuthenticationGuard component={ProductABM} />}
       />
       <Route
         path="/lowStock"
