@@ -1,3 +1,5 @@
+import { Product } from "../interfaces/Product";
+
 export async function getAllProduct(
   name?: string,
   order?: string,
@@ -33,14 +35,62 @@ export async function getFeaturedProducts() {
   );
 }
 
-// export async function getProductsByName(search: string) {
-//   return await fetch(
-//     `http://localhost:9000/api/v1/product/search/${search}`
-//   ).then((r) => r.json());
-// }
+export async function createProduct(product: Product, image: string | null) {
+  const formData = new FormData();
+  formData.append("product", JSON.stringify(product));
+  if (image) {
+    const imageBlob = base64ToBlob(image);
+    const imageFile = new File(
+      [imageBlob],
+      `${product.id}_${product.denomination.replace(" ", "_")}.jpg`,
+      { type: "image/jpeg" }
+    );
+    formData.append("image", imageFile);
+  }
 
-// export async function getProductsByCategory(search: string) {
-//   return await fetch(
-//     `http://localhost:9000/api/v1/product/search/cat/${search}`
-//   ).then((r) => r.json());
-// }
+  return await fetch(`http://localhost:9000/api/v1/product/create`, {
+    method: "POST",
+    body: formData,
+  }).then((r) => r.json());
+}
+
+export async function updateProduct(product: Product, image: string | null) {
+  const formData = new FormData();
+  formData.append("product", JSON.stringify(product));
+
+  if (image) {
+    const imageBlob = base64ToBlob(image);
+    const imageFile = new File(
+      [imageBlob],
+      `${product.id}_${product.denomination.replace(" ", "_")}.jpg`,
+      { type: "image/jpeg" }
+    );
+    formData.append("image", imageFile);
+  }
+
+  return await fetch(
+    `http://localhost:9000/api/v1/product/update/${product.id}`,
+    {
+      method: "PUT",
+      body: formData,
+    }
+  ).then((r) => r.json());
+}
+
+export async function deleteProduct(id: string) {
+  return await fetch(`http://localhost:9000/api/v1/product/desactivate/${id}`, {
+    method: "PATCH",
+    headers: {},
+  }).then((r) => r.json());
+}
+
+// Esta función debe recibir un archivo decodificado en base64
+function base64ToBlob(base64: string): Blob {
+  const byteCharacters = atob(base64.split(',')[1]);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: 'image/jpeg' });
+}

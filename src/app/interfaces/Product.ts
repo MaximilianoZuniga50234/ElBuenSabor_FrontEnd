@@ -2,7 +2,7 @@ import { Base } from "./Base";
 import { ItemProduct } from "./ItemProduct";
 import { Stock } from "./Stock";
 
-interface ProductDetail {
+export interface ProductDetail {
   amount: number;
   stock: Stock;
   product: Product;
