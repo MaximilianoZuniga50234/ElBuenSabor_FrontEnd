@@ -97,3 +97,8 @@
 .lowStockPage__modal__button {
     width: 100px;
 }
+
+.lowStockPage__h1__noResults {
+    display: flex;
+    justify-content: center;
+}

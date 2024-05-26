@@ -184,7 +184,7 @@ export default function ModalOrderDetails({
               <>
                 {!isOrderFromCart && (
                   <h3 className="modalOrderDetails__title">
-                    Orden N° {purchaseOrder?.number}
+                    Orden N° {purchaseOrder?.id}
                   </h3>
                 )}
 

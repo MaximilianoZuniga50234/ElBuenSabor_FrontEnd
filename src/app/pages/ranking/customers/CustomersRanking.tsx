@@ -8,6 +8,7 @@ import Loader from "../../../components/loader/Loader";
 import { getAllPerson } from "../../../functions/PersonAPI";
 import { Person } from "../../../interfaces/Person";
 import { useStore } from "../../../store/CurrentUserStore";
+import NoPermissions from "../../../components/noPermissions/NoPermissions";
 
 const CustomersRankingTable = lazy(
   () => import("../../../components/ranking/customers/CustomersRankingTable")
@@ -207,40 +208,48 @@ export default function CustomersRanking() {
   };
 
   return (
-    <Suspense fallback={<Loader />}>
-      <div className="customersRanking__container">
-        <div className="customersRanking__header">
-          <h3 className="customersRanking__title">Ranking de clientes</h3>
-          <div className="customersRanking__filter">
-            <input type="date" onChange={handleChangeStartDate} />
-            <label>-</label>
-            <input type="date" onChange={handleChangeEndDate} />
-            <button onClick={handleClick}>
-              <FaSearch />
-            </button>
+    user?.role && (
+      <Suspense fallback={<Loader />}>
+        {user?.role === "Administrador" ? (
+          <div className="customersRanking__container">
+            <div className="customersRanking__header">
+              <h3 className="customersRanking__title">Ranking de clientes</h3>
+              <div className="customersRanking__filter">
+                <input type="date" onChange={handleChangeStartDate} />
+                <label>-</label>
+                <input type="date" onChange={handleChangeEndDate} />
+                <button onClick={handleClick}>
+                  <FaSearch />
+                </button>
+              </div>
+            </div>
+            {filteredOrders && filteredOrders?.length > 0 && (
+              <div className="customersRanking__options">
+                <select
+                  className="customersRanking__select"
+                  onChange={handleChangeOption}
+                >
+                  <option value="Ordenar por importe">
+                    Ordenar por importe
+                  </option>
+                  <option value="Ordenar por cantidad de pedidos">
+                    Ordenar por cantidad de pedidos
+                  </option>
+                </select>
+              </div>
+            )}
+            {!isLoading && (
+              <CustomersRankingTable
+                customers={filteredPersons}
+                datesToFilter={datesToFilter}
+                orders={filteredOrders ?? []}
+              />
+            )}
           </div>
-        </div>
-        {filteredOrders && filteredOrders?.length > 0 && (
-          <div className="customersRanking__options">
-            <select
-              className="customersRanking__select"
-              onChange={handleChangeOption}
-            >
-              <option value="Ordenar por importe">Ordenar por importe</option>
-              <option value="Ordenar por cantidad de pedidos">
-                Ordenar por cantidad de pedidos
-              </option>
-            </select>
-          </div>
+        ) : (
+          <NoPermissions />
         )}
-        {!isLoading && (
-          <CustomersRankingTable
-            customers={filteredPersons}
-            datesToFilter={datesToFilter}
-            orders={filteredOrders ?? []}
-          />
-        )}
-      </div>
-    </Suspense>
+      </Suspense>
+    )
   );
 }

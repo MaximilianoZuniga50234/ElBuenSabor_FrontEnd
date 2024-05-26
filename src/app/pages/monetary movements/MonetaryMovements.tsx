@@ -7,6 +7,7 @@ import { useStore } from "../../store/CurrentUserStore";
 import { FaSearch } from "react-icons/fa";
 import { getAllPurchaseOrder } from "../../functions/PurchaseOrderAPI";
 import { PurchaseOrderDetail } from "../../interfaces/PurchaseOrderDetail";
+import NoPermissions from "../../components/noPermissions/NoPermissions";
 
 const MonetaryMovementsTable = lazy(
   () => import("../../components/monetary movements/MonetaryMovementsTable")
@@ -130,27 +131,35 @@ export default function MonetaryMovements() {
   };
 
   return (
-    <Suspense fallback={<Loader />}>
-      <div className="monetaryMovements__container">
-        <div className="monetaryMovements__header">
-          <h3 className="monetaryMovements__title">Movimientos monetarios</h3>
-          <div className="monetaryMovements__filter">
-            <input type="date" onChange={handleChangeStartDate} />
-            <label>-</label>
-            <input type="date" onChange={handleChangeEndDate} />
-            <button onClick={handleClick}>
-              <FaSearch />
-            </button>
-          </div>
-        </div>
+    user?.role && (
+      <Suspense fallback={<Loader />}>
+        {user?.role === "Administrador" ? (
+          <div className="monetaryMovements__container">
+            <div className="monetaryMovements__header">
+              <h3 className="monetaryMovements__title">
+                Movimientos monetarios
+              </h3>
+              <div className="monetaryMovements__filter">
+                <input type="date" onChange={handleChangeStartDate} />
+                <label>-</label>
+                <input type="date" onChange={handleChangeEndDate} />
+                <button onClick={handleClick}>
+                  <FaSearch />
+                </button>
+              </div>
+            </div>
 
-        {!isLoading && (
-          <MonetaryMovementsTable
-            datesToFilter={datesToFilter}
-            data={totalAmounts}
-          />
+            {!isLoading && (
+              <MonetaryMovementsTable
+                datesToFilter={datesToFilter}
+                data={totalAmounts}
+              />
+            )}
+          </div>
+        ) : (
+          <NoPermissions />
         )}
-      </div>
-    </Suspense>
+      </Suspense>
+    )
   );
 }

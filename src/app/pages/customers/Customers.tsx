@@ -22,24 +22,29 @@ const Customers = () => {
   }, [users]);
 
   return (
-    <Suspense fallback={<Loader />}>
-      {user?.role === "Administrador" ? (
-        <main className="main_customers_list">
-          <div className="title_container">
-            <h2>Clientes</h2>
-            <form>
-              <input type="text" placeholder="Buscar por nombre y/o apellido" />
-              <button type="submit">
-                <FaSearch />
-              </button>
-            </form>
-          </div>
-          <Table datos={customers} />
-        </main>
-      ) : (
-        <NoPermissions />
-      )}
-    </Suspense>
+    user?.role && (
+      <Suspense fallback={<Loader />}>
+        {user?.role === "Administrador" ? (
+          <main className="main_customers_list">
+            <div className="title_container">
+              <h2>Clientes</h2>
+              <form>
+                <input
+                  type="text"
+                  placeholder="Buscar por nombre y/o apellido"
+                />
+                <button type="submit">
+                  <FaSearch />
+                </button>
+              </form>
+            </div>
+            <Table datos={customers} />
+          </main>
+        ) : (
+          <NoPermissions />
+        )}
+      </Suspense>
+    )
   );
 };
 

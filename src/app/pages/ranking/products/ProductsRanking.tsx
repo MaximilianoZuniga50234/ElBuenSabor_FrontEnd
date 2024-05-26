@@ -10,6 +10,7 @@ import { Drinks } from "../../../components/ranking/products/ProductsRankingTabl
 import { FaSearch } from "react-icons/fa";
 import { toast } from "sonner";
 import Loader from "../../../components/loader/Loader";
+import NoPermissions from "../../../components/noPermissions/NoPermissions";
 
 const ProductsRankingTable = lazy(
   () => import("../../../components/ranking/products/ProductsRankingTable")
@@ -77,8 +78,8 @@ export default function ProductsRanking() {
 
   useEffect(() => {
     if (user && filteredOrders) {
+      setIsLoading(false);
       if (products.length > 1 && filteredOrders?.length > 0) {
-        setIsLoading(false);
         products.forEach((p) => {
           if (p.quantitySold) {
             p.quantitySold = 0;
@@ -180,51 +181,57 @@ export default function ProductsRanking() {
   };
 
   return (
-    <Suspense fallback={<Loader />}>
-      <div className="productsRanking__container">
-        <div className="productsRanking__header">
-          <h3 className="productsRanking__title">Ranking de productos</h3>
-          <div className="productsRanking__filter">
-            <input type="date" onChange={handleChangeStartDate} />
-            <label>-</label>
-            <input type="date" onChange={handleChangeEndDate} />
-            <button onClick={handleClick}>
-              <FaSearch />
-            </button>
+    user?.role && (
+      <Suspense fallback={<Loader />}>
+        {user?.role === "Administrador" ? (
+          <div className="productsRanking__container">
+            <div className="productsRanking__header">
+              <h3 className="productsRanking__title">Ranking de productos</h3>
+              <div className="productsRanking__filter">
+                <input type="date" onChange={handleChangeStartDate} />
+                <label>-</label>
+                <input type="date" onChange={handleChangeEndDate} />
+                <button onClick={handleClick}>
+                  <FaSearch />
+                </button>
+              </div>
+            </div>
+            {filteredProducts.length > 0 && (
+              <div className="productsRanking__options">
+                <button
+                  className={`productsRanking__option__products ${
+                    showProducts ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setShowProducts(true);
+                  }}
+                >
+                  Comidas
+                </button>
+                <button
+                  className={`productsRanking__option__drinks ${
+                    !showProducts ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setShowProducts(false);
+                  }}
+                >
+                  Bebidas
+                </button>
+              </div>
+            )}
+            {!isLoading && (
+              <ProductsRankingTable
+                products={filteredProducts}
+                showProducts={showProducts}
+                datesToFilter={datesToFilter}
+              />
+            )}
           </div>
-        </div>
-        {filteredProducts.length > 0 && (
-          <div className="productsRanking__options">
-            <button
-              className={`productsRanking__option__products ${
-                showProducts ? "active" : ""
-              }`}
-              onClick={() => {
-                setShowProducts(true);
-              }}
-            >
-              Comidas
-            </button>
-            <button
-              className={`productsRanking__option__drinks ${
-                !showProducts ? "active" : ""
-              }`}
-              onClick={() => {
-                setShowProducts(false);
-              }}
-            >
-              Bebidas
-            </button>
-          </div>
+        ) : (
+          <NoPermissions />
         )}
-        {!isLoading && (
-          <ProductsRankingTable
-            products={filteredProducts}
-            showProducts={showProducts}
-            datesToFilter={datesToFilter}
-          />
-        )}
-      </div>
-    </Suspense>
+      </Suspense>
+    )
   );
 }
