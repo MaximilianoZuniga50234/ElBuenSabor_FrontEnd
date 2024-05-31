@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { FaGear, FaX } from "react-icons/fa6";
+import { FaX } from "react-icons/fa6";
+import { FaPencilAlt } from "react-icons/fa";
 import {
   HiOutlineChevronDoubleLeft,
   HiOutlineChevronDoubleRight,
@@ -78,7 +79,7 @@ const ProductTable = ({
               />
             </td>
             <td className="celda_acciones">
-              <FaGear onClick={() => handleModify(e)} />
+              <FaPencilAlt onClick={() => handleModify(e)} />
             </td>
           </tr>
         ))}

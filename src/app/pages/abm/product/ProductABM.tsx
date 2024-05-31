@@ -4,6 +4,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { toast } from "sonner";
 import Loader from "../../../components/loader/Loader";
 import { Product, ProductDetail } from "../../../interfaces/Product";
+import { ItemProduct } from "../../../interfaces/ItemProduct";
 import { useStore as useUser } from "../../../store/CurrentUserStore";
 import {
   createProduct,
@@ -12,7 +13,6 @@ import {
   updateProduct,
 } from "../../../functions/ProductAPI";
 import "./productABM.css";
-import { ItemProduct } from "../../../interfaces/ItemProduct";
 
 const ProductTable = lazy(
   () => import("../../../components/products/ProductTable")
