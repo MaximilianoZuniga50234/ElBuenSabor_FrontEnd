@@ -115,7 +115,7 @@
   display: grid;
   grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
   padding: 0 32px 0 32px;
-  background: var(--ebony-50);
+  background: var(--ebony-100);
   border: 0;
 }
 
