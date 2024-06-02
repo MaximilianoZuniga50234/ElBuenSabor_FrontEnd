@@ -2,8 +2,8 @@ import { FaCartShopping } from "react-icons/fa6";
 import { Product } from "../../interfaces/Product";
 import { toast } from "sonner";
 import { useStore as useCart } from "../../store/CartStore";
-import Modal from "../modal/Modal";
 import { MouseEvent, useState } from "react";
+import ModalProductDetail from "../ModalProductDetail/ModalProductDetail";
 
 interface Props {
   product: Product;
@@ -12,14 +12,10 @@ interface Props {
 export default function AllProductsCard({ product }: Props) {
   const { add } = useCart();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+    setOpen(true);
   };
 
   const addToCart = (product: Product, event?: MouseEvent | undefined) => {
@@ -89,10 +85,10 @@ export default function AllProductsCard({ product }: Props) {
           </div>
         </div>
       </div>
-      <Modal
-        isOpen={isModalOpen}
+      <ModalProductDetail
+        open={open}
         product={product}
-        onClose={closeModal}
+        setOpen={setOpen}
         onAddToCart={addToCart}
       />
     </>
