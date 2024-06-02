@@ -1,12 +1,12 @@
 import { MouseEvent, useState } from "react";
 import { toast } from "sonner";
 import AliceCarousel from "react-alice-carousel";
-import Modal from "../../../components/modal/Modal";
 import { Product } from "../../../interfaces/Product";
 import { useStore as useCart } from "../../../store/CartStore";
 import { FaCartShopping, FaClock } from "react-icons/fa6";
 import "react-alice-carousel/lib/alice-carousel.css";
 import "./carrousel.css";
+import ModalProductDetail from "../../ModalProductDetail/ModalProductDetail";
 
 interface Props {
   products: Product[];
@@ -14,17 +14,13 @@ interface Props {
 
 const Carrousel = ({ products }: Props) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { add } = useCart();
 
   const openModal = (product: Product) => {
     setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+    setOpen(true);
   };
 
   const buttonClick = (product: Product, event?: MouseEvent | undefined) => {
@@ -128,10 +124,10 @@ const Carrousel = ({ products }: Props) => {
         infinite
         mouseTracking
       />
-      <Modal
-        isOpen={isModalOpen}
+      <ModalProductDetail
+        open={open}
         product={selectedProduct}
-        onClose={closeModal}
+        setOpen={setOpen}
         onAddToCart={buttonClick}
       />
     </div>
