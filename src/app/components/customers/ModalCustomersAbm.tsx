@@ -75,7 +75,6 @@ export default function ModalCustomersAbm({
   }, [customer]);
 
   useEffect(() => {
-    console.log(customerPost);
     if (!isConnectionDeleted) {
       const newCustomerPost = { ...customerPost };
       delete newCustomerPost.connection;

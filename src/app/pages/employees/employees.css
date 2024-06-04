@@ -62,7 +62,7 @@
   border-radius: 12px;
   background: var(--ebony-50);
   width: 90%;
-  margin: 8px 0 0 0;
+  margin: 8px 0 20px;
   border-spacing: 0;
   border: 0;
 }
@@ -112,11 +112,13 @@
 }
 
 .employees_list_table tfoot tr {
-  display: grid;
-  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
-  padding: 0 32px 0 32px;
+  display: flex;
+  padding: 0 32px;
   background: var(--ebony-100);
+  gap: 20px;
   border: 0;
+  align-items: center;
+  justify-content: end;
 }
 
 .employees_list_table tfoot tr td {

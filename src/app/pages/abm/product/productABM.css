@@ -4,6 +4,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 30px 0;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .main_products_list .title_container {
@@ -12,12 +15,11 @@
   width: 90%;
   align-items: center;
   justify-content: space-between;
-  background: var(--light-lavender-gray);
+  background: var(--ebony-50);
   border: 1px solid var(--black);
   border-bottom: 0;
   border-radius: 12px 12px 0 0;
   padding: 16px;
-  margin: 24px 0 0 0;
 }
 
 .main_products_list .title_container h2 {
@@ -45,21 +47,14 @@
   flex-direction: row;
   align-items: center;
   border-radius: 0 12px 12px 0;
-  background: var(--ebony-950);
 }
 
-.main_products_list .title_container .product_add_button {
-  background: var(--ebony-950);
-}
-
-.main_products_list .title_container .product_add_button:hover,
-.main_products_list .title_container form button:hover,
 .produts_list_table .celda_acciones svg:hover {
   opacity: 0.7;
 }
 
 .produts_list_table {
-  background: var(--light-lavender-gray);
+  background: var(--ebony-50);
   border: 1px solid var(--black);
   width: 90%;
   border-radius: 0 0 12px 12px;
@@ -101,7 +96,12 @@
 }
 
 .produts_list_table tfoot tr {
-  border-bottom: 0;
+  display: flex;
+  padding: 0 32px;
+  gap: 20px;
+  border: 0;
+  align-items: center;
+  justify-content: end;
 }
 
 .main_products_list .no_products {
@@ -118,16 +118,36 @@
 /*********************************  ESTILOS MODAL ****************************************/
 
 .product_abm_modal_container {
-  width: fit-content;
-  height: fit-content;
-  margin: 5% auto;
-  background-color: var(--light-lavender-gray);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  padding: 10px 20px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 32px;
-  border-radius: 12px;
-  box-shadow: 1px 1px 8px 0px var(--black);
+  gap: 15px;
+  overflow-y: scroll;
+  max-height: 95vh;
+}
+
+.product_abm_modal_container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.product_abm_modal_container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.0);
+}
+
+.product_abm_modal_container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.product_abm_modal_container::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 .product_abm_modal_body {

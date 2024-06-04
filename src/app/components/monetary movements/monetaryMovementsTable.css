@@ -34,7 +34,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    padding: 10px 5px;
+    padding: 20px 5px;
 }
 
 .monetaryMovements__noResults {

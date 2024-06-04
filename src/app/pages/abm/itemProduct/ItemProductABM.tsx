@@ -12,6 +12,12 @@ import {
 import { useStore as useUser } from "../../../store/CurrentUserStore";
 import Loader from "../../../components/loader/Loader";
 import "./itemProductABM.css";
+import {
+  HiOutlineChevronDoubleLeft,
+  HiOutlineChevronDoubleRight,
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight,
+} from "react-icons/hi";
 
 const NoPermissions = lazy(
   () => import("../../../components/noPermissions/NoPermissions")
@@ -31,6 +37,23 @@ export default function ItemProductABM() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [tokenState, setTokenState] = useState("");
   const { user } = useUser();
+
+  const [paginaActual, setPaginaActual] = useState<number>(1);
+  const indiceInicio = (paginaActual - 1) * 10;
+  const indiceFin =
+    itemProducts.length < paginaActual * 10
+      ? itemProducts.length
+      : paginaActual * 10;
+
+  const elementosPaginaActual = itemProducts.slice(indiceInicio, indiceFin);
+
+  const handleChangePage = (n: number) => {
+    n === 0
+      ? setPaginaActual(1)
+      : n === 2
+      ? setPaginaActual(Math.ceil(itemProducts.length / 10))
+      : setPaginaActual(paginaActual + n);
+  };
 
   const getToken = async () => {
     try {
@@ -130,7 +153,7 @@ export default function ItemProductABM() {
             </div>
 
             <div className="itemProductABM__rows__container">
-              {itemProducts.map((itemProduct) => (
+              {elementosPaginaActual.map((itemProduct) => (
                 <div className="itemProductABM__row" key={itemProduct.id}>
                   <h4 className="itemProductABM__h4">{itemProduct.id}</h4>
                   <h4 className="itemProductABM__h4">
@@ -149,6 +172,39 @@ export default function ItemProductABM() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+          <div className="itemProductABM__footer">
+            <div className="itemProductABM__footer__pagination__info">
+              {indiceInicio} - {indiceFin} de {itemProducts.length}
+            </div>
+            <div className="itemProductABM__footer__pagination__actions">
+              {itemProducts.length > 10 && paginaActual > 1 && (
+                <HiOutlineChevronDoubleLeft
+                  className="itemProductABM__footer__pagination__arrow"
+                  onClick={() => handleChangePage(0)}
+                />
+              )}
+              {itemProducts.length > 10 && paginaActual > 1 && (
+                <HiOutlineChevronLeft
+                  className="itemProductABM__footer__pagination__arrow"
+                  onClick={() => handleChangePage(-1)}
+                />
+              )}
+              {itemProducts.length > 10 &&
+                paginaActual !== Math.ceil(itemProducts.length / 10) && (
+                  <HiOutlineChevronRight
+                    className="itemProductABM__footer__pagination__arrow"
+                    onClick={() => handleChangePage(1)}
+                  />
+                )}
+              {itemProducts.length > 10 &&
+                paginaActual !== Math.ceil(itemProducts.length / 10) && (
+                  <HiOutlineChevronDoubleRight
+                    className="itemProductABM__footer__pagination__arrow"
+                    onClick={() => handleChangePage(2)}
+                  />
+                )}
             </div>
           </div>
 
