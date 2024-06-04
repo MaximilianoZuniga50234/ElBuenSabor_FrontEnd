@@ -12,6 +12,12 @@ import { MeasurementUnit } from "../../../interfaces/MeasurementUnit";
 import { useStore as useUser } from "../../../store/CurrentUserStore";
 import Loader from "../../../components/loader/Loader";
 import "./measurementUnitABM.css";
+import {
+  HiOutlineChevronDoubleLeft,
+  HiOutlineChevronDoubleRight,
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight,
+} from "react-icons/hi";
 
 const NoPermissions = lazy(
   () => import("../../../components/noPermissions/NoPermissions")
@@ -34,6 +40,23 @@ export default function MeasurementUnitABM() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [tokenState, setTokenState] = useState("");
   const { user } = useUser();
+
+  const [paginaActual, setPaginaActual] = useState<number>(1);
+  const indiceInicio = (paginaActual - 1) * 10;
+  const indiceFin =
+    measurementUnits.length < paginaActual * 10
+      ? measurementUnits.length
+      : paginaActual * 10;
+
+  const elementosPaginaActual = measurementUnits.slice(indiceInicio, indiceFin);
+
+  const handleChangePage = (n: number) => {
+    n === 0
+      ? setPaginaActual(1)
+      : n === 2
+      ? setPaginaActual(Math.ceil(measurementUnits.length / 10))
+      : setPaginaActual(paginaActual + n);
+  };
 
   const getToken = async () => {
     try {
@@ -95,10 +118,6 @@ export default function MeasurementUnitABM() {
     getAllItems();
   }, []);
 
-  useEffect(() => {
-    console.log(measurementUnit);
-  }, [measurementUnit]);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (measurementUnit) {
       setMeasurementUnit({ ...measurementUnit, name: event.target.value });
@@ -143,7 +162,7 @@ export default function MeasurementUnitABM() {
             </div>
 
             <div className="measurementUnitABM__rows__container">
-              {measurementUnits.map((measurementUnit: MeasurementUnit) => (
+              {elementosPaginaActual.map((measurementUnit: MeasurementUnit) => (
                 <div
                   className="measurementUnitABM__row"
                   key={measurementUnit.id}
@@ -167,6 +186,40 @@ export default function MeasurementUnitABM() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className="measurementUnitABM__footer">
+            <div className="measurementUnitABM__footer__pagination__info">
+              {indiceInicio} - {indiceFin} de {measurementUnits.length}
+            </div>
+            <div className="measurementUnitABM__footer__pagination__actions">
+              {measurementUnits.length > 10 && paginaActual > 1 && (
+                <HiOutlineChevronDoubleLeft
+                  className="measurementUnitABM__footer__pagination__arrow"
+                  onClick={() => handleChangePage(0)}
+                />
+              )}
+              {measurementUnits.length > 10 && paginaActual > 1 && (
+                <HiOutlineChevronLeft
+                  className="measurementUnitABM__footer__pagination__arrow"
+                  onClick={() => handleChangePage(-1)}
+                />
+              )}
+              {measurementUnits.length > 10 &&
+                paginaActual !== Math.ceil(measurementUnits.length / 10) && (
+                  <HiOutlineChevronRight
+                    className="measurementUnitABM__footer__pagination__arrow"
+                    onClick={() => handleChangePage(1)}
+                  />
+                )}
+              {measurementUnits.length > 10 &&
+                paginaActual !== Math.ceil(measurementUnits.length / 10) && (
+                  <HiOutlineChevronDoubleRight
+                    className="measurementUnitABM__footer__pagination__arrow"
+                    onClick={() => handleChangePage(2)}
+                  />
+                )}
             </div>
           </div>
 

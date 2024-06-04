@@ -102,3 +102,21 @@
     display: flex;
     justify-content: center;
 }
+
+.lowStockPage__footer{
+    display: flex;
+    padding: 20px 32px 0;
+    gap: 20px;
+    border: 0;
+    align-items: center;
+    justify-content: end;
+}
+
+.lowStockPage__footer__pagination__actions{
+    display: flex;
+    align-items: center;
+}
+
+.lowStockPage__footer__pagination__arrow{
+    cursor: pointer;
+}

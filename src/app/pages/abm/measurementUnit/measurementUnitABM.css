@@ -96,3 +96,21 @@
 .measurementUnitABM__modal__button {
     width: 100px;
 }
+
+.measurementUnitABM__footer{
+    display: flex;
+    padding: 20px 32px 0;
+    gap: 20px;
+    border: 0;
+    align-items: center;
+    justify-content: end;
+}
+
+.measurementUnitABM__footer__pagination__actions{
+    display: flex;
+    align-items: center;
+}
+
+.measurementUnitABM__footer__pagination__arrow{
+    cursor: pointer;
+}

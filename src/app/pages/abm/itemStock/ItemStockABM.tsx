@@ -12,6 +12,12 @@ import {
 import { useStore as useUser } from "../../../store/CurrentUserStore";
 import Loader from "../../../components/loader/Loader";
 import "./itemStockABM.css";
+import {
+  HiOutlineChevronDoubleLeft,
+  HiOutlineChevronDoubleRight,
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight,
+} from "react-icons/hi";
 
 const NoPermissions = lazy(
   () => import("../../../components/noPermissions/NoPermissions")
@@ -32,6 +38,23 @@ export default function ItemStockABM() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [tokenState, setTokenState] = useState("");
   const { user } = useUser();
+
+  const [paginaActual, setPaginaActual] = useState<number>(1);
+  const indiceInicio = (paginaActual - 1) * 10;
+  const indiceFin =
+    itemStocks.length < paginaActual * 10
+      ? itemStocks.length
+      : paginaActual * 10;
+
+  const elementosPaginaActual = itemStocks.slice(indiceInicio, indiceFin);
+
+  const handleChangePage = (n: number) => {
+    n === 0
+      ? setPaginaActual(1)
+      : n === 2
+      ? setPaginaActual(Math.ceil(itemStocks.length / 10))
+      : setPaginaActual(paginaActual + n);
+  };
 
   const getToken = async () => {
     try {
@@ -101,10 +124,6 @@ export default function ItemStockABM() {
     getAllItems();
   }, []);
 
-  useEffect(() => {
-    console.log(itemStock);
-  }, [itemStock]);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (itemStock) {
       setItemStock({ ...itemStock, name: event.target.value });
@@ -157,7 +176,7 @@ export default function ItemStockABM() {
             </div>
 
             <div className="itemStockABM__rows__container">
-              {itemStocks.map((itemStock) => (
+              {elementosPaginaActual.map((itemStock) => (
                 <div className="itemStockABM__row" key={itemStock.id}>
                   <h4 className="itemStockABM__h4">{itemStock.id}</h4>
                   <h4 className="itemStockABM__h4">{itemStock.name}</h4>
@@ -177,6 +196,39 @@ export default function ItemStockABM() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+          <div className="itemStockABM__footer">
+            <div className="itemStockABM__footer__pagination__info">
+              {indiceInicio} - {indiceFin} de {itemStocks.length}
+            </div>
+            <div className="itemStockABM__footer__pagination__actions">
+              {itemStocks.length > 10 && paginaActual > 1 && (
+                <HiOutlineChevronDoubleLeft
+                  className="itemStockABM__footer__pagination__arrow"
+                  onClick={() => handleChangePage(0)}
+                />
+              )}
+              {itemStocks.length > 10 && paginaActual > 1 && (
+                <HiOutlineChevronLeft
+                  className="itemStockABM__footer__pagination__arrow"
+                  onClick={() => handleChangePage(-1)}
+                />
+              )}
+              {itemStocks.length > 10 &&
+                paginaActual !== Math.ceil(itemStocks.length / 10) && (
+                  <HiOutlineChevronRight
+                    className="itemStockABM__footer__pagination__arrow"
+                    onClick={() => handleChangePage(1)}
+                  />
+                )}
+              {itemStocks.length > 10 &&
+                paginaActual !== Math.ceil(itemStocks.length / 10) && (
+                  <HiOutlineChevronDoubleRight
+                    className="itemStockABM__footer__pagination__arrow"
+                    onClick={() => handleChangePage(2)}
+                  />
+                )}
             </div>
           </div>
 

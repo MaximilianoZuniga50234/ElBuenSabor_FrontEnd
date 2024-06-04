@@ -66,3 +66,21 @@
 .stockAbm__h4 {
     font-weight: 500;
 }
+
+.stocksABM__footer{
+    display: flex;
+    padding: 20px 32px 0;
+    gap: 20px;
+    border: 0;
+    align-items: center;
+    justify-content: end;
+}
+
+.stocksABM__footer__pagination__actions{
+    display: flex;
+    align-items: center;
+}
+
+.stocksABM__footer__pagination__arrow{
+    cursor: pointer;
+}

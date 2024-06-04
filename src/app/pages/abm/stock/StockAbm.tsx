@@ -5,6 +5,12 @@ import { getAllStock } from "../../../functions/StockAPI";
 import { useStore as useUser } from "../../../store/CurrentUserStore";
 import Loader from "../../../components/loader/Loader";
 import "./stockAbm.css";
+import {
+  HiOutlineChevronDoubleLeft,
+  HiOutlineChevronDoubleRight,
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight,
+} from "react-icons/hi";
 
 const NoPermissions = lazy(
   () => import("../../../components/noPermissions/NoPermissions")
@@ -47,6 +53,23 @@ export default function StockAbm() {
   const [stocks, setStocks] = useState<Stock[]>([stockInitialState]);
 
   const [stock, setStock] = useState<Stock>(stockInitialState);
+
+  const [paginaActual, setPaginaActual] = useState<number>(1);
+  const indiceInicio = (paginaActual - 1) * 10;
+  const indiceFin =
+    stocks.length < paginaActual * 10
+      ? stocks.length
+      : paginaActual * 10;
+
+  const elementosPaginaActual = stocks.slice(indiceInicio, indiceFin);
+
+  const handleChangePage = (n: number) => {
+    n === 0
+      ? setPaginaActual(1)
+      : n === 2
+      ? setPaginaActual(Math.ceil(stocks.length / 10))
+      : setPaginaActual(paginaActual + n);
+  };
 
   const getStocks = async () => {
     const response = await getAllStock();
@@ -114,7 +137,7 @@ export default function StockAbm() {
             </div>
 
             <div className="stockAbm__rows__container">
-              {stocks.map((stock: Stock) => (
+              {elementosPaginaActual.map((stock: Stock) => (
                 <div className="stockAbm__row" key={stock.id}>
                   <h4 className="stockAbm__h4">{stock.denomination}</h4>
                   <h4 className="stockAbm__h4">{stock.itemStock?.name}</h4>
@@ -140,6 +163,39 @@ export default function StockAbm() {
                   <div className="stockAbm__icon"></div>
                 </div>
               ))}
+            </div>
+          </div>
+          <div className="stocksABM__footer">
+            <div className="stocksABM__footer__pagination__info">
+              {indiceInicio} - {indiceFin} de {stocks.length}
+            </div>
+            <div className="stocksABM__footer__pagination__actions">
+              {stocks.length > 10 && paginaActual > 1 && (
+                <HiOutlineChevronDoubleLeft
+                  className="stocksABM__footer__pagination__arrow"
+                  onClick={() => handleChangePage(0)}
+                />
+              )}
+              {stocks.length > 10 && paginaActual > 1 && (
+                <HiOutlineChevronLeft
+                  className="stocksABM__footer__pagination__arrow"
+                  onClick={() => handleChangePage(-1)}
+                />
+              )}
+              {stocks.length > 10 &&
+                paginaActual !== Math.ceil(stocks.length / 10) && (
+                  <HiOutlineChevronRight
+                    className="stocksABM__footer__pagination__arrow"
+                    onClick={() => handleChangePage(1)}
+                  />
+                )}
+              {stocks.length > 10 &&
+                paginaActual !== Math.ceil(stocks.length / 10) && (
+                  <HiOutlineChevronDoubleRight
+                    className="stocksABM__footer__pagination__arrow"
+                    onClick={() => handleChangePage(2)}
+                  />
+                )}
             </div>
           </div>
           <ModalStock
