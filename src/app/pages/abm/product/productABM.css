@@ -436,6 +436,12 @@
   overflow: hidden;
 }
 
+.product_abm_modal_category_container ul li.disabled,
+.product_abm_modal_details_ingredients ul li.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .product_abm_modal_details_ingredients ul li:hover {
   background: var(--ebony-100);
   padding: 0 0 0 8px;

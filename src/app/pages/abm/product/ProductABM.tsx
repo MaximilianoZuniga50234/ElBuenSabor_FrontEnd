@@ -99,14 +99,8 @@ const ProductABM = () => {
     }
   };
 
-  const handleConfirmProduct = async (image: string | null) => {
-    const productPrice = product.details.reduce(
-      (currentPrice: number, detail: ProductDetail) => {
-        return (currentPrice += detail.stock.salePrice * detail.amount);
-      },
-      0
-    );
-    const productWithPrice = { ...product, salePrice: productPrice };
+  const handleConfirmProduct = async (salePrice: number, image: string | null) => {
+    const productWithPrice = { ...product, salePrice: salePrice };
 
     const response = isNew
       ? await createProduct(productWithPrice, image)
