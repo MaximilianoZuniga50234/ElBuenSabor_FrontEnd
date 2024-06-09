@@ -22,44 +22,44 @@ const ModalStockPurchase = lazy(
   () => import("../../../components/modalStock/ModalStockPurchase")
 );
 
+const STOCK_INITIAL_STATE = {
+  id: 0,
+  denomination: "",
+  purchasePrice: 0,
+  salePrice: 0,
+  currentStock: 0,
+  minimumStock: 0,
+  isStock: true,
+  active: true,
+  measurementUnit: {
+    id: 0,
+    name: "",
+    active: true,
+    abbreviation: "",
+  },
+  itemStock: { id: 0, name: "", active: true, father: undefined },
+};
+
 export default function StockAbm() {
   const { user } = useUser();
+
+  const [isNew, setIsNew] = useState(true);
+  const [stocksUpdated, setStocksUpdated] = useState(false);
+  const [stocks, setStocks] = useState<Stock[]>([STOCK_INITIAL_STATE]);
+  const [stock, setStock] = useState<Stock>(STOCK_INITIAL_STATE);
+
   const [openModalStock, setOpenModalStock] = useState(false);
   const handleOpenModalStock = () => setOpenModalStock(true);
   const handleCloseModalStock = () => setOpenModalStock(false);
-  const [isNew, setIsNew] = useState(true);
+
   const [openModalStockPurchase, setOpenModalStockPurchase] = useState(false);
   const handleOpenModalStockPurchase = () => setOpenModalStockPurchase(true);
   const handleCloseModalStockPurchase = () => setOpenModalStockPurchase(false);
 
-  const stockInitialState: Stock = {
-    id: 0,
-    denomination: "",
-    purchasePrice: 0,
-    salePrice: 0,
-    currentStock: 0,
-    minimumStock: 0,
-    isStock: true,
-    active: true,
-    measurementUnit: {
-      id: 0,
-      name: "",
-      active: true,
-      abbreviation: "",
-    },
-    itemStock: { id: 0, name: "", active: true, father: undefined },
-  };
-
-  const [stocks, setStocks] = useState<Stock[]>([stockInitialState]);
-
-  const [stock, setStock] = useState<Stock>(stockInitialState);
-
   const [paginaActual, setPaginaActual] = useState<number>(1);
   const indiceInicio = (paginaActual - 1) * 10;
   const indiceFin =
-    stocks.length < paginaActual * 10
-      ? stocks.length
-      : paginaActual * 10;
+    stocks.length < paginaActual * 10 ? stocks.length : paginaActual * 10;
 
   const elementosPaginaActual = stocks.slice(indiceInicio, indiceFin);
 
@@ -72,28 +72,39 @@ export default function StockAbm() {
   };
 
   const getStocks = async () => {
-    const response = await getAllStock();
-    setStocks(response);
+    try {
+      const response = await getAllStock();
+      setStocks(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
     getStocks();
   }, []);
 
+  useEffect(() => {
+    if (stocksUpdated) {
+      getStocks();
+      setStocksUpdated(false);
+    }
+  }, [stocksUpdated]);
+
   const handleAdd = () => {
-    setStock(stockInitialState);
-    handleOpenModalStock();
+    setStock(STOCK_INITIAL_STATE);
     setIsNew(true);
+    handleOpenModalStock();
   };
 
   const handleModify = (stockParam: Stock) => {
     setStock(stockParam);
-    handleOpenModalStock();
     setIsNew(false);
+    handleOpenModalStock();
   };
 
   const handleRegisterPurchase = () => {
-    setStock(stockInitialState);
+    setStock(STOCK_INITIAL_STATE);
     handleOpenModalStockPurchase();
   };
 
@@ -144,7 +155,9 @@ export default function StockAbm() {
                   <h4 className="stockAbm__h4">{stock.purchasePrice}</h4>
                   <h4 className="stockAbm__h4">{stock.minimumStock}</h4>
                   <h4 className="stockAbm__h4">
-                    {stock.currentStock.toPrecision(4)}
+                    {Number.isInteger(stock.currentStock)
+                      ? stock.currentStock
+                      : stock.currentStock.toPrecision(4)}
                   </h4>
                   <h4 className="stockAbm__h4">{stock.measurementUnit.name}</h4>
                   <h4 className="stockAbm__h4">
@@ -200,17 +213,17 @@ export default function StockAbm() {
           </div>
           <ModalStock
             stock={stock}
-            setStock={setStock}
             isOpen={openModalStock}
             handleClose={handleCloseModalStock}
             isNew={isNew}
+            setStocksUpdated={setStocksUpdated}
           ></ModalStock>
 
           <ModalStockPurchase
-            stock={stock}
-            setStock={setStock}
+            stock={STOCK_INITIAL_STATE}
             isOpen={openModalStockPurchase}
             handleClose={handleCloseModalStockPurchase}
+            setStocksUpdated={setStocksUpdated}
           ></ModalStockPurchase>
         </div>
       </Suspense>

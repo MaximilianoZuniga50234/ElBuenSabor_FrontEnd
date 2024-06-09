@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from "react";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Modal, Fade, Box } from "@mui/material";
@@ -80,35 +80,49 @@ export default function ItemProductABM() {
     setIsNew(false);
   };
 
-  const handleConfirm = () => {
-    if (!isNew) {
-      if (itemProduct) {
-        updateItemProduct(itemProduct, tokenState);
-      }
-      handleClose();
-      setItemProduct(null);
-      window.location.reload();
+  const handleConfirm = async () => {
+    if (itemProduct?.denomination === "") {
+      toast.error("El nombre no puede estar vacío.");
     } else {
-      if (itemProduct) {
-        addItemProduct(itemProduct, tokenState);
+      if (!isNew) {
+        if (itemProduct) {
+          try {
+            await updateItemProduct(itemProduct, tokenState);
+            toast.success("Rubro actualizado correctamente");
+          } catch (error) {
+            toast.error("Error al actualizar el rubro");
+          }
+        }
+      } else {
+        if (itemProduct) {
+          try {
+            await addItemProduct(itemProduct, tokenState);
+            toast.success("Rubro creado correctamente");
+          } catch (error) {
+            toast.error("Error al crear el rubro");
+          }
+        }
       }
-      handleClose();
+      await getAllItems();
       setItemProduct(null);
-      window.location.reload();
+      handleClose();
+    }
+  };
+
+  const getAllItems = async () => {
+    try {
+      const response = await getAllItemProduct();
+      setItemProducts(response);
+    } catch (error) {
+      console.error("Error", error);
     }
   };
 
   useEffect(() => {
     if (isAuthenticated) getToken();
-    const getAllItems = async () => {
-      try {
-        const response = await getAllItemProduct();
-        setItemProducts(response);
-      } catch (error) {
-        console.error("Error", error);
-      }
-    };
+  }, [isAuthenticated]);
 
+  useEffect(() => {
     getAllItems();
   }, []);
 
@@ -208,7 +222,6 @@ export default function ItemProductABM() {
             </div>
           </div>
 
-          <Toaster position="top-center" richColors visibleToasts={1} />
           <Modal
             open={open}
             onClose={handleClose}
@@ -267,11 +280,7 @@ export default function ItemProductABM() {
                   </button>
                   <button
                     className="itemProductABM__modal__button"
-                    onClick={function () {
-                      itemProduct?.denomination === ""
-                        ? toast.error("El nombre no puede estar vacío.")
-                        : handleConfirm();
-                    }}
+                    onClick={handleConfirm}
                   >
                     Confirmar
                   </button>
