@@ -21,7 +21,7 @@ type Props = {
   product: Product;
   handler: () => void;
   handleProduct: Dispatch<SetStateAction<Product>>;
-  handleConfirmProduct: (image: string | null) => void;
+  handleConfirmProduct: (salePrice: number, image: string | null) => void;
 };
 
 const NO_IMAGE_PRODUCT =
@@ -46,6 +46,9 @@ const ProductABMModal = ({
   const [allIngredients, setAllIngredients] = useState<Stock[]>([]);
   const [allCategories, setAllCategories] = useState<ItemProduct[]>([]);
   const [select, setSelect] = useState<boolean>(false);
+  const [ProductPrice, setProductPrice] = useState<number>(
+    product.salePrice | 0
+  );
 
   const filteredIngredients: Stock[] = allIngredients
     .filter((i: Stock) =>
@@ -126,9 +129,14 @@ const ProductABMModal = ({
     e: ChangeEvent<HTMLInputElement>,
     ingredientId: number
   ) => {
+    let ingredientQuantity = e.target.value;
+    if (ingredientQuantity === "") {
+      ingredientQuantity = "0";
+    }
+
     const updatedDetails: ProductDetail[] = product.details.map((detail) => {
       if (detail.stock.id === ingredientId) {
-        detail = { ...detail, amount: parseFloat(e.target.value) };
+        detail = { ...detail, amount: parseFloat(ingredientQuantity) };
       }
       return detail;
     });
@@ -149,13 +157,9 @@ const ProductABMModal = ({
   };
 
   const verificarAmount = (e: FocusEvent<HTMLInputElement, Element>) => {
-    if (e.target.value !== "" && !DECIMAL_REGEXP.test(e.target.value)) {
+    if (e.target.value === "" || !DECIMAL_REGEXP.test(e.target.value)) {
       toast.error(
-        "Al menos un ingrediente tiene un formato de cantidad inválido... \n\n" +
-          "Formatos válidos:\n" +
-          "10 (entero)\n" +
-          "0.101 (decimal con punto)\n" +
-          "10000 (miles sin punto)\n"
+        "El ingrediente que acaba de modificar tiene una cantidad inválida o está vacío..."
       );
     }
   };
@@ -194,13 +198,26 @@ const ProductABMModal = ({
       return;
     }
 
-    handleConfirmProduct(image);
+    handleConfirmProduct(ProductPrice, image);
     handler();
+  };
+
+  const calcProductPrice = () => {
+    setProductPrice(
+      product.details.reduce((currentPrice: number, detail: ProductDetail) => {
+        return (currentPrice += detail.stock.salePrice * detail.amount);
+      }, 0)
+    );
+    console.log(ProductPrice);
   };
 
   useEffect(() => {
     setSearchActive(ingredientSearch !== SEARCH_DEFAULT);
   }, [ingredientSearch]);
+
+  useEffect(() => {
+    calcProductPrice();
+  }, [product.details]);
 
   useEffect(() => {
     fetchAllIngredients();
@@ -257,22 +274,26 @@ const ProductABMModal = ({
                     type="text"
                     readOnly
                     className={select ? "selected" : ""}
-                    defaultValue={product.itemProduct?.denomination}
+                    defaultValue={product.itemProduct.denomination}
                     placeholder="Seleccionar un rubro..."
                   />
                   <FaCaretDown className={`${select ? "selected" : ""}`} />
                 </div>
                 <ul className={select ? "selected" : ""}>
                   {allCategories.map((category: ItemProduct) => {
+                    const liClassName = [
+                      product.itemProduct.denomination === category.denomination
+                        ? "selected"
+                        : "",
+                      category.active ? "" : "disabled",
+                    ]
+                      .join(" ")
+                      .trim();
+
                     return (
                       <li
                         key={category.id}
-                        className={
-                          product.itemProduct.denomination ===
-                          category.denomination
-                            ? "selected"
-                            : ""
-                        }
+                        className={liClassName}
                         onClick={() => {
                           changeCategory(category);
                           setSelect(!select);
@@ -322,12 +343,14 @@ const ProductABMModal = ({
                         onMouseDown={() => {
                           addIngredient(ingredient.denomination);
                         }}
+                        className={ingredient.active ? "" : "disabled"}
                       >
                         {ingredient.denomination}
                       </li>
                     );
                   })}
                 </ul>
+                <p>Precio de venta: ${ProductPrice}</p>
                 <table cellPadding={0} cellSpacing={0}>
                   <tbody>
                     {product.details
