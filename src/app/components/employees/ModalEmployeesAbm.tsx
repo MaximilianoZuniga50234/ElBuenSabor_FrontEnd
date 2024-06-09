@@ -1,4 +1,4 @@
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { Box, Fade, Modal, Popover } from "@mui/material";
 import { Email, UserAuth0Get, UserAuth0Post } from "../../interfaces/UserAuth0";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -204,14 +204,68 @@ export default function ModalEmployeesAbm({
   };
 
   const handleConfirm = async () => {
-    setIsConfirmButtonPressed(true);
-    if (isNew === true) {
-      await createUserAuth0(employeePost);
+    const passwordValidate =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&-])[A-Za-z\d!@#$%^&-]{8,}$/;
+    const emailValidate = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (employeePost.given_name === "") {
+      toast.error("El campo del nombre no puede estar vacío.");
+    } else if (employeePost.family_name === "") {
+      toast.error("El campo del apellido no puede estar vacío.");
+    } else if (employeePost.user_metadata.address.street === "") {
+      toast.error("El campo del nombre de la calle no puede estar vacío.");
+    } else if (employeePost.user_metadata.address.number === 0) {
+      toast.error('El campo del número de la dirección no puede ser "0".');
+    } else if (
+      employeePost.user_metadata.phone_number.toString().length != 10
+    ) {
+      toast.error("El número de teléfono es inválido.");
+    } else if (
+      employeePost.email &&
+      (emailValidate.test(employeePost.email) === false ||
+        !employeePost.email.endsWith(".com"))
+    ) {
+      toast.error("El email es inválido.");
+    } else if (
+      employeePost.email != employee.email &&
+      users?.find((user) => user.email === employeePost.email) != null
+    ) {
+      toast.error("El email ya está asignado a otro usuario.");
+    } else if (
+      isNew &&
+      employeePost.password &&
+      passwordValidate.test(employeePost.password) === false
+    ) {
+      toast.error("La contraseña es inválida.");
+    } else if (isNew && employeePost.password != confirmPassword) {
+      toast.error("Las contraseñas no coinciden.");
     } else {
-      await removeRoleToUser(employee);
-      await addRoleToUser(employeePost, userId);
-      await updateUserAuth0(employeePost, userId);
+      setIsConfirmButtonPressed(true);
+      if (isNew === true) {
+        try {
+          await createUserAuth0(employeePost);
+          toast.success(
+            "Empleado creado correctamente. Se recargará la página."
+          );
+        } catch (error) {
+          toast.error("Error al crear el empleado. Se recargará la página.");
+        }
+      } else {
+        try {
+          await removeRoleToUser(employee);
+          await addRoleToUser(employeePost, userId);
+          await updateUserAuth0(employeePost, userId);
+          toast.success(
+            "Empleado actualizado correctamente. Se recargará la página."
+          );
+        } catch (error) {
+          toast.error(
+            "Error al actualizar el empleado. Se recargará la página."
+          );
+        }
+      }
     }
+    handleClose();
     setTimeout(() => window.location.reload(), 1500);
   };
 
@@ -262,338 +316,286 @@ export default function ModalEmployeesAbm({
   };
 
   return (
-    <>
-      <Toaster position="top-center" richColors visibleToasts={1} />
-      <Modal
-        open={open}
-        onClose={handleClose}
-        slotProps={{
-          backdrop: {
-            timeout: 300,
-          },
-        }}
-        disableScrollLock={true}
-      >
-        <Fade in={open}>
-          <Box className="modalEmployeesAbm__box">
-            <h3 className="modalEmployeesAbm__h3">
-              {isNew === true ? "Añadir empleado" : "Modificar empleado"}
-            </h3>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      slotProps={{
+        backdrop: {
+          timeout: 300,
+        },
+      }}
+      disableScrollLock={true}
+    >
+      <Fade in={open}>
+        <Box className="modalEmployeesAbm__box">
+          <h3 className="modalEmployeesAbm__h3">
+            {isNew === true ? "Añadir empleado" : "Modificar empleado"}
+          </h3>
 
-            <div className="modalEmployeesAbm__div">
-              <h5 className="modalEmployeesAbm__h5">Nombre del empleado</h5>
-              <input
-                type="text"
-                className="modalEmployeesAbm__input"
-                defaultValue={employee.given_name}
-                onChange={handleChangeName}
-                placeholder="Ingrese el nombre del empleado"
-              />
-            </div>
+          <div className="modalEmployeesAbm__div">
+            <h5 className="modalEmployeesAbm__h5">Nombre del empleado</h5>
+            <input
+              type="text"
+              className="modalEmployeesAbm__input"
+              defaultValue={employee.given_name}
+              onChange={handleChangeName}
+              placeholder="Ingrese el nombre del empleado"
+            />
+          </div>
 
-            <div className="modalEmployeesAbm__div">
-              <h5 className="modalEmployeesAbm__h5">Apellido del empleado</h5>
-              <input
-                type="text"
-                className="modalEmployeesAbm__input"
-                defaultValue={employee.family_name}
-                onChange={handleChangeFamilyName}
-                placeholder="Ingrese el apellido del empleado"
-              />
-            </div>
+          <div className="modalEmployeesAbm__div">
+            <h5 className="modalEmployeesAbm__h5">Apellido del empleado</h5>
+            <input
+              type="text"
+              className="modalEmployeesAbm__input"
+              defaultValue={employee.family_name}
+              onChange={handleChangeFamilyName}
+              placeholder="Ingrese el apellido del empleado"
+            />
+          </div>
 
-            <div className="modalEmployeesAbm__div">
-              <h5 className="modalEmployeesAbm__h5">
-                Calle de la dirección del empleado
-              </h5>
-              <input
-                type="text"
-                className="modalEmployeesAbm__input"
-                defaultValue={employee.user_metadata?.address.street}
-                onChange={handleChangeStreet}
-                placeholder="Ingrese la calle de la dirección"
-              />
-            </div>
+          <div className="modalEmployeesAbm__div">
+            <h5 className="modalEmployeesAbm__h5">
+              Calle de la dirección del empleado
+            </h5>
+            <input
+              type="text"
+              className="modalEmployeesAbm__input"
+              defaultValue={employee.user_metadata?.address.street}
+              onChange={handleChangeStreet}
+              placeholder="Ingrese la calle de la dirección"
+            />
+          </div>
 
-            <div className="modalEmployeesAbm__div">
-              <h5 className="modalEmployeesAbm__h5">
-                Número de la dirección del empleado
-              </h5>
-              <input
-                type="number"
-                className="modalEmployeesAbm__input"
-                defaultValue={employee.user_metadata?.address.number}
-                onChange={handleChangeAddressNumber}
-                placeholder="Ingrese el teléfono del empleado"
-              />
-            </div>
+          <div className="modalEmployeesAbm__div">
+            <h5 className="modalEmployeesAbm__h5">
+              Número de la dirección del empleado
+            </h5>
+            <input
+              type="number"
+              className="modalEmployeesAbm__input"
+              defaultValue={employee.user_metadata?.address.number}
+              onChange={handleChangeAddressNumber}
+              placeholder="Ingrese el teléfono del empleado"
+            />
+          </div>
 
-            <div className="modalEmployeesAbm__div">
-              <h5 className="modalEmployeesAbm__h5">
-                Departamento de la dirección del empleado
-              </h5>
-              <select
-                className="modalEmployeesAbm__select"
-                defaultValue={employee.user_metadata?.address.department}
-                onChange={handleChangeDepartment}
-                placeholder="Ingrese el departamento del empleado"
+          <div className="modalEmployeesAbm__div">
+            <h5 className="modalEmployeesAbm__h5">
+              Departamento de la dirección del empleado
+            </h5>
+            <select
+              className="modalEmployeesAbm__select"
+              defaultValue={employee.user_metadata?.address.department}
+              onChange={handleChangeDepartment}
+              placeholder="Ingrese el departamento del empleado"
+            >
+              {departments.map((department: Department) => (
+                <option value={department.name} key={department.id}>
+                  {department.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="modalEmployeesAbm__div">
+            <h5 className="modalEmployeesAbm__h5 modalEmployeesAbm__h5--popover">
+              Teléfono del empleado
+              <button
+                onClick={handleClickPhoneNumberPopover}
+                className="modalEmployeesAbm__popover__button"
               >
-                {departments.map((department: Department) => (
-                  <option value={department.name} key={department.id}>
-                    {department.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="modalEmployeesAbm__div">
-              <h5 className="modalEmployeesAbm__h5 modalEmployeesAbm__h5--popover">
-                Teléfono del empleado
-                <button
-                  onClick={handleClickPhoneNumberPopover}
-                  className="modalEmployeesAbm__popover__button"
-                >
-                  <h6 className="modalEmployeesAbm__h5">
-                    <FaInfo className="modalEmployeesAbm__popover__icon"></FaInfo>
-                  </h6>
-                </button>
-                <Popover
-                  className="modalEmployeesAbm__popover__container"
-                  open={openPhoneNumberPopover}
-                  anchorEl={phoneNumberAnchorEl}
-                  onClose={handleClosePhoneNumberPopover}
-                  anchorOrigin={{
-                    vertical: "center",
-                    horizontal: "right",
-                  }}
-                  transformOrigin={{
-                    vertical: "center",
-                    horizontal: "left",
-                  }}
-                >
-                  <div className="modalEmployeesAbm__popover__div">
-                    <p>
-                      El número de teléfono debe estar compuesto por 10 números
-                      (código de área + número de abonado).
-                    </p>
-                  </div>
-                </Popover>
-              </h5>
-              <input
-                type="number"
-                className="modalEmployeesAbm__input"
-                defaultValue={employee.user_metadata?.phone_number}
-                onChange={handleChangePhoneNumber}
-                placeholder="Ingrese el teléfono del empleado"
-              />
-            </div>
-
-            <div className="modalEmployeesAbm__div">
-              <h5 className="modalEmployeesAbm__h5 modalEmployeesAbm__h5--popover">
-                Email del empleado
-                <button
-                  onClick={handleClickEmailPopover}
-                  className="modalEmployeesAbm__popover__button"
-                >
-                  <h6 className="modalEmployeesAbm__h5">
-                    <FaInfo className="modalEmployeesAbm__popover__icon"></FaInfo>
-                  </h6>
-                </button>
-                <Popover
-                  className="modalEmployeesAbm__popover__container"
-                  open={openEmailPopover}
-                  anchorEl={emailAnchorEl}
-                  onClose={handleCloseEmailPopover}
-                  anchorOrigin={{
-                    vertical: "center",
-                    horizontal: "right",
-                  }}
-                  transformOrigin={{
-                    vertical: "center",
-                    horizontal: "left",
-                  }}
-                >
-                  <div className="modalEmployeesAbm__popover__div">
-                    <p>
-                      El email debe cumplir con el siguiente formato:
-                      "[texto]@[texto].com"
-                    </p>
-                  </div>
-                </Popover>
-              </h5>
-              <input
-                type="text"
-                className="modalEmployeesAbm__input"
-                defaultValue={employee.email}
-                onChange={handleChangeEmail}
-                placeholder="Ingrese el email del empleado"
-              />
-            </div>
-
-            <div className="modalEmployeesAbm__div">
-              <h5 className="modalEmployeesAbm__h5">Rol del empleado</h5>
-              <select
-                className="modalEmployeesAbm__select"
-                defaultValue={employee.role}
-                onChange={handleChangeRole}
+                <h6 className="modalEmployeesAbm__h5">
+                  <FaInfo className="modalEmployeesAbm__popover__icon"></FaInfo>
+                </h6>
+              </button>
+              <Popover
+                className="modalEmployeesAbm__popover__container"
+                open={openPhoneNumberPopover}
+                anchorEl={phoneNumberAnchorEl}
+                onClose={handleClosePhoneNumberPopover}
+                anchorOrigin={{
+                  vertical: "center",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "center",
+                  horizontal: "left",
+                }}
               >
-                <option value="Cajero">Cajero</option>
-                <option value="Cocinero">Cocinero</option>
-                <option value="Delivery">Delivery</option>
-              </select>
-            </div>
-
-            {isNew ? (
-              <>
-                <div className="modalEmployeesAbm__div">
-                  <h5 className="modalEmployeesAbm__h5 modalEmployeesAbm__h5--popover">
-                    Contraseña provisoria
-                    <button
-                      onClick={handleClickPasswordPopover}
-                      className="modalEmployeesAbm__popover__button"
-                    >
-                      <h6 className="modalEmployeesAbm__h5">
-                        <FaInfo className="modalEmployeesAbm__popover__icon"></FaInfo>
-                      </h6>
-                    </button>
-                    <Popover
-                      className="modalEmployeesAbm__popover__container"
-                      open={openPasswordPopover}
-                      anchorEl={passwordAnchorEl}
-                      onClose={handleClosePasswordPopover}
-                      anchorOrigin={{
-                        vertical: "center",
-                        horizontal: "right",
-                      }}
-                      transformOrigin={{
-                        vertical: "center",
-                        horizontal: "left",
-                      }}
-                    >
-                      <div className="modalEmployeesAbm__popover__div">
-                        <p>La contraseña debe tener:</p>
-                        <ul>
-                          <li>Mínimo 8 caracteres de largo.</li>
-                          <li>Al menos una letra minúscula (a-z).</li>
-                          <li>Al menos una letra mayúscula (A-Z).</li>
-                          <li>Al menos un caracter especial (!@#$%^&*-).</li>
-                        </ul>
-                      </div>
-                    </Popover>
-                  </h5>
-                  <input
-                    type="text"
-                    className="modalEmployeesAbm__input"
-                    onChange={handleChangePassword}
-                    placeholder={
-                      isNew
-                        ? "Ingrese una contraseña para el empleado"
-                        : "No puede cambiar la contraseña"
-                    }
-                    disabled={isNew ? false : true}
-                  />
+                <div className="modalEmployeesAbm__popover__div">
+                  <p>
+                    El número de teléfono debe estar compuesto por 10 números
+                    (código de área + número de abonado).
+                  </p>
                 </div>
+              </Popover>
+            </h5>
+            <input
+              type="number"
+              className="modalEmployeesAbm__input"
+              defaultValue={employee.user_metadata?.phone_number}
+              onChange={handleChangePhoneNumber}
+              placeholder="Ingrese el teléfono del empleado"
+            />
+          </div>
 
-                <div className="modalEmployeesAbm__div">
-                  <h5 className="modalEmployeesAbm__h5">
-                    Confirmar contraseña
-                  </h5>
-                  <input
-                    type="text"
-                    className="modalEmployeesAbm__input"
-                    onChange={handleChangeConfirmPassword}
-                    placeholder={
-                      isNew
-                        ? "Confirme la contraseña"
-                        : "No puede cambiar la contraseña"
-                    }
-                    disabled={isNew ? false : true}
-                  />
+          <div className="modalEmployeesAbm__div">
+            <h5 className="modalEmployeesAbm__h5 modalEmployeesAbm__h5--popover">
+              Email del empleado
+              <button
+                onClick={handleClickEmailPopover}
+                className="modalEmployeesAbm__popover__button"
+              >
+                <h6 className="modalEmployeesAbm__h5">
+                  <FaInfo className="modalEmployeesAbm__popover__icon"></FaInfo>
+                </h6>
+              </button>
+              <Popover
+                className="modalEmployeesAbm__popover__container"
+                open={openEmailPopover}
+                anchorEl={emailAnchorEl}
+                onClose={handleCloseEmailPopover}
+                anchorOrigin={{
+                  vertical: "center",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "center",
+                  horizontal: "left",
+                }}
+              >
+                <div className="modalEmployeesAbm__popover__div">
+                  <p>
+                    El email debe cumplir con el siguiente formato:
+                    "[texto]@[texto].com"
+                  </p>
                 </div>
-              </>
-            ) : (
-              <>
-                <div className="modalEmployeesAbm__div">
-                  <h5 className="modalEmployeesAbm__h5">Estado del empleado</h5>
-                  <select
-                    className="modalEmployeesAbm__select"
-                    defaultValue={employee.user_metadata.state}
-                    onChange={handleChangeState}
+              </Popover>
+            </h5>
+            <input
+              type="text"
+              className="modalEmployeesAbm__input"
+              defaultValue={employee.email}
+              onChange={handleChangeEmail}
+              placeholder="Ingrese el email del empleado"
+            />
+          </div>
+
+          <div className="modalEmployeesAbm__div">
+            <h5 className="modalEmployeesAbm__h5">Rol del empleado</h5>
+            <select
+              className="modalEmployeesAbm__select"
+              defaultValue={employee.role}
+              onChange={handleChangeRole}
+            >
+              <option value="Cajero">Cajero</option>
+              <option value="Cocinero">Cocinero</option>
+              <option value="Delivery">Delivery</option>
+            </select>
+          </div>
+
+          {isNew ? (
+            <>
+              <div className="modalEmployeesAbm__div">
+                <h5 className="modalEmployeesAbm__h5 modalEmployeesAbm__h5--popover">
+                  Contraseña provisoria
+                  <button
+                    onClick={handleClickPasswordPopover}
+                    className="modalEmployeesAbm__popover__button"
                   >
-                    <option value="De alta">De alta</option>
-                    <option value="De baja">De baja</option>
-                  </select>
-                </div>
-              </>
-            )}
-
-            <div className="modalEmployeesAbm__buttons">
-              <button
-                className="modalEmployeesAbm__button"
-                onClick={() => {
-                  handleClose();
-                }}
-              >
-                Cancelar
-              </button>
-              <button
-                className="modalEmployeesAbm__button"
-                disabled={isConfirmButtonPressed ? true : false}
-                onClick={function () {
-                  const passwordValidate =
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&-])[A-Za-z\d!@#$%^&-]{8,}$/;
-                  const emailValidate = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                  if (employeePost.given_name === "") {
-                    toast.error("El campo del nombre no puede estar vacío.");
-                  } else if (employeePost.family_name === "") {
-                    toast.error("El campo del apellido no puede estar vacío.");
-                  } else if (employeePost.user_metadata.address.street === "") {
-                    toast.error(
-                      "El campo del nombre de la calle no puede estar vacío."
-                    );
-                  } else if (employeePost.user_metadata.address.number === 0) {
-                    toast.error(
-                      'El campo del número de la dirección no puede ser "0".'
-                    );
-                  } else if (
-                    employeePost.user_metadata.phone_number.toString().length !=
-                    10
-                  ) {
-                    toast.error("El número de teléfono es inválido.");
-                  } else if (
-                    employeePost.email &&
-                    (emailValidate.test(employeePost.email) === false ||
-                      !employeePost.email.endsWith(".com"))
-                  ) {
-                    toast.error("El email es inválido.");
-                  } else if (
-                    users?.find((user) => user.email === employeePost.email) !=
-                    null
-                  ) {
-                    toast.error("El email ya está asignado a otro usuario.");
-                  } else if (
-                    isNew &&
-                    employeePost.password &&
-                    passwordValidate.test(employeePost.password) === false
-                  ) {
-                    toast.error("La contraseña es inválida.");
-                  } else if (
-                    isNew &&
-                    employeePost.password != confirmPassword
-                  ) {
-                    toast.error("Las contraseñas no coinciden.");
-                  } else {
-                    handleConfirm();
+                    <h6 className="modalEmployeesAbm__h5">
+                      <FaInfo className="modalEmployeesAbm__popover__icon"></FaInfo>
+                    </h6>
+                  </button>
+                  <Popover
+                    className="modalEmployeesAbm__popover__container"
+                    open={openPasswordPopover}
+                    anchorEl={passwordAnchorEl}
+                    onClose={handleClosePasswordPopover}
+                    anchorOrigin={{
+                      vertical: "center",
+                      horizontal: "right",
+                    }}
+                    transformOrigin={{
+                      vertical: "center",
+                      horizontal: "left",
+                    }}
+                  >
+                    <div className="modalEmployeesAbm__popover__div">
+                      <p>La contraseña debe tener:</p>
+                      <ul>
+                        <li>Mínimo 8 caracteres de largo.</li>
+                        <li>Al menos una letra minúscula (a-z).</li>
+                        <li>Al menos una letra mayúscula (A-Z).</li>
+                        <li>Al menos un caracter especial (!@#$%^&*-).</li>
+                      </ul>
+                    </div>
+                  </Popover>
+                </h5>
+                <input
+                  type="text"
+                  className="modalEmployeesAbm__input"
+                  onChange={handleChangePassword}
+                  placeholder={
+                    isNew
+                      ? "Ingrese una contraseña para el empleado"
+                      : "No puede cambiar la contraseña"
                   }
-                }}
-              >
-                {isConfirmButtonPressed ? "Cargando..." : "Confirmar"}
-              </button>
-            </div>
-          </Box>
-        </Fade>
-      </Modal>
-    </>
+                  disabled={isNew ? false : true}
+                />
+              </div>
+
+              <div className="modalEmployeesAbm__div">
+                <h5 className="modalEmployeesAbm__h5">Confirmar contraseña</h5>
+                <input
+                  type="text"
+                  className="modalEmployeesAbm__input"
+                  onChange={handleChangeConfirmPassword}
+                  placeholder={
+                    isNew
+                      ? "Confirme la contraseña"
+                      : "No puede cambiar la contraseña"
+                  }
+                  disabled={isNew ? false : true}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="modalEmployeesAbm__div">
+                <h5 className="modalEmployeesAbm__h5">Estado del empleado</h5>
+                <select
+                  className="modalEmployeesAbm__select"
+                  defaultValue={employee.user_metadata.state}
+                  onChange={handleChangeState}
+                >
+                  <option value="De alta">De alta</option>
+                  <option value="De baja">De baja</option>
+                </select>
+              </div>
+            </>
+          )}
+
+          <div className="modalEmployeesAbm__buttons">
+            <button
+              className="modalEmployeesAbm__button"
+              onClick={() => {
+                handleClose();
+              }}
+            >
+              Cancelar
+            </button>
+            <button
+              className="modalEmployeesAbm__button"
+              disabled={isConfirmButtonPressed ? true : false}
+              onClick={handleConfirm}
+            >
+              {isConfirmButtonPressed ? "Cargando..." : "Confirmar"}
+            </button>
+          </div>
+        </Box>
+      </Fade>
+    </Modal>
   );
 }

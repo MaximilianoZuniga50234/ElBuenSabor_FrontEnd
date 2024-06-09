@@ -1,89 +1,86 @@
 import { Stock } from "../../interfaces/Stock";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import "./modalStockPurchase.css";
-import { Toaster } from "sonner";
+import { toast } from "sonner";
 import { Box, Fade, Modal } from "@mui/material";
 import { getAllStock, updateStock } from "../../functions/StockAPI";
 import ModalStock from "./ModalStock";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useStore } from "../../store/UserTokenStore";
 
 interface ModalStockPurchaseProps {
   isOpen: boolean;
   handleClose: () => void;
   stock: Stock;
-  setStock?: Dispatch<SetStateAction<Stock>>;
+  setStocksUpdated?: Dispatch<SetStateAction<boolean>>;
 }
+
+const STOCK_INITIAL_STATE = {
+  id: 0,
+  denomination: "",
+  purchasePrice: 0,
+  salePrice: 0,
+  currentStock: 0,
+  minimumStock: 0,
+  isStock: true,
+  active: true,
+  measurementUnit: {
+    id: 0,
+    name: "",
+    active: true,
+    abbreviation: "",
+  },
+  itemStock: { id: 0, name: "", active: true, father: undefined },
+};
 
 export default function ModalStockPurchase({
   stock,
-  setStock,
   isOpen,
   handleClose,
+  setStocksUpdated,
 }: ModalStockPurchaseProps) {
-  const stockInitialState: Stock = {
-    id: 0,
-    denomination: "",
-    purchasePrice: 0,
-    salePrice: 0,
-    currentStock: 0,
-    minimumStock: 0,
-    isStock: true,
-    active: true,
-    measurementUnit: { id: 0, name: "", active: true },
-    itemStock: { id: 0, name: "", active: true, father: undefined },
-  };
+  const { token } = useStore();
 
   const [stocks, setStocks] = useState<Stock[]>([]);
-  const [openModalStock, setOpenModalStock] = useState(false);
-  const handleOpenModalStock = () => {
-    if (setStock) {
-      setStock(stockInitialState);
-    }
-    setOpenModalStock(true);
-  };
-  const handleCloseModalStock = () => setOpenModalStock(false);
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-  const [tokenState, setTokenState] = useState("");
-
+  const [stockAdded, setStockAdded] = useState(false);
+  const [stockPurchased, setStockPurchased] = useState<Stock>(stock);
   const [stockModified, setStockModified] = useState({
     price: 0,
     quantityPurchased: 0,
   });
+  const [priceInput, setPriceInput] = useState<string>("");
 
-  const [stockPurchased, setStockPurchased] = useState<Stock>(stock);
+  const [openModalStock, setOpenModalStock] = useState(false);
+  const handleOpenModalStock = () => setOpenModalStock(true);
+  const handleCloseModalStock = () => setOpenModalStock(false);
 
-  const getToken = async () => {
+  const getStocks = async () => {
     try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-        },
-      });
-      setTokenState(token);
+      const response = await getAllStock();
+      setStocks(response);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const getStocks = async () => {
-    const response = await getAllStock();
-    setStocks(response);
-  };
-
   useEffect(() => {
-    if (isAuthenticated) getToken();
     getStocks();
-  }, []);
+  }, [isOpen]);
 
   useEffect(() => {
-    if (stock.denomination === "") {
-      if (stocks.length > 0) {
-        setStockPurchased(stocks[0]);
-      }
-    } else {
+    if (stock?.id != 0) {
       setStockPurchased(stock);
+    } else {
+      setStockPurchased(stocks[0]);
     }
-  }, [stock]);
+  }, [stock, stocks]);
+
+  useEffect(() => {
+    if (stockAdded) {
+      getStocks();
+      setStocksUpdated && setStocksUpdated(true);
+      setStockAdded(false);
+    }
+  }, [stockAdded]);
 
   useEffect(() => {
     if (stockPurchased) {
@@ -91,15 +88,18 @@ export default function ModalStockPurchase({
         ...stockModified,
         price: stockPurchased.purchasePrice,
       });
-    }
-
-    if (
-      stockPurchased.purchasePrice != 0 &&
-      stockPurchased.purchasePrice === stockModified.price
-    ) {
-      updateStock(stockPurchased, tokenState);
+      setPriceInput(stockPurchased.purchasePrice.toString());
     }
   }, [stockPurchased]);
+
+  const handleCloseModal = () => {
+    handleClose();
+    setStockModified({
+      price: stockPurchased.purchasePrice,
+      quantityPurchased: 0,
+    });
+    setStockPurchased(stock);
+  };
 
   const handleChangeStock = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const stockFind = stocks.find(
@@ -112,45 +112,52 @@ export default function ModalStockPurchase({
   };
 
   const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (stockPurchased) {
-      setStockModified({ ...stockModified, price: Number(event.target.value) });
+    const value = event.target.value;
+    setPriceInput(value);
+    const numericValue = parseFloat(value);
+    if (!isNaN(numericValue)) {
+      setStockModified({ ...stockModified, price: numericValue });
+    } else {
+      setStockModified({ ...stockModified, price: 0 });
     }
   };
 
   const handleChangeCurrentStock = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (stockPurchased) {
-      setStockModified({
-        ...stockModified,
-        quantityPurchased: Number(event.target.value),
-      });
-    }
+    setStockModified({
+      ...stockModified,
+      quantityPurchased: Number(event.target.value),
+    });
   };
 
   const handleConfirm = async () => {
-    setStockPurchased({
-      ...stockPurchased,
-      purchasePrice: stockModified.price,
-      currentStock:
-        stockPurchased.currentStock + stockModified.quantityPurchased,
-    });
-
-    handleClose();
-    window.location.reload();
-  };
-
-  const handleCloseModal = () => {
-    handleClose();
-    setStockModified({
-      price: stockPurchased.purchasePrice,
-      quantityPurchased: 0,
-    });
+    if (stockModified.price === 0) {
+      toast.error("Debe agregar un precio.");
+    } else if (stockModified.quantityPurchased === 0) {
+      toast.error("Debe agregar una cantidad.");
+    } else {
+      try {
+        await updateStock(
+          {
+            ...stockPurchased,
+            purchasePrice: stockModified.price,
+            currentStock:
+              stockPurchased.currentStock + stockModified.quantityPurchased,
+          },
+          token
+        );
+        toast.success("Compra registrada correctamente.");
+        setStocksUpdated && setStocksUpdated(true);
+        handleCloseModal();
+      } catch (error) {
+        toast.error("Error al registrar la compra.");
+      }
+    }
   };
 
   return (
     <>
-      <Toaster position="top-center" richColors visibleToasts={1} />
       <Modal
         open={isOpen}
         onClose={handleCloseModal}
@@ -173,7 +180,7 @@ export default function ModalStockPurchase({
               </label>
               <select
                 className="modalStockPurchase__select"
-                value={stockPurchased.denomination}
+                value={stockPurchased?.denomination}
                 onChange={handleChangeStock}
               >
                 {stocks.map((stock: Stock) => (
@@ -200,7 +207,7 @@ export default function ModalStockPurchase({
               <input
                 type="number"
                 className="modalStockPurchase__input"
-                value={stockModified.price}
+                value={priceInput}
                 min={0}
                 onChange={handleChangePrice}
               />
@@ -220,7 +227,7 @@ export default function ModalStockPurchase({
             </div>
 
             <div className="modalStockPurchase__measurementUnit">
-              <h4>Unidad de medida: {stockPurchased.measurementUnit.name}</h4>
+              <h4>Unidad de medida: {stockPurchased?.measurementUnit.name}</h4>
             </div>
 
             <div className="modalStockPurchase__buttons">
@@ -241,11 +248,11 @@ export default function ModalStockPurchase({
         </Fade>
       </Modal>
       <ModalStock
-        stock={stock}
-        setStock={setStock}
+        stock={STOCK_INITIAL_STATE}
         isOpen={openModalStock}
         handleClose={handleCloseModalStock}
         isNew={true}
+        setStockAdded={setStockAdded}
       ></ModalStock>
     </>
   );

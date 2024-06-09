@@ -19,33 +19,34 @@ const ModalStockPurchase = lazy(
   () => import("../../../components/modalStock/ModalStockPurchase")
 );
 
+const STOCK_INITIAL_STATE = {
+  id: 0,
+  denomination: "",
+  purchasePrice: 0,
+  salePrice: 0,
+  currentStock: 0,
+  minimumStock: 0,
+  isStock: true,
+  active: true,
+  measurementUnit: {
+    id: 0,
+    name: "",
+    active: true,
+    abbreviation: "",
+  },
+  itemStock: { id: 0, name: "", active: true, father: undefined },
+};
+
 export default function LowStock() {
+  const { user } = useUser();
+  const [isLoading, setIsLoading] = useState(true);
+  const [stocksUpdated, setStocksUpdated] = useState(false);
+  const [stocks, setStocks] = useState<Stock[]>([STOCK_INITIAL_STATE]);
+  const [stock, setStock] = useState<Stock>(STOCK_INITIAL_STATE);
+
   const [openModalStockPurchase, setOpenModalStockPurchase] = useState(false);
   const handleOpenModalStockPurchase = () => setOpenModalStockPurchase(true);
   const handleCloseModalStockPurchase = () => setOpenModalStockPurchase(false);
-  const { user } = useUser();
-  const [isLoading, setIsLoading] = useState(true);
-
-  const stockInitialState: Stock = {
-    id: 0,
-    denomination: "",
-    purchasePrice: 0,
-    salePrice: 0,
-    currentStock: 0,
-    minimumStock: 0,
-    isStock: true,
-    active: true,
-    measurementUnit: {
-      id: 0,
-      name: "",
-      active: true,
-      abbreviation: "",
-    },
-    itemStock: { id: 0, name: "", active: true, father: undefined },
-  };
-
-  const [stocks, setStocks] = useState<Stock[]>([stockInitialState]);
-  const [stock, setStock] = useState<Stock>(stockInitialState);
 
   const [paginaActual, setPaginaActual] = useState<number>(1);
   const indiceInicio = (paginaActual - 1) * 10;
@@ -63,15 +64,26 @@ export default function LowStock() {
   };
 
   const getStocks = async () => {
-    const stocksResponse = await getAllStock();
-    const filterStocks = stocksResponse.filter(
-      (stock: Stock) =>
-        stock.minimumStock > stock.currentStock ||
-        stock.currentStock < stock.minimumStock + stock.minimumStock * 0.2
-    );
-    setStocks(filterStocks);
-    setIsLoading(false);
+    try {
+      const stocksResponse = await getAllStock();
+      const filterStocks = stocksResponse.filter(
+        (stock: Stock) =>
+          stock.minimumStock >= stock.currentStock ||
+          stock.currentStock < stock.minimumStock + stock.minimumStock * 0.2
+      );
+      setStocks(filterStocks);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    if (stocksUpdated) {
+      getStocks();
+      setStocksUpdated(false);
+    }
+  }, [stocksUpdated]);
 
   useEffect(() => {
     getStocks();
@@ -122,12 +134,18 @@ export default function LowStock() {
                           {stock.minimumStock}
                         </h4>
                         <h4 className="lowStockPage__h4">
-                          {stock.currentStock.toPrecision(4)}
+                          {Number.isInteger(stock.currentStock)
+                            ? stock.currentStock
+                            : stock.currentStock.toPrecision(4)}
                         </h4>
                         <h4 className="lowStockPage__h4">
-                          {Math.abs(
-                            stock.currentStock - stock.minimumStock
-                          ).toPrecision(4)}
+                          {Number.isInteger(
+                            Math.abs(stock.currentStock - stock.minimumStock)
+                          )
+                            ? Math.abs(stock.currentStock - stock.minimumStock)
+                            : Math.abs(
+                                stock.currentStock - stock.minimumStock
+                              ).toPrecision(4)}
                         </h4>
                         <div className="lowStockPage__icon">
                           <button
@@ -178,9 +196,9 @@ export default function LowStock() {
                 </div>
                 <ModalStockPurchase
                   stock={stock}
-                  setStock={setStock}
                   isOpen={openModalStockPurchase}
                   handleClose={handleCloseModalStockPurchase}
+                  setStocksUpdated={setStocksUpdated}
                 ></ModalStockPurchase>
               </>
             ) : (

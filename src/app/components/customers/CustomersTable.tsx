@@ -76,6 +76,7 @@ const Table = ({ datos }: Props) => {
             <td>NOMBRE Y APELLIDO</td>
             <td>CORREO ELECTRÓNICO</td>
             <td>TELÉFONO</td>
+            <td>ESTADO</td>
             <td></td>
           </tr>
         </thead>
@@ -85,6 +86,7 @@ const Table = ({ datos }: Props) => {
               <td>{`${e.name}`}</td>
               <td>{`${e.email}`}</td>
               <td>{`${e.user_metadata?.phone_number}`}</td>
+              <td>{`${e.user_metadata?.state}`}</td>
               <td className="celda_acciones">
                 <button onClick={() => handleModify(e)}>
                   <FaGear />

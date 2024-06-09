@@ -2,7 +2,7 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Modal, Fade, Box } from "@mui/material";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import {
   addMeasurementUnit,
   getAllMeasurementUnit,
@@ -88,33 +88,48 @@ export default function MeasurementUnitABM() {
     setIsNew(false);
   };
 
-  const handleConfirm = () => {
-    if (!isNew) {
-      if (measurementUnit) {
-        updateMeasurementUnit(measurementUnit, tokenState);
-      }
-      handleClose();
-      window.location.reload();
+  const handleConfirm = async () => {
+    if (measurementUnit.name === "") {
+      toast.error("El nombre no puede estar vacío.");
     } else {
-      if (measurementUnit) {
-        addMeasurementUnit(measurementUnit, tokenState);
+      if (!isNew) {
+        if (measurementUnit) {
+          try {
+            await updateMeasurementUnit(measurementUnit, tokenState);
+            toast.success("Unidad de medida actualizada correctamente");
+          } catch (error) {
+            toast.error("Error al actualizar la unidad de medida");
+          }
+        }
+      } else {
+        if (measurementUnit) {
+          try {
+            await addMeasurementUnit(measurementUnit, tokenState);
+            toast.success("Unidad de medida actualizada correctamente");
+          } catch (error) {
+            toast.error("Error al actualizar la unidad de medida");
+          }
+        }
       }
+      await getAllItems();
       handleClose();
-      window.location.reload();
+    }
+  };
+
+  const getAllItems = async () => {
+    try {
+      const response = await getAllMeasurementUnit();
+      setMeasurementUnits(response);
+    } catch (error) {
+      console.error("Error", error);
     }
   };
 
   useEffect(() => {
     if (isAuthenticated) getToken();
-    const getAllItems = async () => {
-      try {
-        const response = await getAllMeasurementUnit();
-        setMeasurementUnits(response);
-      } catch (error) {
-        console.error("Error", error);
-      }
-    };
+  }, [isAuthenticated]);
 
+  useEffect(() => {
     getAllItems();
   }, []);
 
@@ -223,7 +238,6 @@ export default function MeasurementUnitABM() {
             </div>
           </div>
 
-          <Toaster position="top-center" richColors visibleToasts={1} />
           <Modal
             open={open}
             onClose={handleClose}
@@ -282,11 +296,7 @@ export default function MeasurementUnitABM() {
                   </button>
                   <button
                     className="measurementUnitABM__modal__button"
-                    onClick={function () {
-                      measurementUnit?.name === ""
-                        ? toast.error("El nombre no puede estar vacío.")
-                        : handleConfirm();
-                    }}
+                    onClick={handleConfirm}
                   >
                     Confirmar
                   </button>

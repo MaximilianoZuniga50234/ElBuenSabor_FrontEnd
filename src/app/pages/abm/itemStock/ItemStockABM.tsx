@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Fade, Modal } from "@mui/material";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { FaPencilAlt } from "react-icons/fa";
 import { ItemStock } from "../../../interfaces/ItemStock";
 import {
@@ -97,30 +97,48 @@ export default function ItemStockABM() {
     setIsNew(false);
   };
 
-  const handleConfirm = () => {
-    if (!isNew) {
-      if (itemStock) {
-        updateItemStock(itemStock, tokenState);
-      }
+  const handleConfirm = async () => {
+    if (itemStock?.name === "") {
+      toast.error("El nombre no puede estar vacío.");
     } else {
-      if (itemStock) {
-        addItemStock(itemStock, tokenState);
+      if (!isNew) {
+        if (itemStock) {
+          try {
+            await updateItemStock(itemStock, tokenState);
+            toast.success("Rubro actualizado correctamente");
+          } catch (error) {
+            toast.error("Error al actualizar el rubro");
+          }
+        }
+      } else {
+        if (itemStock) {
+          try {
+            await addItemStock(itemStock, tokenState);
+            toast.success("Rubro creado correctamente");
+          } catch (error) {
+            toast.error("Error al crear el rubro");
+          }
+        }
       }
+      await getAllItems();
+      handleClose();
     }
-    handleClose();
+  };
+
+  const getAllItems = async () => {
+    try {
+      const response = await getAllItemStock();
+      setItemStocks(response);
+    } catch (error) {
+      console.error("Error", error);
+    }
   };
 
   useEffect(() => {
     if (isAuthenticated) getToken();
-    const getAllItems = async () => {
-      try {
-        const response = await getAllItemStock();
-        setItemStocks(response);
-      } catch (error) {
-        console.error("Error", error);
-      }
-    };
+  }, [isAuthenticated]);
 
+  useEffect(() => {
     getAllItems();
   }, []);
 
@@ -232,7 +250,6 @@ export default function ItemStockABM() {
             </div>
           </div>
 
-          <Toaster position="top-center" richColors visibleToasts={1} />
           <Modal
             open={open}
             onClose={handleClose}
@@ -315,11 +332,7 @@ export default function ItemStockABM() {
                   </button>
                   <button
                     className="itemStockABM__modal__button"
-                    onClick={function () {
-                      itemStock?.name === ""
-                        ? toast.error("El nombre no puede estar vacío.")
-                        : handleConfirm();
-                    }}
+                    onClick={handleConfirm}
                   >
                     Confirmar
                   </button>
