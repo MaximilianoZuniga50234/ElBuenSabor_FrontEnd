@@ -146,7 +146,12 @@ const Cart = () => {
           cartProduct.product.estimatedTimeKitchen > time
             ? cartProduct.product.estimatedTimeKitchen
             : time;
-        price = price + cartProduct.product.salePrice * cartProduct.amount;
+        price =
+          price +
+          (cartProduct.product.salePrice -
+            cartProduct.product.salePrice *
+              (cartProduct.product.discountPercentaje / 100)) *
+            cartProduct.amount;
       });
     }
     setPriceAndTime({ totalPrice: price, highestTime: time });
@@ -176,9 +181,9 @@ const Cart = () => {
       setPurchaseOrder({
         ...purchaseOrder,
         amountToPaid:
-          totalCreditNoteAmount > priceAndTime.totalPrice * 0.9
+          totalCreditNoteAmount > parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0))
             ? 0
-            : priceAndTime.totalPrice * 0.9 - totalCreditNoteAmount,
+            : parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)) - totalCreditNoteAmount,
       });
     } else {
       setPurchaseOrder({
@@ -281,7 +286,11 @@ const Cart = () => {
       const details: PurchaseOrderDetail[] = cartProducts.map((cartProduct) => {
         return {
           amount: cartProduct.amount,
-          subtotal: cartProduct.product.salePrice * cartProduct.amount,
+          subtotal:
+            (cartProduct.product.salePrice -
+              cartProduct.product.salePrice *
+                (cartProduct.product.discountPercentaje / 100)) *
+            cartProduct.amount,
           product: cartProduct.product,
           stock: null,
         } as PurchaseOrderDetail;
@@ -290,11 +299,11 @@ const Cart = () => {
       setPurchaseOrder({
         ...purchaseOrder,
         details: details,
-        total: priceAndTime.totalPrice * 0.9,
+        total: parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)),
         amountToPaid:
-          totalCreditNoteAmount > priceAndTime.totalPrice * 0.9
+          totalCreditNoteAmount > parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0))
             ? 0
-            : priceAndTime.totalPrice * 0.9 - totalCreditNoteAmount,
+            : parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)) - totalCreditNoteAmount,
       });
     }
     // } else {
@@ -354,7 +363,10 @@ const Cart = () => {
           updateCreditNote({ ...note, total: 0, active: false }, token);
         });
       } else {
-        response = await createPurchaseOrder({...purchaseOrder, paymentMethod: "Efectivo"}, token);
+        response = await createPurchaseOrder(
+          { ...purchaseOrder, paymentMethod: "Efectivo" },
+          token
+        );
 
         let totalOrder = purchaseOrder.total;
 
@@ -419,7 +431,7 @@ const Cart = () => {
           : purchaseOrder.paymentMethod,
       total:
         event.target.value === "Retiro en el local"
-          ? priceAndTime.totalPrice * 0.9
+          ? parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0))
           : priceAndTime.totalPrice,
     });
   };
@@ -448,7 +460,13 @@ const Cart = () => {
               <img src={cartItem.product.imgUrl} />
               <div>
                 <h3>{cartItem.product.denomination}</h3>
-                <p>Precio: ${cartItem.product.salePrice * cartItem.amount}</p>
+                <p>
+                  Precio: $
+                  {(cartItem.product.salePrice -
+                    cartItem.product.salePrice *
+                      (cartItem.product.discountPercentaje / 100)) *
+                    cartItem.amount}
+                </p>
               </div>
               <button onClick={() => remove(cartItem.product.id)}>
                 Eliminar

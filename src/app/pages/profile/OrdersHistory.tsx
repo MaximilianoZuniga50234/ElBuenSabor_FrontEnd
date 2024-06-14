@@ -117,7 +117,7 @@ export default function OrdersHistory() {
           <div className="ordersHistory__header">
             <div className="ordersHistory__title">
               <h3 className="ordersHistory__h3">
-                {isLoaded && (filterOrders ? "Mis órdenes" : "No hay órdenes")}
+                {isLoaded && (filterOrders && filterOrders?.length > 0 ? "Historial de órdenes" : "No hay órdenes")}
               </h3>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function OrdersHistory() {
             {filterOrders?.map((order: PurchaseOrder) => (
               <div className="ordersHistory__card" key={order.id}>
                 <div className="ordersHistory__card__info">
-                  <span className="ordersHistory__span">{order.number}</span>
+                  <span className="ordersHistory__span">{order.id}</span>
                   {getDate(order)}
                   <span className="ordersHistory__span">${order.total}</span>
                 </div>

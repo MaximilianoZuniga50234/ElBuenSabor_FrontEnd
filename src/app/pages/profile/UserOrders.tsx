@@ -17,7 +17,7 @@ const ModalOrderDetails = lazy(
 const PURCHASE_ORDER_INITIAL_STATE = {
   id: 0,
   fecha: new Date(),
-  number: Math.floor(Math.random() * (999999 - 100000 + 1) + 100000),
+  number: 0,
   estimatedEndTime: 0,
   shippingType: "Retiro en el local",
   paymentMethod: "Efectivo",
@@ -134,7 +134,7 @@ export default function UserOrders() {
             {filterOrders?.map((order: PurchaseOrder) => (
               <div className="userOrders__card" key={order.id}>
                 <span className="userOrders__span">
-                  Orden N° {order.number}
+                  Orden N° {order.id}
                 </span>
                 <span className="userOrders__span">${order.total}</span>
                 <span className="userOrders__span">
