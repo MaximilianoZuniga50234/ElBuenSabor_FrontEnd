@@ -140,7 +140,7 @@ export default function InvoicePdf({ invoice }: Props) {
                 paddingVertical: "10px",
               }}
             >
-              Descuento: ${`${invoice.discountAmount}`}
+              Descuento: ${`${invoice.discountAmount.toFixed(0)}`}
             </Text>
           </>
         )}

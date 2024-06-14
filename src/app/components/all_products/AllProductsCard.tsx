@@ -73,15 +73,30 @@ export default function AllProductsCard({ product }: Props) {
             <span>{product.denomination}</span>
           </h6>
           <div className="allProducts__card__priceAndCart">
-            <p className="allProducts__card__p">${product.salePrice}</p>
-            <button
-              className="allProducts__bar__link__cart"
-              onClick={(e) => {
-                addToCart(product, e);
-              }}
-            >
-              <FaCartShopping />
-            </button>
+            {product.discountPercentaje > 0 ? (
+              <div className="allProducts__card__p__withDiscount">
+                <p className="allProducts__card__p">
+                  <span>${product.salePrice}</span>
+                </p>
+                <p className="allProducts__card__p">
+                  $
+                  {product.salePrice -
+                    product.salePrice * (product.discountPercentaje / 100)}
+                </p>
+              </div>
+            ) : (
+              <p className="allProducts__card__p">${product.salePrice}</p>
+            )}
+            <div className="allProducts__card__addProduct">
+              <button
+                className="allProducts__bar__link__cart"
+                onClick={(e) => {
+                  addToCart(product, e);
+                }}
+              >
+                <FaCartShopping />
+              </button>
+            </div>
           </div>
         </div>
       </div>

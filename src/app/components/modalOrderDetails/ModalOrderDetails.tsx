@@ -331,7 +331,7 @@ export default function ModalOrderDetails({
             ) : (
               <div className="modalOrderDetailsDelivery__container">
                 <h2 className="modalOrderDetailsDelivery__h1">
-                  Orden N° {purchaseOrder.number}
+                  Orden N° {purchaseOrder.id}
                 </h2>
                 <div className="modalOrderDetailsDelivery__userDetails">
                   <div className="modalOrderDetailsDelivery__userDetails__title">
