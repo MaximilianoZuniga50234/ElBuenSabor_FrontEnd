@@ -97,7 +97,14 @@ export default function ModalStock({
       (itemStock) => itemStock.name === event.target.value
     );
     if (stockToPost) {
-      setStockToPost({ ...stockToPost, itemStock: itemStock });
+      setStockToPost({
+        ...stockToPost,
+        itemStock: itemStock,
+        isStock:
+          itemStock?.name === "Bebida" || itemStock?.name === "Alcohol"
+            ? false
+            : true,
+      });
     }
   };
 
