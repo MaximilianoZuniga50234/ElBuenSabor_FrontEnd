@@ -292,7 +292,7 @@ export default function SuccesPage() {
       await createInvoice(invoice, token);
       const updatedInvoices = await getInvoices();
       const invoiceMail = updatedInvoices.find(
-        (o: Invoice) => o.purchaseOrder.id === purchaseOrder?.id
+        (o: Invoice) => o.mercadoPagoData?.paymentId === mercadoPagoData?.paymentId
       );
       generatePdfBase64(invoiceMail);
     } catch (err) {
@@ -321,6 +321,7 @@ export default function SuccesPage() {
     <div className="postPaymentPage__container">
       <div className="postPaymentPage__content">
         <h1>¡Su pago fue realizado con éxito!</h1>
+        <h3>Su factura será enviada al mail que tiene asignado.</h3>
         <button className="postPaymentPage__button">
           <Link to="/u/orders">Ir a "Mis órdenes"</Link>
         </button>
