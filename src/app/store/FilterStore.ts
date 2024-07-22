@@ -1,12 +1,5 @@
 import { create } from "zustand";
-
-interface Params {
-  productName: string;
-  productOrder: string;
-  productCategory: string;
-  productMinPrice: string;
-  productMaxPrice: string;
-}
+import { Params } from "../interfaces/FilterParams";
 
 type Store = {
   params: Params;

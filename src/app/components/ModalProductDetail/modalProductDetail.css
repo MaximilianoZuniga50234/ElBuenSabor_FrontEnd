@@ -27,6 +27,10 @@
   box-shadow: 1px 1px 4px var(--black);
 }
 
+.modalProductDetail__close__button:hover {
+  background: var(--ebony-200);
+}
+
 .modalProductDetail__close__button svg {
   font-size: 20px;
   margin: 4px;

@@ -14,9 +14,10 @@ export interface Product extends Base {
   salePrice: number;
   discountPercentaje: number;
   imgUrl: string;
-  imgId: number;
+  imgId: string;
   active: boolean;
   itemProduct: ItemProduct;
   details: ProductDetail[];
   quantitySold?: number;
+  type: string;
 }

@@ -14,6 +14,12 @@ export async function getAllIngredients() {
   );
 }
 
+export async function getNotIngredients() {
+  return await fetch(`${BASE_URL}/api/v1/stock/not_ingredients`).then((r) =>
+    r.json()
+  );
+}
+
 export async function getOneStock(id: string) {
   return await fetch(`${BASE_URL}/api/v1/stock/${id}`).then((r) =>
     r.json()

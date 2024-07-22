@@ -1,36 +1,27 @@
 import { Product } from "../interfaces/Product";
 
-export async function getAllProduct(
-  name?: string,
-  order?: string,
-  category?: string,
-  min?: string,
-  max?: string
-) {
-  const url = new URL("http://localhost:9000/api/v1/product/all");
-  if (name) url.searchParams.append("name", name);
-  if (order) url.searchParams.append("order", order);
-  if (category) url.searchParams.append("category", category);
-  if (min) url.searchParams.append("min", min);
-  if (max) url.searchParams.append("max", max);
+const URL_BASE = "http://localhost:9000"
 
-  return await fetch(url.toString()).then((r) => r.json());
+export async function getAllProduct() {
+  return await fetch(`${URL_BASE}/api/v1/product`).then((r) =>
+    r.json()
+  );
 }
 
 export async function getOneProduct(id: string) {
-  return await fetch(`http://localhost:9000/api/v1/product/${id}`).then((r) =>
+  return await fetch(`${URL_BASE}/api/v1/product/${id}`).then((r) =>
     r.json()
   );
 }
 
 export async function getProductsInSale() {
-  return await fetch(`http://localhost:9000/api/v1/product/all/sale`).then(
+  return await fetch(`${URL_BASE}/api/v1/product/all/sale`).then(
     (r) => r.json()
   );
 }
 
 export async function getFeaturedProducts() {
-  return await fetch(`http://localhost:9000/api/v1/product/all/featured`).then(
+  return await fetch(`${URL_BASE}/api/v1/product/all/featured`).then(
     (r) => r.json()
   );
 }
@@ -48,7 +39,7 @@ export async function createProduct(product: Product, image: string | null) {
     formData.append("image", imageFile);
   }
 
-  return await fetch(`http://localhost:9000/api/v1/product/create`, {
+  return await fetch(`${URL_BASE}/api/v1/product/create`, {
     method: "POST",
     body: formData,
   }).then((r) => r.json());
@@ -69,7 +60,7 @@ export async function updateProduct(product: Product, image: string | null) {
   }
 
   return await fetch(
-    `http://localhost:9000/api/v1/product/update/${product.id}`,
+    `${URL_BASE}/api/v1/product/update/${product.id}`,
     {
       method: "PUT",
       body: formData,
@@ -78,7 +69,7 @@ export async function updateProduct(product: Product, image: string | null) {
 }
 
 export async function deleteProduct(id: string) {
-  return await fetch(`http://localhost:9000/api/v1/product/desactivate/${id}`, {
+  return await fetch(`${URL_BASE}/api/v1/product/desactivate/${id}`, {
     method: "PATCH",
     headers: {},
   }).then((r) => r.json());
@@ -86,11 +77,11 @@ export async function deleteProduct(id: string) {
 
 // Esta función debe recibir un archivo decodificado en base64
 function base64ToBlob(base64: string): Blob {
-  const byteCharacters = atob(base64.split(',')[1]);
+  const byteCharacters = atob(base64.split(",")[1]);
   const byteNumbers = new Array(byteCharacters.length);
   for (let i = 0; i < byteCharacters.length; i++) {
     byteNumbers[i] = byteCharacters.charCodeAt(i);
   }
   const byteArray = new Uint8Array(byteNumbers);
-  return new Blob([byteArray], { type: 'image/jpeg' });
+  return new Blob([byteArray], { type: "image/jpeg" });
 }
