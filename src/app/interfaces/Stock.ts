@@ -12,4 +12,7 @@ export interface Stock extends Base {
   active: boolean;
   measurementUnit: MeasurementUnit;
   itemStock: ItemStock | undefined;
+  imgUrl: string;
+  imgId: string;
+  type: string;
 }

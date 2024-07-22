@@ -11,6 +11,8 @@ import { CartItem } from "../../interfaces/CartItem";
 import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
 import { Person } from "../../interfaces/Person";
 import { Address } from "../../interfaces/Address";
+import { Product } from "../../interfaces/Product";
+import { Stock } from "../../interfaces/Stock";
 import { PurchaseOrderDetail } from "../../interfaces/PurchaseOrderDetail";
 import {
   createPurchaseOrder,
@@ -138,23 +140,31 @@ const Cart = () => {
   }, [user, personsDatabase, addressesDatabase]);
 
   useEffect(() => {
-    let time = 0;
-    let price = 0;
-    if (cartProducts.length > 0) {
-      cartProducts.map(async (cartProduct) => {
-        time =
-          cartProduct.product.estimatedTimeKitchen > time
-            ? cartProduct.product.estimatedTimeKitchen
-            : time;
-        price =
-          price +
-          (cartProduct.product.salePrice -
-            cartProduct.product.salePrice *
-              (cartProduct.product.discountPercentaje / 100)) *
-            cartProduct.amount;
-      });
-    }
-    setPriceAndTime({ totalPrice: price, highestTime: time });
+    const priceTime = {
+      totalPrice: 0,
+      highestTime: 0,
+    };
+
+    // Recorremos la lista de productos agregados al carrito para calcular el precio total y tiempo de cocina
+    cartProducts.forEach((cartProduct) => {
+      if (cartProduct.product.type === "product") {
+        const productObj = cartProduct.product as Product;
+
+        // Si el tiempo de cocina del producto es mayor al tiempo de cocina actual, lo reemplazamos
+        if (productObj.estimatedTimeKitchen > priceTime.highestTime) {
+          priceTime.highestTime = productObj.estimatedTimeKitchen;
+        }
+        priceTime.totalPrice +=
+          (productObj.salePrice -
+            productObj.salePrice * (productObj.discountPercentaje / 100)) *
+          cartProduct.amount;
+      }
+
+      if (cartProduct.product.type === "stock")
+        priceTime.totalPrice += cartProduct.product.salePrice * cartProduct.amount;
+    });
+
+    setPriceAndTime(priceTime);
   }, [cartProducts]);
 
   useEffect(() => {
@@ -181,9 +191,11 @@ const Cart = () => {
       setPurchaseOrder({
         ...purchaseOrder,
         amountToPaid:
-          totalCreditNoteAmount > parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0))
+          totalCreditNoteAmount >
+          parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0))
             ? 0
-            : parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)) - totalCreditNoteAmount,
+            : parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)) -
+              totalCreditNoteAmount,
       });
     } else {
       setPurchaseOrder({
@@ -254,7 +266,7 @@ const Cart = () => {
     setCreditNotes(response);
   };
 
-  const handleOpen = () => {
+  const handleContinueBuy = () => {
     // const currentDate = new Date();
     if (!isAuthenticated) {
       toast.error("Debes iniciar sesión para realizar una compra.");
@@ -284,15 +296,29 @@ const Cart = () => {
       //       );
     } else {
       const details: PurchaseOrderDetail[] = cartProducts.map((cartProduct) => {
-        return {
-          amount: cartProduct.amount,
-          subtotal:
+        // Obtenemos el subtotal de la compra dependiendo del tipo de producto
+        let subtotal = 0;
+        const productObj = cartProduct.product as Product;
+        const stockObj = cartProduct.product as Stock;
+        const productType = cartProduct.product.type;
+
+        if (productType === "stock") {
+          subtotal = cartProduct.product.salePrice * cartProduct.amount;
+        }
+
+        if (productType === "product") {
+          subtotal =
             (cartProduct.product.salePrice -
               cartProduct.product.salePrice *
-                (cartProduct.product.discountPercentaje / 100)) *
-            cartProduct.amount,
-          product: cartProduct.product,
-          stock: null,
+                (productObj.discountPercentaje / 100)) *
+            cartProduct.amount;
+        }
+
+        return {
+          amount: cartProduct.amount,
+          subtotal: subtotal,
+          product: productType === "product" ? productObj : null,
+          stock: productType === "stock" ? stockObj : null,
         } as PurchaseOrderDetail;
       });
 
@@ -301,9 +327,11 @@ const Cart = () => {
         details: details,
         total: parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)),
         amountToPaid:
-          totalCreditNoteAmount > parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0))
+          totalCreditNoteAmount >
+          parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0))
             ? 0
-            : parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)) - totalCreditNoteAmount,
+            : parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)) -
+              totalCreditNoteAmount,
       });
     }
     // } else {
@@ -436,6 +464,21 @@ const Cart = () => {
     });
   };
 
+  const getCartProductPriceForCard = (item: CartItem) => {
+    if (item.product.type === "product") {
+      const productObj = item.product as Product;
+      return (
+        (productObj.salePrice -
+          productObj.salePrice * (productObj.discountPercentaje / 100)) *
+        item.amount
+      );
+    }
+
+    if (item.product.type === "stock") {
+      return item.product.salePrice * item.amount;
+    }
+  };
+
   return (
     <Suspense fallback={<Loader />}>
       <div className="cart_main_container">
@@ -460,20 +503,22 @@ const Cart = () => {
               <img src={cartItem.product.imgUrl} />
               <div>
                 <h3>{cartItem.product.denomination}</h3>
-                <p>
-                  Precio: $
-                  {(cartItem.product.salePrice -
-                    cartItem.product.salePrice *
-                      (cartItem.product.discountPercentaje / 100)) *
-                    cartItem.amount}
-                </p>
+                <p>Precio: ${getCartProductPriceForCard(cartItem)}</p>
               </div>
-              <button onClick={() => remove(cartItem.product.id)}>
+              <button
+                onClick={() =>
+                  remove(cartItem.product.id, cartItem.product.type)
+                }
+              >
                 Eliminar
               </button>
               <div>
                 {cartItem.amount > 1 && (
-                  <FaMinus onClick={() => removeOne(cartItem.product.id)} />
+                  <FaMinus
+                    onClick={() =>
+                      removeOne(cartItem.product.id, cartItem.product.type)
+                    }
+                  />
                 )}
                 <input
                   type="number"
@@ -482,9 +527,17 @@ const Cart = () => {
                   readOnly
                 />
                 {cartItem.amount < 99 && (
-                  <FaPlus onClick={() => addOne(cartItem.product.id)} />
+                  <FaPlus
+                    onClick={() =>
+                      addOne(cartItem.product.id, cartItem.product.type)
+                    }
+                  />
                 )}
-                {cartItem.amount > 1 ? <p>Uds.</p> : <p>Ud.</p>}
+                {cartItem.amount > 1 ? (
+                  <p style={{ userSelect: "none" }}>Uds.</p>
+                ) : (
+                  <p style={{ userSelect: "none" }}>Ud.</p>
+                )}
               </div>
             </div>
           ))}
@@ -497,7 +550,7 @@ const Cart = () => {
         <div className="cart_buttons_container">
           <button onClick={() => clear()}>Limpiar</button>
           {cartProducts.length > 0 && (
-            <button onClick={handleOpen}>Continuar</button>
+            <button onClick={handleContinueBuy}>Continuar</button>
           )}
         </div>
       </div>

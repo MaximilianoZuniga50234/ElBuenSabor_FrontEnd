@@ -115,6 +115,7 @@
   background: transparent;
   color: var(--ebony-800);
   text-align: center;
+  pointer-events: none;
 }
 
 .cart_main_container .cart_buttons_container {
@@ -144,7 +145,7 @@
   scrollbar-width: none;
 }
 
-.modalCart__box>.modalCart__h3 {
+.modalCart__box > .modalCart__h3 {
   text-align: center;
   font-size: medium;
 }
@@ -199,17 +200,14 @@
     grid-row: 2;
   }
 
-
   .modalCart__box {
     width: 300px;
     padding: 20px 30px;
-
   }
 
   .modalCart__button {
     padding: 8px 16px;
   }
-
 }
 
 @media only screen and (min-width: 768px) {
@@ -273,7 +271,7 @@
     padding: 20px 40px;
   }
 
-  .modalCart__box>.modalCart__h3 {
+  .modalCart__box > .modalCart__h3 {
     font-size: large;
   }
 

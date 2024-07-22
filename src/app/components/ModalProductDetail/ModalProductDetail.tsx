@@ -1,4 +1,5 @@
 import { Dispatch, MouseEvent, SetStateAction } from "react";
+import { Box, Fade, Modal } from "@mui/material";
 import {
   FaXmark,
   FaArrowRight,
@@ -6,14 +7,17 @@ import {
   FaCircle,
 } from "react-icons/fa6";
 import { Product } from "../../interfaces/Product";
+import { Stock } from "../../interfaces/Stock";
 import "./modalProductDetail.css";
-import { Box, Fade, Modal } from "@mui/material";
 
 interface ModalProps {
-  product: Product | null;
+  product: Product | Stock;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  onAddToCart: (product: Product, e?: MouseEvent) => void;
+  onAddToCart: (
+    product: Product | Stock,
+    e?: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => void;
 }
 
 const ModalProductDetail = ({
@@ -22,10 +26,11 @@ const ModalProductDetail = ({
   setOpen,
   onAddToCart,
 }: ModalProps) => {
-
   const handleClose = () => {
     setOpen(false);
   };
+
+  const productObj = product as Product;
 
   return (
     <Modal
@@ -40,7 +45,10 @@ const ModalProductDetail = ({
     >
       <Fade in={open}>
         <Box className="modalProductDetail__box">
-          <button onClick={handleClose} className="modalProductDetail__close__button">
+          <button
+            onClick={handleClose}
+            className="modalProductDetail__close__button"
+          >
             <FaXmark />
           </button>
           <div className="modalProductDetail__image__container">
@@ -50,14 +58,14 @@ const ModalProductDetail = ({
               className="modalProductDetail__image"
             />
             <h3 className="modalProductDetail__estimated__time">
-              {product?.estimatedTimeKitchen} min
+              {productObj?.estimatedTimeKitchen} min
             </h3>
           </div>
           <div className="modalProductDetail__info__container">
             <h3>
               <span>{product?.denomination}</span>
             </h3>
-            {product?.discountPercentaje === 0 ? (
+            {productObj?.discountPercentaje === 0 ? (
               <h4 className="modalProductDetail__price__without__discount">
                 Precio: ${product?.salePrice}
               </h4>
@@ -70,24 +78,27 @@ const ModalProductDetail = ({
                 <h4>
                   $
                   {product !== null
-                    ? product.salePrice * (1 - product.discountPercentaje / 100)
+                    ? product.salePrice -
+                      (product.salePrice * productObj.discountPercentaje) / 100
                     : 0}
                 </h4>
               </div>
             )}
-            <div className="modalProductDetail__ingredients__list">
-              <p>Ingredientes:</p>
-              <ul>
-                {product?.details.map((i) => {
-                  return (
-                    <li key={i.stock.id}>
-                      <FaCircle />
-                      {i.stock.denomination}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+            {
+              <div className="modalProductDetail__ingredients__list">
+                <p>Ingredientes:</p>
+                <ul>
+                  {productObj?.details?.map((i) => {
+                    return (
+                      <li key={i.stock.id}>
+                        <FaCircle />
+                        {i.stock.denomination}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            }
             <button
               onClick={() => {
                 if (product) onAddToCart(product);
