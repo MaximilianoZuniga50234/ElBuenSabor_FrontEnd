@@ -31,6 +31,7 @@ const ModalProductDetail = ({
   };
 
   const productObj = product as Product;
+  const isProduct = product.type === "product";
 
   return (
     <Modal
@@ -57,15 +58,17 @@ const ModalProductDetail = ({
               alt={product?.denomination}
               className="modalProductDetail__image"
             />
-            <h3 className="modalProductDetail__estimated__time">
-              {productObj?.estimatedTimeKitchen} min
-            </h3>
+            {isProduct && (
+              <h3 className="modalProductDetail__estimated__time">
+                {productObj?.estimatedTimeKitchen} min
+              </h3>
+            )}
           </div>
           <div className="modalProductDetail__info__container">
             <h3>
               <span>{product?.denomination}</span>
             </h3>
-            {productObj?.discountPercentaje === 0 ? (
+            {productObj?.discountPercentaje === 0 || !isProduct ? (
               <h4 className="modalProductDetail__price__without__discount">
                 Precio: ${product?.salePrice}
               </h4>
@@ -84,7 +87,7 @@ const ModalProductDetail = ({
                 </h4>
               </div>
             )}
-            {
+            {isProduct && (
               <div className="modalProductDetail__ingredients__list">
                 <p>Ingredientes:</p>
                 <ul>
@@ -98,7 +101,7 @@ const ModalProductDetail = ({
                   })}
                 </ul>
               </div>
-            }
+            )}
             <button
               onClick={() => {
                 if (product) onAddToCart(product);
