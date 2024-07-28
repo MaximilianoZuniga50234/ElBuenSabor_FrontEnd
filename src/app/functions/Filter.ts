@@ -25,7 +25,6 @@ const filterByCategory = (
     "7": "minutas",
   };
 
-  console.log(productsArray);
   return productsArray.filter((item: Product | Stock) => {
     if (productCategory === "8") {
       return item.type === "stock";

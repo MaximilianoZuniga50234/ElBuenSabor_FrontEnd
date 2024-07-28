@@ -174,7 +174,7 @@ const ProductABMModal = ({
       return;
     }
     if (
-      !product.discountPercentaje ||
+      product.discountPercentaje.toString() === "" ||
       product.discountPercentaje < 0 ||
       product.discountPercentaje > 100
     ) {
@@ -208,7 +208,6 @@ const ProductABMModal = ({
         return (currentPrice += detail.stock.salePrice * detail.amount);
       }, 0)
     );
-    console.log(ProductPrice);
   };
 
   useEffect(() => {

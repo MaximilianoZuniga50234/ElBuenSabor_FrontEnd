@@ -54,31 +54,6 @@ const Home = () => {
     //     (currentDate.getHours() >= 20 ||
     //       (currentDate.getHours() >= 11 && currentDate.getHours() < 15)))
     // ) {
-    if (product.type === "product") {
-      const productObj = product as Product;
-
-      // Si no hay cantidad suficiente de alguno de los ingredientes, no podemos preparar el producto
-      if (
-        productObj.details.some(
-          (detail) => detail.stock.currentStock - detail.amount < 0
-        )
-      ) {
-        toast.error(
-          `Lo sentimos, no hay suficiente stock para preparar el producto "${productObj.denomination}".`
-        );
-        return;
-      }
-    }
-
-    if (product.type === "stock") {
-      const productStock = product as Stock;
-
-      if (productStock.currentStock === 0)
-        toast.error(
-          `Lo sentimos, no hay suficiente stock ("${productStock.denomination}").`
-        );
-      return;
-    }
 
     toast.success("Producto agregado al carrito.");
     add(product);

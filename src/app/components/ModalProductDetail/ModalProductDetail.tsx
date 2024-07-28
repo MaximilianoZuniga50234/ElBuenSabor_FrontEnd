@@ -31,6 +31,13 @@ const ModalProductDetail = ({
   };
 
   const productObj = product as Product;
+  const stockObj = product as Stock;
+  const isProduct = product.type === "product";
+
+  const productWithoutStock = productObj.details?.some(
+    (detail) => detail.stock.currentStock - detail.amount < 0
+  );
+  const noStock = stockObj.currentStock - 1 < 0;
 
   return (
     <Modal
@@ -57,16 +64,17 @@ const ModalProductDetail = ({
               alt={product?.denomination}
               className="modalProductDetail__image"
             />
-            <h3 className="modalProductDetail__estimated__time">
-              {productObj?.estimatedTimeKitchen} min
-            </h3>
+            {isProduct && (
+              <h3 className="modalProductDetail__estimated__time">
+                {productObj?.estimatedTimeKitchen} min
+              </h3>
+            )}
           </div>
           <div className="modalProductDetail__info__container">
             <h3>
               <span>{product?.denomination}</span>
             </h3>
-            {productObj?.type === "product" &&
-            productObj?.discountPercentaje != 0 ? (
+            {isProduct && productObj?.discountPercentaje != 0 ? (
               <div className="modalProductDetail__price__with__discount">
                 <h4>
                   Precio: <s>${product?.salePrice}</s>
@@ -85,7 +93,7 @@ const ModalProductDetail = ({
                 Precio: ${product?.salePrice}
               </h4>
             )}
-            {productObj?.type === "product" && (
+            {isProduct && (
               <div className="modalProductDetail__ingredients__list">
                 <p>Ingredientes:</p>
                 <ul>
@@ -100,13 +108,15 @@ const ModalProductDetail = ({
                 </ul>
               </div>
             )}
-            <button
-              onClick={() => {
-                if (product) onAddToCart(product);
-              }}
-            >
-              <FaCartShopping />
-            </button>
+            {!(noStock || productWithoutStock) && (
+              <button
+                onClick={() => {
+                  if (product) onAddToCart(product);
+                }}
+              >
+                <FaCartShopping />
+              </button>
+            )}
           </div>
         </Box>
       </Fade>
