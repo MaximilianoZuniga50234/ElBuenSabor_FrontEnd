@@ -68,11 +68,8 @@ const ModalProductDetail = ({
             <h3>
               <span>{product?.denomination}</span>
             </h3>
-            {productObj?.discountPercentaje === 0 || !isProduct ? (
-              <h4 className="modalProductDetail__price__without__discount">
-                Precio: ${product?.salePrice}
-              </h4>
-            ) : (
+            {productObj?.type === "product" &&
+            productObj?.discountPercentaje != 0 ? (
               <div className="modalProductDetail__price__with__discount">
                 <h4>
                   Precio: <s>${product?.salePrice}</s>
@@ -86,8 +83,12 @@ const ModalProductDetail = ({
                     : 0}
                 </h4>
               </div>
+            ) : (
+              <h4 className="modalProductDetail__price__without__discount">
+                Precio: ${product?.salePrice}
+              </h4>
             )}
-            {isProduct && (
+            {productObj?.type === "product" && (
               <div className="modalProductDetail__ingredients__list">
                 <p>Ingredientes:</p>
                 <ul>
