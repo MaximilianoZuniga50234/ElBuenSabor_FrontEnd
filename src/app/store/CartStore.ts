@@ -50,8 +50,10 @@ export const useStore = create(
         set((state) => ({
           cartProducts: state.cartProducts.filter(
             (cartItem) =>
-              cartItem.product.id !== productId &&
-              cartItem.product.type === type
+              !(
+                cartItem.product.id === productId &&
+                cartItem.product.type === type
+              )
           ),
         })),
       clear: () => set({ cartProducts: [] }),
