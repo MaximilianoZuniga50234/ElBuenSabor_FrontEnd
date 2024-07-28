@@ -208,7 +208,6 @@ const ProductABMModal = ({
         return (currentPrice += detail.stock.salePrice * detail.amount);
       }, 0)
     );
-    console.log(ProductPrice);
   };
 
   useEffect(() => {
