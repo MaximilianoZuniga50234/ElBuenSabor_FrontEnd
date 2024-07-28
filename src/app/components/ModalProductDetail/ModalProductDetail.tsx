@@ -31,7 +31,13 @@ const ModalProductDetail = ({
   };
 
   const productObj = product as Product;
+  const stockObj = product as Stock;
   const isProduct = product.type === "product";
+
+  const productWithoutStock = productObj.details?.some(
+    (detail) => detail.stock.currentStock - detail.amount < 0
+  );
+  const noStock = stockObj.currentStock - 1 < 0;
 
   return (
     <Modal
@@ -102,13 +108,15 @@ const ModalProductDetail = ({
                 </ul>
               </div>
             )}
-            <button
-              onClick={() => {
-                if (product) onAddToCart(product);
-              }}
-            >
-              <FaCartShopping />
-            </button>
+            {!(noStock || productWithoutStock) && (
+              <button
+                onClick={() => {
+                  if (product) onAddToCart(product);
+                }}
+              >
+                <FaCartShopping />
+              </button>
+            )}
           </div>
         </Box>
       </Fade>

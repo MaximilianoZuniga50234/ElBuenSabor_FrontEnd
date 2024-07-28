@@ -174,7 +174,7 @@ const ProductABMModal = ({
       return;
     }
     if (
-      !product.discountPercentaje ||
+      product.discountPercentaje.toString() === "" ||
       product.discountPercentaje < 0 ||
       product.discountPercentaje > 100
     ) {

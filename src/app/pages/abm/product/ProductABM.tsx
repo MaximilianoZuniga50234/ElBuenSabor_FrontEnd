@@ -35,15 +35,17 @@ const INITIAL_STATE = {
   details: [] as ProductDetail[],
   discountPercentaje: 0,
   estimatedTimeKitchen: 0,
-  imgId: 0,
+  imgId: "",
   imgUrl: "",
   itemProduct: {} as ItemProduct,
   salePrice: 0,
+  type: "product",
 } as Product;
 
 const ProductABM = () => {
   // Estados generales del componente
   const [products, setProducts] = useState<Product[]>([]);
+  const [showedProducts, setShowedProducts] = useState<Product[]>(products);
   const [search, setSearch] = useState<string>("");
 
   // Estados para manejar el modal
@@ -59,14 +61,16 @@ const ProductABM = () => {
   const handleVisibleModal = () => setOpen(!open);
   const handleVisibleDeleteModal = () => setOpenDelete(!openDelete);
 
-  const getProducts = async (name?: string) => {
-    const data = await getAllProduct(name);
+  const getProducts = async () => {
+    const data = await getAllProduct();
     setProducts(data);
   };
 
   const handleSearch = (e: FormEvent, name: string) => {
     e.preventDefault();
-    getProducts(name);
+    if (name !== "")
+      setShowedProducts(products.filter((p) => p.denomination.includes(name)));
+    else setShowedProducts(products);
   };
 
   const updateProductsList = (updatedProduct: Product) => {
@@ -99,7 +103,10 @@ const ProductABM = () => {
     }
   };
 
-  const handleConfirmProduct = async (salePrice: number, image: string | null) => {
+  const handleConfirmProduct = async (
+    salePrice: number,
+    image: string | null
+  ) => {
     const productWithPrice = { ...product, salePrice: salePrice };
 
     const response = isNew
@@ -151,21 +158,21 @@ const ProductABM = () => {
                 Añadir nuevo producto
               </button>
             </div>
-            {products.length > 0 && (
+            {showedProducts.length > 0 && (
               <ProductTable
-                datos={products}
+                datos={showedProducts}
                 newHandler={setIsNew}
                 handler={handleVisibleModal}
                 handlerDelete={handleVisibleDeleteModal}
                 setProduct={setProduct}
               />
             )}
-            {products.length === 0 && search !== "" && (
+            {showedProducts.length === 0 && search !== "" && (
               <div className="no_products">
                 <h4>NO HAY PRODUCTOS CON ESA DENOMINACIÓN</h4>
               </div>
             )}
-            {products.length === 0 && search === "" && (
+            {showedProducts.length === 0 && search === "" && (
               <div className="no_products">
                 <h4>NO HAY PRODUCTOS</h4>
               </div>
