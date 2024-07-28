@@ -38,6 +38,9 @@ const STOCK_INITIAL_STATE = {
     abbreviation: "",
   },
   itemStock: { id: 0, name: "", active: true, father: undefined },
+  imgId: "",
+  imgUrl: "",
+  type: "stock",
 };
 
 export default function StockAbm() {
@@ -159,7 +162,7 @@ export default function StockAbm() {
                       ? stock.currentStock
                       : stock.currentStock.toPrecision(4)}
                   </h4>
-                  <h4 className="stockAbm__h4">{stock.measurementUnit.name}</h4>
+                  <h4 className="stockAbm__h4">{stock.measurementUnit?.name}</h4>
                   <h4 className="stockAbm__h4">
                     {stock.active === true ? "De alta" : "De baja"}
                   </h4>

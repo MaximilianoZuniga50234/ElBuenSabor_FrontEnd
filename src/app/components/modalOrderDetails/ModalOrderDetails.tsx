@@ -256,14 +256,14 @@ export default function ModalOrderDetails({
                     </h6>
                   </div>
                   <div className="modalOrderDetails__products__content">
-                    {purchaseOrder.details?.map((product) => (
+                    {purchaseOrder.details?.map((detail) => (
                       <div
                         className="modalOrderDetails__products__content__product"
-                        key={product?.product?.id}
+                        key={detail?.product?.id}
                       >
-                        <h6>{product.product?.denomination}</h6>
-                        <h6>{product.amount}</h6>
-                        <h6>${product.subtotal}</h6>
+                        <h6>{detail.product ? detail.product?.denomination : detail.stock?.denomination}</h6>
+                        <h6>{detail.amount}</h6>
+                        <h6>${detail.subtotal}</h6>
                       </div>
                     ))}
                   </div>
