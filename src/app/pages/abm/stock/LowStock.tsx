@@ -35,6 +35,9 @@ const STOCK_INITIAL_STATE = {
     abbreviation: "",
   },
   itemStock: { id: 0, name: "", active: true, father: undefined },
+  imgId: "",
+  imgUrl: "",
+  type: "stock",
 };
 
 export default function LowStock() {

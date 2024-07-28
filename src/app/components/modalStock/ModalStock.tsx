@@ -1,14 +1,21 @@
 import { toast } from "sonner";
 import "./modalStock.css";
 import { Box, Fade, Modal } from "@mui/material";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  ChangeEvent,
+} from "react";
 import { ItemStock } from "../../interfaces/ItemStock";
 import { MeasurementUnit } from "../../interfaces/MeasurementUnit";
 import { getAllItemStock } from "../../functions/ItemStockAPI";
 import { getAllMeasurementUnit } from "../../functions/MeasurementUnitAPI";
 import { Stock } from "../../interfaces/Stock";
-import { addStock, updateStock } from "../../functions/StockAPI";
+import { addStockWithImage, updateStockWithImage } from "../../functions/StockAPI";
 import { useStore } from "../../store/UserTokenStore";
+import { FaPenToSquare, FaPlus } from "react-icons/fa6";
 
 interface ModalStockProps {
   stock: Stock;
@@ -29,6 +36,13 @@ export default function ModalStock({
 }: ModalStockProps) {
   const { token } = useStore();
 
+  const NO_IMAGE_PRODUCT =
+    "https://res.cloudinary.com/dfdb0nwad/image/upload/v1712072796/image-2935360_1920_ig8cze_fqw8ji.png";
+
+  const [inputKey, setInputKey] = useState<number>(0);
+  const [image, setImage] = useState<string | null>(null);
+  const [isConfirmButtonPressed, setIsConfirmButtonPressed] =
+  useState<boolean>(false);
   const [itemStocks, setItemStocks] = useState<ItemStock[]>([]);
   const [measurementUnits, setMeasurementUnits] = useState<MeasurementUnit[]>(
     []
@@ -106,6 +120,9 @@ export default function ModalStock({
             : true,
       });
     }
+    if (itemStock?.name != "Bebida" && itemStock?.name != "Alcohol") {
+      setImage(null);
+    }
   };
 
   const handleChangeMinimumStock = (
@@ -148,14 +165,34 @@ export default function ModalStock({
     }
   };
 
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        setInputKey((prevKey) => prevKey + 1);
+        toast.error("Por favor selecciona una imagen.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setImage(event.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleConfirm = async () => {
     if (stockToPost?.denomination === "") {
       toast.error("El nombre no puede estar vacío.");
     } else {
+      setIsConfirmButtonPressed(true);
       if (!isNew) {
         if (stockToPost) {
           try {
-            await updateStock(stockToPost, token);
+            await updateStockWithImage(stockToPost, image, token);
             toast.success("Ingediente actualizado correctamente.");
           } catch (error) {
             toast.error("Error al actualizar el ingrediente.");
@@ -164,7 +201,7 @@ export default function ModalStock({
       } else {
         if (stockToPost) {
           try {
-            await addStock(stockToPost, token);
+            await addStockWithImage(stockToPost, image, token);
             toast.success("Ingediente creado correctamente.");
           } catch (error) {
             toast.error("Error al actualizar el ingrediente.");
@@ -172,6 +209,8 @@ export default function ModalStock({
         }
       }
       setStockToPost(null);
+      setIsConfirmButtonPressed(false);
+      setImage(null);
       setStockAdded && setStockAdded(true);
       setStocksUpdated && setStocksUpdated(true);
       handleClose();
@@ -200,7 +239,7 @@ export default function ModalStock({
                   : "Modificar Ingrediente"}
               </h3>
 
-              <div className="modalStock__name">
+              <div className="modalStock__item">
                 <label htmlFor="modalStock__input">
                   Nombre del ingrediente
                 </label>
@@ -213,7 +252,7 @@ export default function ModalStock({
                 />
               </div>
 
-              <div className="modalStock__itemStock">
+              <div className="modalStock__item">
                 <label htmlFor="modalStock__select">Seleccionar rubro</label>
                 <select
                   className="modalStock__select"
@@ -228,7 +267,7 @@ export default function ModalStock({
                 </select>
               </div>
 
-              <div className="modalStock__minimumStock">
+              <div className="modalStock__item">
                 <label htmlFor="modalStock__input">Stock mínimo</label>
                 <input
                   type="number"
@@ -239,7 +278,7 @@ export default function ModalStock({
                 />
               </div>
 
-              <div className="modalStock__currentStock">
+              <div className="modalStock__item">
                 <label htmlFor="modalStock__input">Stock actual</label>
                 <input
                   type="number"
@@ -250,7 +289,7 @@ export default function ModalStock({
                 />
               </div>
 
-              <div className="modalStock__measurementUnit">
+              <div className="modalStock__item">
                 <label htmlFor="modalStock__select">
                   Seleccionar unidad de medida
                 </label>
@@ -270,7 +309,7 @@ export default function ModalStock({
                 </select>
               </div>
 
-              <div className="modalStock__state">
+              <div className="modalStock__item">
                 <label htmlFor="modalStock__select">Seleccionar estado</label>
                 <select
                   className="modalStock__select"
@@ -284,6 +323,41 @@ export default function ModalStock({
                 </select>
               </div>
 
+              {!stockToPost.isStock && (
+                <div className="modalStock__content">
+                  <div className="modalStock__item modalStock__item--image">
+                    <label htmlFor="input_imagen">Seleccionar imagen</label>
+                    <input
+                      type="file"
+                      id="input_imagen"
+                      style={{ display: "none" }}
+                      accept="image/*"
+                      key={inputKey}
+                      onChange={handleFileChange}
+                    />
+                    <label
+                      htmlFor="input_imagen"
+                      className="modalStock__image__label"
+                    >
+                      {stock.imgUrl === "" && image === null ? (
+                        <FaPlus />
+                      ) : (
+                        <FaPenToSquare />
+                      )}
+                    </label>
+                    <img
+                      src={
+                        image
+                          ? image
+                          : stock.imgUrl && stock.imgUrl !== ""
+                          ? stock.imgUrl
+                          : NO_IMAGE_PRODUCT
+                      }
+                    />
+                  </div>
+                </div>
+              )}
+
               <div className="modalStock__buttons">
                 <button
                   className="modalStock__button"
@@ -291,8 +365,8 @@ export default function ModalStock({
                 >
                   Cancelar
                 </button>
-                <button className="modalStock__button" onClick={handleConfirm}>
-                  Confirmar
+                <button className="modalStock__button" onClick={handleConfirm} disabled={isConfirmButtonPressed}>
+                {isConfirmButtonPressed ? "Cargando..." : "Confirmar"}
                 </button>
               </div>
             </Box>

@@ -30,6 +30,9 @@ const STOCK_INITIAL_STATE = {
     abbreviation: "",
   },
   itemStock: { id: 0, name: "", active: true, father: undefined },
+  imgId: "",
+  imgUrl: "",
+  type: "stock",
 };
 
 export default function ModalStockPurchase({
@@ -44,10 +47,12 @@ export default function ModalStockPurchase({
   const [stockAdded, setStockAdded] = useState(false);
   const [stockPurchased, setStockPurchased] = useState<Stock>(stock);
   const [stockModified, setStockModified] = useState({
-    price: 0,
+    purchasePrice: 0,
+    salePrice: 0,
     quantityPurchased: 0,
   });
   const [priceInput, setPriceInput] = useState<string>("");
+  const [salePriceInput, setSalePriceInput] = useState<string>("");
 
   const [openModalStock, setOpenModalStock] = useState(false);
   const handleOpenModalStock = () => setOpenModalStock(true);
@@ -86,16 +91,19 @@ export default function ModalStockPurchase({
     if (stockPurchased) {
       setStockModified({
         ...stockModified,
-        price: stockPurchased.purchasePrice,
+        purchasePrice: stockPurchased.purchasePrice,
+        salePrice: stockPurchased.salePrice,
       });
       setPriceInput(stockPurchased.purchasePrice.toString());
+      setSalePriceInput(stockPurchased.salePrice.toString());
     }
   }, [stockPurchased]);
 
   const handleCloseModal = () => {
     handleClose();
     setStockModified({
-      price: stockPurchased.purchasePrice,
+      purchasePrice: stockPurchased.purchasePrice,
+      salePrice: stockPurchased.salePrice,
       quantityPurchased: 0,
     });
     setStockPurchased(stock);
@@ -107,18 +115,37 @@ export default function ModalStockPurchase({
     );
     if (stockFind) {
       setStockPurchased(stockFind);
-      setStockModified({ ...stockModified, price: stockFind.purchasePrice });
+      setStockModified({
+        ...stockModified,
+        purchasePrice: stockFind.purchasePrice,
+        salePrice: stockFind.salePrice,
+      });
     }
   };
 
-  const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePurchasePrice = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = event.target.value;
     setPriceInput(value);
     const numericValue = parseFloat(value);
     if (!isNaN(numericValue)) {
-      setStockModified({ ...stockModified, price: numericValue });
+      setStockModified({ ...stockModified, purchasePrice: numericValue });
     } else {
-      setStockModified({ ...stockModified, price: 0 });
+      setStockModified({ ...stockModified, purchasePrice: 0 });
+    }
+  };
+
+  const handleChangeSalePrice = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value;
+    setSalePriceInput(value);
+    const numericValue = parseFloat(value);
+    if (!isNaN(numericValue)) {
+      setStockModified({ ...stockModified, salePrice: numericValue });
+    } else {
+      setStockModified({ ...stockModified, salePrice: 0 });
     }
   };
 
@@ -132,8 +159,10 @@ export default function ModalStockPurchase({
   };
 
   const handleConfirm = async () => {
-    if (stockModified.price === 0) {
-      toast.error("Debe agregar un precio.");
+    if (stockModified.purchasePrice === 0) {
+      toast.error("Debe agregar un precio de compra.");
+    } else if (stockModified.salePrice <= stockModified.purchasePrice) {
+      toast.error("El precio de venta debe ser mayor que el de compra.");
     } else if (stockModified.quantityPurchased === 0) {
       toast.error("Debe agregar una cantidad.");
     } else {
@@ -141,7 +170,8 @@ export default function ModalStockPurchase({
         await updateStock(
           {
             ...stockPurchased,
-            purchasePrice: stockModified.price,
+            purchasePrice: stockModified.purchasePrice,
+            salePrice: stockModified.salePrice,
             currentStock:
               stockPurchased.currentStock + stockModified.quantityPurchased,
           },
@@ -209,7 +239,18 @@ export default function ModalStockPurchase({
                 className="modalStockPurchase__input"
                 value={priceInput}
                 min={0}
-                onChange={handleChangePrice}
+                onChange={handleChangePurchasePrice}
+              />
+            </div>
+
+            <div className="modalStockPurchase__price">
+              <label htmlFor="modalStockPurchase__input">Precio de venta</label>
+              <input
+                type="number"
+                className="modalStockPurchase__input"
+                value={salePriceInput}
+                min={0}
+                onChange={handleChangeSalePrice}
               />
             </div>
 
