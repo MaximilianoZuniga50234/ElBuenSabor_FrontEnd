@@ -1,5 +1,6 @@
 import "./productsRankingTable.css";
 import { Product } from "../../../interfaces/Product";
+import { Stock } from "../../../interfaces/Stock";
 import { useEffect, useState } from "react";
 import {
   HiOutlineChevronDoubleLeft,
@@ -10,14 +11,9 @@ import {
 import { IoArrowRedoSharp } from "react-icons/io5";
 import * as XLSX from "xlsx";
 
-export interface Drinks {
-  id: number;
-  denomination: string;
-  quantitySold: number;
-}
 
 interface RankingTableProps {
-  products: Product[] | Drinks[];
+  products: Product[] | Stock[];
   showProducts: boolean;
   datesToFilter: { startDate: Date; endDate: Date };
 }
@@ -57,12 +53,12 @@ export default function RankingTable({
             isNaN(datesToFilter.endDate.getTime()))
             ? `${
                 showProducts ? "Productos vendidos" : "Bebidas vendidas"
-              } hasta el día de la fecha.`
+              } hasta el día ${new Date().toLocaleDateString()}.`
             : `${showProducts ? "Productos vendidos" : "Bebidas vendidas"} ${
                 datesToFilter.startDate.getDay() !=
                 datesToFilter.endDate.getDay()
-                  ? `entre el ${datesToFilter.startDate.toLocaleDateString()} y el ${datesToFilter.endDate.toLocaleDateString()}. `
-                  : `el ${datesToFilter.startDate.toLocaleDateString()}`
+                  ? `entre el día ${datesToFilter.startDate.toLocaleDateString()} y el día${datesToFilter.endDate.toLocaleDateString()}. `
+                  : `el día ${datesToFilter.startDate.toLocaleDateString()}`
               }`,
       },
       {},
@@ -77,7 +73,7 @@ export default function RankingTable({
       },
     ];
 
-    products.forEach((p: Product | Drinks) => {
+    products.forEach((p: Product | Stock) => {
       tabla.push({
         A: p.id.toString(),
         B: p.denomination,

@@ -6,11 +6,12 @@ import { getAllPurchaseOrder } from "../../../functions/PurchaseOrderAPI";
 import { PurchaseOrderDetail } from "../../../interfaces/PurchaseOrderDetail";
 import { useStore } from "../../../store/CurrentUserStore";
 import "./productsRanking.css";
-import { Drinks } from "../../../components/ranking/products/ProductsRankingTable";
 import { FaSearch } from "react-icons/fa";
 import { toast } from "sonner";
 import Loader from "../../../components/loader/Loader";
 import NoPermissions from "../../../components/noPermissions/NoPermissions";
+import { Stock } from "../../../interfaces/Stock";
+import { getNotIngredients } from "../../../functions/StockAPI";
 
 const ProductsRankingTable = lazy(
   () => import("../../../components/ranking/products/ProductsRankingTable")
@@ -18,10 +19,11 @@ const ProductsRankingTable = lazy(
 
 export default function ProductsRanking() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [drinks, setDrinks] = useState<Stock[]>([]);
   const [showProducts, setShowProducts] = useState(true);
-  const [filteredProducts, setFilteredProducts] = useState<
-    Product[] | Drinks[]
-  >([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[] | Stock[]>(
+    []
+  );
   const [filteredOrders, setFilteredOrders] = useState<PurchaseOrder[]>();
   const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>();
   const [datesToFilter, setDatesToFilter] = useState({
@@ -41,16 +43,8 @@ export default function ProductsRanking() {
 
   const getDrinks = async () => {
     try {
-      const response = await fetch(
-        "https://65fb2f8a14650eb210099509.mockapi.io/drinks"
-      ).then((r) => r.json());
-      setFilteredProducts(
-        response.sort((a: Drinks, b: Drinks) => {
-          return a.quantitySold && b.quantitySold
-            ? b.quantitySold - a.quantitySold
-            : 1;
-        })
-      );
+      const response = await getNotIngredients();
+      response && setDrinks(response);
     } catch (err) {
       console.error(err);
     }
@@ -67,6 +61,7 @@ export default function ProductsRanking() {
 
   useEffect(() => {
     getProducts();
+    getDrinks();
     getPurchaseOrders();
   }, []);
 
@@ -79,10 +74,20 @@ export default function ProductsRanking() {
   useEffect(() => {
     if (user && filteredOrders) {
       setIsLoading(false);
-      if (products.length > 1 && filteredOrders?.length > 0) {
+      if (
+        products.length > 1 &&
+        filteredOrders?.length > 0 &&
+        drinks.length > 1
+      ) {
         products.forEach((p) => {
           if (p.quantitySold) {
             p.quantitySold = 0;
+          }
+        });
+
+        drinks.forEach((d) => {
+          if (d.quantitySold) {
+            d.quantitySold = 0;
           }
         });
 
@@ -90,6 +95,10 @@ export default function ProductsRanking() {
           order.details?.forEach((detail: PurchaseOrderDetail) => {
             const productIndex = products?.findIndex(
               (product: Product) => product.id === detail.product?.id
+            );
+
+            const stockIndex = drinks?.findIndex(
+              (drink: Stock) => drink.id === detail.stock?.id
             );
 
             if (productIndex !== -1) {
@@ -101,11 +110,21 @@ export default function ProductsRanking() {
                   : detail.amount,
               };
             }
+
+            if (stockIndex !== -1) {
+              const quantity = drinks[stockIndex].quantitySold ?? 0;
+              drinks[stockIndex] = {
+                ...drinks[stockIndex],
+                quantitySold: quantity
+                  ? quantity + detail.amount
+                  : detail.amount,
+              };
+            }
           });
         });
       }
     }
-  }, [products, user, filteredOrders]);
+  }, [products, user, filteredOrders, drinks]);
 
   useEffect(() => {
     if (filteredOrders?.length != 0) {
@@ -120,12 +139,20 @@ export default function ProductsRanking() {
             })
         );
       } else {
-        getDrinks();
+        setFilteredProducts(
+          drinks
+            .filter((drink: Stock) => drink.quantitySold)
+            .sort((a, b) => {
+              return a.quantitySold && b.quantitySold
+                ? b.quantitySold - a.quantitySold
+                : 1;
+            })
+        );
       }
     } else {
       setFilteredProducts([]);
     }
-  }, [showProducts, products, filteredOrders]);
+  }, [showProducts, products, filteredOrders, drinks]);
 
   const handleClick = () => {
     if (

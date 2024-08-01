@@ -14,5 +14,6 @@ export interface Stock extends Base {
   itemStock: ItemStock | undefined;
   imgUrl: string;
   imgId: string;
+  quantitySold?: number;
   type: string;
 }
