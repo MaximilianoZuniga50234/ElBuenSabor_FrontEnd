@@ -86,21 +86,28 @@ export default function UserOrders() {
   };
 
   useEffect(() => {
+    filterOrders && setisLoaded(true);
+  }, [filterOrders]);
+
+  useEffect(() => {
     getOrders();
     getInvoices();
   }, []);
 
   useEffect(() => {
-    if (user && orders && orders.length > 0) {
-      setFilterOrders(
-        orders.filter(
-          (order: PurchaseOrder) =>
-            order.person?.user_id === user?.user_id &&
-            order.status?.status != "Entregado" &&
-            order.active
-        )
-      );
-      setisLoaded(true);
+    if (user) {
+      if (orders && orders.length > 0) {
+        setFilterOrders(
+          orders.filter(
+            (order: PurchaseOrder) =>
+              order.person?.user_id === user?.user_id &&
+              order.status?.status != "Entregado" &&
+              order.active
+          )
+        );
+      } else {
+        setFilterOrders([]);
+      }
     }
   }, [user, orders]);
 
@@ -110,7 +117,10 @@ export default function UserOrders() {
         <div className="userOrders__table">
           <div className="userOrders__header">
             <h1 className="userOrders__header__title">
-              {isLoaded && (filterOrders ? "Mis órdenes" : "No hay órdenes")}
+              {isLoaded &&
+                (filterOrders && filterOrders.length > 0
+                  ? "Mis órdenes"
+                  : "No hay órdenes")}
             </h1>
           </div>
 
@@ -133,9 +143,7 @@ export default function UserOrders() {
           <div className="userOrders__content">
             {filterOrders?.map((order: PurchaseOrder) => (
               <div className="userOrders__card" key={order.id}>
-                <span className="userOrders__span">
-                  Orden N° {order.id}
-                </span>
+                <span className="userOrders__span">Orden N° {order.id}</span>
                 <span className="userOrders__span">${order.total}</span>
                 <span className="userOrders__span">
                   <FaClock /> {order.estimatedEndTime} m.

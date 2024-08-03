@@ -98,15 +98,22 @@ export default function OrdersHistory() {
   }, []);
 
   useEffect(() => {
-    if (user && orders && orders.length > 0) {
-      setFilterOrders(
-        orders.filter(
-          (order: PurchaseOrder) =>
-            order.person?.user_id === user?.user_id &&
-            order.status?.status === "Entregado"
-        )
-      );
-      setisLoaded(true);
+    filterOrders && setisLoaded(true);
+  }, [filterOrders]);
+
+  useEffect(() => {
+    if (user) {
+      if (orders && orders.length > 0) {
+        setFilterOrders(
+          orders.filter(
+            (order: PurchaseOrder) =>
+              order.person?.user_id === user?.user_id &&
+              order.status?.status === "Entregado"
+          )
+        );
+      } else {
+        setFilterOrders([]);
+      }
     }
   }, [user, orders]);
 
@@ -117,7 +124,10 @@ export default function OrdersHistory() {
           <div className="ordersHistory__header">
             <div className="ordersHistory__title">
               <h3 className="ordersHistory__h3">
-                {isLoaded && (filterOrders && filterOrders?.length > 0 ? "Historial de órdenes" : "No hay órdenes")}
+                {isLoaded &&
+                  (filterOrders?.length && filterOrders?.length > 0
+                    ? "Historial de órdenes"
+                    : "No hay órdenes")}
               </h3>
             </div>
           </div>
