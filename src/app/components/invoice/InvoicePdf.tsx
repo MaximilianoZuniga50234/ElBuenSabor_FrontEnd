@@ -109,10 +109,10 @@ export default function InvoicePdf({ invoice }: Props) {
           {invoice.purchaseOrder.details?.map((detail) => (
             <View key={Math.random()} style={styles.tableContent}>
               <Text style={{ flex: 2, fontSize: "15px" }}>
-                {detail.product?.denomination}
+                {detail.product?.denomination ?? detail.stock?.denomination }
               </Text>
               <Text style={{ flex: 1, fontSize: "15px" }}>
-                ${detail.product?.salePrice}
+                ${detail.product?.salePrice ?? detail.stock?.salePrice}
               </Text>
               <Text style={{ flex: 1, fontSize: "15px" }}>{detail.amount}</Text>
               <Text style={{ flex: 1, fontSize: "15px" }}>

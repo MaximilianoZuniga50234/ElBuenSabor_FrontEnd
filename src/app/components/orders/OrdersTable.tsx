@@ -102,7 +102,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
   const [open, setOpen] = useState(false);
   const [openModalOrderDetails, setOpenModalOrderDetails] = useState(false);
   useState(false);
-  // const [isOnlyDrinks, setIsOnlyDrinks] = useState(true);
+  const [isOnlyDrinks, setIsOnlyDrinks] = useState(false);
 
   const [allStatus, setAllStatus] = useState<Status[]>();
   const [orderStatus, setOrderStatus] = useState<string>("A confirmar");
@@ -335,16 +335,12 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     setNewOrderTime(Number(event.target.value));
   };
 
-  // Ver si es un pedido de solo bebidas
-  // useEffect(() => {
-  // purchaseOrder.details?.forEach((detail) => {
-
-  //   if (detail.product != null) {
-  //     setIsOnlyDrinks(false)
-  //   }
-
-  // })
-  // }, [purchaseOrder])
+  useEffect(() => {
+    const haveProduct = purchaseOrder.details?.some((detail) => detail.product);
+    if (haveProduct != undefined && haveProduct != null) {
+      setIsOnlyDrinks(!haveProduct);
+    }
+  }, [purchaseOrder]);
 
   return (
     <>
@@ -450,6 +446,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                 <option
                   value="A confirmar"
                   disabled={
+                    user?.role === "Cajero" &&
                     purchaseOrder.status?.status === "Facturado" &&
                     orderStatus === "A confirmar"
                       ? false
@@ -461,9 +458,13 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                 <option
                   value="Facturado"
                   disabled={
-                    orderStatus === "A confirmar" ||
-                    (purchaseOrder.status?.status === "A cocina" &&
-                      orderStatus === "Facturado")
+                    user?.role === "Cajero" &&
+                    (orderStatus === "A confirmar" ||
+                      (purchaseOrder.status?.status === "A cocina" &&
+                        orderStatus === "Facturado") ||
+                      (isOnlyDrinks &&
+                        purchaseOrder.status?.status === "Listo" &&
+                        orderStatus === "Facturado"))
                       ? false
                       : true
                   }
@@ -473,7 +474,9 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                 <option
                   value="A cocina"
                   disabled={
-                    orderStatus === "Facturado" ||
+                    (user?.role === "Cajero" &&
+                      !isOnlyDrinks &&
+                      orderStatus === "Facturado") ||
                     (purchaseOrder.status?.status === "Listo" &&
                       orderStatus === "A cocina")
                       ? false
@@ -485,14 +488,17 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                 <option
                   value="Listo"
                   disabled={
-                    (orderStatus === "A cocina" && user?.role === "Cocinero") ||
-                    ((purchaseOrder.status?.status === "En delivery" ||
-                      purchaseOrder.status?.status === "Entregado") &&
-                      orderStatus === "Listo")
+                    (!isOnlyDrinks &&
+                      orderStatus === "A cocina" &&
+                      user?.role === "Cocinero") ||
+                    (user?.role === "Cajero" &&
+                      ((isOnlyDrinks && orderStatus === "Facturado") ||
+                        ((purchaseOrder.status?.status === "En delivery" ||
+                          purchaseOrder.status?.status === "Entregado") &&
+                          orderStatus === "Listo")))
                       ? false
                       : true
                   }
-                  // disabled={isOnlyDrinks ? false : true}
                 >
                   Listo
                 </option>
@@ -501,7 +507,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                   value="En delivery"
                   disabled={
                     purchaseOrder.shippingType === "Envío a domicilio" &&
-                    (orderStatus === "Listo" ||
+                    ((user?.role === "Cajero" && orderStatus === "Listo") ||
                       (purchaseOrder.status?.status === "Entregado" &&
                         orderStatus === "En delivery"))
                       ? false
@@ -515,7 +521,8 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                   disabled={
                     (orderStatus === "En delivery" &&
                       user?.role === "Delivery") ||
-                    (orderStatus === "Listo" &&
+                    (user?.role === "Cajero" &&
+                      orderStatus === "Listo" &&
                       purchaseOrder.shippingType === "Retiro en el local")
                       ? false
                       : true
