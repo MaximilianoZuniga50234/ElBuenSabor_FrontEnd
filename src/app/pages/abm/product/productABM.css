@@ -106,7 +106,7 @@
 
 .main_products_list .no_products {
   width: 90%;
-  background: var(--light-lavender-gray);
+  background: var(--ebony-50);
   border: 1px solid;
   border-radius: 0 0 12px 12px;
   display: flex;
@@ -138,7 +138,7 @@
 }
 
 .product_abm_modal_container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.0);
+  background: rgba(0, 0, 0, 0);
 }
 
 .product_abm_modal_container::-webkit-scrollbar-thumb {

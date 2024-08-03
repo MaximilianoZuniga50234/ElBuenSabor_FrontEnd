@@ -64,6 +64,7 @@ const ProductABM = () => {
   const getProducts = async () => {
     const data = await getAllProduct();
     setProducts(data);
+    setShowedProducts(data);
   };
 
   const handleSearch = (e: FormEvent, name: string) => {
@@ -125,6 +126,10 @@ const ProductABM = () => {
       });
     }
   };
+
+  useEffect(() => {
+    setShowedProducts(products)
+  }, [products]);
 
   useEffect(() => {
     getProducts();
