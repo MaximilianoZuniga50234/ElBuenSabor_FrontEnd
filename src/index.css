@@ -109,9 +109,11 @@ input[type="number"] {
 @media only screen and (min-width: 1024px) {
   .whole_app_header {
     margin-bottom: 80px;
+    max-width: 1920px;
   }
 
   .whole_app_container .main_content {
     min-height: calc(100vh - 80px);
+    max-width: 1920px;
   }
 }
