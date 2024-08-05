@@ -68,13 +68,13 @@ export default function MonetaryMovementsTable({
       <div className="monetaryMovements__table__container">
         <div className="monetaryMovements__table__header">
           <h5>
-            <b>Ingresos</b>
+            <b>INGRESOS</b>
           </h5>
           <h5>
-            <b>Costos</b>
+            <b>COSTOS</b>
           </h5>
           <h5>
-            <b>Ganancias</b>
+            <b>GANANCIAS</b>
           </h5>
         </div>
 

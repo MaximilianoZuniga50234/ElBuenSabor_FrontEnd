@@ -1,6 +1,6 @@
 import { FormEvent, Suspense, lazy, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaMagnifyingGlass } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaPlus } from "react-icons/fa6";
 import { toast } from "sonner";
 import Loader from "../../../components/loader/Loader";
 import { Product, ProductDetail } from "../../../interfaces/Product";
@@ -160,7 +160,8 @@ const ProductABM = () => {
                   setProduct(INITIAL_STATE);
                 }}
               >
-                Añadir nuevo producto
+                <FaPlus />
+                AÑADIR
               </button>
             </div>
             {showedProducts.length > 0 && (

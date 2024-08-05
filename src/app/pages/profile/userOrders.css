@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     padding: 30px;
-    max-width: 1440px;
+    max-width: 1920px;
     margin: auto;
 }
 
@@ -108,7 +108,7 @@
         grid-template-columns: 2fr 1fr 2fr 2fr;
         align-items: center;
         text-align: center;
-        border-bottom: 1px solid var(--ebony-950);
+        border-bottom: 1px solid var(--ebony-900);
         font-size: larger;
     }
 
@@ -121,7 +121,7 @@
         gap: 0;
         border: none;
         border-radius: 0;
-        border-bottom: 1px solid var(--ebony-950);
+        border-bottom: 1px solid var(--ebony-900);
     }
 
     .userOrders__span {

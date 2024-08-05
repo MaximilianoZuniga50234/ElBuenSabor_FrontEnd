@@ -108,20 +108,18 @@ export default function LowStock() {
               <>
                 <div className="lowStockPage__table">
                   <div className="lowStockPage__header">
-                    <div className="lowStockPage__title">
-                      <h1 className="lowStockPage__h1">
+                      <h2 className="lowStockPage__title">
                         Ingredientes con bajo stock
-                      </h1>
-                    </div>
+                      </h2>
                   </div>
 
                   <div className="lowStockPage__labels">
-                    <h3 className="lowStockPage__h3">Nombre del ingrediente</h3>
-                    <h3 className="lowStockPage__h3">Unidad de medida</h3>
-                    <h3 className="lowStockPage__h3">Stock mínimo</h3>
-                    <h3 className="lowStockPage__h3">Stock actual</h3>
-                    <h3 className="lowStockPage__h3">Diferencia de stock</h3>
-                    <h3 className="lowStockPage__h3">Registrar compra</h3>
+                    <h4>NOMBRE</h4>
+                    <h4>UNIDAD DE MEDIDA</h4>
+                    <h4>STOCK MÍNIMO</h4>
+                    <h4>STOCK ACTUAL</h4>
+                    <h4>DIFERENCIA DE STOCK</h4>
+                    <h4>REGISTRAR COMPRA</h4>
                   </div>
 
                   <div className="lowStockPage__rows__container">

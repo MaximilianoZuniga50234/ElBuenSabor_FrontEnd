@@ -116,13 +116,13 @@ export default function CustomersRankingTable({
       <div className="customersRanking__table__container">
         <div className="customersRanking__table__header">
           <h5 className="customersRanking__table__header__text">
-            <b>Cliente</b>
+            <b>CLIENTE</b>
           </h5>
           <h5 className="customersRanking__table__header__text">
-            <b>Pedidos</b>
+            <b>PEDIDOS</b>
           </h5>
           <h5 className="customersRanking__table__header__text">
-            <b>Monto total</b>
+            <b>MONTO TOTAL</b>
           </h5>
         </div>
 

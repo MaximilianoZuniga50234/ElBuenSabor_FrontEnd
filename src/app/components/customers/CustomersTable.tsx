@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaGear } from "react-icons/fa6";
+import { FaPencilAlt } from "react-icons/fa";
 import {
   HiOutlineChevronDoubleLeft,
   HiOutlineChevronDoubleRight,
@@ -77,7 +77,7 @@ const Table = ({ datos }: Props) => {
             <td>CORREO ELECTRÓNICO</td>
             <td>TELÉFONO</td>
             <td>ESTADO</td>
-            <td></td>
+            <td>MODIFICAR</td>
           </tr>
         </thead>
         <tbody>
@@ -89,7 +89,7 @@ const Table = ({ datos }: Props) => {
               <td>{`${e.user_metadata?.state}`}</td>
               <td className="celda_acciones">
                 <button onClick={() => handleModify(e)}>
-                  <FaGear />
+                  <FaPencilAlt />
                 </button>
               </td>
             </tr>

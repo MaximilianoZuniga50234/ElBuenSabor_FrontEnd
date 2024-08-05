@@ -11,6 +11,7 @@ import {
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from "react-icons/hi";
+import { FaCashRegister, FaPlus } from "react-icons/fa6";
 
 const NoPermissions = lazy(
   () => import("../../../components/noPermissions/NoPermissions")
@@ -118,36 +119,36 @@ export default function StockAbm() {
         <div className="stockAbm__container">
           <div className="stockAbm__table">
             <div className="stockAbm__header">
-              <div className="stockAbm__title">
-                <h1 className="stockAbm__h1">Ingredientes</h1>
-              </div>
+              <h2 className="stockAbm__title">Ingredientes</h2>
 
               <div className="stockAbm__buttons__container">
                 <button
                   className="stockAbm__button stockAbm__button--header"
                   onClick={handleRegisterPurchase}
                 >
-                  Registrar compra
+                  <FaCashRegister />
+                  REGISTRAR COMPRA
                 </button>
 
                 <button
                   className="stockAbm__button stockAbm__button--header"
                   onClick={handleAdd}
                 >
-                  Añadir nuevo ingrediente
+                  <FaPlus />
+                  AÑADIR
                 </button>
               </div>
             </div>
 
             <div className="stockAbm__labels">
-              <h3 className="stockAbm__h3">Nombre</h3>
-              <h3 className="stockAbm__h3">Rubro</h3>
-              <h3 className="stockAbm__h3">Costo</h3>
-              <h3 className="stockAbm__h3">Stock mínimo</h3>
-              <h3 className="stockAbm__h3">Stock actual</h3>
-              <h3 className="stockAbm__h3">Unidad de medida</h3>
-              <h3 className="stockAbm__h3">Estado</h3>
-              <h3 className="stockAbm__h3">Modificar</h3>
+              <h4>NOMBRE</h4>
+              <h4>RUBRO</h4>
+              <h4>COSTO</h4>
+              <h4>STOCK MÍNIMO</h4>
+              <h4>STOCK ACTUAL</h4>
+              <h4>UNIDAD DE MEDIDA</h4>
+              <h4>ESTADO</h4>
+              <h4>MODIFICAR</h4>
             </div>
 
             <div className="stockAbm__rows__container">
@@ -162,7 +163,9 @@ export default function StockAbm() {
                       ? stock.currentStock
                       : stock.currentStock.toPrecision(4)}
                   </h4>
-                  <h4 className="stockAbm__h4">{stock.measurementUnit?.name}</h4>
+                  <h4 className="stockAbm__h4">
+                    {stock.measurementUnit?.name}
+                  </h4>
                   <h4 className="stockAbm__h4">
                     {stock.active === true ? "De alta" : "De baja"}
                   </h4>

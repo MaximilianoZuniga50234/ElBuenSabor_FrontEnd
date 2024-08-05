@@ -1,7 +1,7 @@
 .allProducts__container {
   display: flex;
   flex-direction: column;
-  max-width: 1440px;
+  max-width: 1920px;
   min-height: calc(100vh - 48px);
   margin: 0 auto;
   position: relative;
@@ -315,7 +315,7 @@
 
 .allproducts_order_desktop div {
   width: 100%;
-  border-bottom: 1px solid var(--ebony-950);
+  border-bottom: 1px solid var(--ebony-900);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -349,7 +349,7 @@
   flex-direction: column;
   overflow: hidden;
   transition: height 0.2s ease-in;
-  border-bottom: 1px solid var(--ebony-950);
+  border-bottom: 1px solid var(--ebony-900);
 }
 
 .allproducts_order_desktop ul.active {
@@ -390,7 +390,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 4px;
-  border-bottom: 1px solid var(--ebony-950);
+  border-bottom: 1px solid var(--ebony-900);
 }
 
 .allProducts__bar__categories h6 svg {
@@ -411,7 +411,7 @@
   flex-direction: column;
   overflow: hidden;
   transition: height 0.2s ease-in;
-  border-bottom: 1px solid var(--ebony-950);
+  border-bottom: 1px solid var(--ebony-900);
 }
 
 .allProducts__bar__categories ul li {
@@ -444,7 +444,7 @@
   width: 100%;
   font-size: 15px;
   font-weight: 400;
-  border-bottom: 1px solid var(--ebony-950);
+  border-bottom: 1px solid var(--ebony-900);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -465,7 +465,7 @@
   height: 0;
   width: 100%;
   overflow: hidden;
-  border-bottom: 1px solid var(--ebony-950);
+  border-bottom: 1px solid var(--ebony-900);
   transition: height 0.2s ease;
   display: grid;
   grid-template-columns: 1fr 1fr;

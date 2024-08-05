@@ -1,6 +1,6 @@
-.header1__header {
+.header__header {
     width: 100%;
-    max-width: 1440px;
+    max-width: 1920px;
     display: flex;
     background-color: var(--ebony-950);
     height: 300px;
@@ -9,20 +9,20 @@
     margin: 0 auto;
 }
 
-.header1__container {
+.header__container {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     background-color: var(--ebony-950);
-    background-image: url("/images/header1.png");
+    background-image: url("/images/header.png");
     background-position: right;
     background-repeat: no-repeat;
     background-size: 70%;
 
 }
 
-.header1__content__container {
+.header__content__container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     height: 100%;
@@ -31,7 +31,7 @@
     clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
 }
 
-.header1__content {
+.header__content {
     grid-column: 2/-3;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,7 @@
     text-align: center;
 }
 
-.header1__button {
+.header__button {
     display: flex;
     color: var(--ebony-950);
     background-color: var(--ebony-50);
@@ -50,25 +50,25 @@
     transition: .3s;
 }
 
-.header1__button:hover {
+.header__button:hover {
     opacity: .8;
 }
 
-.header1__title {
+.header__title {
     font-size: 35px;
 }
 
 @media(width <=1024px) {
 
-    .header1__header {
+    .header__header {
         height: 270px;
     }
 
-    .header1__container {
+    .header__container {
         background-size: 75%;
     }
 
-    .header1__title {
+    .header__title {
         font-size: 25px;
     }
 
@@ -76,15 +76,15 @@
 
 @media(width <=768px) {
 
-    .header1__header {
+    .header__header {
         height: 250px;
     }
 
-    .header1__container {
+    .header__container {
         background-size: 90%;
     }
 
-    .header1__title {
+    .header__title {
         font-size: 25px;
     }
 
@@ -92,19 +92,19 @@
 
 @media(width <=670px) {
 
-    .header1__header {
+    .header__header {
         height: 200px;
     }
 
-    .header1__title {
+    .header__title {
         font-size: 20px;
     }
 
-    .header1__content {
+    .header__content {
         gap: 20px;
     }
 
-    .header1__button {
+    .header__button {
         font-size: 12px;
     }
 
@@ -112,19 +112,19 @@
 
 @media(width <=550px) {
 
-    .header1__header {
+    .header__header {
         height: 150px;
     }
 
-    .header1__container {
+    .header__container {
         background-size: 100%;
     }
 
-    .header1__title {
+    .header__title {
         font-size: 14px;
     }
 
-    .header1__button {
+    .header__button {
         font-size: 8px;
     }
 

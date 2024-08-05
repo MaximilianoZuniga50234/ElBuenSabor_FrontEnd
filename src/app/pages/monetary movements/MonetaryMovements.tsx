@@ -136,9 +136,9 @@ export default function MonetaryMovements() {
         {user?.role === "Administrador" ? (
           <div className="monetaryMovements__container">
             <div className="monetaryMovements__header">
-              <h3 className="monetaryMovements__title">
+              <h2 className="monetaryMovements__title">
                 Movimientos monetarios
-              </h3>
+              </h2>
               <div className="monetaryMovements__filter">
                 <input type="date" onChange={handleChangeStartDate} />
                 <label>-</label>

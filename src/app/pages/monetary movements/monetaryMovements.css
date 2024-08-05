@@ -6,7 +6,7 @@
     text-align: center;
     justify-content: center;
     gap: 10px;
-    max-width: 1600px;
+    max-width: 1920px;
     margin: 0 auto;
 }
 
@@ -84,12 +84,12 @@
     }
 
     .monetaryMovements__title {
-        font-size: 32px;
+        font-size: 36px;
     }
 
 }
 
-@media (width >=1440px) {
+@media (width >=1920px) {
 
     .monetaryMovements__header {
         max-width: 1000px;

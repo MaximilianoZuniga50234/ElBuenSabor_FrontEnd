@@ -18,6 +18,7 @@ import {
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from "react-icons/hi";
+import { FaPlus } from "react-icons/fa6";
 
 const NoPermissions = lazy(
   () => import("../../../components/noPermissions/NoPermissions")
@@ -171,26 +172,23 @@ export default function ItemStockABM() {
         <div className="itemStockABM__container">
           <div className="itemStockABM__table">
             <div className="itemStockABM__header">
-              <div className="itemStockABM__title">
-                <h1 className="itemStockABM__h1">Rubros de ingredientes</h1>
-              </div>
+              <h2 className="itemStockABM__title">Rubros de ingredientes</h2>
 
-              <div className="itemStockABM__button__container">
                 <button
-                  className="itemStockABM__button"
+                  className="itemStockABM__button--header"
                   onClick={() => handleAdd()}
                 >
-                  Añadir nuevo rubro
+                  <FaPlus />
+                  AÑADIR
                 </button>
-              </div>
             </div>
 
             <div className="itemStockABM__labels">
-              <h3 className="itemStockABM__h3">Id</h3>
-              <h3 className="itemStockABM__h3">Nombre del rubro</h3>
-              <h3 className="itemStockABM__h3">Padre</h3>
-              <h3 className="itemStockABM__h3">Estado</h3>
-              <h3 className="itemStockABM__h3">Modificar</h3>
+              <h4>ID</h4>
+              <h4>NOMBRE</h4>
+              <h4>PADRE</h4>
+              <h4>ESTADO</h4>
+              <h4>MODIFICAR</h4>
             </div>
 
             <div className="itemStockABM__rows__container">

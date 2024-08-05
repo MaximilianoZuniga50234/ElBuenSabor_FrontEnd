@@ -1,3 +1,11 @@
+.nav_bar_container{
+  display: flex;
+  width: 100%;
+  height: 80px;
+  background: var(--ebony-950);
+  justify-content: center;
+}
+
 .nav_bar_pre_login_container {
   position: absolute;
   top: 0;
@@ -11,6 +19,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 60px;
+  max-width: 1920px;
 }
 
 .nav_bar_logo span {

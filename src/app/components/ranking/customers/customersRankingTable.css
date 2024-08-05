@@ -10,9 +10,7 @@
 .customersRanking__table__container {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--ebony-950);
     border-radius: 10px;
-    border: 2px solid var(--ebony-950);
     background-color: var(--ebony-50);
     width: 100%;
     max-width: 450px;
@@ -26,21 +24,30 @@
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 0.5fr;
     align-items: center;
-    border-bottom: 1px solid var(--ebony-950);
+    border-bottom: 1px solid var(--ebony-900);
     padding: 10px 5px;
+    align-items: center;
+    text-align: center;
+    background: var(--ebony-900);
+    color: var(--white);
+    border-radius: 12px 12px 0 0;
 }
 
 .customersRanking__table__content {
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid var(--ebony-900);
 }
 
 .customersRanking__table__content__customer {
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 0.5fr;
+    padding: 16px 0;
+    text-align: center;
+    border-left: 1px solid var(--ebony-900);
+    border-right: 1px solid var(--ebony-900);
+    border-bottom: 1px solid var(--ebony-900);
     align-items: center;
-    padding: 10px 5px;
-    border-bottom: 1px solid var(--ebony-950);
 }
 
 .customersRanking__table__content__customer:last-child {
@@ -122,6 +129,7 @@
         padding: 8px 16px;
     }
 }
+
 @media (width >=768px) {
 
     .customersRanking__table__title {
