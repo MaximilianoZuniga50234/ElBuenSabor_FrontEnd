@@ -113,10 +113,10 @@ export default function RankingTable({
       <div className="productsRanking__table__container">
         <div className="productsRanking__table__header">
           <h5 className="productsRanking__table__header__text">
-            <b>Producto</b>
+            <b>PRODUCTO</b>
           </h5>
           <h5 className="productsRanking__table__header__text">
-            <b>Cantidad vendida</b>
+            <b>CANTIDAD VENDIDA</b>
           </h5>
         </div>
 

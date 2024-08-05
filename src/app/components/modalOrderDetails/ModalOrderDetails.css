@@ -44,7 +44,7 @@
     align-items: center;
     text-align: center;
     padding: 5px 0;
-    border-bottom: 1px solid var(--ebony-950);
+    border-bottom: 1px solid var(--ebony-900);
 }
 
 .modalOrderDetails__orderInfo__content {
@@ -70,7 +70,7 @@
     align-items: center;
     text-align: center;
     padding: 5px 0;
-    border-bottom: 1px solid var(--ebony-950);
+    border-bottom: 1px solid var(--ebony-900);
 }
 
 .modalOrderDetails__products__content {

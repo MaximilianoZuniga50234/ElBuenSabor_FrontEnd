@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FaEye, FaGear } from "react-icons/fa6";
+import { FaEye } from "react-icons/fa6";
 import {
   HiOutlineChevronDoubleLeft,
   HiOutlineChevronDoubleRight,
@@ -28,6 +28,7 @@ import { updateStock } from "../../functions/StockAPI";
 import InvoicePdf from "../invoice/InvoicePdf";
 import { pdf } from "@react-pdf/renderer";
 import { sendEmail } from "../../functions/EmailAPI";
+import { FaPencilAlt } from "react-icons/fa";
 
 type Props = {
   datos: PurchaseOrder[];
@@ -353,7 +354,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
             <td>ENVÍO</td>
             <td>ESTADO</td>
             <td>DETALLES</td>
-            <td></td>
+            <td>MODIFICAR</td>
           </tr>
         </thead>
         <tbody>
@@ -379,7 +380,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                     handleOpen(e);
                   }}
                 >
-                  <FaGear />
+                  <FaPencilAlt />
                 </button>
               </td>
             </tr>

@@ -13,7 +13,7 @@ import Loader from "../../components/loader/Loader";
 import { useStore as useCart } from "../../store/CartStore";
 import "./Home.css";
 
-const Header1 = lazy(() => import("../../components/header/header1/Header1"));
+const Header = lazy(() => import("../../components/header/Header"));
 const Carrousel = lazy(
   () => import("../../components/home/carrousel/Carrousel")
 );
@@ -118,7 +118,7 @@ const Home = () => {
 
   return (
     <Suspense fallback={<Loader />}>
-      <Header1 />
+      <Header />
       <br />
       <div className="home_main_container">
         <div className="home_featured_products">

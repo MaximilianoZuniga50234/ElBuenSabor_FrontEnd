@@ -52,7 +52,7 @@ const ProductTable = ({
   };
 
   return (
-    <table className="produts_list_table">
+    <table className="products_list_table">
       <thead>
         <tr>
           <td>NOMBRE</td>
@@ -61,7 +61,7 @@ const ProductTable = ({
           <td>PRECIO</td>
           <td>ESTADO</td>
           <td>DAR DE BAJA</td>
-          <td></td>
+          <td>MODIFICAR</td>
         </tr>
       </thead>
       <tbody>

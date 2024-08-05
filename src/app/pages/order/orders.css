@@ -5,6 +5,8 @@
   height: auto;
   align-items: center;
   justify-content: center;
+  max-width: 1920px;
+  margin: auto;
 }
 
 .main_orders_list .order_title_container {
@@ -132,7 +134,7 @@
 }
 
 .orders_list_table {
-  border: 1px solid var(--ebony-950);
+  border: 1px solid var(--ebony-900);
   border-radius: 12px;
   background: var(--ebony-50);
   width: 90%;
@@ -145,7 +147,7 @@
   display: grid;
   grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
   padding: 0 32px 0 32px;
-  border-bottom: 1px solid var(--black);
+  border-bottom: 1px solid var(--ebony-900);
   background: var(--ebony-900);
   border-radius: 12px 12px 0 0;
   color: var(--white);
@@ -176,12 +178,12 @@
 
 .orders_list_table .celda_acciones {
   display: flex;
-  font-size: 20px;
   justify-content: center;
 }
 
-.orders_list_table .celda_acciones svg {
+.orders_list_table .celda_acciones button {
   cursor: pointer;
+  padding: 10px;
 }
 
 .orders_list_table tfoot tr {

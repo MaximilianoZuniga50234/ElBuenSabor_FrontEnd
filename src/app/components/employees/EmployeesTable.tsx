@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FaGear } from "react-icons/fa6";
 import {
   HiOutlineChevronDoubleLeft,
   HiOutlineChevronDoubleRight,
@@ -8,6 +7,7 @@ import {
 } from "react-icons/hi";
 import { UserAuth0Get } from "../../interfaces/UserAuth0";
 import ModalEmployeesAbm from "./ModalEmployeesAbm";
+import { FaPencilAlt } from "react-icons/fa";
 
 type Props = {
   datos: UserAuth0Get[];
@@ -79,7 +79,7 @@ const Table = ({ datos }: Props) => {
             <td>CORREO ELECTRÓNICO</td>
             <td>TELÉFONO</td>
             <td>CARGO</td>
-            <td></td>
+            <td>MODIFICAR</td>
           </tr>
         </thead>
         <tbody>
@@ -91,7 +91,7 @@ const Table = ({ datos }: Props) => {
               <td>{`${e.role != undefined ? e.role : "Cargando..."}`}</td>
               <td className="celda_acciones">
                 <button onClick={() => handleModify(e)}>
-                  <FaGear />
+                  <FaPencilAlt />
                 </button>
               </td>
             </tr>

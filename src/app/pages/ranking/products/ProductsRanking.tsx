@@ -213,7 +213,7 @@ export default function ProductsRanking() {
         {user?.role === "Administrador" ? (
           <div className="productsRanking__container">
             <div className="productsRanking__header">
-              <h3 className="productsRanking__title">Ranking de productos</h3>
+              <h2 className="productsRanking__title">Ranking de productos</h2>
               <div className="productsRanking__filter">
                 <input type="date" onChange={handleChangeStartDate} />
                 <label>-</label>

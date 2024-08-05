@@ -18,6 +18,7 @@ import {
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from "react-icons/hi";
+import { FaPlus } from "react-icons/fa6";
 
 const NoPermissions = lazy(
   () => import("../../../components/noPermissions/NoPermissions")
@@ -145,25 +146,22 @@ export default function ItemProductABM() {
         <div className="itemProductABM__container">
           <div className="itemProductABM__table">
             <div className="itemProductABM__header">
-              <div className="itemProductABM__title">
-                <h1 className="itemProductABM__h1">Rubros de productos</h1>
-              </div>
+              <h1 className="itemProductABM__title">Rubros de productos</h1>
 
-              <div className="itemProductABM__button__container">
-                <button
-                  className="itemProductABM__button"
-                  onClick={() => handleAdd()}
-                >
-                  Añadir nuevo rubro
-                </button>
-              </div>
+              <button
+                className="itemProductABM__button itemProductABM__button--header"
+                onClick={() => handleAdd()}
+              >
+                <FaPlus />
+                AÑADIR
+              </button>
             </div>
 
             <div className="itemProductABM__labels">
-              <h3 className="itemProductABM__h3">Id</h3>
-              <h3 className="itemProductABM__h3">Nombre del rubro</h3>
-              <h3 className="itemProductABM__h3">Estado</h3>
-              <h3 className="itemProductABM__h3">Modificar</h3>
+              <h4>ID</h4>
+              <h4>NOMBRE</h4>
+              <h4>ESTADO</h4>
+              <h4>MODIFICAR</h4>
             </div>
 
             <div className="itemProductABM__rows__container">

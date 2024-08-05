@@ -18,6 +18,7 @@ import {
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from "react-icons/hi";
+import { FaPlus } from "react-icons/fa6";
 
 const NoPermissions = lazy(
   () => import("../../../components/noPermissions/NoPermissions")
@@ -153,27 +154,22 @@ export default function MeasurementUnitABM() {
         <div className="measurementUnitABM__container">
           <div className="measurementUnitABM__table">
             <div className="measurementUnitABM__header">
-              <div className="measurementUnitABM__title">
-                <h1 className="measurementUnitABM__h1">Unidades de medida</h1>
-              </div>
+              <h1 className="measurementUnitABM__title">Unidades de medida</h1>
 
-              <div className="measurementUnitABM__button__container">
-                <button
-                  className="measurementUnitABM__button"
-                  onClick={() => handleAdd()}
-                >
-                  Añadir nueva medida
-                </button>
-              </div>
+              <button
+                className="measurementUnitABM__button--header"
+                onClick={() => handleAdd()}
+              >
+                <FaPlus />
+                AÑADIR
+              </button>
             </div>
 
             <div className="measurementUnitABM__labels">
-              <h3 className="measurementUnitABM__h3">Id</h3>
-              <h3 className="measurementUnitABM__h3">
-                Nombre de la unidad de medida
-              </h3>
-              <h3 className="measurementUnitABM__h3">Estado</h3>
-              <h3 className="measurementUnitABM__h3">Modificar</h3>
+              <h4>ID</h4>
+              <h4>NOMBRE</h4>
+              <h4>ESTADO</h4>
+              <h4>MODIFICAR</h4>
             </div>
 
             <div className="measurementUnitABM__rows__container">

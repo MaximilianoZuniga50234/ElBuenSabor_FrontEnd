@@ -10,9 +10,7 @@
 .monetaryMovements__table__container {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--ebony-950);
     border-radius: 10px;
-    border: 2px solid var(--ebony-950);
     background-color: var(--ebony-50);
     width: 100%;
     max-width: 450px;
@@ -26,8 +24,13 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    border-bottom: 1px solid var(--ebony-950);
+    border-bottom: 1px solid var(--ebony-900);
     padding: 10px 5px;
+    align-items: center;
+    text-align: center;
+    background: var(--ebony-900);
+    color: var(--white);
+    border-radius: 12px 12px 0 0;
 }
 
 .monetaryMovements__table__content {
@@ -35,6 +38,9 @@
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
     padding: 20px 5px;
+    border-bottom: 1px solid var(--ebony-900);
+    border-left: 1px solid var(--ebony-900);
+    border-right: 1px solid var(--ebony-900);
 }
 
 .monetaryMovements__noResults {
