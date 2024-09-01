@@ -71,9 +71,8 @@ export default function ItemStockABM() {
   };
 
   const handleAdd = () => {
-    const father = itemStocks[0];
     if (itemStock) {
-      setItemStock({ id: 0, name: "", active: true, father: father });
+      setItemStock({ id: 0, name: "", active: true, father: undefined });
     }
     handleOpen();
     setIsNew(true);
@@ -174,19 +173,19 @@ export default function ItemStockABM() {
             <div className="itemStockABM__header">
               <h2 className="itemStockABM__title">Rubros de ingredientes</h2>
 
-                <button
-                  className="itemStockABM__button--header"
-                  onClick={() => handleAdd()}
-                >
-                  <FaPlus />
-                  AÑADIR
-                </button>
+              <button
+                className="itemStockABM__button--header"
+                onClick={() => handleAdd()}
+              >
+                <FaPlus />
+                AÑADIR
+              </button>
             </div>
 
             <div className="itemStockABM__labels">
               <h4>ID</h4>
               <h4>NOMBRE</h4>
-              <h4>PADRE</h4>
+              <h4>CATEGORÍA</h4>
               <h4>ESTADO</h4>
               <h4>MODIFICAR</h4>
             </div>
@@ -197,7 +196,7 @@ export default function ItemStockABM() {
                   <h4 className="itemStockABM__h4">{itemStock.id}</h4>
                   <h4 className="itemStockABM__h4">{itemStock.name}</h4>
                   <h4 className="itemStockABM__h4">
-                    {itemStock.father ? itemStock.father?.name : itemStock.name}
+                    {itemStock.father ? itemStock.father?.name : "Sin categoría"}
                   </h4>
                   <h4 className="itemStockABM__h4">
                     {itemStock.active === true ? "De alta" : "De baja"}
@@ -278,9 +277,7 @@ export default function ItemStockABM() {
                 </div>
 
                 <div className="itemStockABM__modal__father">
-                  <label htmlFor="itemStockABM__modal__select">
-                    Rubro Padre
-                  </label>
+                  <label htmlFor="itemStockABM__modal__select">Categoría</label>
                   <select
                     className="itemStockABM__modal__select"
                     defaultValue={
@@ -290,6 +287,10 @@ export default function ItemStockABM() {
                     }
                     onChange={handleChangeFather}
                   >
+                    <option
+                      className="itemStockABM__modal__option"
+                      key={0}
+                    >Sin categoría</option>
                     {itemStocks?.map((itemStock) => (
                       <option
                         className="itemStockABM__modal__option"
