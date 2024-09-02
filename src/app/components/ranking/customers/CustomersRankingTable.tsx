@@ -63,7 +63,7 @@ export default function CustomersRankingTable({
             datesToFilter.endDate.getTime() ||
           (isNaN(datesToFilter.startDate.getTime()) &&
             isNaN(datesToFilter.endDate.getTime()))
-            ? `Clientes que realizaron pedidos hasta el día de la fecha.`
+            ? `Clientes que realizaron pedidos hasta el día ${new Date().toLocaleDateString()}.`
             : `Clientes que realizaron pedidos ${
                 datesToFilter.startDate.getDay() !=
                 datesToFilter.endDate.getDay()
