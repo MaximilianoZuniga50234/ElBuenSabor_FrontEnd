@@ -106,9 +106,9 @@ export default function MeasurementUnitABM() {
         if (measurementUnit) {
           try {
             await addMeasurementUnit(measurementUnit, tokenState);
-            toast.success("Unidad de medida actualizada correctamente");
+            toast.success("Unidad de medida creada correctamente");
           } catch (error) {
-            toast.error("Error al actualizar la unidad de medida");
+            toast.error("Error al crear la unidad de medida");
           }
         }
       }
