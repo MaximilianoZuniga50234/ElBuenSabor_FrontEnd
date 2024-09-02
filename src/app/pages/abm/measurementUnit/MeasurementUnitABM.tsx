@@ -136,7 +136,10 @@ export default function MeasurementUnitABM() {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (measurementUnit) {
-      setMeasurementUnit({ ...measurementUnit, name: event.target.value });
+      setMeasurementUnit({
+        ...measurementUnit,
+        [event.target.name]: event.target.value,
+      });
     }
   };
 
@@ -169,6 +172,7 @@ export default function MeasurementUnitABM() {
               <h4>ID</h4>
               <h4>NOMBRE</h4>
               <h4>ESTADO</h4>
+              <h4>ABREVIACIÓN</h4>
               <h4>MODIFICAR</h4>
             </div>
 
@@ -186,6 +190,9 @@ export default function MeasurementUnitABM() {
                   </h4>
                   <h4 className="measurementUnitABM__h4">
                     {measurementUnit.active === true ? "De alta" : "De baja"}
+                  </h4>
+                  <h4 className="measurementUnitABM__h4">
+                    {measurementUnit.abbreviation}
                   </h4>
                   <div className="measurementUnitABM__icon">
                     <button
@@ -257,8 +264,23 @@ export default function MeasurementUnitABM() {
                   <input
                     type="text"
                     placeholder="Ingrese el nombre"
+                    name="name"
                     className="measurementUnitABM__modal__input"
                     defaultValue={!isNew ? measurementUnit?.name : ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="measurementUnitABM__modal__name">
+                  <label htmlFor="measurementUnitABM__modal__input">
+                    Abreviación
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Ingrese la abreviación"
+                    name="abbreviation"
+                    className="measurementUnitABM__modal__input"
+                    defaultValue={!isNew ? measurementUnit?.abbreviation : ""}
                     onChange={handleInputChange}
                   />
                 </div>
