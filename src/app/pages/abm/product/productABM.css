@@ -564,7 +564,7 @@
 }
 
 /******************************  ESTILOS MODAL DELETE *************************************/
-/* 
+
 .product_abm_modal_delete_container {
   width: 500px;
   height: 200px;
@@ -589,4 +589,4 @@
   display: inherit;
   flex-direction: row;
   justify-content: space-around;
-} */
+}

@@ -70,7 +70,7 @@ const ProductABM = () => {
   const handleSearch = (e: FormEvent, name: string) => {
     e.preventDefault();
     if (name !== "")
-      setShowedProducts(products.filter((p) => p.denomination.includes(name)));
+      setShowedProducts(products.filter((p) => p.denomination.toLowerCase().includes(name.toLowerCase())));
     else setShowedProducts(products);
   };
 
