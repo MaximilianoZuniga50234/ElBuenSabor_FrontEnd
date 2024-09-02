@@ -1,33 +1,33 @@
-import { Suspense, lazy, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Fade, Modal } from "@mui/material";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { FaArrowLeft, FaMinus, FaPlus } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { useStore } from "../../store/CartStore";
-import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
-import { useStore as useToken } from "../../store/UserTokenStore";
-import { CartItem } from "../../interfaces/CartItem";
-import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
-import { Person } from "../../interfaces/Person";
-import { Address } from "../../interfaces/Address";
-import { Product } from "../../interfaces/Product";
-import { Stock } from "../../interfaces/Stock";
-import { PurchaseOrderDetail } from "../../interfaces/PurchaseOrderDetail";
-import {
-  createPurchaseOrder,
-  getAllPurchaseOrder,
-} from "../../functions/PurchaseOrderAPI";
-import { getAllAddress } from "../../functions/AddressAPI";
-import { getAllPerson } from "../../functions/PersonAPI";
-import { updateStock } from "../../functions/StockAPI";
 import Loader from "../../components/loader/Loader";
-import "./cart.css";
-import { CreditNote } from "../../interfaces/CreditNote";
+import { getAllAddress } from "../../functions/AddressAPI";
 import {
   getAllCreditNotes,
   updateCreditNote,
 } from "../../functions/CreditNoteAPI";
+import { getAllPerson } from "../../functions/PersonAPI";
+import {
+  createPurchaseOrder,
+  getAllPurchaseOrder,
+} from "../../functions/PurchaseOrderAPI";
+import { updateStock } from "../../functions/StockAPI";
+import { Address } from "../../interfaces/Address";
+import { CartItem } from "../../interfaces/CartItem";
+import { CreditNote } from "../../interfaces/CreditNote";
+import { Person } from "../../interfaces/Person";
+import { Product } from "../../interfaces/Product";
+import { PurchaseOrder } from "../../interfaces/PurchaseOrder";
+import { PurchaseOrderDetail } from "../../interfaces/PurchaseOrderDetail";
+import { Stock } from "../../interfaces/Stock";
+import { useStore } from "../../store/CartStore";
+import { useStore as useCurrentUser } from "../../store/CurrentUserStore";
+import { useStore as useToken } from "../../store/UserTokenStore";
+import "./cart.css";
 
 const ModalOrderDetails = lazy(
   () => import("../../components/modalOrderDetails/ModalOrderDetails")
@@ -161,7 +161,8 @@ const Cart = () => {
       }
 
       if (cartProduct.product.type === "stock")
-        priceTime.totalPrice += cartProduct.product.salePrice * cartProduct.amount;
+        priceTime.totalPrice +=
+          cartProduct.product.salePrice * cartProduct.amount;
     });
 
     setPriceAndTime(priceTime);
@@ -218,26 +219,37 @@ const Cart = () => {
   useEffect(() => {
     if (purchaseOrder.details && purchaseOrder.details?.length > 0) {
       let insufficientStock = false;
+      const cantidadesStock: { [key: string]: number } = {};
+
+      for (const detail of purchaseOrder.details) {
+        if (detail.product?.details) {
+          for (const productDetail of detail.product.details) {
+            if (!cantidadesStock[productDetail.stock.denomination]) {
+              cantidadesStock[productDetail.stock.denomination] = 0;
+            }
+            cantidadesStock[productDetail.stock.denomination] +=
+              productDetail.amount * detail.amount;
+          }
+        }
+      }
+
       for (const detail of purchaseOrder.details) {
         if (detail.product?.details) {
           for (const productDetail of detail.product.details) {
             if (
               productDetail.stock.currentStock -
-                productDetail.amount * detail.amount <
+                cantidadesStock[productDetail.stock.denomination] <
               0
             ) {
               insufficientStock = true;
+              toast.error(
+                `Lo sentimos, no hay suficiente stock de "${productDetail.stock?.denomination}" para preparar los productos seleccionados.`
+              );
               break;
             }
           }
         }
-
-        if (insufficientStock) {
-          toast.error(
-            `Lo sentimos, no hay suficiente stock para preparar la cantidad seleccionada del producto "${detail.product?.denomination}".`
-          );
-          break;
-        }
+        if (insufficientStock) break;
       }
 
       if (!insufficientStock) {
@@ -418,19 +430,44 @@ const Cart = () => {
       toast.success("Orden creada correctamente.");
 
       if (purchaseOrder.details) {
-        for (const detail of purchaseOrder.details) {
-          if (detail.product?.details) {
-            for (const productDetail of detail.product.details) {
-              await updateStock(
-                {
-                  ...productDetail.stock,
-                  currentStock:
-                    productDetail.stock.currentStock -
-                    productDetail.amount * detail.amount,
-                },
-                token
+        const updatedStocks: Stock[] = [];
+        for (const orderDetail of purchaseOrder.details) {
+          if (orderDetail.product?.details) {
+            for (const productDetail of orderDetail.product.details) {
+              let stockIndex = -1;
+              let updatedStock: Stock | null = null;
+              if (updatedStocks.length > 0) {
+                stockIndex = updatedStocks.findIndex(
+                  (stock: Stock) => stock.id === productDetail.stock.id
+                );
+              }
+              const reduction = parseFloat(
+                (productDetail.amount * orderDetail.amount).toFixed(2)
               );
+
+              if (stockIndex != -1) {
+                updatedStocks[stockIndex].currentStock = parseFloat(
+                  (updatedStocks[stockIndex].currentStock - reduction).toFixed(
+                    2
+                  )
+                );
+              } else {
+                updatedStock = {
+                  ...productDetail.stock,
+                  currentStock: parseFloat(
+                    (productDetail.stock.currentStock - reduction).toFixed(2)
+                  ),
+                };
+                if (updatedStock) {
+                  updatedStocks.push(updatedStock);
+                }
+              }
             }
+          }
+        }
+        for (const stock of updatedStocks) {
+          if (stock) {
+            await updateStock(stock, token);
           }
         }
       }

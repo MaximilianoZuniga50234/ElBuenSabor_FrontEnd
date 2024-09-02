@@ -20,7 +20,7 @@ export default function MonetaryMovementsTable({
             datesToFilter.endDate.getTime() ||
           (isNaN(datesToFilter.startDate.getTime()) &&
             isNaN(datesToFilter.endDate.getTime()))
-            ? `Movimientos monetarios hasta el día de la fecha.`
+            ? `Movimientos monetarios hasta el día ${new Date().toLocaleDateString()}.`
             : `Movimientos monetarios ${
                 datesToFilter.startDate.getDay() !=
                 datesToFilter.endDate.getDay()

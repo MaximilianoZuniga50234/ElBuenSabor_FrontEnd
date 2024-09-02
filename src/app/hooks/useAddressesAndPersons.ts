@@ -72,31 +72,34 @@ export function useAddressesAndPersons() {
 
   const insertPersons = async () => {
     try {
-      if (personsPost && personsPost.length > 0) {
-        if (personsDatabase && personsDatabase.length === 0) {
+      if (personsPost) {
+        if (!personsDatabase || personsDatabase.length === 0) {
           for (const personPost of personsPost) {
             await addPerson(personPost, token);
           }
-          await getPersons();
-        } else if (personsDatabase && personsDatabase.length > 0) {
+        } else {
           for (const personPost of personsPost) {
             const existingPerson = personsDatabase.find(
               (person) => person.user_id === personPost.user_id
             );
             if (!existingPerson) {
               await addPerson(personPost, token);
-              await getPersons();
             } else if (
-              existingPerson &&
-              existingPerson.id &&
-              (existingPerson.name !== personPost.name ||
-                existingPerson.lastName !== personPost.lastName ||
-                existingPerson.phoneNumber !== personPost.phoneNumber)
+              existingPerson.name !== personPost.name ||
+              existingPerson.lastName !== personPost.lastName ||
+              existingPerson.phoneNumber !== personPost.phoneNumber
             ) {
-              await updatePerson(personPost, token, existingPerson.id);
-              await getPersons();
+              if (existingPerson.id) {
+                await updatePerson(personPost, token, existingPerson.id);
+              }
             }
           }
+        }
+        const updatedPersons = await getAllPerson();
+        if (
+          JSON.stringify(updatedPersons) !== JSON.stringify(personsDatabase)
+        ) {
+          setPersonsDatabase(updatedPersons);
         }
       }
     } catch (error) {
@@ -105,8 +108,10 @@ export function useAddressesAndPersons() {
   };
 
   useEffect(() => {
-    insertPersons();
-  }, [personsPost, personsDatabase]);
+    if (personsPost && personsPost.length > 0) {
+      insertPersons();
+    }
+  }, [personsPost]);
 
   useEffect(() => {
     if (
@@ -141,32 +146,31 @@ export function useAddressesAndPersons() {
 
   const insertAddresses = async () => {
     try {
-      if (addressesPost && addressesPost.length > 0) {
-        if (addressesDatabase && addressesDatabase.length === 0) {
-          for (const addressPost of addressesPost) {
-            await addAddress(addressPost, token);
-          }
-          await getAddresses();
-        } else if (addressesDatabase && addressesDatabase.length > 0) {
-          for (const addressPost of addressesPost) {
-            const existingAddress = addressesDatabase.find(
-              (address) => address.person.user_id === addressPost.person.user_id
-            );
-            if (!existingAddress) {
-              await addAddress(addressPost, token);
-              await getAddresses();
-            } else if (
-              existingAddress &&
-              (existingAddress.department.name !==
-                addressPost.department.name ||
-                existingAddress.number !== addressPost.number ||
-                existingAddress.street !== addressPost.street)
-            ) {
-              await updateAddress(addressPost, token, existingAddress.id);
-              await getAddresses();
-            }
+      if (!addressesPost || addressesPost.length === 0) return;
+
+      for (const addressPost of addressesPost) {
+        const existingAddress = addressesDatabase?.find(
+          (address) => address.person.user_id === addressPost.person.user_id
+        );
+
+        if (!existingAddress) {
+          await addAddress(addressPost, token);
+        } else {
+          if (
+            existingAddress.department.name !== addressPost.department.name ||
+            existingAddress.number !== addressPost.number ||
+            existingAddress.street !== addressPost.street
+          ) {
+            await updateAddress(addressPost, token, existingAddress.id);
           }
         }
+      }
+
+      const updatedAddresses = await getAllAddress();
+      if (
+        JSON.stringify(updatedAddresses) !== JSON.stringify(addressesDatabase)
+      ) {
+        setAddressesDatabase(updatedAddresses);
       }
     } catch (error) {
       console.error(error);
@@ -174,6 +178,23 @@ export function useAddressesAndPersons() {
   };
 
   useEffect(() => {
-    insertAddresses();
+    if (
+      addressesPost &&
+      addressesPost.length > 0 &&
+      (!addressesDatabase ||
+        addressesDatabase.length === 0 ||
+        addressesPost.some(
+          (post) =>
+            !addressesDatabase.find(
+              (db) =>
+                db.person.user_id === post.person.user_id &&
+                db.street === post.street &&
+                db.number === post.number &&
+                db.department.name === post.department.name
+            )
+        ))
+    ) {
+      insertAddresses();
+    }
   }, [addressesPost, addressesDatabase]);
 }

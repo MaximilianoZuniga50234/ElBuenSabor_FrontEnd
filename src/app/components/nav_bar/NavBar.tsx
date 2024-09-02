@@ -27,7 +27,7 @@ const NavBar = () => {
   const handleLogIn = () => {
     loginWithRedirect({
       appState: {
-        returnTo: window.location.pathname,
+        returnTo: "/",
       },
     });
   };
@@ -35,7 +35,7 @@ const NavBar = () => {
   const handleRegister = () => {
     loginWithRedirect({
       appState: {
-        returnTo: window.location.pathname,
+        returnTo: "/",
       },
       authorizationParams: {
         screen_hint: "signup",

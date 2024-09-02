@@ -309,7 +309,8 @@ export default function ModalEditProfile({
             <div className="modalEditProfile__div">
               <h5 className="modalEditProfile__h5">Número de la dirección</h5>
               <input
-                type="text"
+                type="number"
+                min={0}
                 className="modalEditProfile__input"
                 defaultValue={user?.user_metadata?.address?.number}
                 onChange={handleChangeAddressNumber}
@@ -370,6 +371,7 @@ export default function ModalEditProfile({
               </h5>
               <input
                 type="number"
+                min={0}
                 className="modalEditProfile__input"
                 defaultValue={user?.user_metadata?.phone_number}
                 onChange={handleChangePhoneNumber}

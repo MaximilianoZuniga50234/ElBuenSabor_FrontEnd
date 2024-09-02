@@ -84,7 +84,7 @@ export default function InvoicePdf({ invoice }: Props) {
         </View>
 
         <View style={styles.info}>
-          <Text style={{ fontSize: "15px" }}>Factura N° {invoice.id}</Text>
+          <Text style={{ fontSize: "15px" }}>Factura N° {invoice.purchaseOrder.id}</Text>
           <Text style={{ fontSize: "15px" }}>Fecha: {date}</Text>
           <Text style={{ marginTop: "10px", fontSize: "15px" }}>
             {`${invoice.purchaseOrder.person?.name} ${invoice.purchaseOrder.person?.lastName} `}
