@@ -196,7 +196,9 @@ export default function ItemStockABM() {
                   <h4 className="itemStockABM__h4">{itemStock.id}</h4>
                   <h4 className="itemStockABM__h4">{itemStock.name}</h4>
                   <h4 className="itemStockABM__h4">
-                    {itemStock.father ? itemStock.father?.name : "Sin categoría"}
+                    {itemStock.father
+                      ? itemStock.father?.name
+                      : "Sin categoría"}
                   </h4>
                   <h4 className="itemStockABM__h4">
                     {itemStock.active === true ? "De alta" : "De baja"}
@@ -287,18 +289,20 @@ export default function ItemStockABM() {
                     }
                     onChange={handleChangeFather}
                   >
-                    <option
-                      className="itemStockABM__modal__option"
-                      key={0}
-                    >Sin categoría</option>
-                    {itemStocks?.map((itemStock) => (
-                      <option
-                        className="itemStockABM__modal__option"
-                        key={itemStock.id}
-                      >
-                        {itemStock.name}
-                      </option>
-                    ))}
+                    <option className="itemStockABM__modal__option" key={0}>
+                      Sin categoría
+                    </option>
+                    {itemStocks?.map((i) => {
+                      if (i.id !== itemStock?.id)
+                        return (
+                          <option
+                            className="itemStockABM__modal__option"
+                            key={i.id}
+                          >
+                            {i.name}
+                          </option>
+                        );
+                    })}
                   </select>
                 </div>
 
