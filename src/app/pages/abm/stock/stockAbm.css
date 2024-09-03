@@ -12,6 +12,10 @@
     margin: auto;
 }
 
+.stockAbm__table>h1 {
+    text-align: center;
+}
+
 .stockAbm__header {
     display: flex;
     padding: 24px 32px;

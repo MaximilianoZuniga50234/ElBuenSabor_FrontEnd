@@ -42,10 +42,10 @@ const STOCK_INITIAL_STATE = {
 
 export default function LowStock() {
   const { user } = useUser();
-  const [isLoading, setIsLoading] = useState(true);
   const [stocksUpdated, setStocksUpdated] = useState(false);
   const [stocks, setStocks] = useState<Stock[]>([STOCK_INITIAL_STATE]);
   const [stock, setStock] = useState<Stock>(STOCK_INITIAL_STATE);
+  const [isLoaded, setisLoaded] = useState(false);
 
   const [openModalStockPurchase, setOpenModalStockPurchase] = useState(false);
   const handleOpenModalStockPurchase = () => setOpenModalStockPurchase(true);
@@ -75,9 +75,10 @@ export default function LowStock() {
           stock.currentStock < stock.minimumStock + stock.minimumStock * 0.2
       );
       setStocks(filterStocks);
-      setIsLoading(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setisLoaded(true);
     }
   };
 
@@ -102,17 +103,16 @@ export default function LowStock() {
     (user?.role === "Administrador" || user?.role === "Cocinero" ? (
       <Suspense fallback={<Loader />}>
         <div className="lowStockPage__container">
-          {stocks &&
-            !isLoading &&
-            (stocks.length > 0 && stocks[0].id != 0 ? (
-              <>
-                <div className="lowStockPage__table">
-                  <div className="lowStockPage__header">
-                      <h2 className="lowStockPage__title">
-                        Ingredientes con bajo stock
-                      </h2>
-                  </div>
+          <div className="lowStockPage__table">
+            <div className="lowStockPage__header">
+              <h2 className="lowStockPage__title">
+                Ingredientes con bajo stock
+              </h2>
+            </div>
 
+            {isLoaded &&
+              (stocks && stocks.length > 0 && stocks[0].id != 0 ? (
+                <>
                   <div className="lowStockPage__labels">
                     <h4>NOMBRE</h4>
                     <h4>UNIDAD DE MEDIDA</h4>
@@ -161,52 +161,50 @@ export default function LowStock() {
                       </div>
                     ))}
                   </div>
-                </div>
-                <div className="lowStockPage__footer">
-                  <div className="lowStockPage__footer__pagination__info">
-                    {indiceInicio} - {indiceFin} de {stocks.length}
-                  </div>
-                  <div className="lowStockPage__footer__pagination__actions">
-                    {stocks.length > 10 && paginaActual > 1 && (
-                      <HiOutlineChevronDoubleLeft
-                        className="lowStockPage__footer__pagination__arrow"
-                        onClick={() => handleChangePage(0)}
-                      />
-                    )}
-                    {stocks.length > 10 && paginaActual > 1 && (
-                      <HiOutlineChevronLeft
-                        className="lowStockPage__footer__pagination__arrow"
-                        onClick={() => handleChangePage(-1)}
-                      />
-                    )}
-                    {stocks.length > 10 &&
-                      paginaActual !== Math.ceil(stocks.length / 10) && (
-                        <HiOutlineChevronRight
+                  <div className="lowStockPage__footer">
+                    <div className="lowStockPage__footer__pagination__info">
+                      {indiceInicio} - {indiceFin} de {stocks.length}
+                    </div>
+                    <div className="lowStockPage__footer__pagination__actions">
+                      {stocks.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronDoubleLeft
                           className="lowStockPage__footer__pagination__arrow"
-                          onClick={() => handleChangePage(1)}
+                          onClick={() => handleChangePage(0)}
                         />
                       )}
-                    {stocks.length > 10 &&
-                      paginaActual !== Math.ceil(stocks.length / 10) && (
-                        <HiOutlineChevronDoubleRight
+                      {stocks.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronLeft
                           className="lowStockPage__footer__pagination__arrow"
-                          onClick={() => handleChangePage(2)}
+                          onClick={() => handleChangePage(-1)}
                         />
                       )}
+                      {stocks.length > 10 &&
+                        paginaActual !== Math.ceil(stocks.length / 10) && (
+                          <HiOutlineChevronRight
+                            className="lowStockPage__footer__pagination__arrow"
+                            onClick={() => handleChangePage(1)}
+                          />
+                        )}
+                      {stocks.length > 10 &&
+                        paginaActual !== Math.ceil(stocks.length / 10) && (
+                          <HiOutlineChevronDoubleRight
+                            className="lowStockPage__footer__pagination__arrow"
+                            onClick={() => handleChangePage(2)}
+                          />
+                        )}
+                    </div>
                   </div>
-                </div>
-                <ModalStockPurchase
-                  stock={stock}
-                  isOpen={openModalStockPurchase}
-                  handleClose={handleCloseModalStockPurchase}
-                  setStocksUpdated={setStocksUpdated}
-                ></ModalStockPurchase>
-              </>
-            ) : (
-              <h1 className="lowStockPage__h1__noResults">
-                No hay ingredientes con bajo stock
-              </h1>
-            ))}
+                </>
+              ) : (
+                <h1>No hay ingredientes con bajo stock</h1>
+              ))}
+            <ModalStockPurchase
+              stock={stock}
+              isOpen={openModalStockPurchase}
+              handleClose={handleCloseModalStockPurchase}
+              setStocksUpdated={setStocksUpdated}
+            ></ModalStockPurchase>
+          </div>
         </div>
       </Suspense>
     ) : (

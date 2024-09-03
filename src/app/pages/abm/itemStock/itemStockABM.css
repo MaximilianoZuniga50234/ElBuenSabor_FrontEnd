@@ -12,6 +12,10 @@
     margin: auto;
 }
 
+.itemStockABM__table>h1 {
+    text-align: center;
+}
+
 .itemStockABM__header {
     display: flex;
     padding: 24px 32px;

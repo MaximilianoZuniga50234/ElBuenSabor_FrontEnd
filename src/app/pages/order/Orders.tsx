@@ -19,6 +19,7 @@ const Orders = () => {
   const { user } = useUser();
   const [filterOrders, setFilterOrders] = useState<PurchaseOrder[]>([]);
   const [idFilter, setIdFilter] = useState<number>(0);
+  const [isLoaded, setisLoaded] = useState(false);
 
   const handleDrop = () => {
     setActive(!active);
@@ -41,6 +42,8 @@ const Orders = () => {
       setOrders(response.filter((o: PurchaseOrder) => o.active));
     } catch (error) {
       console.error("Error", error);
+    } finally {
+      setisLoaded(true);
     }
   };
 
@@ -156,10 +159,15 @@ const Orders = () => {
                 </button>
               </div>
             </div>
-            <Table
-              datos={filterOrders}
-              setChangeOrderStatus={setChangeOrderStatus}
-            />
+            {isLoaded &&
+              (filterOrders && filterOrders.length > 0 ? (
+                <Table
+                  datos={filterOrders}
+                  setChangeOrderStatus={setChangeOrderStatus}
+                />
+              ) : (
+                <h1>No hay pedidos</h1>
+              ))}
           </main>
         ) : (
           <>
