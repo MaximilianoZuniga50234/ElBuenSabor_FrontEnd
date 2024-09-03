@@ -15,10 +15,17 @@ const Customers = () => {
   const [customers, setCustomers] = useState<UserAuth0Get[]>([]);
   const { users } = useUsers();
   const { user } = useUser();
+  const [isLoaded, setisLoaded] = useState(false);
 
   useEffect(() => {
-    const customers = users.filter((customer) => customer.role === "Cliente");
-    setCustomers(customers);
+    try {
+      const customers = users.filter((customer) => customer.role === "Cliente");
+      setCustomers(customers);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setisLoaded(true);
+    }
   }, [users]);
 
   return (
@@ -38,7 +45,12 @@ const Customers = () => {
                 </button>
               </form>
             </div>
-            <Table datos={customers} />
+            {isLoaded &&
+              (customers && customers.length > 0 ? (
+                <Table datos={customers} />
+              ) : (
+                <h1>No hay clientes</h1>
+              ))}
           </main>
         ) : (
           <NoPermissions />

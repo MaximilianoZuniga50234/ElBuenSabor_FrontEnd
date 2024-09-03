@@ -41,6 +41,7 @@ export default function MeasurementUnitABM() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [tokenState, setTokenState] = useState("");
   const { user } = useUser();
+  const [isLoaded, setisLoaded] = useState(false);
 
   const [paginaActual, setPaginaActual] = useState<number>(1);
   const indiceInicio = (paginaActual - 1) * 10;
@@ -123,6 +124,8 @@ export default function MeasurementUnitABM() {
       setMeasurementUnits(response);
     } catch (error) {
       console.error("Error", error);
+    } finally {
+      setisLoaded(true);
     }
   };
 
@@ -167,80 +170,91 @@ export default function MeasurementUnitABM() {
                 AÑADIR
               </button>
             </div>
-
-            <div className="measurementUnitABM__labels">
-              <h4>ID</h4>
-              <h4>NOMBRE</h4>
-              <h4>ESTADO</h4>
-              <h4>ABREVIACIÓN</h4>
-              <h4>MODIFICAR</h4>
-            </div>
-
-            <div className="measurementUnitABM__rows__container">
-              {elementosPaginaActual.map((measurementUnit: MeasurementUnit) => (
-                <div
-                  className="measurementUnitABM__row"
-                  key={measurementUnit.id}
-                >
-                  <h4 className="measurementUnitABM__h4">
-                    {measurementUnit.id}
-                  </h4>
-                  <h4 className="measurementUnitABM__h4">
-                    {measurementUnit.name}
-                  </h4>
-                  <h4 className="measurementUnitABM__h4">
-                    {measurementUnit.active === true ? "De alta" : "De baja"}
-                  </h4>
-                  <h4 className="measurementUnitABM__h4">
-                    {measurementUnit.abbreviation}
-                  </h4>
-                  <div className="measurementUnitABM__icon">
-                    <button
-                      className="measurementUnitABM__button measurementUnitABM__button--icon"
-                      onClick={() => handleModify(measurementUnit)}
-                    >
-                      <FaPencilAlt />
-                    </button>
+            {isLoaded &&
+              (measurementUnits && measurementUnits.length > 0 ? (
+                <>
+                  <div className="measurementUnitABM__labels">
+                    <h4>ID</h4>
+                    <h4>NOMBRE</h4>
+                    <h4>ESTADO</h4>
+                    <h4>ABREVIACIÓN</h4>
+                    <h4>MODIFICAR</h4>
                   </div>
-                </div>
+
+                  <div className="measurementUnitABM__rows__container">
+                    {elementosPaginaActual.map(
+                      (measurementUnit: MeasurementUnit) => (
+                        <div
+                          className="measurementUnitABM__row"
+                          key={measurementUnit.id}
+                        >
+                          <h4 className="measurementUnitABM__h4">
+                            {measurementUnit.id}
+                          </h4>
+                          <h4 className="measurementUnitABM__h4">
+                            {measurementUnit.name}
+                          </h4>
+                          <h4 className="measurementUnitABM__h4">
+                            {measurementUnit.active === true
+                              ? "De alta"
+                              : "De baja"}
+                          </h4>
+                          <h4 className="measurementUnitABM__h4">
+                            {measurementUnit.abbreviation}
+                          </h4>
+                          <div className="measurementUnitABM__icon">
+                            <button
+                              className="measurementUnitABM__button measurementUnitABM__button--icon"
+                              onClick={() => handleModify(measurementUnit)}
+                            >
+                              <FaPencilAlt />
+                            </button>
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+
+                  <div className="measurementUnitABM__footer">
+                    <div className="measurementUnitABM__footer__pagination__info">
+                      {indiceInicio} - {indiceFin} de {measurementUnits.length}
+                    </div>
+                    <div className="measurementUnitABM__footer__pagination__actions">
+                      {measurementUnits.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronDoubleLeft
+                          className="measurementUnitABM__footer__pagination__arrow"
+                          onClick={() => handleChangePage(0)}
+                        />
+                      )}
+                      {measurementUnits.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronLeft
+                          className="measurementUnitABM__footer__pagination__arrow"
+                          onClick={() => handleChangePage(-1)}
+                        />
+                      )}
+                      {measurementUnits.length > 10 &&
+                        paginaActual !==
+                          Math.ceil(measurementUnits.length / 10) && (
+                          <HiOutlineChevronRight
+                            className="measurementUnitABM__footer__pagination__arrow"
+                            onClick={() => handleChangePage(1)}
+                          />
+                        )}
+                      {measurementUnits.length > 10 &&
+                        paginaActual !==
+                          Math.ceil(measurementUnits.length / 10) && (
+                          <HiOutlineChevronDoubleRight
+                            className="measurementUnitABM__footer__pagination__arrow"
+                            onClick={() => handleChangePage(2)}
+                          />
+                        )}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <h1>No hay unidades de medida</h1>
               ))}
-            </div>
           </div>
-
-          <div className="measurementUnitABM__footer">
-            <div className="measurementUnitABM__footer__pagination__info">
-              {indiceInicio} - {indiceFin} de {measurementUnits.length}
-            </div>
-            <div className="measurementUnitABM__footer__pagination__actions">
-              {measurementUnits.length > 10 && paginaActual > 1 && (
-                <HiOutlineChevronDoubleLeft
-                  className="measurementUnitABM__footer__pagination__arrow"
-                  onClick={() => handleChangePage(0)}
-                />
-              )}
-              {measurementUnits.length > 10 && paginaActual > 1 && (
-                <HiOutlineChevronLeft
-                  className="measurementUnitABM__footer__pagination__arrow"
-                  onClick={() => handleChangePage(-1)}
-                />
-              )}
-              {measurementUnits.length > 10 &&
-                paginaActual !== Math.ceil(measurementUnits.length / 10) && (
-                  <HiOutlineChevronRight
-                    className="measurementUnitABM__footer__pagination__arrow"
-                    onClick={() => handleChangePage(1)}
-                  />
-                )}
-              {measurementUnits.length > 10 &&
-                paginaActual !== Math.ceil(measurementUnits.length / 10) && (
-                  <HiOutlineChevronDoubleRight
-                    className="measurementUnitABM__footer__pagination__arrow"
-                    onClick={() => handleChangePage(2)}
-                  />
-                )}
-            </div>
-          </div>
-
           <Modal
             open={open}
             onClose={handleClose}

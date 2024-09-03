@@ -51,6 +51,7 @@ export default function StockAbm() {
   const [stocksUpdated, setStocksUpdated] = useState(false);
   const [stocks, setStocks] = useState<Stock[]>([STOCK_INITIAL_STATE]);
   const [stock, setStock] = useState<Stock>(STOCK_INITIAL_STATE);
+  const [isLoaded, setisLoaded] = useState(false);
 
   const [openModalStock, setOpenModalStock] = useState(false);
   const handleOpenModalStock = () => setOpenModalStock(true);
@@ -81,6 +82,8 @@ export default function StockAbm() {
       setStocks(response);
     } catch (error) {
       console.error(error);
+    } finally {
+      setisLoaded(true);
     }
   };
 
@@ -139,83 +142,91 @@ export default function StockAbm() {
                 </button>
               </div>
             </div>
-
-            <div className="stockAbm__labels">
-              <h4>NOMBRE</h4>
-              <h4>RUBRO</h4>
-              <h4>COSTO</h4>
-              <h4>STOCK MÍNIMO</h4>
-              <h4>STOCK ACTUAL</h4>
-              <h4>UNIDAD DE MEDIDA</h4>
-              <h4>ESTADO</h4>
-              <h4>MODIFICAR</h4>
-            </div>
-
-            <div className="stockAbm__rows__container">
-              {elementosPaginaActual.map((stock: Stock) => (
-                <div className="stockAbm__row" key={stock.id}>
-                  <h4 className="stockAbm__h4">{stock.denomination}</h4>
-                  <h4 className="stockAbm__h4">{stock.itemStock?.name}</h4>
-                  <h4 className="stockAbm__h4">{stock.purchasePrice}</h4>
-                  <h4 className="stockAbm__h4">{stock.minimumStock}</h4>
-                  <h4 className="stockAbm__h4">
-                    {Number.isInteger(stock.currentStock)
-                      ? stock.currentStock
-                      : stock.currentStock.toPrecision(4)}
-                  </h4>
-                  <h4 className="stockAbm__h4">
-                    {stock.measurementUnit?.name}
-                  </h4>
-                  <h4 className="stockAbm__h4">
-                    {stock.active === true ? "De alta" : "De baja"}
-                  </h4>
-                  <div className="stockAbm__icon">
-                    <button
-                      className="stockAbm__button stockAbm__button--icon"
-                      onClick={() => {
-                        handleModify(stock);
-                      }}
-                    >
-                      <FaPencilAlt />
-                    </button>
+            {isLoaded &&
+              (stocks && stocks.length > 0 && stocks[0].id != 0 ? (
+                <>
+                  <div className="stockAbm__labels">
+                    <h4>NOMBRE</h4>
+                    <h4>RUBRO</h4>
+                    <h4>COSTO</h4>
+                    <h4>STOCK MÍNIMO</h4>
+                    <h4>STOCK ACTUAL</h4>
+                    <h4>UNIDAD DE MEDIDA</h4>
+                    <h4>ESTADO</h4>
+                    <h4>MODIFICAR</h4>
                   </div>
-                  <div className="stockAbm__icon"></div>
-                </div>
+
+                  <div className="stockAbm__rows__container">
+                    {elementosPaginaActual.map((stock: Stock) => (
+                      <div className="stockAbm__row" key={stock.id}>
+                        <h4 className="stockAbm__h4">{stock.denomination}</h4>
+                        <h4 className="stockAbm__h4">
+                          {stock.itemStock?.name}
+                        </h4>
+                        <h4 className="stockAbm__h4">{stock.purchasePrice}</h4>
+                        <h4 className="stockAbm__h4">{stock.minimumStock}</h4>
+                        <h4 className="stockAbm__h4">
+                          {Number.isInteger(stock.currentStock)
+                            ? stock.currentStock
+                            : stock.currentStock.toPrecision(4)}
+                        </h4>
+                        <h4 className="stockAbm__h4">
+                          {stock.measurementUnit?.name}
+                        </h4>
+                        <h4 className="stockAbm__h4">
+                          {stock.active === true ? "De alta" : "De baja"}
+                        </h4>
+                        <div className="stockAbm__icon">
+                          <button
+                            className="stockAbm__button stockAbm__button--icon"
+                            onClick={() => {
+                              handleModify(stock);
+                            }}
+                          >
+                            <FaPencilAlt />
+                          </button>
+                        </div>
+                        <div className="stockAbm__icon"></div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="stocksABM__footer">
+                    <div className="stocksABM__footer__pagination__info">
+                      {indiceInicio} - {indiceFin} de {stocks.length}
+                    </div>
+                    <div className="stocksABM__footer__pagination__actions">
+                      {stocks.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronDoubleLeft
+                          className="stocksABM__footer__pagination__arrow"
+                          onClick={() => handleChangePage(0)}
+                        />
+                      )}
+                      {stocks.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronLeft
+                          className="stocksABM__footer__pagination__arrow"
+                          onClick={() => handleChangePage(-1)}
+                        />
+                      )}
+                      {stocks.length > 10 &&
+                        paginaActual !== Math.ceil(stocks.length / 10) && (
+                          <HiOutlineChevronRight
+                            className="stocksABM__footer__pagination__arrow"
+                            onClick={() => handleChangePage(1)}
+                          />
+                        )}
+                      {stocks.length > 10 &&
+                        paginaActual !== Math.ceil(stocks.length / 10) && (
+                          <HiOutlineChevronDoubleRight
+                            className="stocksABM__footer__pagination__arrow"
+                            onClick={() => handleChangePage(2)}
+                          />
+                        )}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <h1>No hay ingredientes</h1>
               ))}
-            </div>
-          </div>
-          <div className="stocksABM__footer">
-            <div className="stocksABM__footer__pagination__info">
-              {indiceInicio} - {indiceFin} de {stocks.length}
-            </div>
-            <div className="stocksABM__footer__pagination__actions">
-              {stocks.length > 10 && paginaActual > 1 && (
-                <HiOutlineChevronDoubleLeft
-                  className="stocksABM__footer__pagination__arrow"
-                  onClick={() => handleChangePage(0)}
-                />
-              )}
-              {stocks.length > 10 && paginaActual > 1 && (
-                <HiOutlineChevronLeft
-                  className="stocksABM__footer__pagination__arrow"
-                  onClick={() => handleChangePage(-1)}
-                />
-              )}
-              {stocks.length > 10 &&
-                paginaActual !== Math.ceil(stocks.length / 10) && (
-                  <HiOutlineChevronRight
-                    className="stocksABM__footer__pagination__arrow"
-                    onClick={() => handleChangePage(1)}
-                  />
-                )}
-              {stocks.length > 10 &&
-                paginaActual !== Math.ceil(stocks.length / 10) && (
-                  <HiOutlineChevronDoubleRight
-                    className="stocksABM__footer__pagination__arrow"
-                    onClick={() => handleChangePage(2)}
-                  />
-                )}
-            </div>
           </div>
           <ModalStock
             stock={stock}

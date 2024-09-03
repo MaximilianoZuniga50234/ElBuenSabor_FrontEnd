@@ -38,6 +38,7 @@ export default function ItemProductABM() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [tokenState, setTokenState] = useState("");
   const { user } = useUser();
+  const [isLoaded, setisLoaded] = useState(false);
 
   const [paginaActual, setPaginaActual] = useState<number>(1);
   const indiceInicio = (paginaActual - 1) * 10;
@@ -116,6 +117,8 @@ export default function ItemProductABM() {
       setItemProducts(response);
     } catch (error) {
       console.error("Error", error);
+    } finally {
+      setisLoaded(true);
     }
   };
 
@@ -157,67 +160,75 @@ export default function ItemProductABM() {
               </button>
             </div>
 
-            <div className="itemProductABM__labels">
-              <h4>ID</h4>
-              <h4>NOMBRE</h4>
-              <h4>ESTADO</h4>
-              <h4>MODIFICAR</h4>
-            </div>
-
-            <div className="itemProductABM__rows__container">
-              {elementosPaginaActual.map((itemProduct) => (
-                <div className="itemProductABM__row" key={itemProduct.id}>
-                  <h4 className="itemProductABM__h4">{itemProduct.id}</h4>
-                  <h4 className="itemProductABM__h4">
-                    {itemProduct.denomination}
-                  </h4>
-                  <h4 className="itemProductABM__h4">
-                    {itemProduct.active === true ? "De alta" : "De baja"}
-                  </h4>
-                  <div className="itemProductABM__icon">
-                    <button
-                      className="itemProductABM__button itemProductABM__button--icon"
-                      onClick={() => handleModify(itemProduct)}
-                    >
-                      <FaPencilAlt />
-                    </button>
+            {isLoaded &&
+              (itemProducts && itemProducts.length > 0 ? (
+                <>
+                  <div className="itemProductABM__labels">
+                    <h4>ID</h4>
+                    <h4>NOMBRE</h4>
+                    <h4>ESTADO</h4>
+                    <h4>MODIFICAR</h4>
                   </div>
-                </div>
+                  <div className="itemProductABM__rows__container">
+                    {elementosPaginaActual.map((itemProduct) => (
+                      <div className="itemProductABM__row" key={itemProduct.id}>
+                        <h4 className="itemProductABM__h4">{itemProduct.id}</h4>
+                        <h4 className="itemProductABM__h4">
+                          {itemProduct.denomination}
+                        </h4>
+                        <h4 className="itemProductABM__h4">
+                          {itemProduct.active === true ? "De alta" : "De baja"}
+                        </h4>
+                        <div className="itemProductABM__icon">
+                          <button
+                            className="itemProductABM__button itemProductABM__button--icon"
+                            onClick={() => handleModify(itemProduct)}
+                          >
+                            <FaPencilAlt />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="itemProductABM__footer">
+                    <div className="itemProductABM__footer__pagination__info">
+                      {indiceInicio} - {indiceFin} de {itemProducts.length}
+                    </div>
+                    <div className="itemProductABM__footer__pagination__actions">
+                      {itemProducts.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronDoubleLeft
+                          className="itemProductABM__footer__pagination__arrow"
+                          onClick={() => handleChangePage(0)}
+                        />
+                      )}
+                      {itemProducts.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronLeft
+                          className="itemProductABM__footer__pagination__arrow"
+                          onClick={() => handleChangePage(-1)}
+                        />
+                      )}
+                      {itemProducts.length > 10 &&
+                        paginaActual !==
+                          Math.ceil(itemProducts.length / 10) && (
+                          <HiOutlineChevronRight
+                            className="itemProductABM__footer__pagination__arrow"
+                            onClick={() => handleChangePage(1)}
+                          />
+                        )}
+                      {itemProducts.length > 10 &&
+                        paginaActual !==
+                          Math.ceil(itemProducts.length / 10) && (
+                          <HiOutlineChevronDoubleRight
+                            className="itemProductABM__footer__pagination__arrow"
+                            onClick={() => handleChangePage(2)}
+                          />
+                        )}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <h1>No hay rubros de productos</h1>
               ))}
-            </div>
-          </div>
-          <div className="itemProductABM__footer">
-            <div className="itemProductABM__footer__pagination__info">
-              {indiceInicio} - {indiceFin} de {itemProducts.length}
-            </div>
-            <div className="itemProductABM__footer__pagination__actions">
-              {itemProducts.length > 10 && paginaActual > 1 && (
-                <HiOutlineChevronDoubleLeft
-                  className="itemProductABM__footer__pagination__arrow"
-                  onClick={() => handleChangePage(0)}
-                />
-              )}
-              {itemProducts.length > 10 && paginaActual > 1 && (
-                <HiOutlineChevronLeft
-                  className="itemProductABM__footer__pagination__arrow"
-                  onClick={() => handleChangePage(-1)}
-                />
-              )}
-              {itemProducts.length > 10 &&
-                paginaActual !== Math.ceil(itemProducts.length / 10) && (
-                  <HiOutlineChevronRight
-                    className="itemProductABM__footer__pagination__arrow"
-                    onClick={() => handleChangePage(1)}
-                  />
-                )}
-              {itemProducts.length > 10 &&
-                paginaActual !== Math.ceil(itemProducts.length / 10) && (
-                  <HiOutlineChevronDoubleRight
-                    className="itemProductABM__footer__pagination__arrow"
-                    onClick={() => handleChangePage(2)}
-                  />
-                )}
-            </div>
           </div>
 
           <Modal

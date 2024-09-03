@@ -12,6 +12,10 @@
     margin: auto;
 }
 
+.lowStockPage__table>h1 {
+    text-align: center;
+}
+
 .lowStockPage__header {
     display: flex;
     padding: 24px 32px;

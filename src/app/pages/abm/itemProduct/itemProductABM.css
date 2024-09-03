@@ -12,6 +12,10 @@
     margin: auto;
 }
 
+.itemProductABM__table>h1 {
+    text-align: center;
+}
+
 .itemProductABM__header {
     display: flex;
     padding: 24px 32px;

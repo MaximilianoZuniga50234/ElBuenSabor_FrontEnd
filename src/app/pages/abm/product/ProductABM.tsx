@@ -128,7 +128,7 @@ const ProductABM = () => {
   };
 
   useEffect(() => {
-    setShowedProducts(products)
+    setShowedProducts(products);
   }, [products]);
 
   useEffect(() => {
@@ -174,14 +174,10 @@ const ProductABM = () => {
               />
             )}
             {showedProducts.length === 0 && search !== "" && (
-              <div className="no_products">
-                <h4>NO HAY PRODUCTOS CON ESA DENOMINACIÓN</h4>
-              </div>
+              <h1>No hay productos con esa denominación</h1>
             )}
             {showedProducts.length === 0 && search === "" && (
-              <div className="no_products">
-                <h4>NO HAY PRODUCTOS</h4>
-              </div>
+              <h1>No hay productos</h1>
             )}
 
             <ProductABMModal

@@ -39,6 +39,7 @@ export default function ItemStockABM() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [tokenState, setTokenState] = useState("");
   const { user } = useUser();
+  const [isLoaded, setisLoaded] = useState(false);
 
   const [paginaActual, setPaginaActual] = useState<number>(1);
   const indiceInicio = (paginaActual - 1) * 10;
@@ -131,6 +132,8 @@ export default function ItemStockABM() {
       setItemStocks(response);
     } catch (error) {
       console.error("Error", error);
+    } finally {
+      setisLoaded(true);
     }
   };
 
@@ -181,74 +184,80 @@ export default function ItemStockABM() {
                 AÑADIR
               </button>
             </div>
-
-            <div className="itemStockABM__labels">
-              <h4>ID</h4>
-              <h4>NOMBRE</h4>
-              <h4>CATEGORÍA</h4>
-              <h4>ESTADO</h4>
-              <h4>MODIFICAR</h4>
-            </div>
-
-            <div className="itemStockABM__rows__container">
-              {elementosPaginaActual.map((itemStock) => (
-                <div className="itemStockABM__row" key={itemStock.id}>
-                  <h4 className="itemStockABM__h4">{itemStock.id}</h4>
-                  <h4 className="itemStockABM__h4">{itemStock.name}</h4>
-                  <h4 className="itemStockABM__h4">
-                    {itemStock.father
-                      ? itemStock.father?.name
-                      : "Sin categoría"}
-                  </h4>
-                  <h4 className="itemStockABM__h4">
-                    {itemStock.active === true ? "De alta" : "De baja"}
-                  </h4>
-                  <div className="itemStockABM__icon">
-                    <button
-                      className="itemStockABM__button itemStockABM__button--icon"
-                      onClick={() => handleModify(itemStock)}
-                    >
-                      <FaPencilAlt />
-                    </button>
+            {isLoaded &&
+              (itemStocks && itemStocks.length > 0 ? (
+                <>
+                  <div className="itemStockABM__labels">
+                    <h4>ID</h4>
+                    <h4>NOMBRE</h4>
+                    <h4>CATEGORÍA</h4>
+                    <h4>ESTADO</h4>
+                    <h4>MODIFICAR</h4>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="itemStockABM__footer">
-            <div className="itemStockABM__footer__pagination__info">
-              {indiceInicio} - {indiceFin} de {itemStocks.length}
-            </div>
-            <div className="itemStockABM__footer__pagination__actions">
-              {itemStocks.length > 10 && paginaActual > 1 && (
-                <HiOutlineChevronDoubleLeft
-                  className="itemStockABM__footer__pagination__arrow"
-                  onClick={() => handleChangePage(0)}
-                />
-              )}
-              {itemStocks.length > 10 && paginaActual > 1 && (
-                <HiOutlineChevronLeft
-                  className="itemStockABM__footer__pagination__arrow"
-                  onClick={() => handleChangePage(-1)}
-                />
-              )}
-              {itemStocks.length > 10 &&
-                paginaActual !== Math.ceil(itemStocks.length / 10) && (
-                  <HiOutlineChevronRight
-                    className="itemStockABM__footer__pagination__arrow"
-                    onClick={() => handleChangePage(1)}
-                  />
-                )}
-              {itemStocks.length > 10 &&
-                paginaActual !== Math.ceil(itemStocks.length / 10) && (
-                  <HiOutlineChevronDoubleRight
-                    className="itemStockABM__footer__pagination__arrow"
-                    onClick={() => handleChangePage(2)}
-                  />
-                )}
-            </div>
-          </div>
 
+                  <div className="itemStockABM__rows__container">
+                    {elementosPaginaActual.map((itemStock) => (
+                      <div className="itemStockABM__row" key={itemStock.id}>
+                        <h4 className="itemStockABM__h4">{itemStock.id}</h4>
+                        <h4 className="itemStockABM__h4">{itemStock.name}</h4>
+                        <h4 className="itemStockABM__h4">
+                          {itemStock.father
+                            ? itemStock.father?.name
+                            : "Sin categoría"}
+                        </h4>
+                        <h4 className="itemStockABM__h4">
+                          {itemStock.active === true ? "De alta" : "De baja"}
+                        </h4>
+                        <div className="itemStockABM__icon">
+                          <button
+                            className="itemStockABM__button itemStockABM__button--icon"
+                            onClick={() => handleModify(itemStock)}
+                          >
+                            <FaPencilAlt />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="itemStockABM__footer">
+                    <div className="itemStockABM__footer__pagination__info">
+                      {indiceInicio} - {indiceFin} de {itemStocks.length}
+                    </div>
+                    <div className="itemStockABM__footer__pagination__actions">
+                      {itemStocks.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronDoubleLeft
+                          className="itemStockABM__footer__pagination__arrow"
+                          onClick={() => handleChangePage(0)}
+                        />
+                      )}
+                      {itemStocks.length > 10 && paginaActual > 1 && (
+                        <HiOutlineChevronLeft
+                          className="itemStockABM__footer__pagination__arrow"
+                          onClick={() => handleChangePage(-1)}
+                        />
+                      )}
+                      {itemStocks.length > 10 &&
+                        paginaActual !== Math.ceil(itemStocks.length / 10) && (
+                          <HiOutlineChevronRight
+                            className="itemStockABM__footer__pagination__arrow"
+                            onClick={() => handleChangePage(1)}
+                          />
+                        )}
+                      {itemStocks.length > 10 &&
+                        paginaActual !== Math.ceil(itemStocks.length / 10) && (
+                          <HiOutlineChevronDoubleRight
+                            className="itemStockABM__footer__pagination__arrow"
+                            onClick={() => handleChangePage(2)}
+                          />
+                        )}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <h1>No hay rubros de ingredientes</h1>
+              ))}
+          </div>
           <Modal
             open={open}
             onClose={handleClose}

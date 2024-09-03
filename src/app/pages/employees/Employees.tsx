@@ -19,6 +19,7 @@ const Employees = () => {
   const [employees, setEmployees] = useState<UserAuth0Get[]>([]);
   const { users } = useUsers();
   const { user } = useUser();
+  const [isLoaded, setisLoaded] = useState(false);
 
   const employeeInitialState: UserAuth0Get = {
     created_at: new Date(),
@@ -63,10 +64,16 @@ const Employees = () => {
   };
 
   useEffect(() => {
-    const employees = users.filter(
-      (user) => user.role != "Cliente" && user.role != "Administrador"
-    );
-    setEmployees(employees);
+    try {
+      const employees = users.filter(
+        (user) => user.role != "Cliente" && user.role != "Administrador"
+      );
+      setEmployees(employees);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setisLoaded(true);
+    }
   }, [users]);
 
   return (
@@ -90,13 +97,20 @@ const Employees = () => {
                 AÑADIR
               </button>
             </div>
-            <Table datos={employees} />
-            <ModalEmployeesAbm
-              employee={employee}
-              isNew={isNew}
-              open={open}
-              setOpen={setOpen}
-            />
+            {isLoaded &&
+              (employees && employees.length > 0 ? (
+                <>
+                  <Table datos={employees} />
+                  <ModalEmployeesAbm
+                    employee={employee}
+                    isNew={isNew}
+                    open={open}
+                    setOpen={setOpen}
+                  />
+                </>
+              ) : (
+                <h1>No hay empleados</h1>
+              ))}
           </main>
         ) : (
           <NoPermissions />
