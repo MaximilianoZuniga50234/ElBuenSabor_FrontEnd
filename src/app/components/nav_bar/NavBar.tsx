@@ -227,26 +227,32 @@ const NavBar = () => {
                       <span>{isMenuOpen && <FaUser />} Mi perfil</span>
                     </Link>
                   </li>
-                  <li className="nav_bar_dropdown_profile_li">
-                    <Link
-                      to="/u/orders"
-                      className="nav_bar_dropdown_profile_link"
-                      onClick={handleCloseMenu}
-                    >
-                      <span>{isMenuOpen && <FaBagShopping />} Mis órdenes</span>
-                    </Link>
-                  </li>
-                  <li className="nav_bar_dropdown_profile_li">
-                    <Link
-                      to="/u/orders/history"
-                      className="nav_bar_dropdown_profile_link"
-                      onClick={handleCloseMenu}
-                    >
-                      <span>
-                        {isMenuOpen && <FaHistory />} Historial de órdenes
-                      </span>
-                    </Link>
-                  </li>
+                  {user?.role === "Cliente" && (
+                    <>
+                      <li className="nav_bar_dropdown_profile_li">
+                        <Link
+                          to="/u/orders"
+                          className="nav_bar_dropdown_profile_link"
+                          onClick={handleCloseMenu}
+                        >
+                          <span>
+                            {isMenuOpen && <FaBagShopping />} Mis órdenes
+                          </span>
+                        </Link>
+                      </li>
+                      <li className="nav_bar_dropdown_profile_li">
+                        <Link
+                          to="/u/orders/history"
+                          className="nav_bar_dropdown_profile_link"
+                          onClick={handleCloseMenu}
+                        >
+                          <span>
+                            {isMenuOpen && <FaHistory />} Historial de órdenes
+                          </span>
+                        </Link>
+                      </li>
+                    </>
+                  )}
                   <li className="nav_bar_dropdown_profile_li">
                     <button
                       className="nav_bar_dropdown_profile_link"

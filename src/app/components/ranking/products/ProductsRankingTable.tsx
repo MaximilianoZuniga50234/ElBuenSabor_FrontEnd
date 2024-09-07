@@ -57,8 +57,8 @@ export default function RankingTable({
             : `${showProducts ? "Productos vendidos" : "Bebidas vendidas"} ${
                 datesToFilter.startDate.getDay() !=
                 datesToFilter.endDate.getDay()
-                  ? `entre el día ${datesToFilter.startDate.toLocaleDateString()} y el día${datesToFilter.endDate.toLocaleDateString()}. `
-                  : `el día ${datesToFilter.startDate.toLocaleDateString()}`
+                  ? `entre el día ${datesToFilter.startDate.toLocaleDateString()} y el día ${datesToFilter.endDate.toLocaleDateString()}.`
+                  : `el día ${datesToFilter.startDate.toLocaleDateString()}.`
               }`,
       },
       {},

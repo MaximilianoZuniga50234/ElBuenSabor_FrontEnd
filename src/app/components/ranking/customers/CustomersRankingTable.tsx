@@ -67,8 +67,8 @@ export default function CustomersRankingTable({
             : `Clientes que realizaron pedidos ${
                 datesToFilter.startDate.getDay() !=
                 datesToFilter.endDate.getDay()
-                  ? `entre el ${datesToFilter.startDate.toLocaleDateString()} y el ${datesToFilter.endDate.toLocaleDateString()}. `
-                  : `el ${datesToFilter.startDate.toLocaleDateString()}`
+                  ? `entre el día ${datesToFilter.startDate.toLocaleDateString()} y el día ${datesToFilter.endDate.toLocaleDateString()}.`
+                  : `el día ${datesToFilter.startDate.toLocaleDateString()}.`
               }`,
       },
       {},
