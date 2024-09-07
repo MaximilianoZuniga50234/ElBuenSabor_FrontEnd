@@ -32,7 +32,7 @@ export default function CustomersRanking() {
   const getPurchaseOrders = async () => {
     try {
       const response = await getAllPurchaseOrder();
-      response && setPurchaseOrders(response);
+      response && setPurchaseOrders(response.filter((order: PurchaseOrder) => order.active));
     } catch (err) {
       console.error(err);
     }
@@ -178,6 +178,7 @@ export default function CustomersRanking() {
       isNaN(datesToFilter.endDate.getTime())
     ) {
       setFilteredOrders(purchaseOrders);
+      toast.success("Pedidos filtrados correctamente.");
     } else if (datesToFilter.startDate.getHours() != 0) {
       toast.error("Debe especificar una fecha de inicio para filtrar.");
     } else if (
@@ -200,6 +201,7 @@ export default function CustomersRanking() {
         );
       });
       setFilteredOrders(orders);
+      toast.success("Pedidos filtrados correctamente.");
     }
   };
 

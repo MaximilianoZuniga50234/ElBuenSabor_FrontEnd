@@ -84,13 +84,14 @@ export default function InvoicePdf({ invoice }: Props) {
         </View>
 
         <View style={styles.info}>
-          <Text style={{ fontSize: "15px" }}>Factura N° {invoice.purchaseOrder.id}</Text>
+          <Text style={{ fontSize: "15px" }}>
+            Factura N° {invoice.purchaseOrder.id}
+          </Text>
           <Text style={{ fontSize: "15px" }}>Fecha: {date}</Text>
           <Text style={{ marginTop: "10px", fontSize: "15px" }}>
             {`${invoice.purchaseOrder.person?.name} ${invoice.purchaseOrder.person?.lastName} `}
           </Text>
           <Text style={{ marginTop: "3px", fontSize: "15px" }}>
-            {/* {" "} */}
             {invoice.purchaseOrder.person?.phoneNumber}
           </Text>
           <Text style={{ marginTop: "3px", fontSize: "15px" }}>
@@ -109,7 +110,7 @@ export default function InvoicePdf({ invoice }: Props) {
           {invoice.purchaseOrder.details?.map((detail) => (
             <View key={Math.random()} style={styles.tableContent}>
               <Text style={{ flex: 2, fontSize: "15px" }}>
-                {detail.product?.denomination ?? detail.stock?.denomination }
+                {detail.product?.denomination ?? detail.stock?.denomination}
               </Text>
               <Text style={{ flex: 1, fontSize: "15px" }}>
                 ${detail.product?.salePrice ?? detail.stock?.salePrice}

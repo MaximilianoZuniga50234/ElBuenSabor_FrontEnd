@@ -100,6 +100,7 @@
     .userOrders__content {
         grid-template-columns: 1fr;
         padding: 0;
+        gap: 0;
     }
 
     .userOrders__labels {
@@ -113,7 +114,7 @@
     }
 
     .userOrders__card {
-        padding: 10px 0;
+        padding: 15px 0;
         display: grid;
         grid-template-columns: 2fr 1fr 2fr 2fr;
         align-items: center;

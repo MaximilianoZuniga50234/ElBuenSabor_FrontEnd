@@ -106,6 +106,7 @@ export default function MonetaryMovements() {
       isNaN(datesToFilter.endDate.getTime())
     ) {
       setFilteredOrders(purchaseOrders);
+      toast.success("Pedidos filtrados correctamente.");
     } else if (datesToFilter.startDate.getHours() != 0) {
       toast.error("Debe especificar una fecha de inicio para filtrar.");
     } else if (
@@ -127,6 +128,7 @@ export default function MonetaryMovements() {
         );
       });
       setFilteredOrders(orders);
+      toast.success("Pedidos filtrados correctamente.");
     }
   };
 

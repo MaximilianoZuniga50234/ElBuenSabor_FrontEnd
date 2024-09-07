@@ -337,13 +337,18 @@ const Cart = () => {
       setPurchaseOrder({
         ...purchaseOrder,
         details: details,
-        total: parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)),
+        total:
+          purchaseOrder.shippingType === "Retiro en el local"
+            ? parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0))
+            : priceAndTime.totalPrice,
         amountToPaid:
           totalCreditNoteAmount >
           parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0))
             ? 0
-            : parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)) -
-              totalCreditNoteAmount,
+            : purchaseOrder.shippingType === "Retiro en el local"
+            ? parseFloat((priceAndTime.totalPrice * 0.9).toFixed(0)) -
+              totalCreditNoteAmount
+            : priceAndTime.totalPrice - totalCreditNoteAmount,
       });
     }
     // } else {

@@ -102,7 +102,7 @@ export default function ModalOrderDetails({
     const fecha = new Date(purchaseOrder?.fecha);
     fecha.setMinutes(fecha.getMinutes() + purchaseOrder.estimatedEndTime);
     fecha.setSeconds(0);
-    setEstimatedHour(fecha.toLocaleTimeString());
+    setEstimatedHour(`${fecha.getHours().toString().padStart(2, '0')}:${fecha.getMinutes().toString().padStart(2, '0')}:${fecha.getSeconds().toString().padStart(2, '0')}`);
     setDate(fecha.toLocaleDateString());
   };
 
@@ -256,10 +256,10 @@ export default function ModalOrderDetails({
                     </h6>
                   </div>
                   <div className="modalOrderDetails__products__content">
-                    {purchaseOrder.details?.map((detail) => (
+                    {purchaseOrder.details?.map((detail, index) => (
                       <div
                         className="modalOrderDetails__products__content__product"
-                        key={detail?.product?.id}
+                        key={index}
                       >
                         <h6>{detail.product ? detail.product?.denomination : detail.stock?.denomination}</h6>
                         <h6>{detail.amount}</h6>
@@ -270,11 +270,11 @@ export default function ModalOrderDetails({
                 </div>
 
                 <div
-                  className={`modalOrderDetails__buttons ${
+                  className={`modalOrderDetails__buttons${
                     isOrderFromCart &&
                     purchaseOrder.paymentMethod === "Mercado Pago" &&
-                    purchaseOrder.amountToPaid != 0 &&
-                    "mercado-pago"
+                    purchaseOrder.amountToPaid != 0 ?
+                    " mercado-pago" : ''
                   }`}
                 >
                   <button
