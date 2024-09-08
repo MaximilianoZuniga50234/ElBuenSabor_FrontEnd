@@ -45,21 +45,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-
-        <div className="footer__info">
-          <ul className="footer__ul">
-            <li className="footer__li">
-              <Link to="#" className="footer__link" target="_blank">
-                Contacto
-              </Link>
-            </li>
-            <li className="footer__li">
-              <Link to="#" className="footer__link" target="_blank">
-                Sobre Nosotros
-              </Link>
-            </li>
-          </ul>
-        </div>
       </div>
     </footer>
   );

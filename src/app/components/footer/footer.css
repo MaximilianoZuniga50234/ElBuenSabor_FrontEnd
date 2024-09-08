@@ -64,26 +64,6 @@
     max-height: 30px;
 }
 
-.footer__info {
-    width: 100%;
-    max-width: 350px;
-    align-self: center;
-    margin: 0 auto;
-}
-
-.footer__ul {
-    list-style: none;
-    padding: 10px;
-    display: flex;
-    text-align: center;
-    align-items: center;
-}
-
-.footer__li {
-    padding: 5px 0;
-    flex: 1;
-}
-
 @media (width>=768px) {
 
     .footer__container {
@@ -116,23 +96,4 @@
         height: 100%;
         object-fit: cover;
     }
-
-    .footer__info {
-        max-width: max-content;
-        display: flex;
-    }
-
-    .footer__ul {
-        padding: 0;
-        display: flex;
-        text-align: end;
-        align-items: center;
-        gap: 20px;
-        padding: 0 10px 0 5px;
-    }
-
-    .footer__li {
-        flex: auto;
-    }
-
 }
