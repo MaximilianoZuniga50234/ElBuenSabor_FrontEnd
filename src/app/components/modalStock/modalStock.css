@@ -1,0 +1,100 @@
+.modalStock__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
+    padding: 20px 40px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
+}
+
+.modalStock__box>.modalStock__h3 {
+    text-align: center;
+}
+
+.modalStock__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modalStock__input,
+.modalStock__select {
+    padding: 10px 5px;
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+}
+
+.modalStock__buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalStock__button {
+    width: 100px;
+}
+
+.modalStock__content{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modalStock__item--image {
+    position: relative;
+    grid-row: 1;
+    grid-column: 2;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.modalStock__item--image .modalStock__image__label {
+    position: absolute;
+    bottom: 0;
+    background: rgb(0, 0, 0, 0);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: background 0.2s, opacity 0.3s ease-in-out;
+}
+
+.modalStock__item--image .modalStock__image__label:hover {
+    background: rgb(0, 0, 0, 0.7);
+    opacity: 1;
+    cursor: pointer;
+}
+
+.modalStock__item--image .modalStock__image__label svg {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    color: var(--white);
+}
+
+.modalStock__item--image img {
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    border: 2px solid var(--black);
+}

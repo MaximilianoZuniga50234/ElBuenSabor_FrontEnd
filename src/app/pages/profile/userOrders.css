@@ -1,0 +1,151 @@
+.userOrders__container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    max-width: 1920px;
+    margin: auto;
+}
+
+.userOrders__table {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 2px solid var(--ebony-950);
+    min-height: 80vh;
+    background-color: var(--ebony-50);
+}
+
+.userOrders__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-bottom: 2px solid var(--ebony-950);
+    height: 60px;
+}
+
+.userOrders__header__title {
+    text-align: center;
+}
+
+.userOrders__labels {
+    display: none;
+}
+
+.userOrders__content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 230px);
+    gap: 10px;
+    padding: 10px;
+    justify-content: center;
+}
+
+.userOrders__card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ebony-950);
+    padding: 10px;
+    border-radius: 10px;
+    gap: 10px;
+    align-items: center;
+}
+
+.userOrders__span {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.userOrders__card__div {
+    display: flex;
+    gap: 15px;
+}
+
+.userOrders__card__buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.userOrders__card__button {
+    width: 80px;
+    justify-content: center;
+}
+
+.hide {
+    display: none;
+}
+
+@media (width >=425px) {
+    .userOrders__content {
+        grid-template-columns: repeat(auto-fit, minmax(230px, 280px));
+    }
+
+    .userOrders__card {
+        gap: 15px;
+    }
+
+    .userOrders__span {
+        font-size: medium;
+    }
+
+    .hide {
+        display: none;
+    }
+}
+
+@media (width >=768px) {
+
+    .userOrders__content {
+        grid-template-columns: 1fr;
+        padding: 0;
+        gap: 0;
+    }
+
+    .userOrders__labels {
+        padding: 15px 0;
+        display: grid;
+        grid-template-columns: 2fr 1fr 2fr 2fr;
+        align-items: center;
+        text-align: center;
+        border-bottom: 1px solid var(--ebony-900);
+        font-size: larger;
+    }
+
+    .userOrders__card {
+        padding: 15px 0;
+        display: grid;
+        grid-template-columns: 2fr 1fr 2fr 2fr;
+        align-items: center;
+        text-align: center;
+        gap: 0;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid var(--ebony-900);
+    }
+
+    .userOrders__span {
+        font-size: large;
+        justify-content: center;
+    }
+
+    .userOrders__card__buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .userOrders__card__button {
+        font-size: medium;
+    }
+
+    .hide {
+        display: none;
+    }
+}
+
+@media (width >=1024px) {
+    .userOrders__card__button {
+        width: 100px;
+    }
+}

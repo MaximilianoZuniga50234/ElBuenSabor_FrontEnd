@@ -1,0 +1,102 @@
+.monetaryMovements__container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+.monetaryMovements__header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.monetaryMovements__filter {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding-bottom: 10px;
+    max-width: 100%;
+}
+
+.monetaryMovements__filter input {
+    font-size: 10px;
+    background-color: var(--ebony-50);
+    color: var(--ebony-950);
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+@media (width >=425px) {
+
+    .monetaryMovements__filter input {
+        font-size: 12px;
+    }
+
+    .monetaryMovements__title {
+        font-size: 24px;
+    }
+
+}
+
+@media (width >=768px) {
+
+    .monetaryMovements__title {
+        font-size: 28px;
+    }
+
+    .monetaryMovements__header {
+        width: 100%;
+        max-width: 700px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+    }
+
+    .monetaryMovements__filter {
+        max-width: 65%;
+        padding-bottom: 0;
+    }
+
+
+}
+
+@media (width >=1024px) {
+
+    .monetaryMovements__header {
+        max-width: 850px;
+        padding: 20px 0;
+    }
+
+    .monetaryMovements__filter input {
+        font-size: 14px;
+    }
+
+    .monetaryMovements__title {
+        font-size: 36px;
+    }
+
+}
+
+@media (width >=1920px) {
+
+    .monetaryMovements__header {
+        max-width: 1000px;
+        padding: 20px 0;
+    }
+
+    .monetaryMovements__filter input {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,230 @@
+.main_customers_list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  max-width: 1920px;
+  margin: auto;
+}
+
+.main_customers_list .title_container {
+  width: 90%;
+  align-self: flex-start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px 0 32px;
+  margin: 24px 0 16px 5%;
+}
+
+.main_customers_list .title_container h2 {
+  font-size: 36px;
+}
+
+.main_customers_list .title_container form {
+  width: 40%;
+  display: flex;
+  height: 40px;
+  flex-direction: row;
+  gap: 0;
+}
+
+.main_customers_list .title_container form input {
+  width: 90%;
+  border: 0;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  border-radius: 12px 0 0 12px;
+  padding: 0 8px 0 8px;
+}
+
+.main_customers_list .title_container form button {
+  border-radius: 0 12px 12px 0;
+}
+
+.main_customers_list .title_container form button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.main_customers_list .title_container button svg {
+  width: 16px;
+  height: 16px;
+  font-weight: bolder;
+}
+
+.customers_list_table {
+  border: 1px solid var(--ebony-950);
+  border-radius: 12px;
+  background: var(--ebony-50);
+  width: 90%;
+  margin: 8px 0 20px;
+  border-spacing: 0;
+  border: 0;
+}
+
+.customers_list_table thead tr {
+  display: grid;
+  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid var(--ebony-900);
+  background: var(--ebony-900);
+  border-radius: 12px 12px 0 0;
+  color: var(--white);
+}
+
+.customers_list_table thead tr td {
+  display: flex;
+  font-weight: bold;
+  padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.customers_list_table tbody tr {
+  display: grid;
+  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid var(--ebony-900);
+  border-left: 1px solid var(--ebony-900);
+  border-right: 1px solid var(--ebony-900);
+}
+
+.customers_list_table tbody tr td {
+  display: flex;
+  padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.customers_list_table .celda_acciones {
+  display: flex;
+  justify-content: center;
+}
+
+.customers_list_table .celda_acciones button {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.customers_list_table tfoot tr {
+  display: flex;
+  padding: 0 32px;
+  background: var(--ebony-100);
+  gap: 20px;
+  border: 0;
+  align-items: center;
+  justify-content: end;
+}
+
+.customers_list_table tfoot tr td {
+  display: flex;
+  flex-direction: row;
+  padding: 16px 0 16px 0;
+  gap: 8px;
+}
+
+.customers_list_table tfoot tr td a {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 16px 8px 16px;
+  gap: 4px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--white);
+  background-color: var(--ebony-950);
+}
+
+.customers_list_table tfoot tr td a:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.customers_list_table .paginacion_flechas {
+  height: 16px;
+  width: 16px;
+}
+
+.customers_list_table .paginacion_flechas:hover {
+  opacity: 0.7;
+}
+
+.modalCustomersAbm__box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  padding: 10px 40px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: scroll;
+  max-height: 95vh;
+  scrollbar-width: none;
+}
+
+.modalCustomersAbm__box>.modalCustomersAbm__h3 {
+  text-align: center;
+}
+
+.modalCustomersAbm__div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modalCustomersAbm__h5 {
+  font-weight: normal;
+}
+
+.modalConfirmDelete__h2 {
+  font-weight: normal;
+  text-align: center;
+}
+
+.modalCustomersAbm__input,
+.modalCustomersAbm__select {
+  padding: 6px 5px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  border-radius: 10px;
+}
+
+.modalCustomersAbm__buttons,
+.modalConfirmDelete__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalCustomersAbm__button,
+.modalConfirmDelete__button {
+  width: 100px;
+}
+
+.modalCustomersAbm__h5--popover {
+  display: flex;
+  align-items: center;
+}
+
+.modalCustomersAbm__popover__button {
+  height: 15px;
+  width: 15px;
+  margin-left: 3px;
+  padding: 0;
+}
+
+.modalCustomersAbm__popover__icon {
+  display: flex;
+}
+
+.modalCustomersAbm__popover__div {
+  padding: 5px;
+  color: var(--ebony-950);
+  max-width: 350px;
+}

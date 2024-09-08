@@ -1,0 +1,181 @@
+.carrousel {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1920px;
+}
+
+.alice-carousel {
+  max-width: 80%;
+  margin: 0px;
+  direction: ltr;
+}
+
+.alice-carousel__stage-item {
+  padding: 8px 4px 8px 4px;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.alice-carousel__prev-btn,
+.alice-carousel__next-btn {
+  position: absolute;
+  top: 100px;
+  font-size: 24px;
+  width: fit-content;
+}
+
+.alice-carousel__prev-btn {
+  left: -32px;
+}
+
+.alice-carousel__next-btn {
+  right: -32px;
+}
+
+.alice-carousel__dots-item:not(.__custom) {
+  background: var(--ebony-950);
+}
+
+.alice-carousel__dots-item:not(.__custom).__active {
+  background: var(--ebony-600);
+}
+
+.carrousel .productCardNoStock::before {
+  content: "Sin stock";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 8px;
+}
+
+.carrousel .productCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  height: 250px;
+  cursor: pointer;
+  background: var(--white);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.carrousel .productCard:hover {
+  transform: scale(1.05);
+}
+
+.carrousel .productCard .image-discount {
+  position: relative;
+  height: 124px;
+}
+
+.carrousel .productCard .image-discount .productImage {
+  width: 184px;
+  height: 124px;
+  object-fit: fill;
+  border-radius: 4px;
+}
+
+.carrousel .productCard .image-discount p {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 2px 4px 2px 2px;
+  border-radius: 0 12px 0 0;
+  color: var(--white);
+  background: var(--ebony-900);
+}
+
+.carrousel .productCard .productInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 126px;
+  padding: 8px;
+}
+
+.carrousel .productCard .productInfo .products__card__p {
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}
+
+.carrousel .productCard .productInfo .products__card__p span {
+  width: 100%;
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.carrousel .productCard .productInfo .productPriceIcon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+}
+
+.carrousel .productCard .productInfo .productPriceIcon .productPrice {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+.carrousel .productCard .productInfo .productPriceIcon .productPrice s {
+  display: block;
+  font-size: 16px;
+  color: #868e96;
+  margin-bottom: 5px;
+  text-decoration: line-through;
+}
+
+.carrousel .productCard .productInfo .productPriceIcon .productCart {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.carrousel .productCard .productInfo .productPriceIcon button {
+  padding: 0;
+}
+
+.carrousel .productCard .productInfo .productPriceIcon button:hover {
+  background: var(--ebony-900);
+}
+
+.carrousel .productCard .productInfo .productPriceIcon button svg {
+  font-size: 20px;
+  margin: 8px;
+}

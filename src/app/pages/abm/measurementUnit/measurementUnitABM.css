@@ -1,0 +1,130 @@
+.measurementUnitABM__container {
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+.measurementUnitABM__table {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--ebony-100);
+    border-radius: 10px;
+    width: 90%;
+    margin: auto;
+}
+
+.measurementUnitABM__table>h1 {
+    text-align: center;
+}
+
+.measurementUnitABM__header {
+    display: flex;
+    padding: 24px 32px;
+    background-color: var(--ebony-100);
+}
+
+.measurementUnitABM__title {
+    flex: 1;
+    font-size: 36px;
+}
+
+.measurementUnitABM__labels {
+    display: grid;
+    grid-template-columns: 1fr 4fr 2fr 2fr 2fr;
+    align-items: center;
+    padding: 16px 0;
+    text-align: center;
+    border-bottom: 1px solid var(--ebony-900);
+    border-radius: 12px 12px 0 0;
+    background: var(--ebony-900);
+    color: var(--white);
+}
+
+.measurementUnitABM__row {
+    display: grid;
+    grid-template-columns: 1fr 4fr 2fr 2fr 2fr;
+    padding: 16px 0;
+    text-align: center;
+    background-color: var(--ebony-50);
+    border-bottom: 1px solid var(--ebony-900);
+    border-left: 1px solid var(--ebony-900);
+    border-right: 1px solid var(--ebony-900);
+    align-items: center;
+}
+
+.measurementUnitABM__icon {
+    display: flex;
+    justify-content: center;
+}
+
+.measurementUnitABM__button--icon {
+    padding: 10px;
+}
+
+.measurementUnitABM__h4 {
+    font-weight: 500;
+}
+
+.measurementUnitABM__modal__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
+    padding: 20px 40px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
+}
+
+.measurementUnitABM__modal__box>.measurementUnitABM__modal__h3 {
+    text-align: center;
+}
+
+.measurementUnitABM__modal__name,
+.measurementUnitABM__modal__state {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.measurementUnitABM__modal__input,
+.measurementUnitABM__modal__select {
+    padding: 10px 5px;
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+}
+
+.measurementUnitABM__modal__buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.measurementUnitABM__modal__button {
+    width: 100px;
+}
+
+.measurementUnitABM__footer {
+    display: flex;
+    width: 95%;
+    padding: 20px 32px;
+    gap: 20px;
+    border: 0;
+    align-items: center;
+    justify-content: end;
+}
+
+.measurementUnitABM__footer__pagination__actions {
+    display: flex;
+    align-items: center;
+}
+
+.measurementUnitABM__footer__pagination__arrow {
+    cursor: pointer;
+}

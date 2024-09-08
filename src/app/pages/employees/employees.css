@@ -1,0 +1,234 @@
+.main_employees_list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  max-width: 1920px;
+  margin: auto;
+}
+
+.main_employees_list .title_container {
+  width: 90%;
+  align-self: flex-start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px 0 32px;
+  margin: 24px 0 16px 5%;
+}
+
+.main_employees_list .title_container h2 {
+  font-size: 36px;
+}
+
+.main_employees_list .title_container button {
+  padding: 12px 16px 12px 16px;
+}
+
+.main_employees_list .title_container form {
+  width: 40%;
+  display: flex;
+  height: 40px;
+  flex-direction: row;
+  gap: 0;
+}
+
+.main_employees_list .title_container form input {
+  width: 90%;
+  border: 0;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  border-radius: 12px 0 0 12px;
+  padding: 0 8px 0 8px;
+}
+
+.main_employees_list .title_container form button {
+  border-radius: 0 12px 12px 0;
+}
+
+.main_employees_list .title_container form button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.main_employees_list .title_container button svg {
+  width: 16px;
+  height: 16px;
+  font-weight: bolder;
+}
+
+.employees_list_table {
+  border: 1px solid var(--ebony-950);
+  border-radius: 12px;
+  background: var(--ebony-50);
+  width: 90%;
+  margin: 8px 0 20px;
+  border-spacing: 0;
+  border: 0;
+}
+
+.employees_list_table thead tr {
+  display: grid;
+  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid var(--ebony-900);
+  background: var(--ebony-900);
+  border-radius: 12px 12px 0 0;
+  color: var(--white);
+}
+
+.employees_list_table thead tr td {
+  display: flex;
+  font-weight: bold;
+  padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.employees_list_table tbody tr {
+  display: grid;
+  grid-template-columns: 1.75fr 1.75fr 1.5fr 1fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid var(--ebony-900);
+  border-left: 1px solid var(--ebony-900);
+  border-right: 1px solid var(--ebony-900);
+}
+
+.employees_list_table tbody tr td {
+  display: flex;
+  padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.employees_list_table .celda_acciones {
+  display: flex;
+  justify-content: center;
+}
+
+.employees_list_table .celda_acciones button {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.employees_list_table tfoot tr {
+  display: flex;
+  padding: 0 32px;
+  background: var(--ebony-100);
+  gap: 20px;
+  border: 0;
+  align-items: center;
+  justify-content: end;
+}
+
+.employees_list_table tfoot tr td {
+  display: flex;
+  flex-direction: row;
+  padding: 16px 0 16px 0;
+  gap: 8px;
+}
+
+.employees_list_table tfoot tr td a {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 16px 8px 16px;
+  gap: 4px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--white);
+  background-color: var(--ebony-950);
+}
+
+.employees_list_table tfoot tr td a:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.employees_list_table .paginacion_flechas {
+  height: 16px;
+  width: 16px;
+}
+
+.employees_list_table .paginacion_flechas:hover {
+  opacity: 0.7;
+}
+
+.modalEmployeesAbm__box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  padding: 10px 40px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: scroll;
+  max-height: 95vh;
+  scrollbar-width: none;
+}
+
+.modalEmployeesAbm__box>.modalEmployeesAbm__h3 {
+  text-align: center;
+}
+
+.modalEmployeesAbm__div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modalEmployeesAbm__h5 {
+  font-weight: normal;
+}
+
+.modalConfirmDelete__h2 {
+  font-weight: normal;
+  text-align: center;
+}
+
+.modalEmployeesAbm__input,
+.modalEmployeesAbm__select {
+  padding: 6px 5px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  border-radius: 10px;
+}
+
+.modalEmployeesAbm__buttons,
+.modalConfirmDelete__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalEmployeesAbm__button,
+.modalConfirmDelete__button {
+  width: 100px;
+}
+
+.modalEmployeesAbm__h5--popover {
+  display: flex;
+  align-items: center;
+}
+
+.modalEmployeesAbm__popover__button {
+  height: 15px;
+  width: 15px;
+  margin-left: 3px;
+  padding: 0;
+}
+
+.modalEmployeesAbm__popover__icon {
+  display: flex;
+}
+
+.modalEmployeesAbm__popover__div {
+  padding: 5px;
+  color: var(--ebony-950);
+  max-width: 350px;
+}

@@ -1,0 +1,50 @@
+.modalStockPurchase__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
+    padding: 20px 40px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
+}
+
+.modalStockPurchase__box>.modalStockPurchase__h3 {
+    text-align: center;
+}
+
+.modalStockPurchase__itemStock,
+.modalStockPurchase__price,
+.modalStockPurchase__quantityPurchased {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modalStockPurchase__input,
+.modalStockPurchase__select {
+    padding: 10px 5px;
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+}
+
+.modalStockPurchase__buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalStockPurchase__button {
+    width: 100px;
+}
+
+.modalStockPurchase__button--addStock {
+    width: 100%;
+}

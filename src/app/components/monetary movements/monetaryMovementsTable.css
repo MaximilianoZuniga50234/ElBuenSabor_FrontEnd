@@ -1,0 +1,134 @@
+.monetaryMovements__table {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.monetaryMovements__table__container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: var(--ebony-50);
+    width: 100%;
+    max-width: 450px;
+}
+
+.monetaryMovements__table__container h5 {
+    font-weight: normal;
+}
+
+.monetaryMovements__table__header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    border-bottom: 1px solid var(--ebony-900);
+    padding: 10px 5px;
+    align-items: center;
+    text-align: center;
+    background: var(--ebony-900);
+    color: var(--white);
+    border-radius: 12px 12px 0 0;
+}
+
+.monetaryMovements__table__content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    padding: 20px 5px;
+    border-bottom: 1px solid var(--ebony-900);
+    border-left: 1px solid var(--ebony-900);
+    border-right: 1px solid var(--ebony-900);
+}
+
+.monetaryMovements__noResults {
+    text-wrap: balance;
+}
+
+.monetaryMovements__footer {
+    display: flex;
+    width: 100%;
+    max-width: 450px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+}
+
+.monetaryMovements__footer__excel button {
+    font-size: 12px;
+}
+
+@media (width >=425px) {
+    .monetaryMovements__table__header {
+        padding: 10px 10px;
+    }
+
+    .monetaryMovements__noResults {
+        font-size: 18px;
+    }
+
+    .monetaryMovements__footer__excel button {
+        font-size: 14px;
+    }
+
+}
+
+@media (width >=550px) {
+    .monetaryMovements__table__container h5 {
+        font-size: 16px;
+    }
+
+
+}
+
+@media (width >=768px) {
+
+    .monetaryMovements__table__title {
+        padding: 20px 10px;
+    }
+
+    .monetaryMovements__table__container {
+        width: 70%;
+        max-width: 100%;
+    }
+
+    .monetaryMovements__table__container h5 {
+        font-size: 18px;
+    }
+
+    .monetaryMovements__table__header {
+        padding: 15px 5px;
+    }
+
+
+    .monetaryMovements__noResults {
+        font-size: 20px;
+    }
+
+    .monetaryMovements__footer {
+        width: 70%;
+        max-width: 100%;
+    }
+
+    .monetaryMovements__footer__excel button {
+        font-size: 16px;
+    }
+
+}
+
+@media (width >=1024px) {
+
+    .monetaryMovements__table__header {
+        padding: 20px 5px;
+    }
+
+    .monetaryMovements__table__container h5 {
+        font-size: 24px;
+    }
+
+    .monetaryMovements__footer__excel button {
+        font-size: 18px;
+    }
+}

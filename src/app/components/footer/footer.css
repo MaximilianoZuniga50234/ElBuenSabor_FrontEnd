@@ -1,0 +1,138 @@
+.footer {
+    background-color: var(--ebony-950);
+    width: 100%;
+}
+
+.footer__container {
+    max-width: 1920px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin: 0 auto;
+}
+
+.footer__logo {
+    display: none;
+}
+
+.footer__users {
+    background-image: url("/images/footer/logo-con-opacidad.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 200px;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.footer__users__container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 40px 0;
+}
+
+.footer__user {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.footer__title {
+    font-weight: 500;
+    font-size: 22px;
+}
+
+.footer__name,
+.footer__icon {
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.footer__link {
+    text-decoration: none;
+    color: #fff;
+}
+
+.footer__link:hover {
+    opacity: 0.75;
+    transition: .3s;
+}
+
+.footer__img {
+    display: block;
+    max-height: 30px;
+}
+
+.footer__info {
+    width: 100%;
+    max-width: 350px;
+    align-self: center;
+    margin: 0 auto;
+}
+
+.footer__ul {
+    list-style: none;
+    padding: 10px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+.footer__li {
+    padding: 5px 0;
+    flex: 1;
+}
+
+@media (width>=768px) {
+
+    .footer__container {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .footer__logo {
+        display: unset;
+        margin-right: 5px;
+    }
+
+    .footer__users {
+        background-image: none;
+        justify-content: start;
+        padding-left: 5px;
+        flex: 1;
+    }
+
+    .footer__users__container {
+        flex-direction: row;
+    }
+
+    .footer__title {
+        display: none;
+    }
+
+    .footer__img--logo {
+        max-height: 50px;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .footer__info {
+        max-width: max-content;
+        display: flex;
+    }
+
+    .footer__ul {
+        padding: 0;
+        display: flex;
+        text-align: end;
+        align-items: center;
+        gap: 20px;
+        padding: 0 10px 0 5px;
+    }
+
+    .footer__li {
+        flex: auto;
+    }
+
+}

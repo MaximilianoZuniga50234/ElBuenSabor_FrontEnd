@@ -1,0 +1,131 @@
+.not_found_main_container {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background: var(--white);
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.not_found_article {
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  background: var(--ebony-100);
+  width: 90%;
+  height: 50%;
+  margin: 48px;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 5px 0px var(--black);
+}
+
+.not_found_article .not_found_article_text {
+  display: inherit;
+  flex-direction: inherit;
+  align-items: center;
+  gap: 32px;
+}
+
+.not_found_article .not_found_article_text h1 {
+  width: fit-content;
+  font-size: 128px;
+}
+
+.not_found_article .not_found_article_text div h3 {
+  font-size: 32px;
+}
+
+.not_found_article .not_found_article_text div p {
+  font-size: 13px;
+}
+
+.not_found_article a {
+  width: fit-content;
+  background: var(--white);
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0px 0px 5px 0px var(--black);
+  padding: 4px 8px 4px 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--black);
+}
+
+.not_found_article a svg {
+  animation: moveArrowLeft 1.5s linear infinite;
+}
+
+.not_found_article a svg:last-child {
+  animation: moveArrowRight 1.5s linear infinite;
+}
+
+@keyframes moveArrowLeft {
+
+  0%,
+  100% {
+    transform: translateX(-4px);
+  }
+
+  50% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveArrowRight {
+
+  0%,
+  100% {
+    transform: translateX(4px);
+  }
+
+  50% {
+    transform: translateX(0);
+  }
+}
+
+.not_found_main_container img {
+  position: absolute;
+  width: 100%;
+  height: 150%;
+  bottom: -10%;
+  right: 50;
+  z-index: 11;
+  opacity: 0.3;
+  object-fit: cover;
+}
+
+@media only screen and (min-width: 767px) {
+  .not_found_article {
+    width: 80%;
+    height: 40%;
+    gap: 32px;
+  }
+
+  .not_found_article .not_found_article_text {
+    gap: 24px;
+  }
+
+  .not_found_article .not_found_article_text div {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+
+  .not_found_article .not_found_article_text div p {
+    font-size: 16px;
+  }
+
+  .not_found_article a {
+    font-size: 20px;
+  }
+}

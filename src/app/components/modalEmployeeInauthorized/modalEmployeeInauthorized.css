@@ -1,0 +1,25 @@
+.modalEmployeeInauthorized__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 280px;
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
+    padding: 20px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    max-width: 500px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
+}
+
+.modalEmployeeInauthorized__title {
+    font-weight: 500;
+    text-wrap: balance;
+    text-align: center;
+}

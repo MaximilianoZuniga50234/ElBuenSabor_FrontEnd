@@ -1,0 +1,581 @@
+.main_products_list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  max-width: 1920px;
+  margin: auto;
+}
+
+.main_products_list .title_container {
+  width: 90%;
+  align-self: flex-start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px 0 32px;
+  margin: 24px 0 16px 5%;
+}
+
+.main_products_list .title_container h2 {
+  font-size: 36px;
+}
+
+.main_products_list .title_container button {
+  padding: 12px 16px 12px 16px;
+}
+
+.main_products_list .title_container form {
+  width: 40%;
+  display: flex;
+  height: 40px;
+  flex-direction: row;
+  gap: 0;
+}
+
+.main_products_list .title_container form input {
+  width: 90%;
+  border: 0;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  border-radius: 12px 0 0 12px;
+  padding: 0 8px 0 8px;
+}
+
+.main_products_list .title_container form button {
+  border-radius: 0 12px 12px 0;
+}
+
+.main_products_list .title_container form button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.products_list_table {
+  border: 1px solid var(--ebony-950);
+  border-radius: 12px;
+  background: var(--ebony-50);
+  width: 90%;
+  margin: 8px 0 20px;
+  border-spacing: 0;
+  border: 0;
+}
+
+.products_list_table thead tr {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 0.8fr 0.5fr 0.8fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid var(--ebony-900);
+  background: var(--ebony-900);
+  border-radius: 12px 12px 0 0;
+  color: var(--white);
+}
+
+.products_list_table thead tr td {
+  display: flex;
+  font-weight: bold;
+  padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.products_list_table tbody tr {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 0.8fr 0.5fr 0.8fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid var(--ebony-900);
+  border-left: 1px solid var(--ebony-900);
+  border-right: 1px solid var(--ebony-900);
+}
+
+.products_list_table tbody tr td {
+  display: flex;
+  padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.products_list_table .celda_acciones svg {
+  width: 34px;
+  height: 34px;
+  padding: 10px;
+  background: var(--ebony-800);
+  color: var(--white);
+  border-radius: 12px;
+}
+
+.products_list_table svg {
+  cursor: pointer;
+}
+
+.products_list_table .celda_acciones .product_table_leave_button {
+  background: var(--warning-red);
+}
+
+.products_list_table .celda_acciones .product_table_leave_button:hover {
+  background: var(--light-red);
+  opacity: 1;
+}
+
+.products_list_table tfoot tr {
+  display: flex;
+  padding: 0 32px;
+  background: var(--ebony-100);
+  gap: 20px;
+  border: 0;
+  align-items: center;
+  justify-content: end;
+}
+
+.products_list_table tfoot tr td {
+  display: flex;
+  flex-direction: row;
+  padding: 16px 0 16px 0;
+  gap: 8px;
+}
+
+.products_list_table tfoot tr td a {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 16px 8px 16px;
+  gap: 4px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--white);
+  background-color: var(--ebony-950);
+}
+
+.products_list_table tfoot tr td a:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.products_list_table .paginacion_flechas {
+  height: 16px;
+  width: 16px;
+}
+
+.products_list_table .paginacion_flechas:hover {
+  opacity: 0.7;
+}
+
+/*********************************  ESTILOS MODAL ****************************************/
+
+.product_abm_modal_container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: scroll;
+  max-height: 95vh;
+}
+
+.product_abm_modal_container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.product_abm_modal_container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+.product_abm_modal_container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.product_abm_modal_container::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.product_abm_modal_body {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+  gap: 24px;
+}
+
+.product_abm_modal_inputs {
+  display: grid;
+  grid-row: 1;
+  grid-column: 1;
+  grid-template-columns: 0.5fr 1fr;
+  gap: 8px 8px;
+  margin: 16px 0 0 0;
+  text-align: center;
+  align-items: center;
+}
+
+.product_abm_modal_inputs input {
+  padding: 4px 8px 4px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--black);
+  height: fit-content;
+}
+
+.product_abm_modal_category_container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.product_abm_modal_category_input {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.product_abm_modal_category_input input {
+  width: 100%;
+  transition: border-radius 300ms ease;
+  cursor: pointer;
+}
+
+.product_abm_modal_category_input input.selected {
+  border-radius: 12px 12px 0 0;
+}
+
+.product_abm_modal_category_input svg {
+  position: absolute;
+  right: 4px;
+  transition: transform 300ms ease;
+}
+
+.product_abm_modal_category_input svg.selected {
+  transform: rotate(180deg);
+}
+
+.product_abm_modal_category_container ul {
+  height: 0;
+  top: 24px;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: absolute;
+  text-align: start;
+  background: var(--white);
+  z-index: 10;
+  border-radius: 0 0 12px 12px;
+}
+
+.product_abm_modal_category_container ul.selected {
+  height: 100px;
+  border: 1px solid var(--black);
+}
+
+.product_abm_modal_category_container li {
+  cursor: pointer;
+  padding: 0 0 2px 4px;
+}
+
+.product_abm_modal_category_container li.selected {
+  background: var(--ebony-200);
+}
+
+.product_abm_modal_category_container li:hover {
+  background: var(--ebony-50);
+}
+
+.product_abm_modal_switch_box {
+  display: grid;
+  grid-template-columns: inherit;
+  align-content: center;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  width: 100%;
+  gap: 12px;
+  grid-column: 1/3;
+}
+
+.product_abm_modal_switch_box div {
+  display: flex;
+  flex-direction: row;
+}
+
+.product_abm_modal_switch_text {
+  font-size: 16px;
+  grid-column: 1/2;
+}
+
+.product_abm_modal_switch_input {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.product_abm_modal_switch_label {
+  position: relative;
+  width: 40px;
+  height: 16px;
+  display: block;
+  background: var(--ebony-200);
+  border-radius: 24px;
+  opacity: 1;
+  cursor: pointer;
+  transition: 200ms;
+  grid-column: 2/3;
+}
+
+.product_abm_modal_switch_label:after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--ebony-800);
+  border-radius: 100px;
+  transition: 200ms;
+}
+
+.product_abm_modal_switch_input:checked+.product_abm_modal_switch_label {
+  background: var(--ebony-500);
+}
+
+.product_abm_modal_switch_input:checked+.product_abm_modal_switch_label:after {
+  left: calc(100% + 2px);
+  transform: translateX(-100%);
+}
+
+.product_abm_modal_image {
+  position: relative;
+  grid-row: 1;
+  grid-column: 2;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.product_abm_modal_image label {
+  position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0, 0);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 250px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: background 0.2s, opacity 0.3s ease-in-out;
+}
+
+.product_abm_modal_image label:hover {
+  background: rgb(0, 0, 0, 0.7);
+  opacity: 1;
+}
+
+.product_abm_modal_image label svg {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--white);
+}
+
+.product_abm_modal_image img {
+  width: 100%;
+  max-width: 250px;
+  height: 250px;
+  border-radius: 12px;
+  border: 2px solid var(--black);
+}
+
+.product_abm_modal_buttons {
+  display: flex;
+  grid-row: 2;
+  grid-column: 2;
+  width: 100%;
+  gap: 24px;
+  justify-content: end;
+  align-self: self-end;
+}
+
+.product_abm_modal_details {
+  width: 100%;
+  height: 100%;
+  max-height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 16px;
+  gap: 8px;
+}
+
+.product_abm_modal_details p {
+  margin-top: auto;
+}
+
+.product_abm_modal_details_ingredients {
+  min-height: 100px;
+  max-height: 250px;
+  max-width: 350px;
+  grid-row: 2;
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.product_abm_modal_input_ingredients {
+  width: 60%;
+  min-width: 200px;
+  padding: 4px 8px 4px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--black);
+  transition: border-radius 300ms ease;
+}
+
+.product_abm_modal_input_ingredients.active {
+  border-radius: 12px 12px 0 0;
+}
+
+.product_abm_modal_details_ingredients ul {
+  position: absolute;
+  top: 25px;
+  width: 60%;
+  min-width: 200px;
+  background: var(--white);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 0;
+  border-radius: 0 0 12px 12px;
+  cursor: pointer;
+}
+
+.product_abm_modal_details_ingredients ul::-webkit-scrollbar-track,
+.product_abm_modal_category_container ul::-webkit-scrollbar-track {
+  margin: 0 0 8px 0;
+  border-radius: 12px;
+}
+
+.product_abm_modal_details_ingredients ul.active {
+  height: 136px;
+  border: 1px solid var(--black);
+  border-top: 0;
+}
+
+.product_abm_modal_details_ingredients ul li {
+  transition: padding 200ms ease-in;
+  padding: 0 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.product_abm_modal_category_container ul li.disabled,
+.product_abm_modal_details_ingredients ul li.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.product_abm_modal_details_ingredients ul li:hover {
+  background: var(--ebony-100);
+  padding: 0 0 0 8px;
+}
+
+.product_abm_modal_details_ingredients table {
+  height: fit-content;
+  min-height: 100px;
+  min-width: 324px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--white);
+  border: 1px solid var(--black);
+  border-radius: 12px;
+  display: flex;
+}
+
+.product_abm_modal_details_ingredients table::-webkit-scrollbar-track {
+  margin: 8px 0 8px 0;
+  background: transparent;
+}
+
+.product_abm_modal_details_ingredients tbody {
+  display: inherit;
+  flex-direction: column;
+  padding: 0;
+}
+
+.product_abm_modal_details_ingredients tr {
+  border-bottom: 1px solid var(--black);
+  display: grid;
+  grid-template-columns: 1fr 0.35fr 0.2fr 0.25fr;
+}
+
+.product_abm_modal_details_ingredients tr:last-child {
+  border: 0;
+}
+
+.product_abm_modal_details_ingredients td {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4px 8px 4px 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.product_abm_modal_details_ingredients td input {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--black);
+  text-align: center;
+}
+
+.product_abm_modal_details_ingredients td button {
+  margin: 0;
+  padding: 4px 8px 4px 8px;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+/******************************  ESTILOS MODAL DELETE *************************************/
+
+.product_abm_modal_delete_container {
+  width: 500px;
+  height: 200px;
+  margin: calc(60vh - 200px) auto;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 12px;
+  box-shadow: 1px 1px 3px 1px var(--black);
+}
+
+.product_abm_modal_delete_title {
+  text-align: center;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.product_abm_modal_delete_buttons {
+  width: 100%;
+  display: inherit;
+  flex-direction: row;
+  justify-content: space-around;
+}

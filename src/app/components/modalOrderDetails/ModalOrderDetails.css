@@ -1,0 +1,220 @@
+.modalOrderDetails__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 280px;
+    background-color: var(--ebony-50);
+    border: 1px solid var(--ebony-950);
+    padding: 10px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: scroll;
+    max-height: 95vh;
+    scrollbar-width: none;
+}
+
+.modalOrderDetails__header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.modalOrderDetails__header p {
+    font-size: small;
+}
+
+.modalOrderDetails__orderInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+}
+
+.modalOrderDetails__box h6 {
+    font-weight: 500;
+}
+
+.modalOrderDetails__orderInfo__header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--ebony-900);
+}
+
+.modalOrderDetails__orderInfo__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.modalOrderDetails__products {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid var(--ebony-950);
+    border-radius: 10px;
+}
+
+
+.modalOrderDetails__products__header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--ebony-900);
+}
+
+.modalOrderDetails__products__content {
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+.modalOrderDetails__products__content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modalOrderDetails__products__content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.0);
+}
+
+.modalOrderDetails__products__content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalOrderDetails__products__content::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+.modalOrderDetails__products__content__product {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.modalOrderDetails__buttons {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.modalOrderDetails__button {
+    margin: auto;
+    font-size: 12px;
+    justify-content: center;
+    width: 75px;
+}
+
+.mercado-pago {
+    flex-direction: column;
+    max-width: 280px;
+    align-self: center;
+    padding: 0;
+}
+
+.mercado-pago .modalOrderDetails__button {
+    order: 2;
+    width: auto;
+    margin: 0;
+}
+
+@media (width >=425px) {
+
+    .modalOrderDetails__box {
+        min-width: 350px;
+        padding: 15px 15px;
+        gap: 12px;
+    }
+
+    .modalOrderDetails__orderInfo__header,
+    .modalOrderDetails__orderInfo__content,
+    .modalOrderDetails__products__header,
+    .modalOrderDetails__products__content__product {
+        padding: 8px 0;
+    }
+
+}
+
+@media (width >=768px) {
+
+    .modalOrderDetails__box {
+        min-width: 550px;
+        gap: 10px;
+    }
+
+    .modalOrderDetails__header p {
+        font-size: 14px;
+    }
+
+    .modalOrderDetails__box h6 {
+        font-size: 12px;
+    }
+
+    .modalOrderDetails__box h5 {
+        font-size: 16px;
+    }
+
+    .modalOrderDetails__orderInfo__header,
+    .modalOrderDetails__orderInfo__content,
+    .modalOrderDetails__products__header,
+    .modalOrderDetails__products__content__product {
+        padding: 10px 0;
+    }
+
+    .modalOrderDetails__button {
+        font-size: 15px;
+        width: 100px;
+    }
+
+    .modalOrderDetailsDelivery__container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .modalOrderDetailsDelivery__userDetails {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .modalOrderDetailsDelivery__userDetails__info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .modalOrderDetails__products__content {
+        max-height: 120px;
+    }
+
+}
+
+@media (width >=1024px) {
+    .modalOrderDetails__box {
+        min-width: 550px;
+    }
+
+    .modalOrderDetails__header p {
+        font-size: 16px;
+    }
+
+    .modalOrderDetails__box h6 {
+        font-size: 16px;
+    }
+
+    .modalOrderDetails__box h5 {
+        font-size: 18px;
+    }
+}

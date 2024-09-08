@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Toaster } from "sonner";
+import { useStore as useCurrentUser } from "./app/store/CurrentUserStore";
+import { useStore as useToken } from "./app/store/UserTokenStore";
+import { useUserLogged } from "./app/hooks/useUserLogged";
+import { useAllUsers } from "./app/hooks/useAllUsers";
+import Router from "./app/routes/Router";
+import NavBar from "./app/components/nav_bar/NavBar";
+import Footer from "./app/components/footer/Footer";
+import { useAddressesAndPersons } from "./app/hooks/useAddressesAndPersons";
+import ModalEmployeeInauthorized from "./app/components/modalEmployeeInauthorized/ModalEmployeeInauthorized";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { user } = useCurrentUser();
+  const { setToken, token } = useToken();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  useUserLogged();
+  useAllUsers();
+  useAddressesAndPersons();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+
+  const getToken = async () => {
+    try {
+      const token = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+        },
+      });
+      setToken(token);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    user && user.user_metadata.state === "De baja" && handleOpen();
+  }, [user]);
+
+  useEffect(() => {
+    if (isAuthenticated && token === "") {
+      getToken();
+    }
+  }, [isAuthenticated, token]);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main className="whole_app_container">
+      <header className="whole_app_header">
+        <NavBar />
+      </header>
+      <section className="main_content">
+        <Router />
+      </section>
+      <Footer />
+      <Toaster position="bottom-left" richColors visibleToasts={1} />
+      <ModalEmployeeInauthorized open={open} />
+    </main>
+  );
 }
 
-export default App
+export default App;

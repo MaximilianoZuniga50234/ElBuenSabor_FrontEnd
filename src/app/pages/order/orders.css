@@ -1,0 +1,303 @@
+.main_orders_list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  max-width: 1920px;
+  margin: auto;
+}
+
+.main_orders_list .order_title_container {
+  width: 90%;
+  align-self: flex-start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px 0 32px;
+  margin: 24px 0 16px 5%;
+}
+
+.main_orders_list .order_title_container h2 {
+  font-size: 36px;
+}
+
+.main_orders_list .order_title_container div {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  position: relative;
+}
+
+.main_orders_list .order_title_container div div {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.main_orders_list .order_title_container .idSearcher__container {
+  width: 40%;
+  display: flex;
+  height: 40px;
+  flex-direction: row;
+  gap: 0;
+}
+
+.main_orders_list .order_title_container div div span {
+  width: 80%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main_orders_list .order_title_container .idSearcher__container input,
+.main_orders_list .order_title_container div div span {
+  width: 90%;
+  border: 1px solid var(--ebony-950);
+  background: var(--ebony-50);
+  border-radius: 12px 0 0 12px;
+  padding: 0 8px 0 8px;
+}
+
+.main_orders_list .order_title_container div div button {
+  height: 40px;
+}
+
+.main_orders_list .order_title_container .idSearcher__container button,
+.main_orders_list .order_title_container div div button {
+  border-radius: 0 12px 12px 0;
+  padding: 12px 16px 12px 16px;
+}
+
+.main_orders_list .order_title_container form button svg,
+.main_orders_list .order_title_container div div button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.main_orders_list .order_title_container div .filter_order_list {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 0;
+  background: var(--ebony-50);
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  cursor: pointer;
+  top: 40px;
+}
+
+.order_title_container div div button.active {
+  border-radius: 0 12px 0 0;
+}
+
+.order_title_container div div span.active {
+  border-radius: 12px 0 0 0;
+}
+
+.order_title_container div .filter_order_list.active {
+  height: auto;
+  border: 1px solid var(--ebony-800);
+  border-top: 0;
+}
+
+.order_title_container div .filter_order_list ul {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.order_title_container div .filter_order_list ul li {
+  width: 100%;
+  padding: 4px 0 4px 0;
+  text-align: center;
+}
+
+.order_title_container div .filter_order_list ul li:hover {
+  background: var(--ebony-200);
+}
+
+.order_title_container div .filter_order_list ul li.active {
+  background: var(--ebony-200);
+}
+
+.main_orders_list .order_title_container .filters_hidden {
+  display: none;
+}
+
+.orders_list_table {
+  border: 1px solid var(--ebony-900);
+  border-radius: 12px;
+  background: var(--ebony-50);
+  width: 90%;
+  margin: 8px 0 20px;
+  border-spacing: 0;
+  border: 0;
+}
+
+.orders_list_table thead tr {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid var(--ebony-900);
+  background: var(--ebony-900);
+  border-radius: 12px 12px 0 0;
+  color: var(--white);
+}
+
+.orders_list_table thead tr td {
+  display: flex;
+  font-weight: bold;
+  padding: 16px 0 16px 0;
+  justify-content: center;
+}
+
+.orders_list_table tbody tr {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
+  padding: 0 32px 0 32px;
+  border-bottom: 1px solid var(--ebony-900);
+  border-left: 1px solid var(--ebony-900);
+  border-right: 1px solid var(--ebony-900);
+}
+
+.orders_list_table tbody tr td {
+  display: flex;
+  padding: 16px 0 16px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.orders_list_table .celda_acciones {
+  display: flex;
+  justify-content: center;
+}
+
+.orders_list_table .celda_acciones button {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.orders_list_table tfoot tr {
+  display: flex;
+  padding: 0 32px;
+  background: var(--ebony-100);
+  gap: 20px;
+  border: 0;
+  align-items: center;
+  justify-content: end;
+}
+
+.orders_list_table tfoot tr td {
+  display: flex;
+  flex-direction: row;
+  padding: 16px 0 16px 0;
+  gap: 8px;
+}
+
+.orders_list_table tfoot tr td a {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 16px 8px 16px;
+  gap: 4px;
+  border: 0;
+  border-radius: 12px;
+  color: var(--white);
+  background-color: var(--ebony-800);
+  align-items: center;
+  font-size: 14px;
+}
+
+.orders_list_table tfoot tr td a:hover {
+  cursor: pointer;
+  background: var(--ebony-600);
+}
+
+.orders_list_table .paginacion_flechas {
+  height: 16px;
+  width: 16px;
+}
+
+.orders_list_table .paginacion_flechas:hover {
+  opacity: 0.7;
+}
+
+
+.modalOrders__box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  padding: 20px 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  overflow-y: scroll;
+  max-height: 95vh;
+  scrollbar-width: none;
+}
+
+.modalOrders__box>.modalOrders__h3 {
+  text-align: center;
+  font-size: medium;
+}
+
+.modalOrders__div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalOrders__select {
+  padding: 8px 4px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  border-radius: 10px;
+}
+
+.modalOrders__buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modalOrders__deleteInvoice {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modalOrders__deleteInvoice__button {
+  display: flex;
+  justify-content: center;
+}
+
+.modalOrders__deleteInvoice__text {
+  display: flex;
+  font-size: 14px;
+  text-align: center;
+}
+
+.modalOrders__addTime{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modalOrders__addTime__input{
+  padding: 8px 4px;
+  background-color: var(--ebony-50);
+  border: 1px solid var(--ebony-950);
+  border-radius: 10px;
+}
