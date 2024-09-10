@@ -62,7 +62,7 @@ export default function MonetaryMovements() {
           order.details?.forEach((detail: PurchaseOrderDetail) => {
             detail.product?.details.forEach((productDetail) => {
               cost =
-                cost + productDetail.stock.purchasePrice * productDetail.amount;
+                cost + productDetail.stock.purchasePrice * productDetail.amount * detail.amount;
             });
           });
 

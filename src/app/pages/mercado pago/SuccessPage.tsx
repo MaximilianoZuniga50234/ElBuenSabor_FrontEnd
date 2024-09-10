@@ -22,6 +22,7 @@ import { MercadoPagoData } from "../../interfaces/MercadoPagoData";
 import { pdf } from "@react-pdf/renderer";
 import InvoicePdf from "../../components/invoice/InvoicePdf";
 import { sendEmail } from "../../functions/EmailAPI";
+import { Stock } from "../../interfaces/Stock";
 
 const PURCHASE_ORDER_INITIAL_STATE = {
   id: 0,
@@ -211,19 +212,44 @@ export default function SuccesPage() {
         toast.success("Orden creada correctamente.");
 
         if (purchaseOrder.details) {
+          const updatedStocks: Stock[] = [];
           for (const detail of purchaseOrder.details) {
             if (detail.product?.details) {
               for (const productDetail of detail.product.details) {
-                await updateStock(
-                  {
-                    ...productDetail.stock,
-                    currentStock:
-                      productDetail.stock.currentStock -
-                      productDetail.amount * detail.amount,
-                  },
-                  token
+                let stockIndex = -1;
+                let updatedStock: Stock | null = null;
+                if (updatedStocks.length > 0) {
+                  stockIndex = updatedStocks.findIndex(
+                    (stock: Stock) => stock.id === productDetail.stock.id
+                  );
+                }
+                const reduction = parseFloat(
+                  (productDetail.amount * detail.amount).toFixed(2)
                 );
+
+                if (stockIndex != -1) {
+                  updatedStocks[stockIndex].currentStock = parseFloat(
+                    (
+                      updatedStocks[stockIndex].currentStock - reduction
+                    ).toFixed(2)
+                  );
+                } else {
+                  updatedStock = {
+                    ...productDetail.stock,
+                    currentStock: parseFloat(
+                      (productDetail.stock.currentStock - reduction).toFixed(2)
+                    ),
+                  };
+                  if (updatedStock) {
+                    updatedStocks.push(updatedStock);
+                  }
+                }
               }
+            }
+          }
+          for (const stock of updatedStocks) {
+            if (stock) {
+              await updateStock(stock, token);
             }
           }
         }
@@ -292,7 +318,8 @@ export default function SuccesPage() {
       await createInvoice(invoice, token);
       const updatedInvoices = await getInvoices();
       const invoiceMail = updatedInvoices.find(
-        (o: Invoice) => o.mercadoPagoData?.paymentId === mercadoPagoData?.paymentId
+        (o: Invoice) =>
+          o.mercadoPagoData?.paymentId === mercadoPagoData?.paymentId
       );
       generatePdfBase64(invoiceMail);
     } catch (err) {
