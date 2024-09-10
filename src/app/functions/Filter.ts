@@ -7,7 +7,7 @@ const filterByName = (
   productName: string
 ) => {
   return productsArray.filter((item: Product | Stock) =>
-    item.denomination.includes(productName)
+    item.denomination.toLowerCase().includes(productName.toLowerCase())
   );
 };
 
