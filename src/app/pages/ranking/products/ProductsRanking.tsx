@@ -53,7 +53,7 @@ export default function ProductsRanking() {
   const getPurchaseOrders = async () => {
     try {
       const response = await getAllPurchaseOrder();
-      response && setPurchaseOrders(response.filter((order: PurchaseOrder) => order.active));
+      response && setPurchaseOrders(response.filter((order: PurchaseOrder) => order.active && order.status?.status != "Anulado"));
     } catch (err) {
       console.error(err);
     }
@@ -226,7 +226,6 @@ export default function ProductsRanking() {
                 </button>
               </div>
             </div>
-            {filteredProducts.length > 0 && (
               <div className="productsRanking__options">
                 <button
                   className={`productsRanking__option__products ${
@@ -249,7 +248,6 @@ export default function ProductsRanking() {
                   Bebidas
                 </button>
               </div>
-            )}
             {!isLoading && (
               <ProductsRankingTable
                 products={filteredProducts}

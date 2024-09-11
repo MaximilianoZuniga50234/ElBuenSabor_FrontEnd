@@ -29,6 +29,7 @@ import InvoicePdf from "../invoice/InvoicePdf";
 import { pdf } from "@react-pdf/renderer";
 import { sendEmail } from "../../functions/EmailAPI";
 import { FaPencilAlt } from "react-icons/fa";
+import { Stock } from "../../interfaces/Stock";
 
 type Props = {
   datos: PurchaseOrder[];
@@ -267,7 +268,54 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     }
   };
 
+  const restoreStock = async () => {
+    if (purchaseOrder.details){
+      const updatedStocks: Stock[] = [];
+        for (const orderDetail of purchaseOrder.details) {
+          if (orderDetail.product?.details) {
+            for (const productDetail of orderDetail.product.details) {
+              let stockIndex = -1;
+              let updatedStock: Stock | null = null;
+              if (updatedStocks.length > 0) {
+                stockIndex = updatedStocks.findIndex(
+                  (stock: Stock) => stock.id === productDetail.stock.id
+                );
+              }
+              const restoreQuantity = parseFloat(
+                (productDetail.amount * orderDetail.amount).toFixed(2)
+              );
+
+              if (stockIndex != -1) {
+                updatedStocks[stockIndex].currentStock = parseFloat(
+                  (updatedStocks[stockIndex].currentStock + restoreQuantity).toFixed(
+                    2
+                  )
+                );
+              } else {
+                updatedStock = {
+                  ...productDetail.stock,
+                  currentStock: parseFloat(
+                    (productDetail.stock.currentStock + restoreQuantity).toFixed(2)
+                  ),
+                };
+                if (updatedStock) {
+                  updatedStocks.push(updatedStock);
+                }
+              }
+            }
+          }
+        }
+        for (const stock of updatedStocks) {
+          if (stock) {
+            await updateStock(stock, token);
+          }
+        }
+      await updatePurchaseOrder({...purchaseOrder, active: false}, token)
+    }
+  }
+
   const handleConfirm = async () => {
+    if (purchaseOrder.status?.status === "Anulado") restoreStock()
     if (
       orderStatus === "A confirmar" &&
       purchaseOrder.status?.status === "Facturado"
@@ -276,6 +324,7 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
     }
 
     if (cancelInvoice) {
+      restoreStock()
       createNoteAndUpdateInvoiceAndOrder();
     } else if (addTime) {
       await updatePurchaseOrder(
@@ -444,6 +493,16 @@ const Table = ({ datos, setChangeOrderStatus }: Props) => {
                 onChange={handleChangeStatus}
                 defaultValue={orderStatus}
               >
+                <option
+                  value="Anulado"
+                  disabled={
+                    user?.role === "Cajero"
+                      ? false
+                      : true
+                  }
+                >
+                  Anulado
+                </option>
                 <option
                   value="A confirmar"
                   disabled={
